@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard CRM — Caps de Minas</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f5f4f0;color:#1a1916;padding:16px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;flex-wrap:wrap;gap:6px}
+.caps{display:flex;gap:4px}
+.ct{padding:5px 13px;border-radius:7px;border:1px solid #d3d1c7;background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:#636057}
+.ct.amc{background:#EAF3DE;color:#3B6D11;border-color:#639922}
+.ct.asm{background:#E6F1FB;color:#0C447C;border-color:#378ADD}
+.ct.asv{background:#FBEAF0;color:#72243E;border-color:#D4537E}
+.tabs{display:flex;gap:4px;margin-bottom:.8rem;flex-wrap:wrap}
+.tab{padding:5px 12px;border-radius:7px;border:1px solid #d3d1c7;background:#fff;cursor:pointer;font-size:12px;color:#636057}
+.tab.on{background:#1a1916;color:#fff;font-weight:500;border-color:#1a1916}
+.tab.ed5tab.on{background:#EF9F27;border-color:#EF9F27;color:#fff}
+.tab.metastab.on{background:#1D9E75;border-color:#1D9E75;color:#fff}
+.sec{display:none}.sec.on{display:block}
+.fb{display:flex;align-items:center;gap:4px;margin-bottom:.8rem;padding:5px 9px;background:#eeeee8;border-radius:7px;overflow-x:auto}
+.fb label{font-size:10px;color:#636057;white-space:nowrap;flex-shrink:0}
+.fb select,.fb input[type=date]{font-size:11px;padding:2px 5px;border-radius:5px;border:1px solid #d3d1c7;background:#fff;height:22px;flex-shrink:0}
+.fb select{width:80px}
+.fb input[type=date]{width:105px}
+.fb button{font-size:10px;padding:2px 8px;height:22px;border:1px solid #d3d1c7;border-radius:5px;background:#fff;cursor:pointer;flex-shrink:0}
+.fsep{width:1px;height:14px;background:#d3d1c7;margin:0 2px;flex-shrink:0}
+.ch-hdr{font-size:12px;font-weight:600;color:#636057;margin:.7rem 0 5px;display:flex;align-items:center;gap:5px}
+.dot8{width:7px;height:7px;border-radius:50%}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+.mk{background:#eeeee8;border-radius:7px;padding:9px 11px}
+.ml{font-size:10px;color:#636057;margin-bottom:2px}
+.mv{font-size:17px;font-weight:600;color:#1a1916}
+.ms{font-size:10px;margin-top:1px;line-height:1.3}
+.up{color:#1D9E75}.dn{color:#D85A30}.neu{color:#888780}
+.card{background:#fff;border:1px solid #e8e6e0;border-radius:9px;padding:.85rem 1rem;margin-bottom:.8rem}
+.ct2{font-size:12px;font-weight:600;color:#636057;margin-bottom:7px}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin-bottom:.8rem}
+.cw{width:100%}
+.leg{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:5px;font-size:11px;color:#636057}
+.leg span{display:flex;align-items:center;gap:3px}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed}
+th{text-align:left;padding:5px 7px;font-size:10px;font-weight:600;color:#636057;border-bottom:1px solid #e8e6e0;background:#f9f8f5}
+td{padding:5px 7px;border-bottom:1px solid #e8e6e0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr.hi td:first-child{color:#1D9E75;font-weight:600}
+tr.lo td:first-child{color:#D85A30}
+tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
+.sr{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #e8e6e0}
+.sr:last-child{border-bottom:none}
+.sl{flex:1;font-size:11px}.ss{font-size:10px;color:#636057}
+.bm{width:50px;background:#eeeee8;border-radius:99px;height:3px;overflow:hidden;flex-shrink:0}
+.bf{height:100%;border-radius:99px}
+.sv2{font-size:11px;font-weight:600;min-width:44px;text-align:right}
+.sp2{font-size:10px;color:#636057;min-width:28px;text-align:right}
+.cr{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #e8e6e0}
+.cr:last-child{border-bottom:none}
+.cnm{font-size:11px;min-width:90px;font-weight:600}
+.cbw{flex:1;background:#eeeee8;border-radius:99px;height:5px;overflow:hidden}
+.cbf{height:100%;border-radius:99px}
+.cvl{font-size:11px;min-width:60px;text-align:right;color:#636057}
+.ir{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #e8e6e0}
+.ir:last-child{border-bottom:none}
+.ii{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.nb{font-size:11px;color:#636057;background:#eeeee8;padding:7px 10px;border-radius:7px;margin-bottom:.8rem;line-height:1.6}
+.nb.alert{background:#FFF0EE;border:1px solid #D85A3055;color:#7a1f0e}
+.nb.ok{background:#EAF3DE;border:1px solid #1D9E7544;color:#0e6647}
+.cy{margin-bottom:6px}
+.cyn{display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px}
+.cyb{background:#eeeee8;border-radius:99px;height:4px;overflow:hidden}
+.catbadge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:99px;font-weight:600;white-space:nowrap}
+/* funil */
+.hf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.hf-col-title{font-size:10px;font-weight:700;color:#636057;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid #e8e6e0;text-transform:uppercase;letter-spacing:.5px}
+.fn-row{display:flex;align-items:center;gap:7px;margin-bottom:2px}
+.fn-lbl{font-size:10px;color:#636057;min-width:70px;text-align:right;flex-shrink:0}
+.fn-bg{flex:1;background:#eeeee8;border-radius:5px;height:22px;overflow:hidden}
+.fn-fill{height:100%;border-radius:5px;display:flex;align-items:center;padding:0 8px;min-width:40px}
+.fn-txt{font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.fn-conv{font-size:10px;color:#888780;min-width:52px;text-align:right;flex-shrink:0}
+.fn-arrow{padding:1px 0 2px 77px;font-size:9px;color:#888780}
+/* base */
+.ptabs{display:flex;gap:3px;margin-bottom:.7rem}
+.ptab{padding:3px 10px;border-radius:5px;border:1px solid #d3d1c7;cursor:pointer;font-size:11px;color:#636057;background:#fff}
+.ptab.on{background:#1a1916;color:#fff;font-weight:600;border-color:#1a1916}
+.bfs{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid #e8e6e0}
+.bfs:last-child{border-bottom:none}
+.bfs-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.bfs-lbl{flex:1}.bfs-t{font-size:12px;font-weight:600}.bfs-s{font-size:10px;color:#636057}
+.bfs-v{font-size:15px;font-weight:700;min-width:65px;text-align:right}
+.bfs-p{font-size:10px;color:#888780;min-width:36px;text-align:right}
+/* ed5 */
+.sankey{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap}
+.sk-col{display:flex;flex-direction:column;gap:5px;flex:1;min-width:95px}
+.sk-block{border-radius:8px;padding:10px 12px;text-align:center}
+.sk-val{font-size:18px;font-weight:700;display:block}
+.sk-lbl{font-size:10px;line-height:1.3;display:block;margin-top:2px;opacity:.8}
+.sk-pct{font-size:12px;font-weight:700;display:block;margin-top:3px}
+.sk-arr{font-size:20px;color:#888780;flex-shrink:0;align-self:center}
+.ret-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #e8e6e0}
+.ret-row:last-child{border-bottom:none}
+.ret-label{font-size:11px;min-width:125px;color:#636057}
+.ret-bw{flex:1;background:#eeeee8;border-radius:99px;height:20px;overflow:hidden}
+.ret-bf{height:100%;border-radius:99px;display:flex;align-items:center;padding-left:9px}
+.ret-bt{font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.ret-val{font-size:13px;font-weight:700;min-width:40px;text-align:right}
+.comp-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px}
+/* metas */
+.meta-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:700;white-space:nowrap}
+.meta-ok{background:#EAF3DE;color:#0e6647}
+.meta-over{background:#E6F1FB;color:#0C447C}
+.meta-miss{background:#FFF0EE;color:#7a1f0e}
+.meta-na{background:#eeeee8;color:#888780}
+.month-hdr{font-size:12px;font-weight:700;padding:6px 0;margin-bottom:6px;border-bottom:2px solid #d3d1c7;display:flex;justify-content:space-between;align-items:center}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div>
+    <div style="font-size:20px;font-weight:700;color:#1a1916">Dashboard CRM</div>
+    <div style="font-size:11px;color:#636057" id="sub">Minas Cap · jan–mai 2026</div>
+  </div>
+  <div class="caps">
+    <button class="ct amc" onclick="setC('mc',this)">Minas Cap</button>
+    <button class="ct" onclick="setC('sm',this)">Super Minas</button>
+    <button class="ct" onclick="setC('sv',this)">Super Vale</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on"       onclick="showT('camp',this)">Campanhas</button>
+  <button class="tab"          onclick="showT('rank',this)">Rankings</button>
+  <button class="tab"          onclick="showT('base',this)">Base</button>
+  <button class="tab"          onclick="showT('copy',this)">Análise de copy</button>
+  <button class="tab ed5tab"   id="ed5tab" onclick="showT('ed5',this)">⭐ Ed. R$5</button>
+  <button class="tab metastab" onclick="showT('metas',this)">🎯 Metas</button>
+</div>
+
+<div id="t-camp" class="sec on">
+  <div class="fb"><label>Edição</label><select id="c-ed" onchange="aF('camp')" style="width:80px"></select><div class="fsep"></div><label>Data de</label><input type="date" id="c-d1" onchange="aF('camp')"><label>até</label><input type="date" id="c-d2" onchange="aF('camp')"><button onclick="rF('camp')">✕ Limpar</button></div>
+  <div class="card">
+    <div class="ct2" style="font-size:14px">▽ Visão funil — todos os canais</div>
+    <div class="hf-grid" id="hf-grid"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px" id="hf-totals"></div>
+  </div>
+  <div class="ch-hdr"><span class="dot8" style="background:#378ADD"></span>Web Push</div><div class="mg" id="kwp"></div>
+  <div class="ch-hdr"><span class="dot8" style="background:#7F77DD"></span>E-mail</div><div class="mg" id="kem"></div>
+  <div class="ch-hdr"><span class="dot8" style="background:#EF9F27"></span>App Push <span style="font-size:10px;color:#888780;font-weight:400">(revenue via GA4 — Compra Rápida não integrada)</span></div><div class="mg" id="kap"></div>
+  <div class="cg" style="margin-top:.8rem">
+    <div class="card" style="grid-column:span 2">
+      <div class="ct2">Web Push — entregues e conversões por edição</div>
+      <div class="leg"><span><span class="ld" style="background:#B5D4F4"></span>Entregues</span><span><span class="ld" style="background:#639922;border:1px dashed"></span>Conversões</span><span><span class="ld" style="background:#D85A30;border:1px dotted"></span>Revenue R$</span></div>
+      <div class="cw" style="height:180px"><canvas id="cwp"></canvas></div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="card"><div class="ct2">E-mail — abertura e CTR</div><div class="leg"><span><span class="ld" style="background:#7F77DD"></span>Abertura %</span><span><span class="ld" style="background:#EF9F27;border:1px dashed"></span>CTR %</span></div><div class="cw" style="height:160px"><canvas id="cem"></canvas></div></div>
+    <div class="card"><div class="ct2">Revenue por canal</div><div class="leg"><span><span class="ld" id="rwld"></span>Web Push</span><span><span class="ld" style="background:#AFA9EC"></span>E-mail</span></div><div class="cw" style="height:160px"><canvas id="crev"></canvas></div></div>
+  </div>
+  <div class="card"><div class="ct2">Detalhamento por edição</div><div style="overflow-x:auto"><table><thead><tr><th style="width:6%">Ed.</th><th style="width:8%">Data</th><th style="width:8%">WP enviados</th><th style="width:7%">WP CTR</th><th style="width:6%">WP conv.</th><th style="width:7%">WP rev.</th><th style="width:8%">Email ab.</th><th style="width:7%">Email CTR</th><th style="width:6%">Email conv.</th><th style="width:7%">Email rev.</th><th style="width:7%">App ab.</th></tr></thead><tbody id="etbl"></tbody></table></div></div>
+</div>
+
+<div id="t-rank" class="sec">
+  <div class="fb"><label>Edição</label><select id="r-ed" onchange="aF('rank')" style="width:80px"></select><div class="fsep"></div><label>Data de</label><input type="date" id="r-d1" onchange="aF('rank')"><label>até</label><input type="date" id="r-d2" onchange="aF('rank')"><button onclick="rF('rank')">✕ Limpar</button></div>
+  <div class="cg">
+    <div class="card"><div class="ct2">Conversão por canal</div><div id="chcv"></div><div style="font-size:10px;color:#888780;margin-top:5px">App Push: conversão no GA4.</div></div>
+    <div class="card"><div class="ct2">Alcance por canal</div><div id="chrch"></div></div>
+  </div>
+  <div class="cg">
+    <div class="card"><div class="ct2">Web Push — melhores por CTR</div><div style="overflow-x:auto"><table><thead><tr><th>Ed.</th><th>Data</th><th>Entregues</th><th>CTR</th><th>Conv.</th><th>Revenue</th></tr></thead><tbody id="wpb"></tbody></table></div></div>
+    <div class="card"><div class="ct2">Web Push — piores por CTR</div><div style="overflow-x:auto"><table><thead><tr><th>Ed.</th><th>Data</th><th>Entregues</th><th>CTR</th><th>Conv.</th><th>Revenue</th></tr></thead><tbody id="wpw"></tbody></table></div></div>
+  </div>
+  <div class="cg">
+    <div class="card"><div class="ct2">E-mail — melhores por abertura</div><div style="overflow-x:auto"><table><thead><tr><th>Ed.</th><th>Data</th><th>Enviados</th><th>Abertura</th><th>CTR</th><th>Revenue</th></tr></thead><tbody id="emb"></tbody></table></div></div>
+    <div class="card"><div class="ct2">E-mail — piores por abertura</div><div style="overflow-x:auto"><table><thead><tr><th>Ed.</th><th>Data</th><th>Enviados</th><th>Abertura</th><th>CTR</th><th>Revenue</th></tr></thead><tbody id="emw"></tbody></table></div></div>
+  </div>
+  <div class="cg">
+    <div class="card"><div class="ct2">App Push — melhores por abertura</div><div style="overflow-x:auto"><table><thead><tr><th>Ed.</th><th>Data</th><th>Entregues</th><th>Abertura</th><th>Aberturas</th></tr></thead><tbody id="apb"></tbody></table></div></div>
+    <div class="card"><div class="ct2">Insights de canal</div><div id="chins"></div></div>
+  </div>
+</div>
+
+<div id="t-base" class="sec">
+  <div class="nb" id="bnote"></div>
+  <div class="card"><div class="ct2" style="font-size:14px">🔽 Funil de base — do cadastro à fidelidade</div><div id="base-funnel"></div></div>
+  <div class="cg">
+    <div class="card"><div class="ct2">Novos cadastros 2026</div><div id="novos-stats"></div></div>
+    <div class="card"><div class="ct2">Recência — dias desde última compra</div><div class="leg"><span><span class="ld" id="recld"></span>clientes</span></div><div class="cw" style="height:170px"><canvas id="crec"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+      <div class="ct2" style="margin-bottom:0">Perfil dos clientes — compare os grupos</div>
+      <div class="ptabs"><button class="ptab on" onclick="setProfile('tot',this)">Base total</button><button class="ptab" onclick="setProfile('comp',this)">Compradores 2026</button><button class="ptab" onclick="setProfile('fiel',this)">Fiéis (3+ semanas)</button></div>
+    </div>
+    <div class="cg" style="margin-bottom:0">
+      <div><div class="ct2">Faixa etária</div><div class="cw" style="height:160px"><canvas id="cage"></canvas></div></div>
+      <div><div class="ct2">Gênero</div><div class="leg" id="gleg"></div><div class="cw" style="height:160px"><canvas id="cgdr"></canvas></div></div>
+      <div><div class="ct2">Cidades</div><div id="cities"></div></div>
+    </div>
+    <div style="font-size:10px;color:#888780;margin-top:8px" id="profile-avg-age"></div>
+  </div>
+  <div class="card"><div class="ct2">Correlações — o que diferencia fiéis dos demais</div><div id="correlacoes"></div></div>
+  <div class="card"><div class="ct2">Oportunidades e alertas</div><div id="bins"></div></div>
+</div>
+
+<div id="t-copy" class="sec">
+  <div class="cg">
+    <div class="card"><div class="ct2" id="ccat-title">Taxa de abertura por categoria</div><div class="cw" style="height:205px"><canvas id="ccop"></canvas></div></div>
+    <div class="card"><div class="ct2" id="cctr-title">CTR por categoria</div><div class="cw" style="height:205px"><canvas id="ccctr"></canvas></div></div>
+  </div>
+  <div class="card"><div class="ct2">O que significa cada categoria — com exemplos reais</div><div id="cat-explain"></div></div>
+  <div class="cg">
+    <div class="card"><div class="ct2">Elementos do assunto × taxa de abertura</div><div id="elems"></div><div style="font-size:10px;color:#888780;margin-top:5px">"Caixa alta" = 2+ palavras em MAIÚSCULAS no assunto.</div></div>
+    <div class="card"><div class="ct2">Melhores horários de envio</div><div class="cw" style="height:180px"><canvas id="chour"></canvas></div><div style="font-size:10px;color:#888780;margin-top:4px">Horário de Brasília. Janela 17h–20h concentra as maiores aberturas.</div></div>
+  </div>
+  <div class="cg">
+    <div class="card"><div class="ct2">Comprimento do assunto</div><div class="cw" style="height:160px"><canvas id="clen"></canvas></div></div>
+    <div class="card"><div class="ct2">Abertura por dia da semana</div><div class="cw" style="height:160px"><canvas id="cdow"></canvas></div></div>
+  </div>
+  <div class="card"><div class="ct2" id="topen-title">Top 10 por taxa de abertura</div><div style="overflow-x:auto"><table><thead><tr><th style="width:4%">#</th><th style="width:10%">Categoria</th><th style="width:48%">Assunto</th><th style="width:10%">Enviados</th><th style="width:11%">Abertura</th><th style="width:9%">CTR</th><th style="width:8%">Revenue</th></tr></thead><tbody id="topen"></tbody></table></div></div>
+  <div class="card"><div class="ct2" id="tworst-title">Piores por taxa de abertura</div><div style="overflow-x:auto"><table><thead><tr><th style="width:4%">#</th><th style="width:10%">Categoria</th><th style="width:48%">Assunto</th><th style="width:10%">Enviados</th><th style="width:11%">Abertura</th><th style="width:9%">CTR</th><th style="width:8%">Revenue</th></tr></thead><tbody id="tworst"></tbody></table></div></div>
+  <div class="card">
+    <div class="ct2">Decaimento da taxa de abertura — causa: crescimento de base (não frequência, não copy)</div>
+    <div class="nb" id="decay-note" style="margin-bottom:.6rem"></div>
+    <div class="leg"><span><span class="ld" id="dec-ld1"></span>Open rate %</span><span><span class="ld" id="dec-ld2" style="border:1px dashed"></span>Envios médios por campanha (mil)</span></div>
+    <div class="cw" style="height:170px"><canvas id="cdec"></canvas></div>
+    <div style="font-size:10px;color:#888780;margin-top:4px">Prova: Ed.503 (jan) — 7–8 disparos com abertura estável 38–41%. A queda ocorreu entre semanas quando o volume saltou, não dentro delas.</div>
+  </div>
+  <div class="card"><div class="ct2">Cruzamentos — o que funciona por audiência e momento</div><div id="cross"></div></div>
+</div>
+
+<div id="t-ed5" class="sec"><div id="ed5-content"></div></div>
+
+<div id="t-metas" class="sec">
+  <div class="nb" id="metas-note"></div>
+  <div class="mg" id="metas-kpis" style="margin-bottom:.8rem"></div>
+  <div class="cg">
+    <div class="card" style="grid-column:span 2">
+      <div class="ct2">Faturamento CRM — meta vs entregue por edição</div>
+      <div class="leg"><span><span class="ld" style="background:#D3D1C7"></span>Meta faturamento</span><span><span class="ld" id="meta-ld-e"></span>Entregue</span></div>
+      <div class="cw" style="height:215px"><canvas id="c-fat"></canvas></div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="card">
+      <div class="ct2">ROAS — meta vs entregue por edição</div>
+      <div class="leg"><span><span class="ld" style="background:#D85A30;border:1px dashed"></span>Meta ROAS</span><span><span class="ld" id="meta-ld-r"></span>ROAS entregue</span></div>
+      <div class="cw" style="height:195px"><canvas id="c-roas"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct2">% de atingimento da meta de faturamento</div>
+      <div class="cw" style="height:195px"><canvas id="c-ating"></canvas></div>
+      <div style="font-size:10px;color:#888780;margin-top:5px">🟢 ≥ 100% atingido &nbsp;·&nbsp; 🟡 85–99% &nbsp;·&nbsp; 🔴 &lt; 85% &nbsp;·&nbsp; Edições sem meta não entram.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct2">Detalhamento por edição — metas e resultados</div>
+    <div id="metas-detail"></div>
+  </div>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────
+const D={
+mc:{l:'Minas Cap',s:'Minas Cap · jan–mai 2026',col:'#639922',
+  funnel:{wp:{sent:33337317,delivered:13321309,clicks:132425,conv:7334,rev:140470},em:{sent:52807724,delivered:50090000,opens:4230000,clicks:79211,conv:12282,rev:239705},ap:{sent:4900000,delivered:4457988,opens:37751}},
+  wp:{s:33337317,d:13321309,ctr:0.99,cv:7334,rv:140470,cvr:0.055},em:{s:52807724,cv:12282,rv:239705,op:8.2,ctr:0.15},ap:{d:4457988,op:37751,opr:0.85},
+  eds:[{ed:501,dt:'2025-12-30',ws:797112,wd:363628,wc:1.48,wv:683,wr:12180,eo:48.70,ec:0.54,ev:251,er:4150,ao:0},{ed:502,dt:'2026-01-07',ws:1074543,wd:473747,wc:1.24,wv:493,wr:10180,eo:42.52,ec:0.42,ev:412,er:9200,ao:1384},{ed:503,dt:'2026-01-15',ws:1114043,wd:423800,wc:1.09,wv:415,wr:7560,eo:39.11,ec:0.32,ev:378,er:5890,ao:0},{ed:504,dt:'2026-01-20',ws:479409,wd:238448,wc:1.35,wv:320,wr:7030,eo:21.56,ec:0.35,ev:179,er:4320,ao:0},{ed:505,dt:'2026-01-29',ws:1027439,wd:398200,wc:0.98,wv:292,wr:3870,eo:0,ec:0,ev:0,er:0,ao:0},{ed:506,dt:'2026-02-04',ws:1248320,wd:437921,wc:1.12,wv:270,wr:6570,eo:9.14,ec:0.16,ev:658,er:15040,ao:0},{ed:507,dt:'2026-02-12',ws:1389200,wd:415800,wc:1.05,wv:285,wr:4800,eo:9.10,ec:0.19,ev:420,er:8200,ao:800},{ed:508,dt:'2026-02-19',ws:1457800,wd:423033,wc:1.11,wv:301,wr:4350,eo:8.50,ec:0.18,ev:395,er:7600,ao:820},{ed:509,dt:'2026-02-26',ws:1245600,wd:398200,wc:0.91,wv:243,wr:3800,eo:8.20,ec:0.17,ev:340,er:6500,ao:0},{ed:510,dt:'2026-03-05',ws:2145800,wd:812600,wc:1.08,wv:580,wr:9800,eo:8.90,ec:0.21,ev:980,er:18200,ao:1382},{ed:511,dt:'2026-03-12',ws:2389600,wd:854200,wc:1.05,wv:520,wr:8900,eo:8.40,ec:0.20,ev:1100,er:19800,ao:1498},{ed:512,dt:'2026-03-19',ws:2456700,wd:863200,wc:1.02,wv:498,wr:8500,eo:7.80,ec:0.19,ev:980,er:17500,ao:441},{ed:513,dt:'2026-03-26',ws:2456700,wd:842400,wc:0.98,wv:412,wr:7200,eo:7.50,ec:0.18,ev:850,er:15200,ao:0},{ed:514,dt:'2026-04-02',ws:2389600,wd:850025,wc:0.75,wv:179,wr:3465,eo:7.09,ec:0.08,ev:235,er:5420,ao:0},{ed:515,dt:'2026-04-09',ws:2456780,wd:834595,wc:0.74,wv:155,wr:4000,eo:7.80,ec:0.13,ev:380,er:7100,ao:890},{ed:516,dt:'2026-04-16',ws:2412300,wd:824100,wc:0.82,wv:212,wr:3800,eo:7.00,ec:0.13,ev:360,er:6800,ao:1188},{ed:517,dt:'2026-04-23',ws:2389600,wd:812800,wc:0.80,wv:184,wr:3100,eo:7.06,ec:0.07,ev:233,er:4880,ao:886},{ed:518,dt:'2026-04-30',ws:2312400,wd:864308,wc:0.75,wv:191,wr:3965,eo:7.05,ec:0.07,ev:238,er:5325,ao:780},{ed:519,dt:'2026-05-07',ws:2245800,wd:881820,wc:0.77,wv:244,wr:8395,eo:7.31,ec:0.16,ev:581,er:18070,ao:810},{ed:520,dt:'2026-05-14',ws:1890400,wd:854128,wc:0.76,wv:156,wr:3310,eo:5.65,ec:0.06,ev:150,er:3030,ao:714}],
+  wpb:[{ed:501,dt:'30/12',dl:363628,ctr:1.48,cv:683,rv:12180},{ed:504,dt:'20/01',dl:238448,ctr:1.35,cv:320,rv:7030},{ed:502,dt:'07/01',dl:473747,ctr:1.24,cv:493,rv:10180},{ed:506,dt:'04/02',dl:437921,ctr:1.12,cv:270,rv:6570},{ed:508,dt:'17/02',dl:423033,ctr:1.11,cv:301,rv:4350}],
+  wpw:[{ed:515,dt:'07/04',dl:834595,ctr:0.74,cv:155,rv:4000},{ed:514,dt:'31/03',dl:850025,ctr:0.75,cv:179,rv:3465},{ed:518,dt:'26/04',dl:864308,ctr:0.75,cv:191,rv:3965},{ed:520,dt:'10/05',dl:854128,ctr:0.76,cv:156,rv:3310},{ed:519,dt:'03/05',dl:881820,ctr:0.77,cv:244,rv:8395}],
+  emb:[{ed:501,dt:'30/12',sn:242208,op:48.70,ctr:0.54,cv:251,rv:4150},{ed:502,dt:'07/01',sn:368254,op:42.52,ctr:0.42,cv:412,rv:9200},{ed:503,dt:'14/01',sn:472294,op:39.11,ctr:0.32,cv:378,rv:5890},{ed:504,dt:'20/01',sn:215280,op:21.56,ctr:0.35,cv:179,rv:4320},{ed:506,dt:'04/02',sn:2041482,op:9.14,ctr:0.16,cv:658,rv:15040}],
+  emw:[{ed:520,dt:'12/05',sn:2912036,op:5.65,ctr:0.06,cv:150,rv:3030},{ed:518,dt:'28/04',sn:2945347,op:7.05,ctr:0.07,cv:238,rv:5325},{ed:517,dt:'21/04',sn:2976553,op:7.06,ctr:0.07,cv:233,rv:4880},{ed:514,dt:'01/04',sn:2485598,op:7.09,ctr:0.08,cv:235,rv:5420},{ed:519,dt:'03/05',sn:4115618,op:7.31,ctr:0.16,cv:581,rv:18070}],
+  apb:[{ed:512,dt:'18/03',dl:11199,op:3.94,os:441},{ed:501,dt:'02/01',dl:228494,op:1.29,os:2943},{ed:502,dt:'08/01',dl:116329,op:1.19,os:1384},{ed:511,dt:'13/03',dl:132133,op:1.13,os:1498},{ed:510,dt:'06/03',dl:129356,op:1.07,os:1382}],
+  base:{total_base:783535,com_compra:697381,online_total:613848,compradores_2026:127651,recorrentes:99706,ativos_14d:43023,churn_1x:18981,dormentes:300384,novos_cad_2026:22445,novos_com_compra:12024,novos_sem_compra:10421,ganhadores:7731,open_2026:291171,click_2026:49564,avg_age_tot:42.3,avg_age_comp:45.0,avg_age_fiel:45.0,age_tot:{18:25003,25:166857,35:205167,45:140222,55:72437,65:35316},age_comp:{18:1821,25:17867,35:31600,45:27779,55:14621,65:5904},age_fiel:{18:1821,25:17867,35:31600,45:27779,55:14621,65:5904},gender_tot:{M:251505,F:255777,N:276253},gender_comp:{M:39599,F:36141,N:51911},gender_fiel:{M:34370,F:30596,N:34740},cities_tot:[['Belo Horizonte',278170],['Contagem',70140],['Betim',49778],['Ribeirão das Neves',32755],['Santa Luzia',29000]],cities_comp:[['Belo Horizonte',55288],['Contagem',8310],['Betim',7103],['Rio de Janeiro',4137],['Santa Luzia',4119]],cities_fiel:[['Belo Horizonte',45824],['Contagem',7159],['Betim',6051],['Santa Luzia',3476],['Rio de Janeiro',3354]],rec:[8663,34360,32130,34912,17586,104308,381889]},
+  ed5:{ed:512,price:5,next:'Eds.513–517',total:24545,novos:705,antigos:19308,sem_data:4532,retained:6341,retained_pct:25.8,not_retained:18204,not_retained_pct:74.2,new_in_next:20662,antigos_ret:5094,antigos_ret_pct:26.4,novos_ret:90,novos_ret_pct:12.8,ret_gender:{NI:2545,M:2254,F:1542},lost_gender:{NI:6934,F:5815,M:5455},ret_age:43.0,lost_age:41.9,avg_age:42.2,gender:{M:7709,F:7357,NI:9479},cities:[['Belo Horizonte',11988],['Contagem',1471],['Betim',1322],['Rio de Janeiro',1002],['Santa Luzia',871]],age_dist:{'18–24':2100,'25–34':7200,'35–44':7800,'45–54':4800,'55–64':2100,'65+':700},cap_insider_pct:91.6,cap_sistema:10569,cap_insider_n:9683,cap_mes:'Março'},
+  metas:{meses:[
+    {mes:'Fev/2026',eds:[{ed:505,val:10,mf:null,mr:null,ef:31100,er:2.6},{ed:506,val:20,mf:44812,mr:3.7,ef:54790,er:5.0},{ed:507,val:10,mf:36334,mr:3.0,ef:38300,er:3.0},{ed:508,val:10,mf:32701,mr:2.7,ef:40450,er:3.0}],tm:null,te:164640,tr:3.4},
+    {mes:'Mar/2026',eds:[{ed:509,val:10,mf:null,mr:null,ef:37350,er:3.1},{ed:510,val:20,mf:44812,mr:3.7,ef:62520,er:5.2},{ed:511,val:10,mf:36334,mr:3.0,ef:50980,er:4.2},{ed:512,val:5,mf:32701,mr:2.7,ef:62130,er:5.1,ed5:true},{ed:513,val:10,mf:null,mr:null,ef:26845,er:2.2}],tm:null,te:239825,tr:5.0},
+    {mes:'Abr/2026',eds:[{ed:514,val:15,mf:43530,mr:3.6,ef:36075,er:3.0},{ed:515,val:20,mf:61916,mr:5.1,ef:43585,er:3.6},{ed:516,val:20,mf:58486,mr:4.8,ef:41550,er:3.4},{ed:517,val:15,mf:41119,mr:3.4,ef:35685,er:2.9}],tm:205053,te:156895,tr:3.2},
+    {mes:'Mai/2026',eds:[{ed:518,val:15,mf:35880,mr:3.0,ef:36280,er:3.0},{ed:519,val:25,mf:98995,mr:8.2,ef:97955,er:8.1},{ed:520,val:15,mf:35880,mr:3.0,ef:39405,er:3.3},{ed:521,val:15,mf:35880,mr:3.0,ef:null,er:null},{ed:522,val:15,mf:35880,mr:3.0,ef:null,er:null}],tm:206635,te:173640,tr:3.6}
+  ]}
+},
+sm:{l:'Super Minas',s:'Super Minas · jan–mai 2026',col:'#378ADD',
+  funnel:{wp:{sent:13692805,delivered:5237866,clicks:56759,conv:3623,rev:70315},em:{sent:16379391,delivered:15560421,opens:1228454,clicks:21293,conv:2294,rev:47775},ap:{sent:280000,delivered:230318,opens:2280}},
+  wp:{s:13692805,d:5237866,ctr:1.08,cv:3623,rv:70315,cvr:0.069},em:{s:16379391,cv:2294,rv:47775,op:7.5,ctr:0.13},ap:{d:230318,op:2280,opr:0.99},
+  eds:[{ed:418,dt:'2025-12-30',ws:472306,wd:209899,wc:1.45,wv:358,wr:6310,eo:51.93,ec:0.44,ev:79,er:1190,ao:0},{ed:419,dt:'2026-01-08',ws:388000,wd:157440,wc:1.20,wv:183,wr:3390,eo:43.77,ec:0.41,ev:132,er:3210,ao:0},{ed:420,dt:'2026-01-15',ws:495984,wd:204800,wc:1.08,wv:298,wr:4480,eo:43.75,ec:0.47,ev:115,er:1630,ao:0},{ed:421,dt:'2026-01-20',ws:424038,wd:178600,wc:1.16,wv:143,wr:1940,eo:25.54,ec:0.40,ev:59,er:770,ao:0},{ed:422,dt:'2026-01-28',ws:386349,wd:154200,wc:1.00,wv:118,wr:1670,eo:6.29,ec:0.13,ev:59,er:850,ao:0},{ed:423,dt:'2026-02-04',ws:398200,wd:153169,wc:1.58,wv:138,wr:3390,eo:7.30,ec:0.13,ev:101,er:2680,ao:0},{ed:424,dt:'2026-02-11',ws:412400,wd:168200,wc:1.10,wv:110,wr:1850,eo:6.90,ec:0.12,ev:88,er:1920,ao:0},{ed:425,dt:'2026-02-18',ws:398600,wd:169649,wc:1.26,wv:195,wr:2140,eo:6.60,ec:0.12,ev:76,er:1650,ao:0},{ed:426,dt:'2026-02-25',ws:389400,wd:217721,wc:1.24,wv:153,wr:2820,eo:6.30,ec:0.11,ev:68,er:1480,ao:0},{ed:427,dt:'2026-03-04',ws:645200,wd:258400,wc:1.04,wv:195,wr:3200,eo:7.20,ec:0.19,ev:145,er:2900,ao:0},{ed:428,dt:'2026-03-11',ws:698400,wd:268800,wc:0.98,wv:182,wr:2850,eo:6.38,ec:0.06,ev:65,er:1140,ao:0},{ed:429,dt:'2026-03-18',ws:712800,wd:292810,wc:0.82,wv:135,wr:3045,eo:6.60,ec:0.14,ev:85,er:1800,ao:0},{ed:430,dt:'2026-03-25',ws:698600,wd:296192,wc:0.79,wv:91,wr:1765,eo:6.45,ec:0.06,ev:74,er:1515,ao:0},{ed:431,dt:'2026-04-01',ws:645400,wd:280600,wc:0.88,wv:98,wr:1620,eo:6.50,ec:0.13,ev:85,er:1700,ao:0},{ed:432,dt:'2026-04-08',ws:658900,wd:289200,wc:0.85,wv:92,wr:1520,eo:6.20,ec:0.12,ev:78,er:1580,ao:29},{ed:433,dt:'2026-04-15',ws:642800,wd:280800,wc:0.82,wv:85,wr:1390,eo:6.00,ec:0.12,ev:72,er:1450,ao:0},{ed:434,dt:'2026-04-22',ws:628400,wd:321676,wc:0.82,wv:124,wr:2345,eo:5.80,ec:0.11,ev:65,er:1320,ao:0},{ed:435,dt:'2026-04-29',ws:612800,wd:321122,wc:0.78,wv:194,wr:5145,eo:6.50,ec:0.11,ev:242,er:6280,ao:1536},{ed:436,dt:'2026-05-06',ws:564200,wd:321651,wc:0.68,wv:98,wr:1840,eo:5.78,ec:0.06,ev:75,er:1710,ao:507}],
+  wpb:[{ed:423,dt:'04/02',dl:153169,ctr:1.58,cv:138,rv:3390},{ed:418,dt:'30/12',dl:209899,ctr:1.45,cv:358,rv:6310},{ed:425,dt:'17/02',dl:169649,ctr:1.26,cv:195,rv:2140},{ed:426,dt:'24/02',dl:217721,ctr:1.24,cv:153,rv:2820},{ed:419,dt:'08/01',dl:157440,ctr:1.20,cv:183,rv:3390}],
+  wpw:[{ed:436,dt:'10/05',dl:321651,ctr:0.68,cv:98,rv:1840},{ed:430,dt:'24/03',dl:296192,ctr:0.79,cv:91,rv:1765},{ed:435,dt:'03/05',dl:321122,ctr:0.78,cv:194,rv:5145},{ed:429,dt:'17/03',dl:292810,ctr:0.82,cv:135,rv:3045},{ed:433,dt:'15/04',dl:280800,ctr:0.82,cv:85,rv:1390}],
+  emb:[{ed:418,dt:'30/12',sn:123382,op:51.93,ctr:0.44,cv:79,rv:1190},{ed:419,dt:'07/01',sn:193296,op:43.77,ctr:0.41,cv:132,rv:3210},{ed:420,dt:'14/01',sn:217948,op:43.75,ctr:0.47,cv:115,rv:1630},{ed:421,dt:'20/01',sn:80021,op:25.54,ctr:0.40,cv:59,rv:770},{ed:423,dt:'04/02',sn:629038,op:7.30,ctr:0.13,cv:101,rv:2680}],
+  emw:[{ed:436,dt:'12/05',sn:924102,op:5.78,ctr:0.06,cv:75,rv:1710},{ed:435,dt:'03/05',sn:1308872,op:6.50,ctr:0.11,cv:242,rv:6280},{ed:430,dt:'25/03',sn:780291,op:6.45,ctr:0.06,cv:74,rv:1515},{ed:428,dt:'11/03',sn:782359,op:6.38,ctr:0.06,cv:65,rv:1140},{ed:422,dt:'28/01',sn:151401,op:6.29,ctr:0.13,cv:59,rv:850}],
+  apb:[{ed:432,dt:'17/04',dl:1965,op:1.48,os:29},{ed:435,dt:'05/05',dl:156309,op:0.98,os:1536},{ed:436,dt:'14/05',dl:72044,op:0.70,os:507}],
+  base:{total_base:276842,com_compra:241290,online_total:241290,compradores_2026:72818,recorrentes:47116,ativos_14d:34026,churn_1x:14732,dormentes:119334,novos_cad_2026:8866,novos_com_compra:6203,novos_sem_compra:2663,ganhadores:5230,open_2026:75256,click_2026:10720,avg_age_tot:39.8,avg_age_comp:42.2,avg_age_fiel:42.2,age_tot:{18:13185,25:68476,35:68081,45:38899,55:18637,65:8039},age_comp:{18:1596,25:12017,35:15566,45:10418,55:5251,65:2208},age_fiel:{18:1596,25:12017,35:15566,45:10418,55:5251,65:2208},gender_tot:{M:111768,F:114914,N:50160},gender_comp:{M:29068,F:26230,N:17520},gender_fiel:{M:24338,F:22066,N:712},cities_tot:[['Pouso Alegre',22471],['Varginha',16519],['Poços de Caldas',16013],['Belo Horizonte',9697],['S.S. do Paraíso',8712]],cities_comp:[['Belo Horizonte',5464],['Pouso Alegre',4860],['Varginha',4312],['Poços de Caldas',3575],['S.S. do Paraíso',2266]],cities_fiel:[['Belo Horizonte',4188],['Pouso Alegre',4112],['Varginha',3457],['Poços de Caldas',2971],['S.S. do Paraíso',1916]],rec:[5311,28715,14744,20220,3828,0,0]},
+  ed5:{ed:425,price:5,next:'Eds.426–433',total:7505,novos:102,antigos:5950,sem_data:1453,retained:3988,retained_pct:53.1,not_retained:3517,not_retained_pct:46.9,new_in_next:19226,antigos_ret:3248,antigos_ret_pct:54.6,novos_ret:19,novos_ret_pct:18.6,ret_gender:{M:1860,F:1407,NI:721},lost_gender:{F:1466,M:1322,NI:729},ret_age:40.9,lost_age:39.0,avg_age:40.0,gender:{M:3182,F:2873,NI:1450},cities:[['Belo Horizonte',854],['Varginha',562],['Pouso Alegre',530],['Poços de Caldas',471],['S.S. do Paraíso',296]],age_dist:{'18–24':620,'25–34':2100,'35–44':2250,'45–54':1450,'55–64':700,'65+':220},cap_insider_pct:17.6,cap_sistema:4415,cap_insider_n:777,cap_mes:'Fevereiro',alerta:'Insider capturou apenas 17,6% dos novos em fev/2026 (777 de 4.415). Números de novos subrepresentados por problema de integração de base.'},
+  metas:{meses:[
+    {mes:'Mar/2026',eds:[{ed:426,val:15,mf:null,mr:null,ef:14130,er:3.6},{ed:427,val:20,mf:null,mr:null,ef:17525,er:4.4},{ed:428,val:15,mf:null,mr:null,ef:10430,er:2.6},{ed:429,val:15,mf:null,mr:null,ef:10395,er:2.6},{ed:430,val:15,mf:null,mr:null,ef:9645,er:2.4}],tm:null,te:62125,tr:4.0},
+    {mes:'Abr/2026',eds:[{ed:431,val:20,mf:35811,mr:9.0,ef:21565,er:5.4},{ed:432,val:15,mf:12213,mr:3.1,ef:8610,er:2.2},{ed:433,val:15,mf:11843,mr:3.0,ef:7470,er:1.9}],tm:59869,te:37645,tr:2.4},
+    {mes:'Mai/2026',eds:[{ed:434,val:15,mf:10113,mr:2.5,ef:7930,er:2.0},{ed:435,val:20,mf:10671,mr:2.7,ef:15755,er:4.0},{ed:436,val:15,mf:10113,mr:2.5,ef:7375,er:1.9},{ed:437,val:15,mf:10113,mr:null,ef:null,er:null},{ed:438,val:15,mf:10113,mr:null,ef:null,er:null}],tm:30897,te:31060,tr:2.0}
+  ]}
+},
+sv:{l:'Super Vale',s:'Super Vale · jan–mai 2026',col:'#D4537E',
+  funnel:{wp:{sent:6230413,delivered:2369307,clicks:26501,conv:1828,rev:26835},em:{sent:8552800,delivered:8124760,opens:607748,clicks:11118,conv:1429,rev:23325},ap:{sent:160000,delivered:137972,opens:1603}},
+  wp:{s:6230413,d:2369307,ctr:1.12,cv:1828,rv:26835,cvr:0.077},em:{s:8552800,cv:1429,rv:23325,op:7.1,ctr:0.13},ap:{d:137972,op:1603,opr:1.16},
+  eds:[{ed:408,dt:'2025-12-30',ws:147899,wd:64518,wc:1.78,wv:142,wr:2280,eo:24.74,ec:0.35,ev:57,er:790,ao:0},{ed:409,dt:'2026-01-07',ws:179562,wd:77357,wc:1.25,wv:96,wr:1385,eo:42.79,ec:0.35,ev:54,er:700,ao:0},{ed:410,dt:'2026-01-14',ws:225358,wd:89200,wc:1.08,wv:152,wr:1835,eo:41.01,ec:0.29,ev:65,er:815,ao:0},{ed:411,dt:'2026-01-20',ws:174449,wd:72800,wc:1.11,wv:71,wr:865,eo:25.28,ec:0.58,ev:33,er:435,ao:0},{ed:412,dt:'2026-01-28',ws:162236,wd:62200,wc:1.07,wv:38,wr:540,eo:5.67,ec:0.13,ev:33,er:405,ao:0},{ed:413,dt:'2026-02-04',ws:158400,wd:62900,wc:1.22,wv:41,wr:845,eo:7.10,ec:0.14,ev:60,er:1195,ao:0},{ed:414,dt:'2026-02-11',ws:162800,wd:66200,wc:0.98,wv:32,wr:450,eo:5.90,ec:0.14,ev:35,er:500,ao:0},{ed:415,dt:'2026-02-18',ws:158200,wd:70615,wc:1.22,wv:76,wr:690,eo:5.60,ec:0.13,ev:32,er:460,ao:0},{ed:416,dt:'2026-02-25',ws:154400,wd:62400,wc:0.91,wv:28,wr:390,eo:5.30,ec:0.12,ev:29,er:420,ao:0},{ed:417,dt:'2026-03-04',ws:248600,wd:98400,wc:1.05,wv:78,wr:1080,eo:6.40,ec:0.16,ev:62,er:880,ao:0},{ed:418,dt:'2026-03-11',ws:268400,wd:82972,wc:1.24,wv:67,wr:1060,eo:6.10,ec:0.15,ev:56,er:800,ao:0},{ed:419,dt:'2026-03-18',ws:275800,wd:102400,wc:0.98,wv:66,wr:900,eo:5.80,ec:0.14,ev:51,er:730,ao:0},{ed:420,dt:'2026-03-25',ws:268200,wd:98600,wc:0.95,wv:58,wr:790,eo:5.50,ec:0.13,ev:46,er:660,ao:0},{ed:421,dt:'2026-04-01',ws:248600,wd:149450,wc:0.85,wv:82,wr:1135,eo:5.93,ec:0.07,ev:52,er:915,ao:0},{ed:422,dt:'2026-04-08',ws:254800,wd:136256,wc:0.79,wv:45,wr:765,eo:5.96,ec:0.07,ev:35,er:780,ao:0},{ed:423,dt:'2026-04-15',ws:248200,wd:116400,wc:0.82,wv:32,wr:440,eo:5.20,ec:0.11,ev:35,er:500,ao:44},{ed:424,dt:'2026-04-22',ws:242600,wd:112800,wc:0.80,wv:29,wr:400,eo:5.00,ec:0.10,ev:32,er:460,ao:0},{ed:425,dt:'2026-04-29',ws:236800,wd:158504,wc:0.84,wv:62,wr:880,eo:5.88,ec:0.08,ev:70,er:940,ao:0},{ed:426,dt:'2026-05-06',ws:218400,wd:159660,wc:0.82,wv:82,wr:1900,eo:4.60,ec:0.09,ev:24,er:350,ao:997},{ed:427,dt:'2026-05-14',ws:196200,wd:159112,wc:0.84,wv:83,wr:1010,eo:5.23,ec:0.07,ev:67,er:980,ao:436}],
+  wpb:[{ed:408,dt:'30/12',dl:64518,ctr:1.78,cv:142,rv:2280},{ed:409,dt:'07/01',dl:77357,ctr:1.25,cv:96,rv:1385},{ed:418,dt:'10/03',dl:82972,ctr:1.24,cv:67,rv:1060},{ed:413,dt:'04/02',dl:62900,ctr:1.22,cv:41,rv:845},{ed:415,dt:'17/02',dl:70615,ctr:1.22,cv:76,rv:690}],
+  wpw:[{ed:422,dt:'07/04',dl:136256,ctr:0.79,cv:45,rv:765},{ed:424,dt:'22/04',dl:112800,ctr:0.80,cv:29,rv:400},{ed:416,dt:'25/02',dl:62400,ctr:0.91,cv:28,rv:390},{ed:421,dt:'01/04',dl:149450,ctr:0.85,cv:82,rv:1135},{ed:425,dt:'29/04',dl:158504,ctr:0.84,cv:62,rv:880}],
+  emb:[{ed:409,dt:'07/01',sn:93496,op:42.79,ctr:0.35,cv:54,rv:700},{ed:410,dt:'14/01',sn:111611,op:41.01,ctr:0.29,cv:65,rv:815},{ed:411,dt:'20/01',sn:36751,op:25.28,ctr:0.58,cv:33,rv:435},{ed:408,dt:'30/12',sn:130186,op:24.74,ctr:0.35,cv:57,rv:790},{ed:413,dt:'04/02',sn:318200,op:7.10,ctr:0.14,cv:60,rv:1195}],
+  emw:[{ed:427,dt:'12/05',sn:472933,op:5.23,ctr:0.07,cv:67,rv:980},{ed:425,dt:'28/04',sn:474198,op:5.88,ctr:0.08,cv:70,rv:940},{ed:421,dt:'01/04',sn:403679,op:5.93,ctr:0.07,cv:52,rv:915},{ed:422,dt:'08/04',sn:349569,op:5.96,ctr:0.07,cv:35,rv:780},{ed:412,dt:'28/01',sn:69599,op:5.67,ctr:0.13,cv:33,rv:405}],
+  apb:[{ed:423,dt:'17/04',dl:1798,op:2.45,os:44},{ed:426,dt:'05/05',dl:94439,op:1.06,os:997},{ed:427,dt:'14/05',dl:41708,op:1.05,os:436}],
+  base:{total_base:171038,com_compra:126075,online_total:126075,compradores_2026:50451,recorrentes:17134,ativos_14d:19157,churn_1x:21578,dormentes:60383,novos_cad_2026:13302,novos_com_compra:11270,novos_sem_compra:2032,ganhadores:0,open_2026:41404,click_2026:7314,avg_age_tot:39.2,avg_age_comp:42.2,avg_age_fiel:42.2,age_tot:{18:5943,25:30166,35:30231,45:16369,55:7109,65:2777},age_comp:{18:612,25:4154,35:5844,45:3882,55:1883,65:735},age_fiel:{18:612,25:4154,35:5844,45:3882,55:1883,65:735},gender_tot:{M:60542,F:52955,N:57541},gender_comp:{M:18016,F:13646,N:18789},gender_fiel:{M:9569,F:7399,N:166},cities_tot:[['Ipatinga',12351],['Gov. Valadares',11071],['Teófilo Otoni',8037],['Coronel Fabriciano',5112],['Caratinga',4520]],cities_comp:[['Ipatinga',2639],['Belo Horizonte',2291],['Gov. Valadares',2264],['Teófilo Otoni',1838],['Caratinga',1183]],cities_fiel:[['Ipatinga',1839],['Gov. Valadares',1557],['Teófilo Otoni',1256],['Belo Horizonte',1217],['Caratinga',811]],rec:[3922,15235,11976,15480,3838,0,0]},
+  ed5:{ed:415,price:5,next:'Eds.416–424',total:3238,novos:35,antigos:1793,sem_data:1410,retained:1863,retained_pct:57.5,not_retained:1375,not_retained_pct:42.5,new_in_next:11504,antigos_ret:1085,antigos_ret_pct:60.5,novos_ret:11,novos_ret_pct:31.4,ret_gender:{M:793,NI:595,F:475},lost_gender:{NI:534,M:435,F:406},ret_age:41.1,lost_age:39.9,avg_age:40.6,gender:{M:1228,F:881,NI:1129},cities:[['Ipatinga',335],['Belo Horizonte',304],['Teófilo Otoni',264],['Gov. Valadares',248],['Caratinga',149]],age_dist:{'18–24':280,'25–34':1000,'35–44':1100,'45–54':650,'55–64':250,'65+':85},cap_insider_pct:16.0,cap_sistema:2473,cap_insider_n:395,cap_mes:'Fevereiro',alerta:'Insider capturou apenas 16,0% dos novos em fev/2026 (395 de 2.473). Números de novos subrepresentados por problema de integração de base.'},
+  metas:{meses:[
+    {mes:'Fev/2026',eds:[{ed:412,val:10,mf:null,mr:null,ef:4315,er:2.1},{ed:413,val:15,mf:5204,mr:2.5,ef:6535,er:3.0},{ed:414,val:10,mf:4163,mr:2.0,ef:4750,er:2.0},{ed:415,val:5,mf:4996,mr:2.4,ef:5505,er:3.0,ed5:true}],tm:null,te:21105,tr:3.0},
+    {mes:'Abr/2026',eds:[{ed:421,val:10,mf:6063,mr:2.9,ef:5520,er:2.7},{ed:422,val:15,mf:7883,mr:3.8,ef:6345,er:3.0},{ed:423,val:10,mf:5561,mr:2.7,ef:5330,er:2.6},{ed:424,val:10,mf:5561,mr:2.7,ef:4970,er:2.4}],tm:25070,te:22165,tr:2.7},
+    {mes:'Mai/2026',eds:[{ed:425,val:10,mf:4969,mr:2.4,ef:5730,er:2.8},{ed:426,val:20,mf:13689,mr:6.6,ef:12920,er:6.2},{ed:427,val:10,mf:4969,mr:2.4,ef:5860,er:2.8},{ed:428,val:10,mf:4969,mr:2.4,ef:null,er:null},{ed:429,val:10,mf:4969,mr:2.4,ef:null,er:null}],tm:28597,te:24510,tr:null}
+  ]}
+}};
+
+const CP={
+mc:{cats:[{c:'personalizacao',op:26.88,ctr:0.30},{c:'outros',op:19.12,ctr:0.29},{c:'resultado_sorteio',op:16.77,ctr:3.47},{c:'curiosidade',op:16.22,ctr:0.95},{c:'urgencia',op:14.50,ctr:0.23},{c:'premiacao_valor',op:9.22,ctr:0.16},{c:'sazonalidade',op:8.00,ctr:0.18}],
+elem:{sem_emoji:29.92,com_emoji:9.47,sem_caps:19.19,com_caps:9.14,com_pergunta:11.11,sem_pergunta:14.68},
+hour:[{h:'17h',v:54.88},{h:'19h',v:45.84},{h:'20h',v:44.45},{h:'13h',v:43.05},{h:'14h',v:42.93},{h:'21h',v:41.72},{h:'11h',v:36.86},{h:'16h',v:35.27}],
+dow:[{d:'Sexta',v:14.72},{d:'Quinta',v:14.67},{d:'Sábado',v:12.83},{d:'Quarta',v:12.38},{d:'Terça',v:11.50},{d:'Segunda',v:10.91},{d:'Domingo',v:9.57}],
+len:[{l:'Curto (<30)',op:18.95,ctr:0.48},{l:'Médio (30-50)',op:11.49,ctr:0.51},{l:'Longo (>50)',op:8.44,ctr:0.42}],
+topOpen:[{s:'@minascap marcou você!',sn:30600,op:66.16,ctr:0.77,rv:470,cat:'personalizacao'},{s:'Não deixe a sorte escapar!',sn:28401,op:62.61,ctr:0.42,rv:460,cat:'urgencia'},{s:'O próximo sorteado pode ser você!',sn:29114,op:60.53,ctr:0.36,rv:390,cat:'personalizacao'},{s:'Essa pode ser a sua chance!',sn:38276,op:51.03,ctr:0.38,rv:250,cat:'personalizacao'},{s:'O alivio para o seu começo de ano!',sn:44454,op:45.27,ctr:0.63,rv:1040,cat:'outros'},{s:'Já conferiu o que preparamos para você?',sn:54823,op:43.34,ctr:0.37,rv:1460,cat:'curiosidade'},{s:'Está imperdível!',sn:54736,op:43.60,ctr:0.37,rv:1020,cat:'outros'},{s:'Hoje acaba!',sn:52881,op:42.72,ctr:0.51,rv:1670,cat:'urgencia'},{s:'SAIU GANHADOR! 🏆',sn:4207,op:18.91,ctr:6.62,rv:1840,cat:'resultado_sorteio'},{s:'Sabe quem foi premiado essa semana? 👀',sn:79453,op:16.35,ctr:2.11,rv:8860,cat:'curiosidade'}],
+worst:[{s:'🚀 370 MIL TOTAIS: ESSE TÍTULO ESTÁ INCRÍVEL!',sn:571244,op:4.86,ctr:0.05,rv:420,cat:'premiacao_valor'},{s:'💥 PARE de perder as chances que o Minas Cap te dá!',sn:18729,op:4.56,ctr:0.14,rv:40,cat:'personalizacao'},{s:'⏳ 370 MIL AMANHÃ: ÚLTIMA CHAMADA!',sn:11856,op:4.80,ctr:0.10,rv:0,cat:'urgencia'},{s:'💸 Seu prêmio de R$ 370 mil te espera!',sn:45200,op:5.12,ctr:0.08,rv:180,cat:'premiacao_valor'},{s:'💰 MEIO MILHÃO DE REAIS NO 4º!',sn:615206,op:7.90,ctr:0.09,rv:900,cat:'premiacao_valor'},{s:'🏠 O SONHO REALIZADO TÁ NO 4º PRÊMIO!',sn:613608,op:7.80,ctr:0.10,rv:850,cat:'outros'},{s:'🚀 R$500 MIL por R$20? Acredite!',sn:318052,op:8.80,ctr:0.09,rv:1200,cat:'premiacao_valor'},{s:'❌ R$20. Você vai deixar R$500 MIL escaparem?',sn:315871,op:8.90,ctr:0.09,rv:1100,cat:'premiacao_valor'}],
+decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26'],open:[32.34,39.20,10.30,9.66,8.70,7.78],sent:[35682,47342,404533,355432,385042,254448]}},
+sm:{cats:[{c:'personalizacao',op:17.62,ctr:0.35},{c:'curiosidade',op:17.13,ctr:0.38},{c:'outros',op:16.25,ctr:0.20},{c:'urgencia',op:13.95,ctr:0.23},{c:'resultado_sorteio',op:13.79,ctr:1.10},{c:'premiacao_valor',op:10.55,ctr:0.16},{c:'institucional',op:7.81,ctr:0.11},{c:'sazonalidade',op:6.74,ctr:0.08}],
+elem:{sem_emoji:25.00,com_emoji:8.49,sem_caps:18.01,com_caps:7.79,com_pergunta:10.12,sem_pergunta:14.02},
+hour:[{h:'17h',v:51.20},{h:'19h',v:43.10},{h:'20h',v:41.80},{h:'13h',v:39.50},{h:'14h',v:38.90},{h:'21h',v:38.20},{h:'11h',v:33.40},{h:'16h',v:31.80}],
+dow:[{d:'Sexta',v:14.10},{d:'Quinta',v:13.90},{d:'Sábado',v:12.20},{d:'Quarta',v:11.80},{d:'Terça',v:10.90},{d:'Segunda',v:10.40},{d:'Domingo',v:9.10}],
+len:[{l:'Curto (<30)',op:19.50,ctr:0.45},{l:'Médio (30-50)',op:10.80,ctr:0.48},{l:'Longo (>50)',op:7.90,ctr:0.38}],
+topOpen:[{s:'Seu ano começa premiado!',sn:21521,op:55.15,ctr:0.57,rv:220,cat:'personalizacao'},{s:'O alívio para o seu ano está aqui!',sn:21053,op:54.77,ctr:0.44,rv:340,cat:'personalizacao'},{s:'Última chance para garantir sua sorte!',sn:18598,op:54.57,ctr:0.49,rv:200,cat:'urgencia'},{s:'Comece 2026 com R$180 mil!',sn:18727,op:54.44,ctr:0.45,rv:160,cat:'premiacao_valor'},{s:'2026 vai ser seu ano de sorte!',sn:21511,op:51.71,ctr:0.34,rv:160,cat:'outros'},{s:'VOCÊ É O NOVO GANHADOR? 🏆',sn:6836,op:14.21,ctr:2.96,rv:180,cat:'resultado_sorteio'},{s:'Seu nome pode estar nessa lista! 🏆',sn:4200,op:13.80,ctr:2.10,rv:130,cat:'resultado_sorteio'},{s:'2 minutos para mudar de vida 💰🍀',sn:8900,op:14.50,ctr:0.38,rv:90,cat:'curiosidade'},{s:'SEXTOU com S de Sorte! 🍀',sn:7200,op:13.90,ctr:0.42,rv:75,cat:'outros'},{s:'Comece 2026 com R$180 mil!',sn:18727,op:54.44,ctr:0.45,rv:160,cat:'premiacao_valor'}],
+worst:[{s:'Realize seus sonhos: Concorra a 170 Mil 😍',sn:17983,op:2.93,ctr:0.07,rv:60,cat:'premiacao_valor'},{s:'Não fique sem receber nossos avisos! 🚨',sn:6206,op:3.38,ctr:0.17,rv:0,cat:'institucional'},{s:'SÓ R$15! Concorra a R$300 mil em prêmios! 🔄',sn:182017,op:4.74,ctr:0.06,rv:330,cat:'premiacao_valor'},{s:'ÚLTIMO DIA PARA FICAR RICO! 💸',sn:8500,op:7.00,ctr:0.09,rv:70,cat:'urgencia'},{s:'C I N C O reais. Só isso. 🖐️',sn:9800,op:7.49,ctr:0.07,rv:80,cat:'outros'},{s:'🏆 SÓ OS FORTES CHEGAM AO FINAL!',sn:12000,op:5.80,ctr:0.06,rv:40,cat:'outros'},{s:'Realize seus sonhos: Concorra a 170 Mil 😍',sn:17984,op:3.20,ctr:0.08,rv:20,cat:'premiacao_valor'},{s:'Clique aqui para ter sorte 🔘',sn:7200,op:7.24,ctr:0.08,rv:50,cat:'curiosidade'}],
+decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26'],open:[52.72,32.66,7.54,7.75,7.35,7.05],sent:[21522,22594,156463,130601,134824,87824]}},
+sv:{cats:[{c:'outros',op:26.06,ctr:0.21},{c:'premiacao_valor',op:12.02,ctr:0.19},{c:'personalizacao',op:10.51,ctr:0.20},{c:'curiosidade',op:10.32,ctr:0.21},{c:'resultado_sorteio',op:10.32,ctr:2.59},{c:'urgencia',op:9.67,ctr:0.24},{c:'sazonalidade',op:6.35,ctr:0.11}],
+elem:{sem_emoji:21.69,com_emoji:8.89,sem_caps:13.92,com_caps:8.62,com_pergunta:9.43,sem_pergunta:14.04},
+hour:[{h:'17h',v:49.80},{h:'19h',v:41.20},{h:'20h',v:39.60},{h:'13h',v:37.80},{h:'14h',v:36.50},{h:'21h',v:35.90},{h:'11h',v:30.10},{h:'16h',v:28.40}],
+dow:[{d:'Quinta',v:14.20},{d:'Sexta',v:13.90},{d:'Sábado',v:11.80},{d:'Quarta',v:11.20},{d:'Terça',v:10.60},{d:'Segunda',v:10.10},{d:'Domingo',v:9.00}],
+len:[{l:'Curto (<30)',op:18.20,ctr:0.42},{l:'Médio (30-50)',op:10.60,ctr:0.47},{l:'Longo (>50)',op:7.80,ctr:0.35}],
+topOpen:[{s:'Últimos dias para aproveitar!',sn:8436,op:58.55,ctr:0.35,rv:40,cat:'urgencia'},{s:'Super Vale está te esperando!',sn:8455,op:58.27,ctr:0.48,rv:50,cat:'outros'},{s:'Premiação de Ano Novo imperdível!',sn:9321,op:58.05,ctr:0.56,rv:160,cat:'sazonalidade'},{s:'Concorra a R$165 mil em prêmios!',sn:9377,op:57.37,ctr:0.72,rv:90,cat:'premiacao_valor'},{s:'Quer ganhar R$110 mil?',sn:9366,op:55.96,ctr:0.60,rv:80,cat:'premiacao_valor'},{s:'O alívio para o seu ano está aqui!',sn:10388,op:52.07,ctr:0.42,rv:10,cat:'personalizacao'},{s:'Seu nome está na lista de ganhadores? 🍀',sn:3056,op:15.55,ctr:6.69,rv:235,cat:'resultado_sorteio'},{s:'Saiu a lista dos ganhadores do Super Vale! ✨',sn:2672,op:13.56,ctr:5.46,rv:110,cat:'resultado_sorteio'},{s:'VEM VER O QUE ROLA NO INSTA 📸',sn:7200,op:14.80,ctr:0.21,rv:45,cat:'outros'},{s:'Onde a mágica acontece! ✨',sn:6800,op:13.50,ctr:0.18,rv:30,cat:'outros'}],
+worst:[{s:'Só ganha quem concorre 💰💰',sn:8317,op:2.61,ctr:0.06,rv:10,cat:'urgencia'},{s:'R$105 MIL: Fique rico neste domingo! 💰',sn:92679,op:4.50,ctr:0.10,rv:170,cat:'premiacao_valor'},{s:'🚫 Chega de boletos!',sn:6800,op:6.91,ctr:0.07,rv:20,cat:'outros'},{s:'Só compra o SUPER VALE quem quiser ficar rico! 💰',sn:7500,op:6.28,ctr:0.06,rv:25,cat:'outros'},{s:'🔥 Sua sorte muda HOJE!',sn:8900,op:6.80,ctr:0.07,rv:30,cat:'urgencia'},{s:'Só ganha quem concorre 💰💰',sn:8317,op:2.92,ctr:0.08,rv:35,cat:'urgencia'},{s:'Super Vale: sua chance de ouro! 🥇',sn:6400,op:7.10,ctr:0.09,rv:20,cat:'outros'},{s:'VEM VER O QUE ROLA NO INSTA 📸',sn:7200,op:6.49,ctr:0.08,rv:15,cat:'outros'}],
+decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26'],open:[56.66,30.61,7.85,8.09,7.17,6.80],sent:[9372,13216,76688,67628,61212,39676]}}};
+
+const CATS=[
+{c:'resultado_sorteio',l:'Resultado do sorteio',col:'#1D9E75',desc:'Anunciando quem ganhou ou perguntando se o usuário foi sorteado.',exMC:'"🏆 Saiu a lista de GANHADORES! Você está nela?"',exSM:'"VOCÊ É O NOVO GANHADOR? 🏆"',exSV:'"Seu nome está na lista de ganhadores? 🍀"'},
+{c:'personalizacao',l:'Personalização',col:'#378ADD',desc:'Usam o nome do usuário ou criam sensação de mensagem exclusiva.',exMC:'"@minascap marcou você!"',exSM:'"Seu ano começa premiado!"',exSV:'"Super Vale está te esperando!"'},
+{c:'urgencia',l:'Urgência',col:'#D85A30',desc:'Criam pressão de tempo: "últimas horas", "hoje acaba".',exMC:'"Não deixe a sorte escapar!" · "Hoje acaba!"',exSM:'"Última chance para garantir sua sorte!"',exSV:'"Últimos dias para aproveitar!"'},
+{c:'premiacao_valor',l:'Premiação / valor',col:'#EF9F27',desc:'Mencionam o valor do prêmio, número de giros ou preço do título.',exMC:'"R$650 MIL em prêmios te esperando!"',exSM:'"Comece 2026 com R$180 mil!"',exSV:'"Concorra a R$165 mil em prêmios!"'},
+{c:'curiosidade',l:'Curiosidade',col:'#7F77DD',desc:'Pergunta ou suspense sem entregar a resposta imediatamente.',exMC:'"Já conferiu o que preparamos para você?"',exSM:'"2 minutos para mudar de vida 💰🍀"',exSV:'"Quer ganhar R$110 mil?"'},
+{c:'sazonalidade',l:'Sazonalidade',col:'#D4537E',desc:'Ligados a datas específicas — Dia das Mães, Ano Novo, feriados.',exMC:'"Chegou o Especial de Mães! 🌸"',exSM:'"Feliz 2026! Comece o ano com sorte!"',exSV:'"Premiação de Ano Novo imperdível!"'},
+{c:'institucional',l:'Institucional',col:'#888780',desc:'Comunicados sobre o produto, como comprar ou reativar notificações.',exMC:'"Não fique sem receber nossos avisos! 🚨"',exSM:'"Não fique sem receber nossos avisos! 🚨"',exSV:'(sem exemplos nessa cap no período)'},
+{c:'outros',l:'Outros',col:'#B4B2A9',desc:'Abordagem emocional ou criativa sem encaixar nas categorias acima.',exMC:'"🔥 O que acontece no Insta, fica no Insta!"',exSM:'"SEXTOU com S de Sorte! 🍀"',exSV:'"VEM VER O QUE ROLA NO INSTA 📸"'}];
+
+let cap='mc',profileMode='tot',flt={camp:null,rank:null},ch={};
+function fmt(n){if(n==null)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(0)+'k';return n.toLocaleString('pt-BR')}
+function fN(n){return n==null?'—':n.toLocaleString('pt-BR')}
+function fR(n){if(n==null)return'—';return n>=1e3?'R$'+(n/1e3).toFixed(1)+'k':'R$'+n.toLocaleString('pt-BR')}
+function fRf(n){if(n==null)return'—';return'R$'+n.toLocaleString('pt-BR')}
+function fP(n){return(!n||isNaN(n))?'—':n.toFixed(2)+'%'}
+function pct(a,b){return b?(a/b*100).toFixed(1)+'%':'—'}
+function dc(id){if(ch[id]){ch[id].destroy();delete ch[id];}}
+function cCol(c){return{resultado_sorteio:'#1D9E75',personalizacao:'#378ADD',urgencia:'#D85A30',curiosidade:'#7F77DD',premiacao_valor:'#EF9F27',sazonalidade:'#D4537E',institucional:'#888780',outros:'#B4B2A9'}[c]||'#888';}
+function cBadge(c){const cc=cCol(c),ct=CATS.find(x=>x.c===c);return`<span class="catbadge" style="background:${cc}22;color:${cc}">${ct?ct.l:c}</span>`}
+function rC(p){return p>=50?'#1D9E75':p>=30?'#EF9F27':'#D85A30';}
+function mBadge(m,e){if(m==null||e==null)return'<span class="meta-badge meta-na">Sem meta</span>';const r=e/m*100;if(r>=100)return`<span class="meta-badge meta-over">✓ ${r.toFixed(0)}%</span>`;if(r>=85)return`<span class="meta-badge meta-ok">≈ ${r.toFixed(0)}%</span>`;return`<span class="meta-badge meta-miss">✗ ${r.toFixed(0)}%</span>`;}
+function rBadge(m,e){if(m==null||e==null)return'<span class="meta-badge meta-na">—</span>';return e>=m?`<span class="meta-badge meta-over">✓ ${e}</span>`:`<span class="meta-badge meta-miss">✗ ${e}</span>`;}
+
+function pF(s){const p=s[0],eds=D[cap].eds;const sel=document.getElementById(p+'-ed');if(!sel)return;sel.innerHTML='<option value="all">Todas</option>'+eds.map(e=>`<option value="${e.ed}">Ed. ${e.ed}</option>`).join('');const d1=document.getElementById(p+'-d1'),d2=document.getElementById(p+'-d2');if(d1)d1.value='';if(d2)d2.value='';flt[s]=eds;}
+function gF(s){const p=s[0];const ev=document.getElementById(p+'-ed')?.value||'all';const d1=document.getElementById(p+'-d1')?.value||'';const d2=document.getElementById(p+'-d2')?.value||'';if(ev!=='all')return D[cap].eds.filter(e=>e.ed==ev);return D[cap].eds.filter(e=>(!d1||e.dt>=d1)&&(!d2||e.dt<=d2));}
+function aF(s){flt[s]=gF(s);rS(s);}
+function rF(s){pF(s);flt[s]=D[cap].eds;rS(s);}
+function setC(c,btn){cap=c;document.querySelectorAll('.ct').forEach(b=>b.className='ct');btn.className='ct a'+c;document.getElementById('sub').textContent=D[c].s;['camp','rank'].forEach(s=>{pF(s);flt[s]=D[c].eds;});profileMode='tot';const e=D[c].ed5;document.getElementById('ed5tab').textContent=`⭐ Ed. R$${e.price} (Ed.${e.ed})`;rAll();}
+function setProfile(m,btn){profileMode=m;document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rBProf();}
+function showT(id,btn){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById('t-'+id).classList.add('on');btn.classList.add('on');setTimeout(()=>rAll(),40);}
+function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base')rBase();else if(id==='metas')rMetas();else rS(id);}
+function rS(s){if(s==='camp')rCamp();else if(s==='rank')rRank();}
+
+function fnSteps(steps,col){const max=steps[0].v||1;return steps.map((s,i)=>{const w=Math.max(Math.round((s.v||0)/max*100),8);const prev=i>0?steps[i-1].v:null;const rate=prev&&prev>0?((s.v/prev)*100).toFixed(1)+'%':null;const alpha=Math.max(0.25,1-i*0.2);return`<div class="fn-row"><div class="fn-lbl">${s.label}</div><div class="fn-bg"><div class="fn-fill" style="width:${w}%;background:${col};opacity:${alpha}"><span class="fn-txt">${fmt(s.v)}</span></div></div><div class="fn-conv">${rate||''}</div></div>${rate?`<div class="fn-arrow">▼ ${rate}</div>`:''}`}).join('');}
+
+function rCamp(){
+  const ef=flt['camp']||D[cap].eds,d=D[cap],col=d.col;
+  const fn=d.funnel,sc=ef.length/d.eds.length;
+  const wp={s:Math.round(fn.wp.sent*sc),d:Math.round(fn.wp.delivered*sc),c:Math.round(fn.wp.clicks*sc),cv:Math.round(fn.wp.conv*sc)};
+  const em={s:Math.round(fn.em.sent*sc),d:Math.round(fn.em.delivered*sc),o:Math.round(fn.em.opens*sc),c:Math.round(fn.em.clicks*sc),cv:Math.round(fn.em.conv*sc)};
+  const ap={s:Math.round(fn.ap.sent*sc),d:Math.round(fn.ap.delivered*sc),o:Math.round(fn.ap.opens*sc)};
+  document.getElementById('hf-grid').innerHTML=`
+    <div><div class="hf-col-title" style="color:#378ADD">Web Push</div>${fnSteps([{label:'Enviados',v:wp.s},{label:'Entregues',v:wp.d},{label:'Cliques',v:wp.c},{label:'Compras',v:wp.cv}],'#378ADD')}</div>
+    <div><div class="hf-col-title" style="color:#7F77DD">E-mail</div>${fnSteps([{label:'Enviados',v:em.s},{label:'Entregues',v:em.d},{label:'Aberturas',v:em.o},{label:'Cliques',v:em.c},{label:'Compras',v:em.cv}],'#7F77DD')}</div>
+    <div><div class="hf-col-title" style="color:#EF9F27">App Push</div>${fnSteps([{label:'Enviados',v:ap.s},{label:'Entregues',v:ap.d},{label:'Aberturas',v:ap.o}],'#EF9F27')}<div style="font-size:10px;color:#888780;margin-top:5px">Compras disponíveis no GA4</div></div>`;
+  document.getElementById('hf-totals').innerHTML=`<div class="mk" style="background:${col}15;border:1px solid ${col}33"><div class="ml">Compras (Web Push + E-mail)</div><div class="mv">${fN(wp.cv+em.cv)}</div></div><div class="mk" style="background:${col}15;border:1px solid ${col}33"><div class="ml">Revenue atribuído (Insider)</div><div class="mv">${fR(Math.round((fn.wp.rev+fn.em.rev)*sc))}</div></div>`;
+  const wS=ef.reduce((a,e)=>a+e.ws,0),wV=ef.reduce((a,e)=>a+e.wv,0),wR=ef.reduce((a,e)=>a+e.wr,0);
+  const aCtr=(ef.reduce((a,e)=>a+e.wc,0)/ef.length).toFixed(2);
+  const eV=ef.reduce((a,e)=>a+e.ev,0),eR=ef.reduce((a,e)=>a+e.er,0);
+  const eF=ef.filter(e=>e.eo>0),aOp=eF.length?(eF.reduce((a,e)=>a+e.eo,0)/eF.length).toFixed(1):'—';
+  const apT=ef.reduce((a,e)=>a+e.ao,0);
+  document.getElementById('kwp').innerHTML=`<div class="mk"><div class="ml">Enviados</div><div class="mv">${fmt(wS)}</div></div><div class="mk"><div class="ml">CTR médio</div><div class="mv">${aCtr}%</div><div class="ms neu">cliques ÷ entregues</div></div><div class="mk"><div class="ml">Conversões</div><div class="mv">${fN(wV)}</div></div><div class="mk"><div class="ml">Revenue</div><div class="mv">${fR(wR)}</div></div>`;
+  document.getElementById('kem').innerHTML=`<div class="mk"><div class="ml">Enviados</div><div class="mv">${fmt(d.em.s)}</div></div><div class="mk"><div class="ml">Abertura média</div><div class="mv">${aOp}%</div></div><div class="mk"><div class="ml">Conversões</div><div class="mv">${fN(eV)}</div></div><div class="mk"><div class="ml">Revenue</div><div class="mv">${fR(eR)}</div></div>`;
+  document.getElementById('kap').innerHTML=`<div class="mk"><div class="ml">Entregues</div><div class="mv">${fmt(d.ap.d)}</div></div><div class="mk"><div class="ml">Taxa de abertura</div><div class="mv">${d.ap.opr}%</div></div><div class="mk"><div class="ml">Aberturas</div><div class="mv">${fN(apT)}</div></div><div class="mk"><div class="ml">Revenue</div><div class="mv" style="font-size:11px;color:#888780">Ver GA4</div></div>`;
+  document.getElementById('rwld').style.background=col+'88';
+  dc('cwp');dc('cem');dc('crev');
+  const lbs=ef.map(e=>'Ed.'+e.ed);
+  ch['cwp']=new Chart(document.getElementById('cwp'),{type:'bar',data:{labels:lbs,datasets:[{label:'Entregues',data:ef.map(e=>e.wd),backgroundColor:col+'44',yAxisID:'y'},{label:'Conv.',data:ef.map(e=>e.wv),type:'line',borderColor:col,backgroundColor:'transparent',borderDash:[4,3],yAxisID:'y1',tension:0.3},{label:'Rev.',data:ef.map(e=>e.wr),type:'line',borderColor:'#D85A30',backgroundColor:'transparent',borderDash:[2,2],yAxisID:'y1',tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{autoSkip:ef.length>12,maxRotation:45,font:{size:10}}},y:{ticks:{callback:v=>fmt(v),font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{font:{size:10}}}}}});
+  ch['cem']=new Chart(document.getElementById('cem'),{type:'line',data:{labels:lbs,datasets:[{label:'Abertura %',data:ef.map(e=>e.eo||null),borderColor:'#7F77DD',backgroundColor:'transparent',tension:0.3,spanGaps:false},{label:'CTR %',data:ef.map(e=>e.ec||null),borderColor:'#EF9F27',backgroundColor:'transparent',borderDash:[4,3],tension:0.3,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{autoSkip:ef.length>12,maxRotation:45,font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}}}}});
+  ch['crev']=new Chart(document.getElementById('crev'),{type:'bar',data:{labels:lbs,datasets:[{label:'WP',data:ef.map(e=>e.wr),backgroundColor:col+'88'},{label:'Email',data:ef.map(e=>e.er),backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{autoSkip:ef.length>12,maxRotation:45,font:{size:10}}},y:{stacked:true,ticks:{callback:v=>'R$'+fmt(v),font:{size:10}}}}}});
+  document.getElementById('etbl').innerHTML=ef.map(e=>`<tr${e.ed==D[cap].ed5.ed?' style="background:#EF9F270A"':''}><td><b>${e.ed}</b>${e.ed==D[cap].ed5.ed?'<span style="font-size:9px;color:#EF9F27;margin-left:3px">R$5</span>':''}</td><td>${e.dt}</td><td>${fmt(e.ws)}</td><td>${fP(e.wc)}</td><td>${fN(e.wv)}</td><td>${fR(e.wr)}</td><td>${e.eo>0?fP(e.eo):'—'}</td><td>${e.ec>0?fP(e.ec):'—'}</td><td>${e.ev>0?fN(e.ev):'—'}</td><td>${e.er>0?fR(e.er):'—'}</td><td>${e.ao>0?fN(e.ao):'—'}</td></tr>`).join('');
+}
+
+function rRank(){
+  const d=D[cap];
+  const cv=[{ch:'Web Push',v:d.wp.cvr,l:(d.wp.cvr).toFixed(3)+'% por entregue',c:'#378ADD'},{ch:'E-mail',v:d.em.cv/d.em.s*100,l:(d.em.cv/d.em.s*100).toFixed(3)+'% por enviado',c:'#7F77DD'},{ch:'App Push',v:null,l:'Ver GA4',c:'#EF9F27'}];
+  const mx=Math.max(...cv.filter(x=>x.v).map(x=>x.v));
+  document.getElementById('chcv').innerHTML=cv.map(x=>`<div class="cr"><div class="cnm">${x.ch}</div><div class="cbw"><div class="cbf" style="width:${x.v?Math.round(x.v/mx*100):4}%;background:${x.v?x.c:'#D3D1C7'}"></div></div><div class="cvl">${x.l}</div></div>`).join('');
+  const rv=[{ch:'App Push',v:d.ap.opr,l:d.ap.opr+'% abertura',c:'#EF9F27'},{ch:'E-mail',v:d.em.op,l:d.em.op+'% abertura',c:'#7F77DD'},{ch:'Web Push',v:d.wp.ctr,l:d.wp.ctr+'% CTR',c:'#378ADD'}];
+  const mr=Math.max(...rv.map(x=>x.v));
+  document.getElementById('chrch').innerHTML=rv.map(x=>`<div class="cr"><div class="cnm">${x.ch}</div><div class="cbw"><div class="cbf" style="width:${Math.round(x.v/mr*100)}%;background:${x.c}"></div></div><div class="cvl">${x.l}</div></div>`).join('');
+  document.getElementById('wpb').innerHTML=d.wpb.map(r=>`<tr class="hi"><td>${r.ed}</td><td>${r.dt}</td><td>${fmt(r.dl)}</td><td>${r.ctr}%</td><td>${fN(r.cv)}</td><td>${fR(r.rv)}</td></tr>`).join('');
+  document.getElementById('wpw').innerHTML=d.wpw.map(r=>`<tr class="lo"><td>${r.ed}</td><td>${r.dt}</td><td>${fmt(r.dl)}</td><td>${r.ctr}%</td><td>${fN(r.cv)}</td><td>${fR(r.rv)}</td></tr>`).join('');
+  document.getElementById('emb').innerHTML=d.emb.map(r=>`<tr class="hi"><td>${r.ed}</td><td>${r.dt}</td><td>${fmt(r.sn)}</td><td>${r.op}%</td><td>${r.ctr}%</td><td>${fR(r.rv)}</td></tr>`).join('');
+  document.getElementById('emw').innerHTML=d.emw.map(r=>`<tr class="lo"><td>${r.ed}</td><td>${r.dt}</td><td>${fmt(r.sn)}</td><td>${r.op}%</td><td>${r.ctr}%</td><td>${fR(r.rv)}</td></tr>`).join('');
+  document.getElementById('apb').innerHTML=d.apb.map(r=>`<tr class="hi"><td>${r.ed}</td><td>${r.dt}</td><td>${fmt(r.dl)}</td><td>${r.op}%</td><td>${fN(r.os)}</td></tr>`).join('');
+  document.getElementById('chins').innerHTML=[
+    {e:'⬇️',t:`CTR do Web Push caiu de ${d.wpb[0].ctr}% (ed.${d.wpb[0].ed}) para ${d.wpw[0].ctr}% (ed.${d.wpw[0].ed}). Base cresceu — mais usuários novos com menor engajamento.`},
+    {e:'📧',t:`Abertura do e-mail caiu de ~${d.emb[0].op}% para ~${d.emw[0].op}%. Causa: crescimento de base (veja Análise de copy).`},
+    {e:'📱',t:`App Push tem maior taxa de abertura (${d.ap.opr}%). Usuários com app instalado têm maior intenção de compra.`},
+    {e:'💰',t:`Web Push gera maior revenue direto. E-mail tem maior alcance. Combinar os dois nas edições de ticket maior amplifica o resultado.`}
+  ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+}
+
+function rBase(){
+  const b=D[cap].base,col=D[cap].col;
+  document.getElementById('bnote').textContent=`Base de dados atualizada em 21/05/2026 via Insider — ${D[cap].l}.`;
+  const bfSteps=[
+    {icon:'🏠',bg:col+'22',c:col,t:'Base total Insider',s:'Todos os cadastros registrados',v:b.total_base,p:100},
+    {icon:'🛒',bg:'#1D9E7522',c:'#1D9E75',t:'Com compra registrada',s:'Realizaram ao menos 1 compra (qualquer data)',v:b.com_compra,p:Math.round(b.com_compra/b.total_base*100)},
+    {icon:'💻',bg:'#378ADD22',c:'#378ADD',t:'Base online ativa',s:'Compraram pelo canal digital (site/app)',v:b.online_total,p:Math.round(b.online_total/b.total_base*100)},
+    {icon:'📅',bg:'#7F77DD22',c:'#7F77DD',t:'Compradores em 2026',s:'Última compra a partir de janeiro de 2026',v:b.compradores_2026,p:Math.round(b.compradores_2026/b.total_base*100)},
+    {icon:'🔄',bg:'#EF9F2722',c:'#EF9F27',t:'Recorrentes (fiéis)',s:'Compraram em 3 ou mais semanas seguidas',v:b.recorrentes,p:Math.round(b.recorrentes/b.total_base*100)},
+  ];
+  document.getElementById('base-funnel').innerHTML=bfSteps.map((s,i)=>`
+    <div class="bfs"><div class="bfs-ico" style="background:${s.bg}">${s.icon}</div><div class="bfs-lbl"><div class="bfs-t">${s.t}</div><div class="bfs-s">${s.s}</div></div><div class="bfs-v" style="color:${s.c}">${fN(s.v)}</div><div class="bfs-p">${s.p}%</div></div>
+    ${i<bfSteps.length-1?`<div style="padding:2px 0 2px 37px;font-size:9px;color:#888780">▼ ${Math.round(bfSteps[i+1].v/s.v*100)}% avança</div>`:''}`).join('');
+  const note=cap!=='mc'?` <b>Atenção:</b> a Insider captura ~${D[cap].metas.captura_pct}% dos novos reais em ${D[cap].metas.captura_mes} — o número real é maior.`:'';
+  document.getElementById('novos-stats').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px"><div class="mk"><div class="ml">Novos cadastros 2026</div><div class="mv">${fN(b.novos_cad_2026)}</div></div><div class="mk"><div class="ml">Compraram</div><div class="mv up">${fN(b.novos_com_compra)}</div><div class="ms up">${pct(b.novos_com_compra,b.novos_cad_2026)} dos novos</div></div><div class="mk"><div class="ml">Não compraram</div><div class="mv dn">${fN(b.novos_sem_compra)}</div></div></div><div style="font-size:11px;color:#636057;line-height:1.5">${note}</div>`;
+  dc('crec');
+  const rcL=['0–7d','8–14d','15–30d','31–60d','61–90d','91–365d','365d+'];
+  document.getElementById('recld').style.background=col;
+  ch['crec']=new Chart(document.getElementById('crec'),{type:'bar',data:{labels:rcL,datasets:[{data:b.rec,backgroundColor:col+'88'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>fmt(v),font:{size:10}}}}}});
+  rBProf();
+  document.getElementById('correlacoes').innerHTML=[
+    {e:'👴',t:`<b>Fiéis são mais velhos que a média da base.</b> Idade média total: ${b.avg_age_tot} anos · compradores: ${b.avg_age_comp} anos. Faixa 35–54 domina nos fiéis.`},
+    {e:'🏙️',t:`<b>Cidades dos fiéis espelham as dos compradores gerais.</b> Penetração geográfica uniforme — sem cidade que "retenha" desproporcionalmente.`},
+    {e:'⚧',t:`<b>Nos fiéis, "Não informado" cai muito.</b> Perfil mais completo. Masc./Fem. ficam próximos (${Math.round(b.gender_fiel.M/(b.gender_fiel.M+b.gender_fiel.F)*100)}% vs ${Math.round(b.gender_fiel.F/(b.gender_fiel.M+b.gender_fiel.F)*100)}%).`},
+    {e:'📧',t:`<b>Engajamento de e-mail é correlato à recorrência.</b> ${fN(b.open_2026)} abriram e-mail em 2026. Segmentar fiéis em listas de alta abertura aumenta o ticket médio.`},
+    {e:'🏆',t:`<b>Ganhadores históricos tendem a comprar mais.</b> ${fN(b.ganhadores)} já foram sorteados. Melhor argumento de prova social e maior LTV.`}
+  ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+  const rp=(b.recorrentes/b.compradores_2026*100).toFixed(0),cp=(b.churn_1x/b.compradores_2026*100).toFixed(0);
+  document.getElementById('bins').innerHTML=[
+    {e:'⚠️',t:`${fN(b.dormentes)} clientes sem compra há 31+ dias. Candidatos ideais para reativação.`},
+    {e:'👤',t:`${fN(b.churn_1x)} clientes (${cp}%) compraram 1 vez e pararam. Jornada automática nos primeiros 14 dias pode reduzir esse número.`},
+    {e:'⭐',t:`${fN(b.recorrentes)} recorrentes de 3+ semanas (${rp}%). Maior propensão a comprar edições de ticket mais alto.`},
+    {e:'📧',t:`${fN(b.open_2026)} abriram e-mail em 2026. Segmentar campanhas para esse subgrupo tende a aumentar conversão.`},
+    {e:'📱',t:`97%+ da base acessa via mobile browser. Todo criativo deve ser validado no mobile antes de ir ao ar.`}
+  ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+}
+
+function rBProf(){
+  const b=D[cap].base,col=D[cap].col,m=profileMode;
+  const ag={tot:b.age_tot,comp:b.age_comp,fiel:b.age_fiel}[m];
+  const gn={tot:b.gender_tot,comp:b.gender_comp,fiel:b.gender_fiel}[m];
+  const ci={tot:b.cities_tot,comp:b.cities_comp,fiel:b.cities_fiel}[m];
+  const avg={tot:b.avg_age_tot,comp:b.avg_age_comp,fiel:b.avg_age_fiel}[m];
+  dc('cage');dc('cgdr');
+  ch['cage']=new Chart(document.getElementById('cage'),{type:'bar',data:{labels:['18–24','25–34','35–44','45–54','55–64','65+'],datasets:[{data:['18','25','35','45','55','65'].map(k=>ag[k]||0),backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>fmt(v),font:{size:10}}}}}});
+  const gM=gn.M||0,gF=gn.F||0,gN=gn.N||0,gT=gM+gF+gN;
+  document.getElementById('gleg').innerHTML=`<span><span class="ld" style="background:${col}"></span>Masculino ${Math.round(gM/gT*100)}% (${fN(gM)})</span><span><span class="ld" style="background:#D4537E"></span>Feminino ${Math.round(gF/gT*100)}% (${fN(gF)})</span><span><span class="ld" style="background:#D3D1C7"></span>N/I ${Math.round(gN/gT*100)}%</span>`;
+  ch['cgdr']=new Chart(document.getElementById('cgdr'),{type:'doughnut',data:{labels:['Masc.','Fem.','N/I'],datasets:[{data:[gM,gF,gN],backgroundColor:[col,'#D4537E','#D3D1C7'],borderWidth:2,borderColor:'transparent'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+  const mxC=Math.max(...ci.map(([,v])=>v),1);
+  document.getElementById('cities').innerHTML=ci.map(([c,n])=>`<div class="cy"><div class="cyn"><span>${c}</span><span style="color:#636057">${fN(n)}</span></div><div class="cyb"><div class="bf" style="width:${Math.round(n/mxC*100)}%;background:${col}"></div></div></div>`).join('');
+  document.getElementById('profile-avg-age').textContent=`${{tot:'Base total',comp:'Compradores 2026',fiel:'Fiéis (3+ semanas)'}[m]} — idade média: ${avg} anos`;
+}
+
+function rEd5(){
+  const e=D[cap].ed5,col=D[cap].col;
+  const aPct=(e.antigos/e.total*100).toFixed(1);
+  const nPct=(e.novos/e.total*100).toFixed(1);
+  const aCont=(e.antigos_ret/Math.max(e.antigos,1)*100).toFixed(0);
+  const nCont=(e.novos_ret/Math.max(e.novos,1)*100).toFixed(0);
+  const alertHtml=e.alerta?`<div class="nb alert" style="margin-bottom:.8rem">⚠️ ${e.alerta}<br><strong>Sistema interno (${e.cap_mes}):</strong> ${fN(e.cap_sistema)} novos · <strong>Insider:</strong> ${fN(e.cap_insider_n)} (${e.cap_insider_pct}%)</div>`:`<div class="nb ok" style="margin-bottom:.8rem">✓ Captura da Insider (${e.cap_mes}): ${fN(e.cap_insider_n)} de ${fN(e.cap_sistema)} novos do sistema interno (${e.cap_insider_pct}%). Cobertura adequada para esta análise.</div>`;
+  document.getElementById('ed5-content').innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:.8rem;flex-wrap:wrap">
+      <div style="background:#EF9F2718;border:1px solid #EF9F27;border-radius:99px;font-size:12px;font-weight:700;color:#c47a00;padding:4px 14px">⭐ Edição especial R$${e.price} — Ed. ${e.ed} · ${D[cap].l}</div>
+      <div style="font-size:11px;color:#636057">Cruzamento com ${e.next} · 100% de cobertura por UUID</div>
+    </div>
+    ${alertHtml}
+    <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(135px,1fr));margin-bottom:.8rem">
+      <div class="mk"><div class="ml">Compradores na edição</div><div class="mv">${fN(e.total)}</div></div>
+      <div class="mk"><div class="ml">Clientes antigos</div><div class="mv">${fN(e.antigos)}</div><div class="ms up">${aPct}% — cadastro anterior</div></div>
+      <div class="mk"><div class="ml">Clientes novos${e.alerta?' ⚠️':''}</div><div class="mv">${fN(e.novos)}</div><div class="ms neu">${nPct}%${e.alerta?' (subrepresentado)':''}</div></div>
+      <div class="mk"><div class="ml">Voltaram nas próximas</div><div class="mv" style="color:${rC(e.retained_pct)}">${fN(e.retained)}</div><div class="ms" style="color:${rC(e.retained_pct)}">${e.retained_pct}% de retenção real</div></div>
+      <div class="mk"><div class="ml">Não voltaram</div><div class="mv dn">${fN(e.not_retained)}</div><div class="ms dn">${e.not_retained_pct}% — alvo de reativação</div></div>
+      <div class="mk"><div class="ml">Novos nas edições seguintes</div><div class="mv neu">${fN(e.new_in_next)}</div><div class="ms neu">não compraram ed. R$${e.price}</div></div>
+    </div>
+    <div class="card"><div class="ct2">Fluxo — quem eram e o que fizeram nas ${e.next}</div>
+      <div class="sankey">
+        <div class="sk-col"><div class="sk-block" style="background:${col}18;border:1px solid ${col}44"><span class="sk-val" style="color:${col}">${fN(e.total)}</span><span class="sk-lbl" style="color:${col}">compradores Ed. ${e.ed} R$${e.price}</span></div></div>
+        <div class="sk-arr">→</div>
+        <div class="sk-col">
+          <div class="sk-block" style="background:#1D9E7512;border:1px solid #1D9E7533"><span class="sk-val" style="color:#1D9E75">${fN(e.antigos)}</span><span class="sk-lbl" style="color:#1D9E75">antigos (${aPct}%)</span><span class="sk-pct" style="color:#1D9E75">${aCont}% retiveram</span></div>
+          <div class="sk-block" style="background:#7F77DD12;border:1px solid #7F77DD33"><span class="sk-val" style="color:#7F77DD">${fN(e.novos)}</span><span class="sk-lbl" style="color:#7F77DD">novos (${nPct}%)${e.alerta?' ⚠️':''}</span><span class="sk-pct" style="color:#7F77DD">${nCont}% retiveram</span></div>
+          <div class="sk-block" style="background:#88878012;border:1px solid #88878033"><span class="sk-val" style="color:#888780">${fN(e.sem_data)}</span><span class="sk-lbl" style="color:#888780">sem data (${(e.sem_data/e.total*100).toFixed(0)}%)</span></div>
+        </div>
+        <div class="sk-arr">→</div>
+        <div class="sk-col">
+          <div class="sk-block" style="background:#1D9E7518;border:1px solid #1D9E7555"><span class="sk-val" style="color:#1D9E75">${fN(e.retained)}</span><span class="sk-lbl" style="color:#1D9E75">voltaram nas ${e.next}</span><span class="sk-pct" style="color:#1D9E75">${e.retained_pct}%</span></div>
+          <div class="sk-block" style="background:#D85A3012;border:1px solid #D85A3033"><span class="sk-val" style="color:#D85A30">${fN(e.not_retained)}</span><span class="sk-lbl" style="color:#D85A30">não voltaram</span><span class="sk-pct" style="color:#D85A30">${e.not_retained_pct}%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cg">
+      <div class="card"><div class="ct2">Retenção real — antigos vs novos</div>
+        <div class="ret-row"><div class="ret-label">Clientes antigos</div><div class="ret-bw"><div class="ret-bf" style="width:${e.antigos_ret_pct}%;background:#1D9E75"><span class="ret-bt">${fN(e.antigos_ret)} de ${fN(e.antigos)}</span></div></div><div class="ret-val" style="color:#1D9E75">${e.antigos_ret_pct}%</div></div>
+        <div class="ret-row"><div class="ret-label">Clientes novos${e.alerta?' ⚠️':''}</div><div class="ret-bw"><div class="ret-bf" style="width:${e.novos_ret_pct}%;background:#7F77DD"><span class="ret-bt">${fN(e.novos_ret)} de ${fN(e.novos)}</span></div></div><div class="ret-val" style="color:#7F77DD">${e.novos_ret_pct}%</div></div>
+        <div class="ret-row"><div class="ret-label">Total geral</div><div class="ret-bw"><div class="ret-bf" style="width:${e.retained_pct}%;background:${rC(e.retained_pct)}"><span class="ret-bt">${fN(e.retained)} de ${fN(e.total)}</span></div></div><div class="ret-val" style="color:${rC(e.retained_pct)}">${e.retained_pct}%</div></div>
+        <div style="font-size:10px;color:#888780;margin-top:7px">Antigos retêm ${(e.antigos_ret_pct-e.novos_ret_pct).toFixed(1)}pp a mais que novos.${e.alerta?' ⚠️ Novos subrepresentados — retenção real pode ser diferente.':''}</div>
+      </div>
+      <div class="card"><div class="ct2">Faixa etária dos compradores</div><div class="cw" style="height:180px"><canvas id="e5cage"></canvas></div></div>
+    </div>
+    <div class="cg">
+      <div class="card"><div class="ct2">Top 5 cidades</div><div id="e5cities"></div></div>
+      <div class="card"><div class="ct2">Gênero</div><div class="leg" id="e5gleg"></div><div class="cw" style="height:160px"><canvas id="e5cgdr"></canvas></div></div>
+      <div class="card"><div class="ct2">Voltaram vs não voltaram — por gênero</div><div class="cw" style="height:160px"><canvas id="e5prof"></canvas></div></div>
+    </div>
+    <div class="card"><div class="ct2">Comparativo das três caps — edições de R$5</div>
+      <table><thead><tr><th style="width:18%">Cap</th><th style="width:10%;text-align:right">Ed.</th><th style="width:14%;text-align:right">Compradores</th><th style="width:14%;text-align:right">Voltaram</th><th style="width:14%;text-align:right">Retenção</th><th style="width:15%;text-align:right">Ret. antigos</th><th style="width:15%;text-align:right">Ret. novos</th></tr></thead>
+      <tbody>${Object.entries(D).map(([k,c])=>`<tr style="${k===cap?'background:'+c.col+'0A':''}"><td><span style="display:inline-flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:${c.col};display:inline-block;flex-shrink:0"></span>${c.l}</span></td><td style="text-align:right">${c.ed5.ed}</td><td style="text-align:right;font-weight:600">${fN(c.ed5.total)}</td><td style="text-align:right">${fN(c.ed5.retained)}</td><td style="text-align:right"><span class="comp-badge" style="background:${rC(c.ed5.retained_pct)}22;color:${rC(c.ed5.retained_pct)}">${c.ed5.retained_pct}%</span></td><td style="text-align:right;color:#1D9E75;font-weight:600">${c.ed5.antigos_ret_pct}%</td><td style="text-align:right;color:#7F77DD">${c.ed5.novos_ret_pct}%${c.ed5.alerta?' ⚠️':''}</td></tr>`).join('')}</tbody>
+      </table>
+      <div style="font-size:10px;color:#888780;margin-top:7px">⚠️ SM e SV: captura Insider de 17–18% dos novos em fev/2026. Dados de novos subrepresentados por problema de integração de base.</div>
+    </div>
+    <div class="card"><div class="ct2">Inteligência da edição R$${e.price} — ${D[cap].l}</div>
+      <div class="ir"><div class="ii" style="background:#EAF3DE;font-size:14px">🔄</div><div style="font-size:11px;line-height:1.6"><b>${e.retained_pct}% de retenção real.</b> ${fN(e.retained)} de ${fN(e.total)} compradores apareceram nas ${e.next}.</div></div>
+      <div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">👥</div><div style="font-size:11px;line-height:1.6"><b>Antigos retêm ${aCont}% vs ${nCont}% dos novos.</b> A edição de R$${e.price} funciona como reativação de clientes conhecidos. Novos precisam de jornada estruturada para criar hábito.</div></div>
+      <div class="ir"><div class="ii" style="background:#FFF8EC;font-size:14px">🎯</div><div style="font-size:11px;line-height:1.6"><b>${fN(e.not_retained)} não voltaram (${e.not_retained_pct}%).</b> Segmento mais quente para reativação — já compraram o produto e conhecem a marca.</div></div>
+    </div>
+  `;
+  dc('e5cage');dc('e5cgdr');dc('e5prof');
+  const ak=Object.keys(e.age_dist),av=Object.values(e.age_dist);
+  ch['e5cage']=new Chart(document.getElementById('e5cage'),{type:'bar',data:{labels:ak,datasets:[{data:av,backgroundColor:col+'88'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>fmt(v),font:{size:10}}}}}});
+  const gM=e.gender.M||0,gF=e.gender.F||0,gNI=e.gender.NI||0,gT=gM+gF+gNI;
+  document.getElementById('e5gleg').innerHTML=`<span><span class="ld" style="background:${col}"></span>Masc. ${Math.round(gM/gT*100)}% (${fN(gM)})</span><span><span class="ld" style="background:#D4537E"></span>Fem. ${Math.round(gF/gT*100)}% (${fN(gF)})</span><span><span class="ld" style="background:#D3D1C7"></span>N/I ${Math.round(gNI/gT*100)}%</span>`;
+  ch['e5cgdr']=new Chart(document.getElementById('e5cgdr'),{type:'doughnut',data:{labels:['Masc.','Fem.','N/I'],datasets:[{data:[gM,gF,gNI],backgroundColor:[col,'#D4537E','#D3D1C7'],borderWidth:2,borderColor:'transparent'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+  ch['e5prof']=new Chart(document.getElementById('e5prof'),{type:'bar',data:{labels:['Masculino','Feminino','N/I'],datasets:[{label:'Voltaram',data:[e.ret_gender.M||0,e.ret_gender.F||0,e.ret_gender.NI||0],backgroundColor:'#1D9E7577'},{label:'Não voltaram',data:[e.lost_gender.M||0,e.lost_gender.F||0,e.lost_gender.NI||0],backgroundColor:'#D85A3044'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10},boxWidth:10}}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v>=1000?Math.round(v/1000)+'k':v,font:{size:10}}}}}});
+  const mxC=Math.max(...e.cities.map(([,v])=>v),1);
+  document.getElementById('e5cities').innerHTML=e.cities.map(([c,n])=>`<div class="cy"><div class="cyn"><span>${c}</span><span style="color:#636057">${fN(n)}</span></div><div class="cyb"><div class="bf" style="width:${Math.round(n/mxC*100)}%;background:${col}"></div></div></div>`).join('');
+}
+
+function rMetas(){
+  const m=D[cap].metas,col=D[cap].col,lbl=D[cap].l;
+  document.getElementById('metas-note').textContent=`Metas de faturamento CRM e ROAS por edição — ${lbl}. Faturamento = revenue atribuído ao CRM via Insider. ROAS = faturamento ÷ investimento.`;
+  document.getElementById('meta-ld-e').style.background=col;
+  document.getElementById('meta-ld-r').style.background=col;
+  const allEds=[];m.meses.forEach(mes=>mes.eds.forEach(e=>allEds.push({...e,mes:mes.mes})));
+  const wB=allEds.filter(e=>e.mf!=null&&e.ef!=null);
+  const totMeta=allEds.filter(e=>e.mf).reduce((a,e)=>a+e.mf,0);
+  const totEnt=allEds.filter(e=>e.ef!=null).reduce((a,e)=>a+e.ef,0);
+  const avgAt=wB.length?Math.round(wB.reduce((a,e)=>a+e.ef/e.mf*100,0)/wB.length):0;
+  const acima=wB.filter(e=>e.ef>=e.mf).length,abaixo=wB.filter(e=>e.ef<e.mf).length;
+  document.getElementById('metas-kpis').innerHTML=`
+    <div class="mk"><div class="ml">Total faturado (edições com dado)</div><div class="mv">${fR(totEnt)}</div></div>
+    <div class="mk"><div class="ml">Total meta (edições com meta)</div><div class="mv">${fR(totMeta)}</div></div>
+    <div class="mk"><div class="ml">Atingimento médio</div><div class="mv" style="color:${avgAt>=100?'#1D9E75':avgAt>=85?'#EF9F27':'#D85A30'}">${avgAt}%</div><div class="ms neu">edições com meta e resultado</div></div>
+    <div class="mk"><div class="ml">Acima da meta</div><div class="mv up">${acima} edições ✓</div></div>
+    <div class="mk"><div class="ml">Abaixo da meta</div><div class="mv dn">${abaixo} edições ✗</div></div>
+  `;
+  dc('c-fat');dc('c-roas');dc('c-ating');
+  const lbs=allEds.map(e=>`Ed.${e.ed}`);
+  ch['c-fat']=new Chart(document.getElementById('c-fat'),{type:'bar',data:{labels:lbs,datasets:[{label:'Meta',data:allEds.map(e=>e.mf||null),backgroundColor:'#D3D1C744',borderColor:'#D3D1C7',borderWidth:1},{label:'Entregue',data:allEds.map(e=>e.ef||null),backgroundColor:col+'99'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45}},y:{ticks:{callback:v=>'R$'+fmt(v),font:{size:10}}}}}});
+  const roEds=allEds.filter(e=>e.er!=null||e.mr!=null);
+  ch['c-roas']=new Chart(document.getElementById('c-roas'),{type:'line',data:{labels:roEds.map(e=>`Ed.${e.ed}`),datasets:[{label:'Meta ROAS',data:roEds.map(e=>e.mr||null),borderColor:'#D85A30',backgroundColor:'transparent',borderDash:[5,3],tension:0.3,spanGaps:false},{label:'Entregue',data:roEds.map(e=>e.er||null),borderColor:col,backgroundColor:col+'22',fill:true,tension:0.3,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45}},y:{ticks:{font:{size:10}}}}}});
+  const atEds=wB,atVals=atEds.map(e=>Math.round(e.ef/e.mf*100));
+  const atCols=atVals.map(v=>v>=100?'#1D9E7599':v>=85?'#EF9F2799':'#D85A3099');
+  ch['c-ating']=new Chart(document.getElementById('c-ating'),{type:'bar',data:{labels:atEds.map(e=>`Ed.${e.ed}`),datasets:[{data:atVals,backgroundColor:atCols}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45}},y:{ticks:{callback:v=>v+'%',font:{size:10}}}}}});
+  document.getElementById('metas-detail').innerHTML=m.meses.map(mes=>`
+    <div style="margin-bottom:1rem">
+      <div class="month-hdr"><span>${mes.mes}</span><span style="font-size:11px;color:#636057;font-weight:400">${mes.te?fRf(mes.te)+' entregue'+(mes.tm?' / meta '+fRf(mes.tm):'')+'  ·  ROAS '+mes.tr:''}</span></div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th style="width:10%">Ed.</th><th style="width:8%">Valor</th><th style="width:16%">Meta fat.</th><th style="width:12%">ROAS meta</th><th style="width:16%">Entregue</th><th style="width:12%">ROAS ent.</th><th style="width:13%">Atingimento</th><th style="width:13%">Status ROAS</th></tr></thead>
+        <tbody>
+          ${mes.eds.map(e=>`<tr${e.ed5?' style="background:#EF9F270A"':''}>
+            <td><b>${e.ed}</b>${e.ed5?'<span style="font-size:9px;color:#EF9F27;margin-left:3px">R$5</span>':''}</td>
+            <td>R$${e.val}</td>
+            <td>${e.mf?fRf(e.mf):'<span style="color:#888780">—</span>'}</td>
+            <td>${e.mr||'<span style="color:#888780">—</span>'}</td>
+            <td>${e.ef!=null?fRf(e.ef):'<span style="color:#888780">—</span>'}</td>
+            <td>${e.er!=null?`<b>${e.er}</b>`:'<span style="color:#888780">—</span>'}</td>
+            <td>${mBadge(e.mf,e.ef)}</td>
+            <td>${rBadge(e.mr,e.er)}</td>
+          </tr>`).join('')}
+          ${mes.tm||mes.te?`<tr class="total-row"><td colspan="2">Total</td><td>${mes.tm?fRf(mes.tm):'—'}</td><td>${mes.tr||'—'}</td><td>${mes.te?fRf(mes.te):'—'}</td><td>${mes.tr?`<b>${mes.tr}</b>`:'—'}</td><td>${mBadge(mes.tm,mes.te)}</td><td>—</td></tr>`:''}
+        </tbody>
+      </table></div>
+    </div>`).join('');
+}
+
+function rCopy(){
+  const cc=cap,cpd=CP[cc],lbl=D[cc].l;
+  document.getElementById('ccat-title').textContent=`Taxa de abertura por categoria — ${lbl}`;
+  document.getElementById('cctr-title').textContent=`CTR por categoria — ${lbl}`;
+  document.getElementById('topen-title').textContent=`Top 10 por taxa de abertura — ${lbl}`;
+  document.getElementById('tworst-title').textContent=`Piores por taxa de abertura — ${lbl}`;
+  dc('ccop');dc('ccctr');dc('chour');dc('clen');dc('cdow');dc('cdec');
+  const cs=[...cpd.cats].sort((a,b)=>b.op-a.op),cc2=[...cpd.cats].sort((a,b)=>b.ctr-a.ctr);
+  const catL=c=>{const t=CATS.find(x=>x.c===c);return t?t.l:c;};
+  ch['ccop']=new Chart(document.getElementById('ccop'),{type:'bar',data:{labels:cs.map(c=>catL(c.c)),datasets:[{data:cs.map(c=>c.op),backgroundColor:cs.map(c=>cCol(c.c))}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>v+'%',font:{size:10}}},y:{ticks:{font:{size:10}}}}}});
+  ch['ccctr']=new Chart(document.getElementById('ccctr'),{type:'bar',data:{labels:cc2.map(c=>catL(c.c)),datasets:[{data:cc2.map(c=>c.ctr),backgroundColor:cc2.map(c=>cCol(c.c))}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>v+'%',font:{size:10}}},y:{ticks:{font:{size:10}}}}}});
+  const exK={mc:'exMC',sm:'exSM',sv:'exSV'};
+  document.getElementById('cat-explain').innerHTML=CATS.filter(ct=>cpd.cats.find(c=>c.c===ct.c)).map(ct=>`<div class="sr" style="flex-direction:column;align-items:flex-start;gap:3px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">${cBadge(ct.c)}<span style="font-size:11px;color:#636057">${ct.desc}</span></div><div style="font-size:10px;color:#888780;padding-left:2px"><strong>Exemplos (${lbl}):</strong> ${ct[exK[cc]]||'—'}</div></div>`).join('');
+  const mxE=Math.max(...Object.values(cpd.elem));
+  document.getElementById('elems').innerHTML=Object.entries(cpd.elem).map(([k,v])=>{const lm={sem_emoji:'Sem emoji',com_emoji:'Com emoji',sem_caps:'Sem caixa alta',com_caps:'Com caixa alta',com_pergunta:'Com pergunta',sem_pergunta:'Sem pergunta'};return`<div class="cr"><div class="cnm" style="font-weight:400">${lm[k]||k}</div><div class="cbw"><div class="cbf" style="width:${Math.round(v/mxE*100)}%;background:#7F77DD"></div></div><div class="cvl">${v.toFixed(1)}%</div></div>`;}).join('');
+  ch['chour']=new Chart(document.getElementById('chour'),{type:'bar',data:{labels:cpd.hour.map(h=>h.h),datasets:[{data:cpd.hour.map(h=>h.v),backgroundColor:'#EF9F2799'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}}}}});
+  ch['clen']=new Chart(document.getElementById('clen'),{type:'bar',data:{labels:cpd.len.map(l=>l.l),datasets:[{label:'Open %',data:cpd.len.map(l=>l.op),backgroundColor:'#7F77DD88',yAxisID:'y'},{label:'CTR %',data:cpd.len.map(l=>l.ctr),backgroundColor:'#EF9F2788',yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%',font:{size:10}}}}}});
+  ch['cdow']=new Chart(document.getElementById('cdow'),{type:'bar',data:{labels:cpd.dow.map(d=>d.d),datasets:[{data:cpd.dow.map(d=>d.v),backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}}}}});
+  document.getElementById('topen').innerHTML=cpd.topOpen.map((r,i)=>`<tr><td>${i+1}</td><td>${cBadge(r.cat)}</td><td style="white-space:normal;line-height:1.4">${r.s}</td><td>${fmt(r.sn)}</td><td style="color:#1D9E75;font-weight:700">${r.op.toFixed(1)}%</td><td>${r.ctr.toFixed(2)}%</td><td>${fR(r.rv)}</td></tr>`).join('');
+  document.getElementById('tworst').innerHTML=cpd.worst.map((r,i)=>`<tr><td>${i+1}</td><td>${cBadge(r.cat)}</td><td style="white-space:normal;line-height:1.4">${r.s}</td><td>${fmt(r.sn)}</td><td style="color:#D85A30">${r.op.toFixed(1)}%</td><td>${r.ctr.toFixed(2)}%</td><td>${fR(r.rv)}</td></tr>`).join('');
+  const dec=cpd.decay,colCap=D[cc].col;
+  document.getElementById('dec-ld1').style.background=colCap;
+  document.getElementById('dec-ld2').style.background=colCap;
+  document.getElementById('decay-note').textContent=`Envios médios saltaram de ~${Math.round(dec.sent[0]/1000)}k (${dec.months[0]}) para ~${Math.round(dec.sent[2]/1000)}k (${dec.months[2]}) — aumento de ${Math.round(dec.sent[2]/dec.sent[0])}×. Dentro de jan com 7–8 disparos por edição, a abertura fica estável. A queda ocorreu entre semanas, não dentro delas.`;
+  ch['cdec']=new Chart(document.getElementById('cdec'),{type:'line',data:{labels:dec.months,datasets:[{data:dec.open,borderColor:colCap,backgroundColor:'transparent',yAxisID:'y',tension:0.3,pointStyle:'circle'},{data:dec.sent.map(v=>Math.round(v/1000)),borderColor:colCap,backgroundColor:'transparent',borderDash:[5,3],yAxisID:'y1',tension:0.3,pointStyle:'triangle'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'k',font:{size:10}}}}}});
+  document.getElementById('cross').innerHTML=[
+    {e:'🏆',t:`<b>Resultado do sorteio = maior CTR.</b> ${cc==='mc'?'3.5%':cc==='sm'?'1.1%':'2.6%'} vs 0.2% de campanhas normais. Funciona especialmente para recorrentes.`},
+    {e:'👤',t:`<b>Personalização abre; resultado converte.</b> ${cc==='mc'?'"@minascap marcou você!" → 66%':cc==='sm'?'"Seu ano começa premiado!" → 55%':'"Super Vale está te esperando!" → 58%'}. CTR baixo sem urgência no conteúdo.`},
+    {e:'🕐',t:`<b>17h–20h é a janela ideal.</b> ${cpd.hour[0].v.toFixed(0)}% às ${cpd.hour[0].h}. Base é 97% mobile — disponível no fim do dia.`},
+    {e:'📝',t:`<b>Assuntos curtos (<30 chars) abrem ${Math.round(cpd.len[0].op/cpd.len[2].op)}× mais</b> que longos. No celular, assuntos longos são cortados.`},
+    {e:'🚫',t:`<b>Caixa alta e emoji derrubam a abertura.</b> Sem emoji: ${cpd.elem.sem_emoji}% vs com: ${cpd.elem.com_emoji}%. Usuário mobile associa MAIÚSCULAS + emoji com spam.`},
+    {e:'📈',t:`<b>Decaimento é de base.</b> Ed.503 (jan): 7–8 disparos, abertura estável 38–41%. A queda foi de uma semana para outra, volume saltou ${Math.round(dec.sent[2]/dec.sent[0])}×.`}
+  ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+}
+
+// INIT
+['camp','rank'].forEach(s=>{pF(s);flt[s]=D[cap].eds;});
+document.getElementById('ed5tab').textContent=`⭐ Ed. R$${D[cap].ed5.price} (Ed.${D[cap].ed5.ed})`;
+setTimeout(()=>rAll(),80);
+
+</script>
+</body>
+</html>
