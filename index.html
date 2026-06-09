@@ -138,7 +138,8 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
   </div>
 </div>
 <div class="tabs">
-  <button class="tab on"       onclick="showT('camp',this)">Campanhas</button>
+  <button class="tab on fechotab" onclick="showT('fecho',this)">📅 Fechamento</button>
+  <button class="tab"           onclick="showT('camp',this)">Campanhas</button>
   <button class="tab"          onclick="showT('rank',this)">Rankings</button>
   <button class="tab"          onclick="showT('base',this)">Base</button>
   <button class="tab"          onclick="showT('copy',this)">Análise de copy</button>
@@ -147,26 +148,52 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
   <button class="tab recontab" onclick="showT('recon',this)">🔍 GA4 vs Insider</button>
 </div>
 
-<!-- CAMPANHAS -->
-<div class="fb" id="global-fb" style="background:#f0efe9;border:1px solid #d3d1c7">
-  <label>Filtro global</label>
-  <div class="fsep"></div>
-  <label>De</label><input type="date" id="g-d1" onchange="gFilter()">
-  <label>até</label><input type="date" id="g-d2" onchange="gFilter()">
-  <div class="fsep"></div>
-  <label>Título</label>
-  <select id="g-val" onchange="gFilter()" style="width:65px">
-    <option value="all">Todos</option>
-    <option value="5">R$5</option>
-    <option value="10">R$10</option>
-    <option value="15">R$15</option>
-    <option value="20">R$20</option>
-    <option value="25">R$25</option>
-  </select>
-  <button onclick="gFilterReset()">✕</button>
+
+<!-- FECHAMENTO MENSAL -->
+<div id="t-fecho" class="sec on">
+  <div class="src"><span>📅 <strong>Fechamento mensal CRM</strong> — faturamento GA4 por edição e mês</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
+
+  <!-- Filtro por mês fechado -->
+  <div class="fb" style="background:#f0efe9;border:1px solid #d3d1c7;margin-bottom:.8rem">
+    <label style="font-size:11px;font-weight:600">Mês</label>
+    <select id="fecho-mes-sel" onchange="rFecho()" style="border:1px solid #d3d1c7;border-radius:4px;padding:3px 8px;font-size:12px;background:#fff">
+      <option value="">Todos os meses</option>
+    </select>
+    <button onclick="document.getElementById('fecho-mes-sel').value='';rFecho()" style="margin-left:4px">✕ Limpar</button>
+  </div>
+
+  <!-- Gráfico Fat x Mês com ROAS -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2">Fat. CRM x Mês — GA4 + ROAS</div>
+    <div class="nb" style="font-size:10px;margin-bottom:6px">Fonte: GA4. Edição alocada no mês do sorteio. Barras = faturamento (eixo esq.) | Linha laranja = ROAS | Linha tracejada = tendência log.</div>
+    <div class="cw" style="height:260px;padding-bottom:18px"><canvas id="c-fecho-mensal"></canvas></div>
+  </div>
+
+  <!-- Cards de resumo -->
+  <div id="fecho-cards-mai" style="margin-bottom:.8rem"></div>
+
+  <!-- Insights ACIMA da tabela -->
+  <div class="card" style="margin-bottom:.8rem"><div class="ct2">Destaques do fechamento</div><div id="fecho-insights"></div></div>
+
+  <!-- Pizza + Tabela lado a lado -->
+  <div class="cg">
+    <div class="card">
+      <div class="ct2">Fat. por edição — <span id="fecho-mes-lbl">Mai/2026</span></div>
+      <div class="cw" style="height:260px"><canvas id="c-fecho-eds"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct2">Detalhamento por edição</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Edição</th><th>Valor</th><th>Fat.</th><th>%</th></tr></thead>
+        <tbody id="fecho-tbl"></tbody>
+      </table></div>
+    </div>
+  </div>
 </div>
-<div id="t-camp" class="sec on">
-  <div class="src"><span>📊 <strong>Canal</strong> (enviados, entregues, aberturas, CTR): <strong>Insider</strong></span><span>|</span><span>🛒 <strong>Conversões e revenue</strong>: <strong>GA4</strong></span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
+
+<!-- CAMPANHAS -->
+<div id="t-camp" class="sec">
+  <div class="src"><span>📊 <strong>Canal</strong> (enviados, entregues, aberturas, CTR): <strong>Insider</strong></span><span>|</span><span>🛒 <strong>Conversões e revenue</strong>: <strong>GA4</strong></span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
   <div class="fb"><label>Edição</label><select id="c-ed" onchange="aF('camp')" style="width:80px"></select><div class="fsep"></div><label>De</label><input type="date" id="c-d1" onchange="aF('camp')"><label>até</label><input type="date" id="c-d2" onchange="aF('camp')"><button onclick="rF('camp')">✕</button></div>
 
   <!-- Funil geral em pé -->
@@ -220,7 +247,7 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 <!-- RANKINGS -->
 <div id="t-rank" class="sec">
-  <div class="src"><span>📊 Nome exato da campanha conforme cadastrado na <strong>Insider</strong> — copie o nome para buscar na plataforma.</span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
+  <div class="src"><span>📊 Nome exato da campanha conforme cadastrado na <strong>Insider</strong> — copie o nome para buscar na plataforma.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
   <div class="fb"><label>Edição</label><select id="r-ed" onchange="aF('rank')" style="width:80px"></select><div class="fsep"></div><label>De</label><input type="date" id="r-d1" onchange="aF('rank')"><label>até</label><input type="date" id="r-d2" onchange="aF('rank')"><button onclick="rF('rank')">✕</button></div>
   <div class="cg">
     <div class="card"><div class="ct2">Conversão por canal (GA4)</div><div id="chcv"></div></div>
@@ -242,7 +269,7 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 <!-- BASE -->
 <div id="t-base" class="sec">
-  <div class="src"><span>📊 Base exportada da <strong>Insider</strong>. Compras e revenue via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
+  <div class="src"><span>📊 Base exportada da <strong>Insider</strong>. Compras e revenue via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
   <div class="nb" id="bnote"></div>
 
   <div class="card"><div class="ct2" style="font-size:14px">🔽 Funil de base</div><div id="base-funnel"></div></div>
@@ -299,7 +326,7 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 <!-- COPY -->
 <div id="t-copy" class="sec">
-  <div class="src"><span>📊 Dados de campanhas via <strong>Insider</strong>.</span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
+  <div class="src"><span>📊 Dados de campanhas via <strong>Insider</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
   <div class="cg">
     <div class="card"><div class="ct2" id="ccat-title">Taxa de abertura por categoria</div><div class="cw" style="height:205px"><canvas id="ccop"></canvas></div></div>
     <div class="card"><div class="ct2" id="cctr-title">CTR por categoria</div><div class="cw" style="height:205px"><canvas id="ccctr"></canvas></div></div>
@@ -330,13 +357,13 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 <!-- ED5 -->
 <div id="t-ed5" class="sec">
-  <div class="src"><span>📊 Compradores via <strong>Insider</strong>. Revenue e compras por canal via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
+  <div class="src"><span>📊 Compradores via <strong>Insider</strong>. Revenue e compras por canal via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
   <div id="ed5-content"></div>
 </div>
 
 <!-- METAS -->
 <div id="t-metas" class="sec">
-  <div class="src"><span>📊 Faturamento e compras via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
+  <div class="src"><span>📊 Faturamento e compras via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
   <div class="nb warn">📐 <strong>Racional da meta:</strong> média histórica do faturamento por valor de título (desde jan/2026) + % de crescimento a confirmar.</div>
   <div class="nb" id="metas-note"></div>
   <div class="mg" id="metas-kpis" style="margin-bottom:.8rem"></div>
@@ -368,8 +395,32 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 <!-- GA4 vs INSIDER -->
 <div id="t-recon" class="sec">
-  <div class="src"><span>🔍 Comparativo <strong>GA4</strong> vs <strong>Insider</strong> — útil para validar mudanças de critério de atribuição.</span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
-  <div class="nb">Divergências são normais — cada plataforma usa critérios de atribuição diferentes. Use esta aba para monitorar se as divergências estão estáveis ou mudaram após alterações de configuração.</div>
+  <div class="src"><span>🔍 Comparativo <strong>GA4</strong> vs <strong>Insider</strong> — útil para validar mudanças de critério de atribuição.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.8rem">
+    <div style="background:#f0efe9;border:1px solid #d3d1c7;border-radius:8px;padding:12px">
+      <div style="font-size:11px;font-weight:700;color:#378ADD;text-transform:uppercase;margin-bottom:8px">Insider — Configuração de atribuição</div>
+      <div style="font-size:11px;color:#636057;line-height:1.7">
+        <div><strong>Modelo:</strong> Click-through</div>
+        <div style="margin-top:6px"><strong>Janelas por canal:</strong></div>
+        <div style="padding-left:10px;margin-top:2px">
+          <div>Email: <strong>14 dias</strong></div>
+          <div>App Push: <strong>6 horas</strong></div>
+          <div>Web Push ter–sex: <strong>6 horas</strong></div>
+          <div>Web Push sáb: <strong>variável</strong> (depende do horário do disparo)</div>
+          <div>Web Push dom (nova edição): <strong>10 horas</strong></div>
+          <div>Web Push seg (ganhadores): <strong>12 horas</strong></div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#f0efe9;border:1px solid #d3d1c7;border-radius:8px;padding:12px">
+      <div style="font-size:11px;font-weight:700;color:#D4537E;text-transform:uppercase;margin-bottom:8px">GA4 — Configuração de atribuição</div>
+      <div style="font-size:11px;color:#636057;line-height:1.7">
+        <div><strong>Modelo:</strong> <span style="color:#888780">a confirmar</span></div>
+        <div style="margin-top:6px"><strong>Janela:</strong> <span style="color:#888780">a confirmar</span></div>
+        <div style="margin-top:8px;font-size:10px;color:#888780;font-style:italic">Fontes GA4 consideradas: insider/web_push, insider/webpush, insider/email.<br>Excluídas: architect_web_push, architect_email, insider/insider.</div>
+      </div>
+    </div>
+  </div>
   <div class="card"><div class="ct2">Revenue — GA4 vs Insider (WP + Email) por edição</div><div class="cw" style="height:210px"><canvas id="c-recon-rev"></canvas></div></div>
   <div class="card"><div class="ct2">Detalhamento por edição</div><div id="recon-cards"></div></div>
   <div class="card"><div class="ct2">Insights de divergência</div><div id="recon-insights"></div></div>
@@ -377,10 +428,67 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 <script>
 const UPD='01/06/2026';
+
+const FECHO = {
+  mc:{
+    meses:[
+      {mes:'Nov/2025', total:71965, roas:1.5,
+       eds:[{ed:495,val:10,rv:71965}]},
+      {mes:'Dez/2025', total:139985, roas:2.9,
+       eds:[{ed:500,val:10,rv:139985}]},
+      {mes:'Jan/2026', total:142130, roas:3.0,
+       eds:[{ed:505,val:10,rv:31100},{ed:506,val:20,rv:54790},{ed:507,val:10,rv:38300},{ed:508,val:10,rv:17940}]},
+      {mes:'Fev/2026', total:164640, roas:3.4,
+       eds:[{ed:505,val:10,rv:31100},{ed:506,val:20,rv:54790},{ed:507,val:10,rv:38300},{ed:508,val:10,rv:40450}]},
+      {mes:'Mar/2026', total:239825, roas:5.0,
+       eds:[{ed:509,val:10,rv:37350},{ed:510,val:20,rv:62520},{ed:511,val:10,rv:50980},{ed:512,val:5,rv:62130},{ed:513,val:10,rv:26845}]},
+      {mes:'Abr/2026', total:165895, roas:3.2,
+       eds:[{ed:514,val:15,rv:36075},{ed:515,val:20,rv:43585},{ed:516,val:20,rv:41550},{ed:517,val:15,rv:35685}]},
+      {mes:'Mai/2026', total:243560, roas:5.0,
+       eds:[{ed:518,val:15,rv:36280},{ed:519,val:25,rv:97955},{ed:520,val:15,rv:39405},{ed:521,val:15,rv:34215},{ed:522,val:15,rv:35705}]}
+    ]
+  },
+  sm:{
+    meses:[
+      {mes:'Nov/2025', total:38925, roas:2.4,
+       eds:[{ed:411,val:10,rv:38925}]},
+      {mes:'Dez/2025', total:47635, roas:3.0,
+       eds:[{ed:415,val:10,rv:47635}]},
+      {mes:'Jan/2026', total:50840, roas:3.2,
+       eds:[{ed:419,val:15,rv:6600},{ed:420,val:15,rv:6110},{ed:421,val:10,rv:2710},{ed:422,val:15,rv:2520},{ed:423,val:10,rv:6070},{ed:424,val:10,rv:3770},{ed:425,val:5,rv:10820},{ed:426,val:20,rv:4300}]},
+      {mes:'Fev/2026', total:50065, roas:3.2,
+       eds:[{ed:423,val:10,rv:6070},{ed:424,val:10,rv:3770},{ed:425,val:5,rv:10820},{ed:426,val:20,rv:4300},{ed:427,val:20,rv:17525},{ed:428,val:15,rv:10430}]},
+      {mes:'Mar/2026', total:62125, roas:4.0,
+       eds:[{ed:426,val:15,rv:14130},{ed:427,val:20,rv:17525},{ed:428,val:15,rv:10430},{ed:429,val:10,rv:5770},{ed:430,val:15,rv:9645}]},
+      {mes:'Abr/2026', total:37645, roas:2.4,
+       eds:[{ed:431,val:20,rv:21565},{ed:432,val:15,rv:8610},{ed:433,val:15,rv:7470}]},
+      {mes:'Mai/2026', total:52765, roas:3.3,
+       eds:[{ed:434,val:15,rv:7930},{ed:435,val:20,rv:15755},{ed:436,val:15,rv:7375},{ed:437,val:15,rv:9955},{ed:438,val:15,rv:11750}]}
+    ]
+  },
+  sv:{
+    meses:[
+      {mes:'Nov/2025', total:14535, roas:1.3,
+       eds:[{ed:401,val:10,rv:14535}]},
+      {mes:'Dez/2025', total:15920, roas:1.4,
+       eds:[{ed:405,val:10,rv:15920}]},
+      {mes:'Jan/2026', total:17560, roas:1.5,
+       eds:[{ed:409,val:10,rv:2085},{ed:410,val:10,rv:2650},{ed:411,val:10,rv:1300},{ed:412,val:10,rv:945},{ed:413,val:15,rv:2040},{ed:414,val:10,rv:950},{ed:415,val:5,rv:5635},{ed:416,val:10,rv:810}]},
+      {mes:'Fev/2026', total:21105, roas:3.0,
+       eds:[{ed:414,val:10,rv:950},{ed:415,val:5,rv:5635},{ed:416,val:10,rv:810},{ed:417,val:10,rv:1960},{ed:418,val:10,rv:1860},{ed:419,val:10,rv:1630},{ed:420,val:10,rv:1450}]},
+      {mes:'Mar/2026', total:26475, roas:3.2,
+       eds:[{ed:417,val:10,rv:1960},{ed:418,val:10,rv:1860},{ed:419,val:10,rv:1630},{ed:420,val:10,rv:1450}]},
+      {mes:'Abr/2026', total:22164, roas:2.7,
+       eds:[{ed:421,val:10,rv:5520},{ed:422,val:15,rv:6345},{ed:423,val:10,rv:5330},{ed:424,val:10,rv:4970}]},
+      {mes:'Mai/2026', total:15080, roas:2.5,
+       eds:[{ed:426,val:20,rv:2250},{ed:427,val:10,rv:1990},{ed:428,val:10,rv:5070},{ed:429,val:10,rv:5770}]}
+    ]
+  }
+};
 const D={
-mc:{l:'Minas Cap',s:'Minas Cap · jan–mai 2026',col:'#639922',
-  wp:{s:33337317,d:13321309,ctr:0.99,cvr:0.055},em:{s:52807724,op:8.2,ctr:0.15},ap:{d:4457988,opr:0.85},
-  ga4_total:{rev:802505,comp:47181,sess:469593},
+mc:{l:'Minas Cap',s:'Minas Cap · jan–jun 2026',col:'#639922',
+  wp:{s:35455436,d:14113498,ctr:0.97,cvr:0.055},em:{s:53715656,op:8.1,ctr:0.15},ap:{d:4908618,opr:0.83},
+  ga4_total:{rev:1712660,comp:100175,sess:926173},
   ga4_hist:{total_r:6726201,total_c:392715,cats:{'CRM':{r:965182,c:55826},'Mídia paga':{r:1191006,c:71045},'Orgânico':{r:326016,c:18312},'Direto':{r:4145138,c:241377},'(not set)':{r:31524,c:1773},'Outros':{r:67336,c:4382}}},
   eds:[
     {ed:501,val:10,dt:'2025-12-30',ws:797112,wd:363628,wc:1.48,wr:12180,eo:48.70,ec:0.54,er:4150,ao:0,cg:934,rg:16330},
@@ -404,26 +512,28 @@ mc:{l:'Minas Cap',s:'Minas Cap · jan–mai 2026',col:'#639922',
     {ed:519,val:25,dt:'2026-05-07',ws:2245800,wd:881820,wc:0.77,wr:8395,eo:7.31,ec:0.16,er:18070,ao:810,cg:825,rg:26465},
     {ed:520,val:15,dt:'2026-05-14',ws:1890400,wd:854128,wc:0.76,wr:3310,eo:5.65,ec:0.06,er:3030,ao:714,cg:306,rg:6340},
     {ed:521,val:15,has_crm_ga4:true,insider_crm:11510,ga4_crm:30085,dt:'2026-05-18',ws:2689691,wd:997140,wc:0.95,wr:17095,eo:6.6,ec:null,er:12975,ao:2673,cg:1998,rg:34215},
-    {ed:522,val:15,insider_crm:8695,ga4_crm:32270,dt:'2026-05-24',ws:2540375,wd:941151,wc:0.83,wr:4855,eo:6.6,ec:null,er:5370,ao:2449,cg:1889,rg:35705}
+    {ed:522,val:15,insider_crm:8695,ga4_crm:32270,dt:'2026-05-24',ws:2540375,wd:941151,wc:0.83,wr:4855,eo:6.6,ec:null,er:5370,ao:2449,cg:1889,rg:35705},
+    {ed:523,val:15,has_crm_ga4:true,insider_crm:10110,ga4_recon:40615,ga4_crm:44170,dt:'2026-05-31',ws:2118119,wd:792189,wc:0.70,wr:4860,eo:6.55,ec:0.15,er:5250,ao:1661,cg:2349,rg:44170}
   ],
   wpb:[{n:'Ed.501 (30/12)',ed:501,dl:363628,ctr:1.48},{n:'Ed.504 (20/01)',ed:504,dl:238448,ctr:1.35},{n:'Ed.502 (07/01)',ed:502,dl:473747,ctr:1.24},{n:'Ed.506 (04/02)',ed:506,dl:437921,ctr:1.12},{n:'Ed.508 (19/02)',ed:508,dl:423033,ctr:1.11}],
-  wpw:[{n:'Ed.515 (07/04)',ed:515,dl:834595,ctr:0.74},{n:'Ed.514 (31/03)',ed:514,dl:850025,ctr:0.75},{n:'Ed.518 (26/04)',ed:518,dl:864308,ctr:0.75},{n:'Ed.520 (10/05)',ed:520,dl:854128,ctr:0.76},{n:'Ed.522 (24/05)',ed:522,dl:941151,ctr:0.83}],
-  emb:[{n:'MC - Ganhadores_25.05_compradores',ed:522,sn:5404,op:12.14,cv:24,rv:555},{n:'MC - Ganhadores_25.05_não_compradores',ed:522,sn:598520,op:7.34,cv:42,rv:825},{n:'MC - Filantropia_26.05',ed:522,sn:603674,op:7.00,cv:13,rv:255},{n:'MC - Premiação_ed522_quarta_sem_saldo',ed:522,sn:137737,op:7.73,cv:17,rv:405},{n:'MC - Premiação_ed522_quarta_com_saldo',ed:522,sn:11826,op:6.87,cv:2,rv:30}],
-  emw:[{n:'MC - Premiação_ed522_sabado_com_saldo',ed:522,sn:11705,op:5.19,cv:6,rv:105},{n:'MC - Premiação_ed522_quinta_sem_saldo',ed:522,sn:137732,op:5.56,cv:20,rv:390},{n:'MC - Premiação_ed522_sexta_com_saldo',ed:522,sn:11761,op:5.71,cv:1,rv:15},{n:'MC - Premiação_ed522_sabado_sem_saldo',ed:522,sn:137794,op:5.68,cv:48,rv:900},{n:'MC - Premiação_ed522_sexta_sem_saldo',ed:522,sn:137732,op:6.15,cv:15,rv:345}],
-  apb:[{n:'Ed.521 (18–24/mai)',ed:521,dl:449427,op:0.59},{n:'Ed.519 (03–09/mai)',ed:519,dl:412000,op:0.72},{n:'Ed.512 (15–21/mar) ⭐R$5',ed:512,dl:11199,op:3.94},{n:'Ed.511 (08–14/mar)',ed:511,dl:132133,op:1.13},{n:'Ed.510 (01–07/mar)',ed:510,dl:129356,op:1.07}],
-  base:{total_base:783535,com_compra:697381,online_total:613848,pos:79763,rca:3770,compradores_2026:127651,recorrentes:597,ativos_14d:43023,churn_1x:18981,dormentes:300384,novos_cad_2026:22445,novos_com_compra:12024,novos_sem_compra:10421,ganhadores:7731,open_2026:291171,sem_uc:86154,avg_age_tot:42.3,avg_age_comp:45.0,avg_age_fiel:45.7,age_tot:{18:25003,25:166857,35:205167,45:140222,55:72437,65:35316},age_comp:{18:1821,25:17867,35:31600,45:27779,55:14621,65:5904},age_fiel:{18:5,25:85,35:155,45:146,55:74,65:31},gender_tot:{M:251505,F:255777,N:276253},gender_comp:{M:39599,F:36141,N:51911},gender_fiel:{M:244,F:118,N:235},cities_tot:[['Belo Horizonte',278170],['Contagem',70140],['Betim',49778],['Ribeirão das Neves',32755],['Santa Luzia',29000]],cities_comp:[['Belo Horizonte',55288],['Contagem',8310],['Betim',7103],['Rio de Janeiro',4137],['Santa Luzia',4119]],cities_fiel:[['Belo Horizonte',292],['Contagem',36],['Betim',33],['Rio de Janeiro',27],['Santa Luzia',22]],rec:[8663,34360,32130,34912,17586,104308,381889],mesmo_dia_pct:50.2,ate_7d_pct:60.8,ate_30d_pct:67.5,mais_30d_pct:32.5,recorrentes_pct:82.3,apenas_1x_pct:17.7,apenas_1x_n:114344,mediana_eds:146,ticket_medio:15.8},
+  wpw:[{n:'Ed.523 (31/mai–06/jun)',ed:523,dl:792189,ctr:0.70},{n:'Ed.515 (07/04)',ed:515,dl:834595,ctr:0.74},{n:'Ed.514 (31/03)',ed:514,dl:850025,ctr:0.75},{n:'Ed.518 (26/04)',ed:518,dl:864308,ctr:0.75},{n:'Ed.520 (10/05)',ed:520,dl:854128,ctr:0.76}],
+  emb:[{n:'MC - Ganhadores_01.06_compradores',ed:523,sn:5251,op:13.77,cv:29,rv:495},{n:'MC - Ganhadores_25.05_compradores',ed:522,sn:5404,op:12.14,cv:24,rv:555},{n:'MC - Ganhadores_01.06_não_compradores',ed:523,sn:140301,op:7.84,cv:58,rv:1140},{n:'MC - Ganhadores_25.05_não_compradores',ed:522,sn:598520,op:7.34,cv:42,rv:825},{n:'MC - Premiação_ed523_quarta_sem_saldo',ed:523,sn:141393,op:7.30,cv:37,rv:660}],
+  emw:[{n:'MC - Premiação_ed523_sabado_com_saldo',ed:523,sn:11614,op:4.58,cv:3,rv:45},{n:'MC - Premiação_ed522_sabado_com_saldo',ed:522,sn:11705,op:5.19,cv:6,rv:105},{n:'MC - Premiação_ed523_sabado_sem_saldo',ed:523,sn:139509,op:5.39,cv:66,rv:1215},{n:'MC - Premiação_ed523_quinta_sem_saldo',ed:523,sn:140933,op:5.41,cv:28,rv:510},{n:'MC - Premiação_ed522_quinta_sem_saldo',ed:522,sn:137732,op:5.56,cv:20,rv:390}],
+  apb:[{n:'Ed.512 (15–21/mar) ⭐R$5',ed:512,dl:11199,op:3.94},{n:'Ed.511 (08–14/mar)',ed:511,dl:132133,op:1.13},{n:'Ed.510 (01–07/mar)',ed:510,dl:129356,op:1.07},{n:'Ed.519 (03–09/mai)',ed:519,dl:412000,op:0.72},{n:'Ed.521 (18–24/mai)',ed:521,dl:449427,op:0.59}],
+  base:{total_base:783535,com_compra:697381,online_total:613848,pos:79763,rca:3770,compradores_2026:127651,recorrentes:597,ativos_14d:8059,churn_1x:18981,dormentes:300384,novos_cad_2026:22530,novos_com_compra:12024,novos_sem_compra:10506,ganhadores:7731,open_2026:291171,sem_uc:86154,avg_age_tot:42.3,avg_age_comp:45.0,avg_age_fiel:45.7,age_tot:{18:25003,25:166857,35:205167,45:140222,55:72437,65:35316},age_comp:{18:1821,25:17867,35:31600,45:27779,55:14621,65:5904},age_fiel:{18:5,25:85,35:155,45:146,55:74,65:31},gender_tot:{M:251505,F:255777,N:276253},gender_comp:{M:39599,F:36141,N:51911},gender_fiel:{M:244,F:118,N:235},cities_tot:[['Belo Horizonte',278170],['Contagem',70140],['Betim',49778],['Ribeirão das Neves',32755],['Santa Luzia',29000]],cities_comp:[['Belo Horizonte',55288],['Contagem',8310],['Betim',7103],['Rio de Janeiro',4137],['Santa Luzia',4119]],cities_fiel:[['Belo Horizonte',292],['Contagem',36],['Betim',33],['Rio de Janeiro',27],['Santa Luzia',22]],rec:[8663,34360,32130,34912,17586,104308,381889],mesmo_dia_pct:50.2,ate_7d_pct:60.8,ate_30d_pct:67.5,mais_30d_pct:32.5,recorrentes_pct:82.3,apenas_1x_pct:17.7,apenas_1x_n:114344,mediana_eds:146,ticket_medio:15.8},
   ed5:{ed:512,price:5,next:'Eds.513–517',total:24545,novos:705,antigos:19308,sem_data:4532,retained:6341,retained_pct:25.8,not_retained:18204,not_retained_pct:74.2,new_in_next:20662,antigos_ret:5094,antigos_ret_pct:26.4,novos_ret:90,novos_ret_pct:12.8,ret_gender:{NI:2545,M:2254,F:1542},lost_gender:{NI:6934,F:5815,M:5455},avg_age:42.2,gender:{M:7709,F:7357,NI:9479},cities:[['Belo Horizonte',11988],['Contagem',1471],['Betim',1322],['Rio de Janeiro',1002],['Santa Luzia',871]],age_dist:{'18–24':2100,'25–34':7200,'35–44':7800,'45–54':4800,'55–64':2100,'65+':700},cap_insider_pct:91.6,cap_sistema:10569,cap_insider_n:9683,cap_mes:'Março',
     ga4_canal:{total_comp:132514,total_rev:1443010,cats:{'(not set)':{c:91375,r:990025},'Direto':{c:25559,r:283145},'Mídia paga':{c:7127,r:76680},'CRM':{c:5774,r:63170},'Orgânico':{c:2111,r:24405},'Outros':{c:568,r:5585}}}},
   metas:{meses:[
     {mes:'Fev/2026',eds:[{ed:505,val:10,mf:null,mr:null,ef:31100,er:2.6},{ed:506,val:20,mf:44812,mr:3.7,ef:54790,er:5.0},{ed:507,val:10,mf:36334,mr:3.0,ef:38300,er:3.0},{ed:508,val:10,mf:32701,mr:2.7,ef:40450,er:3.0}],tm:null,te:164640,tr:3.4},
     {mes:'Mar/2026',eds:[{ed:509,val:10,mf:null,mr:null,ef:37350,er:3.1},{ed:510,val:20,mf:44812,mr:3.7,ef:62520,er:5.2},{ed:511,val:10,mf:36334,mr:3.0,ef:50980,er:4.2},{ed:512,val:5,mf:32701,mr:2.7,ef:62130,er:5.1,ed5:true},{ed:513,val:10,mf:null,mr:null,ef:26845,er:2.2}],tm:null,te:239825,tr:5.0},
     {mes:'Abr/2026',eds:[{ed:514,val:15,mf:43530,mr:3.6,ef:36075,er:3.0},{ed:515,val:20,mf:61916,mr:5.1,ef:43585,er:3.6},{ed:516,val:20,mf:58486,mr:4.8,ef:41550,er:3.4},{ed:517,val:15,mf:41119,mr:3.4,ef:35685,er:2.9}],tm:205051,te:156895,tr:3.2},
-    {mes:'Mai/2026',eds:[{ed:518,val:15,mf:35880,mr:3.0,ef:36280,er:3.0},{ed:519,val:25,mf:98995,mr:8.2,ef:97955,er:8.1},{ed:520,val:15,mf:35880,mr:3.0,ef:39405,er:3.3},{ed:521,val:15,mf:35880,mr:3.0,ef:34215,er:null},{ed:522,val:15,mf:35880,mr:3.0,ef:35705,er:2.9}],tm:242515,te:243560,tr:5.0}
+    {mes:'Mai/2026',eds:[{ed:518,val:15,mf:35880,mr:3.0,ef:36280,er:3.0},{ed:519,val:25,mf:98995,mr:8.2,ef:97955,er:8.1},{ed:520,val:15,mf:35880,mr:3.0,ef:39405,er:3.3},{ed:521,val:15,mf:35880,mr:3.0,ef:34215,er:null},{ed:522,val:15,mf:35880,mr:3.0,ef:35705,er:2.9}],tm:242515,te:243560,tr:5.0},
+    {mes:'Jun/2026',eds:[{ed:523,val:15,mf:null,mr:null,ef:44170,er:null,insider_crm:10110,ga4_crm:44170}],tm:null,te:44170,tr:null}
   ]}
 },
-sm:{l:'Super Minas',s:'Super Minas · jan–mai 2026',col:'#378ADD',
-  wp:{s:13692805,d:5237866,ctr:1.08,cvr:0.069},em:{s:16379391,op:7.5,ctr:0.13},ap:{d:230318,opr:0.99},
-  ga4_total:{rev:210970,comp:10237,sess:133072},
+sm:{l:'Super Minas',s:'Super Minas · jan–jun 2026',col:'#378ADD',
+  wp:{s:14529880,d:5542155,ctr:1.05,cvr:0.069},em:{s:17485347,op:7.4,ctr:0.12},ap:{d:317594,opr:0.85},
+  ga4_total:{rev:434360,comp:23468,sess:264342},
   ga4_hist:{total_r:22343438,total_c:1390089,cats:{'CRM':{r:256245,c:15212},'Mídia paga':{r:516524,c:32090},'Orgânico':{r:154313,c:9310},'Direto':{r:1624687,c:98019},'(not set)':{r:19681227,c:1228562},'Outros':{r:110442,c:6896}}},
   eds:[
     {ed:418,val:10,val:15,dt:'2025-12-30',ws:472306,wd:209899,wc:1.45,wr:6310,eo:51.93,ec:0.44,er:1190,ao:0,cg:437,rg:7500},
@@ -446,25 +556,27 @@ sm:{l:'Super Minas',s:'Super Minas · jan–mai 2026',col:'#378ADD',
     {ed:435,val:20,dt:'2026-04-29',ws:612800,wd:321122,wc:0.78,wr:5145,eo:6.50,ec:0.11,er:6280,ao:1536,cg:436,rg:11425},
     {ed:436,val:15,dt:'2026-05-06',ws:564200,wd:321651,wc:0.68,wr:1840,eo:5.78,ec:0.06,er:1710,ao:507,cg:173,rg:3550},
     {ed:437,val:15,has_crm_ga4:true,insider_crm:5840,ga4_crm:7675,dt:'2026-05-18',ws:1053145,wd:386003,wc:0.89,wr:3680,eo:6.4,ec:null,er:2160,ao:523,cg:307,rg:9955},
-    {ed:438,val:15,insider_crm:5220,ga4_crm:9555,dt:'2026-05-24',ws:998560,wd:362863,wc:0.92,wr:3495,eo:5.75,ec:null,er:1275,ao:577,cg:251,rg:11750}
+    {ed:438,val:15,insider_crm:5220,ga4_crm:9555,dt:'2026-05-24',ws:998560,wd:362863,wc:0.92,wr:3495,eo:5.75,ec:null,er:1275,ao:577,cg:251,rg:11750},
+    {ed:439,val:15,has_crm_ga4:true,insider_crm:4065,ga4_recon:11300,ga4_crm:13430,dt:'2026-05-31',ws:837075,wd:304289,wc:0.68,wr:2295,eo:6.10,ec:0.07,er:1770,ao:415,cg:683,rg:13430}
   ],
   wpb:[{n:'Ed.423 (04/02)',ed:423,dl:153169,ctr:1.58},{n:'Ed.418 (30/12)',ed:418,dl:209899,ctr:1.45},{n:'Ed.425 (18/02) ⭐R$5',ed:425,dl:169649,ctr:1.26},{n:'Ed.426 (25/02)',ed:426,dl:217721,ctr:1.24},{n:'Ed.419 (08/01)',ed:419,dl:157440,ctr:1.20}],
-  wpw:[{n:'Ed.436 (06/05)',ed:436,dl:321651,ctr:0.68},{n:'Ed.430 (25/03)',ed:430,dl:296192,ctr:0.79},{n:'Ed.435 (29/04)',ed:435,dl:321122,ctr:0.78},{n:'Ed.429 (18/03)',ed:429,dl:292810,ctr:0.82},{n:'Ed.437 (18/05)',ed:437,dl:386003,ctr:0.89}],
-  emb:[{n:'SMC - Ganhadores_25.05_compradores',ed:438,sn:3757,op:9.28,cv:4,rv:105},{n:'SMC - Ganhadores_25.05_não_compradores',ed:438,sn:189688,op:6.35,cv:5,rv:180},{n:'SMC - Filantropia_26.05',ed:438,sn:193340,op:6.38,cv:10,rv:165},{n:'SMC - Premiação_ed438_quinta_com_saldo',ed:438,sn:2073,op:6.68,cv:0,rv:0},{n:'SMC - Premiação_ed438_quarta_com_saldo',ed:438,sn:2086,op:6.18,cv:0,rv:0}],
-  emw:[{n:'SMC - Premiação_ed438_sabado_com_saldo',ed:438,sn:2037,op:4.67,cv:0,rv:0},{n:'SMC - Premiação_ed438_sabado_sem_saldo',ed:438,sn:181450,op:4.91,cv:32,rv:660},{n:'SMC - Premiação_ed438_sexta_com_saldo',ed:438,sn:2059,op:5.59,cv:0,rv:0},{n:'SMC - Premiação_ed438_quinta_sem_saldo',ed:438,sn:182540,op:6.18,cv:10,rv:165},{n:'SMC - Premiação_ed438_quarta_sem_saldo',ed:438,sn:182884,op:5.89,cv:6,rv:120}],
-  apb:[{n:'Ed.437 (18–24/mai)',ed:437,dl:78165,op:0.67},{n:'Ed.435 (29/04–05/mai)',ed:435,dl:156309,op:0.98},{n:'Ed.432 (08–14/abr)',ed:432,dl:1965,op:1.48}],
-  base:{total_base:276842,com_compra:241290,online_total:241290,compradores_2026:72818,recorrentes:538,ativos_14d:34026,churn_1x:14732,dormentes:119334,novos_cad_2026:8866,novos_com_compra:6203,novos_sem_compra:2663,ganhadores:5230,open_2026:75256,sem_uc:35552,avg_age_tot:39.8,avg_age_comp:42.2,avg_age_fiel:43.3,age_tot:{18:13185,25:68476,35:68081,45:38899,55:18637,65:8039},age_comp:{18:1596,25:12017,35:15566,45:10418,55:5251,65:2208},age_fiel:{18:9,25:94,35:141,45:77,55:48,65:29},gender_tot:{M:111768,F:114914,N:50160},gender_comp:{M:29068,F:26230,N:17520},gender_fiel:{M:316,F:142,N:80},cities_tot:[['Pouso Alegre',22471],['Varginha',16519],['Poços de Caldas',16013],['Belo Horizonte',9697],['S.S. do Paraíso',8712]],cities_comp:[['Belo Horizonte',5464],['Pouso Alegre',4860],['Varginha',4312],['Poços de Caldas',3575],['S.S. do Paraíso',2266]],cities_fiel:[['Belo Horizonte',75],['Pouso Alegre',51],['Varginha',30],['Poços de Caldas',29],['S.S. do Paraíso',19]],rec:[5311,28715,14744,20220,3828,0,0],mesmo_dia_pct:58.9,ate_7d_pct:67.2,ate_30d_pct:72.8,mais_30d_pct:27.2,recorrentes_pct:78.8,apenas_1x_pct:21.2,apenas_1x_n:45753,mediana_eds:97,ticket_medio:14.2},
+  wpw:[{n:'Ed.439 (31/mai–06/jun)',ed:439,dl:304289,ctr:0.68},{n:'Ed.436 (06/05)',ed:436,dl:321651,ctr:0.68},{n:'Ed.435 (29/04)',ed:435,dl:321122,ctr:0.78},{n:'Ed.430 (25/03)',ed:430,dl:296192,ctr:0.79},{n:'Ed.429 (18/03)',ed:429,dl:292810,ctr:0.82}],
+  emb:[{n:'SMC - Ganhadores_01.06_compradores',ed:439,sn:3916,op:8.87,cv:10,rv:240},{n:'SMC - Ganhadores_25.05_compradores',ed:438,sn:3757,op:9.28,cv:4,rv:105},{n:'SMC - Ganhadores_01.06_não_compradores',ed:439,sn:188638,op:6.65,cv:7,rv:150},{n:'SMC - Premiação_ed439_terça_sem_saldo',ed:439,sn:182080,op:6.69,cv:9,rv:165},{n:'SMC - Ganhadores_25.05_não_compradores',ed:438,sn:189688,op:6.35,cv:5,rv:180}],
+  emw:[{n:'SMC - Premiação_ed439_sabado_sem_saldo',ed:439,sn:178666,op:4.87,cv:25,rv:450},{n:'SMC - Premiação_ed439_sabado_com_saldo',ed:439,sn:1999,op:5.01,cv:1,rv:30},{n:'SMC - Premiação_ed438_sabado_com_saldo',ed:438,sn:2037,op:4.67,cv:0,rv:0},{n:'SMC - Premiação_ed438_sabado_sem_saldo',ed:438,sn:181450,op:4.91,cv:32,rv:660},{n:'SMC - Premiação_ed439_sexta_sem_saldo',ed:439,sn:179787,op:5.78,cv:17,rv:300}],
+  apb:[{n:'Ed.432 (08–14/abr)',ed:432,dl:1965,op:1.48},{n:'Ed.435 (29/04–05/mai)',ed:435,dl:156309,op:0.98},{n:'Ed.439 (31/mai–06/jun)',ed:439,dl:87276,op:0.48}],
+  base:{total_base:276842,com_compra:241290,online_total:241290,compradores_2026:72818,recorrentes:538,ativos_14d:4469,churn_1x:14732,dormentes:119334,novos_cad_2026:8965,novos_com_compra:6203,novos_sem_compra:2762,ganhadores:5230,open_2026:75256,sem_uc:35552,avg_age_tot:39.8,avg_age_comp:42.2,avg_age_fiel:43.3,age_tot:{18:13185,25:68476,35:68081,45:38899,55:18637,65:8039},age_comp:{18:1596,25:12017,35:15566,45:10418,55:5251,65:2208},age_fiel:{18:9,25:94,35:141,45:77,55:48,65:29},gender_tot:{M:111768,F:114914,N:50160},gender_comp:{M:29068,F:26230,N:17520},gender_fiel:{M:316,F:142,N:80},cities_tot:[['Pouso Alegre',22471],['Varginha',16519],['Poços de Caldas',16013],['Belo Horizonte',9697],['S.S. do Paraíso',8712]],cities_comp:[['Belo Horizonte',5464],['Pouso Alegre',4860],['Varginha',4312],['Poços de Caldas',3575],['S.S. do Paraíso',2266]],cities_fiel:[['Belo Horizonte',75],['Pouso Alegre',51],['Varginha',30],['Poços de Caldas',29],['S.S. do Paraíso',19]],rec:[5311,28715,14744,20220,3828,0,0],mesmo_dia_pct:58.9,ate_7d_pct:67.2,ate_30d_pct:72.8,mais_30d_pct:27.2,recorrentes_pct:78.8,apenas_1x_pct:21.2,apenas_1x_n:45753,mediana_eds:97,ticket_medio:14.2},
   ed5:{ed:425,price:5,next:'Eds.426–433',total:7505,novos:102,antigos:5950,sem_data:1453,retained:3988,retained_pct:53.1,not_retained:3517,not_retained_pct:46.9,new_in_next:19226,antigos_ret:3248,antigos_ret_pct:54.6,novos_ret:19,novos_ret_pct:18.6,ret_gender:{M:1860,F:1407,NI:721},lost_gender:{F:1466,M:1322,NI:729},avg_age:40.0,gender:{M:3182,F:2873,NI:1450},cities:[['Belo Horizonte',854],['Varginha',562],['Pouso Alegre',530],['Poços de Caldas',471],['S.S. do Paraíso',296]],age_dist:{'18–24':620,'25–34':2100,'35–44':2250,'45–54':1450,'55–64':700,'65+':220},cap_insider_pct:17.6,cap_sistema:4415,cap_insider_n:777,cap_mes:'Fevereiro',alerta:'A Insider capturou apenas 17,6% dos novos cadastros reais em fevereiro/2026 (777 de 4.415). Números de novos subrepresentados.',
     ga4_canal:{total_comp:42230,total_rev:369150,cats:{'(not set)':{c:30128,r:262915},'Direto':{c:7240,r:63795},'Mídia paga':{c:2331,r:20010},'CRM':{c:1274,r:11405},'Orgânico':{c:790,r:6975},'Outros':{c:467,r:4050}}}},
   metas:{meses:[
     {mes:'Mar/2026',eds:[{ed:426,val:15,mf:null,mr:null,ef:14130,er:3.6},{ed:427,val:20,mf:null,mr:null,ef:17525,er:4.4},{ed:428,val:15,mf:null,mr:null,ef:10430,er:2.6},{ed:429,val:10,mf:4969,mr:2.4,ef:5770,er:2.8,er:2.6},{ed:430,val:15,mf:null,mr:null,ef:9645,er:2.4}],tm:null,te:62125,tr:4.0},
     {mes:'Abr/2026',eds:[{ed:431,val:20,mf:35811,mr:9.0,ef:21565,er:5.4},{ed:432,val:15,mf:12213,mr:3.1,ef:8610,er:2.2},{ed:433,val:15,mf:11843,mr:3.0,ef:7470,er:1.9}],tm:59867,te:37645,tr:2.4},
-    {mes:'Mai/2026',eds:[{ed:434,val:15,mf:10113,mr:2.5,ef:7930,er:2.0},{ed:435,val:20,mf:10671,mr:2.7,ef:15755,er:4.0},{ed:436,val:15,mf:10113,mr:2.5,ef:7375,er:1.9},{ed:437,val:15,mf:10113,mr:2.5,ef:9955,er:2.5},{ed:438,val:15,mf:10113,mr:2.5,ef:11750,er:3.0}],tm:51123,te:52765,tr:3.3}
+    {mes:'Mai/2026',eds:[{ed:434,val:15,mf:10113,mr:2.5,ef:7930,er:2.0},{ed:435,val:20,mf:10671,mr:2.7,ef:15755,er:4.0},{ed:436,val:15,mf:10113,mr:2.5,ef:7375,er:1.9},{ed:437,val:15,mf:10113,mr:2.5,ef:9955,er:2.5},{ed:438,val:15,mf:10113,mr:2.5,ef:11750,er:3.0}],tm:51123,te:52765,tr:3.3},
+    {mes:'Jun/2026',eds:[{ed:439,val:15,mf:null,mr:null,ef:13430,er:null,insider_crm:4065,ga4_crm:13430}],tm:null,te:13430,tr:null}
   ]}
 },
-sv:{l:'Super Vale',s:'Super Vale · jan–mai 2026',col:'#D4537E',
-  wp:{s:6230413,d:2369307,ctr:1.12,cvr:0.077},em:{s:8552800,op:7.1,ctr:0.13},ap:{d:137972,opr:1.16},
-  ga4_total:{rev:165475,comp:13686,sess:82148},
+sv:{l:'Super Vale',s:'Super Vale · jan–jun 2026',col:'#D4537E',
+  wp:{s:6649814,d:2519684,ctr:1.09,cvr:0.077},em:{s:9128395,op:7.0,ctr:0.13},ap:{d:189634,opr:1.09},
+  ga4_total:{rev:332785,comp:27416,sess:158666},
   ga4_hist:{total_r:5513289,total_c:428186,cats:{'CRM':{r:130255,c:9560},'Mídia paga':{r:70264,c:5669},'Orgânico':{r:35443,c:2706},'Direto':{r:769091,c:58923},'(not set)':{r:4398317,c:343159},'Outros':{r:109920,c:8169}}},
   eds:[
     {ed:408,val:10,dt:'2025-12-30',ws:147899,wd:64518,wc:1.78,wr:2280,eo:24.74,ec:0.35,er:790,ao:0,cg:199,rg:3070},
@@ -488,27 +600,29 @@ sv:{l:'Super Vale',s:'Super Vale · jan–mai 2026',col:'#D4537E',
     {ed:426,dt:'2026-05-06',ws:218400,wd:159660,wc:0.82,wr:1900,eo:4.60,ec:0.09,er:350,ao:997,cg:106,rg:2250},
     {ed:427,dt:'2026-05-14',ws:196200,wd:159112,wc:0.84,wr:1010,eo:5.23,ec:0.07,er:980,ao:436,cg:150,rg:1990},
     {ed:428,has_crm_ga4:true,insider_crm:2160,ga4_crm:4050,dt:'2026-05-18',ws:524951,wd:186863,wc:0.97,wr:1330,eo:5.5,ec:null,er:670,ao:389,cg:434,rg:5070},
-    {ed:429,val:10,insider_crm:1760,ga4_crm:4930,dt:'2026-05-24',ws:498170,wd:175735,wc:0.91,wr:1020,eo:5.22,ec:null,er:450,ao:471,cg:401,rg:5770}
+    {ed:429,val:10,insider_crm:1760,ga4_crm:4930,dt:'2026-05-24',ws:498170,wd:175735,wc:0.91,wr:1020,eo:5.22,ec:null,er:450,ao:471,cg:401,rg:5770},
+    {ed:430,val:10,has_crm_ga4:true,insider_crm:1610,ga4_recon:5640,ga4_crm:6580,dt:'2026-05-31',ws:419401,wd:150377,wc:0.71,wr:760,eo:5.55,ec:0.14,er:850,ao:319,cg:453,rg:6580}
   ],
   wpb:[{n:'Ed.408 (30/12)',ed:408,dl:64518,ctr:1.78},{n:'Ed.409 (07/01)',ed:409,dl:77357,ctr:1.25},{n:'Ed.418 (11/03)',ed:418,dl:82972,ctr:1.24},{n:'Ed.413 (04/02)',ed:413,dl:62900,ctr:1.22},{n:'Ed.415 (18/02) ⭐R$5',ed:415,dl:70615,ctr:1.22}],
-  wpw:[{n:'Ed.422 (08/04)',ed:422,dl:136256,ctr:0.79},{n:'Ed.424 (22/04)',ed:424,dl:112800,ctr:0.80},{n:'Ed.416 (25/02)',ed:416,dl:62400,ctr:0.91},{n:'Ed.421 (01/04)',ed:421,dl:149450,ctr:0.85},{n:'Ed.428 (18/05)',ed:428,dl:186863,ctr:0.97}],
-  emb:[{n:'SV_ganhadores_25.05 - compradores',ed:429,sn:2341,op:9.92,cv:4,rv:80},{n:'SV_ganhadores_25.05 - não_compradores',ed:429,sn:100285,op:6.56,cv:8,rv:100},{n:'SV_Filantropia_26.05',ed:429,sn:102583,op:5.97,cv:2,rv:110},{n:'SV_Premiação_ed429_quarta_sem_saldo',ed:429,sn:93292,op:6.03,cv:7,rv:140},{n:'SV_Premiação_ed429_quinta_sem_saldo',ed:429,sn:93115,op:5.51,cv:7,rv:80}],
-  emw:[{n:'SV_Premiação_ed429_sabado_com_saldo',ed:429,sn:1469,op:4.39,cv:1,rv:10},{n:'SV_Premiação_ed429_sabado_sem_saldo',ed:429,sn:92665,op:4.48,cv:10,rv:130},{n:'SV_Premiação_ed429_quinta_com_saldo',ed:429,sn:1488,op:5.24,cv:0,rv:0},{n:'SV_Premiação_ed429_sexta_com_saldo',ed:429,sn:1480,op:5.29,cv:0,rv:0},{n:'SV_Premiação_ed429_sexta_sem_saldo',ed:429,sn:92949,op:5.35,cv:8,rv:90}],
-  apb:[{n:'Ed.429 (24–30/mai)',ed:429,dl:48882,op:0.96},{n:'Ed.428 (18–24/mai)',ed:428,dl:45842,op:0.85},{n:'Ed.426 (06–12/mai)',ed:426,dl:94439,op:1.06}],
-  base:{total_base:171038,com_compra:126075,online_total:126075,compradores_2026:50451,recorrentes:292,ativos_14d:19157,churn_1x:21578,dormentes:60383,novos_cad_2026:13302,novos_com_compra:11270,novos_sem_compra:2032,ganhadores:0,open_2026:41404,sem_uc:44963,avg_age_tot:39.2,avg_age_comp:42.2,avg_age_fiel:43.2,age_tot:{18:5943,25:30166,35:30231,45:16369,55:7109,65:2777},age_comp:{18:612,25:4154,35:5844,45:3882,55:1883,65:735},age_fiel:{18:1,25:35,35:47,45:44,55:10,65:9},gender_tot:{M:60542,F:52955,N:57541},gender_comp:{M:18016,F:13646,N:18789},gender_fiel:{M:145,F:57,N:90},cities_tot:[['Ipatinga',12351],['Gov. Valadares',11071],['Teófilo Otoni',8037],['Coronel Fabriciano',5112],['Caratinga',4520]],cities_comp:[['Ipatinga',2639],['Belo Horizonte',2291],['Gov. Valadares',2264],['Teófilo Otoni',1838],['Caratinga',1183]],cities_fiel:[['Ipatinga',30],['Belo Horizonte',27],['Teófilo Otoni',24],['Gov. Valadares',22],['Caratinga',14]],rec:[3922,15235,11976,15480,3838,0,0],mesmo_dia_pct:68.0,ate_7d_pct:77.9,ate_30d_pct:84.1,mais_30d_pct:15.9,recorrentes_pct:75.2,apenas_1x_pct:24.8,apenas_1x_n:23018,mediana_eds:72,ticket_medio:12.1},
+  wpw:[{n:'Ed.430 (31/mai–06/jun)',ed:430,dl:150377,ctr:0.71},{n:'Ed.422 (08/04)',ed:422,dl:136256,ctr:0.79},{n:'Ed.424 (22/04)',ed:424,dl:112800,ctr:0.80},{n:'Ed.421 (01/04)',ed:421,dl:149450,ctr:0.85},{n:'Ed.416 (25/02)',ed:416,dl:62400,ctr:0.91}],
+  emb:[{n:'SV_ganhadores_01.06 - compradores',ed:430,sn:2401,op:10.21,cv:5,rv:60},{n:'SV_ganhadores_25.05 - compradores',ed:429,sn:2341,op:9.92,cv:4,rv:80},{n:'SV_ganhadores_01.06 - não_compradores',ed:430,sn:100301,op:6.45,cv:3,rv:40},{n:'SV_ganhadores_25.05 - não_compradores',ed:429,sn:100285,op:6.56,cv:8,rv:100},{n:'SV_Premiação_ed430_terça_sem_saldo',ed:430,sn:93433,op:5.82,cv:7,rv:190}],
+  emw:[{n:'SV_Premiação_ed430_sabado_sem_saldo',ed:430,sn:92657,op:4.71,cv:20,rv:280},{n:'SV_Premiação_ed430_sabado_com_saldo',ed:430,sn:1463,op:4.22,cv:0,rv:0},{n:'SV_Premiação_ed429_sabado_com_saldo',ed:429,sn:1469,op:4.39,cv:1,rv:10},{n:'SV_Premiação_ed429_sabado_sem_saldo',ed:429,sn:92665,op:4.48,cv:10,rv:130},{n:'SV_Premiação_ed430_sexta_sem_saldo',ed:430,sn:92949,op:5.14,cv:6,rv:70}],
+  apb:[{n:'Ed.426 (06–12/mai)',ed:426,dl:94439,op:1.06},{n:'Ed.429 (24–30/mai)',ed:429,dl:48882,op:0.96},{n:'Ed.430 (31/mai–06/jun)',ed:430,dl:51662,op:0.62}],
+  base:{total_base:171038,com_compra:126075,online_total:126075,compradores_2026:50451,recorrentes:292,ativos_14d:2557,churn_1x:21578,dormentes:60383,novos_cad_2026:13346,novos_com_compra:11270,novos_sem_compra:2076,ganhadores:0,open_2026:41404,sem_uc:44963,avg_age_tot:39.2,avg_age_comp:42.2,avg_age_fiel:43.2,age_tot:{18:5943,25:30166,35:30231,45:16369,55:7109,65:2777},age_comp:{18:612,25:4154,35:5844,45:3882,55:1883,65:735},age_fiel:{18:1,25:35,35:47,45:44,55:10,65:9},gender_tot:{M:60542,F:52955,N:57541},gender_comp:{M:18016,F:13646,N:18789},gender_fiel:{M:145,F:57,N:90},cities_tot:[['Ipatinga',12351],['Gov. Valadares',11071],['Teófilo Otoni',8037],['Coronel Fabriciano',5112],['Caratinga',4520]],cities_comp:[['Ipatinga',2639],['Belo Horizonte',2291],['Gov. Valadares',2264],['Teófilo Otoni',1838],['Caratinga',1183]],cities_fiel:[['Ipatinga',30],['Belo Horizonte',27],['Teófilo Otoni',24],['Gov. Valadares',22],['Caratinga',14]],rec:[3922,15235,11976,15480,3838,0,0],mesmo_dia_pct:68.0,ate_7d_pct:77.9,ate_30d_pct:84.1,mais_30d_pct:15.9,recorrentes_pct:75.2,apenas_1x_pct:24.8,apenas_1x_n:23018,mediana_eds:72,ticket_medio:12.1},
   ed5:{ed:415,price:5,next:'Eds.416–424',total:3238,novos:35,antigos:1793,sem_data:1410,retained:1863,retained_pct:57.5,not_retained:1375,not_retained_pct:42.5,new_in_next:11504,antigos_ret:1085,antigos_ret_pct:60.5,novos_ret:11,novos_ret_pct:31.4,ret_gender:{M:793,NI:595,F:475},lost_gender:{NI:534,M:435,F:406},avg_age:40.6,gender:{M:1228,F:881,NI:1129},cities:[['Ipatinga',335],['Belo Horizonte',304],['Teófilo Otoni',264],['Gov. Valadares',248],['Caratinga',149]],age_dist:{'18–24':280,'25–34':1000,'35–44':1100,'45–54':650,'55–64':250,'65+':85},cap_insider_pct:16.0,cap_sistema:2473,cap_insider_n:395,cap_mes:'Fevereiro',alerta:'A Insider capturou apenas 16,0% dos novos cadastros reais em fevereiro/2026 (395 de 2.473). Números de novos subrepresentados.',
     ga4_canal:{total_comp:17440,total_rev:150445,cats:{'(not set)':{c:12500,r:107075},'Direto':{c:3704,r:32480},'CRM':{c:665,r:5865},'Outros':{c:237,r:2050},'Mídia paga':{c:170,r:1380},'Orgânico':{c:164,r:1595}}}},
   metas:{meses:[
     {mes:'Fev/2026',eds:[{ed:412,val:10,mf:null,mr:null,ef:4315,er:2.1},{ed:413,val:15,mf:5204,mr:2.5,ef:6535,er:3.0},{ed:414,val:10,mf:4163,mr:2.0,ef:4750,er:2.0},{ed:415,val:5,mf:4996,mr:2.4,ef:5505,er:3.0,ed5:true}],tm:null,te:21105,tr:3.0},
     {mes:'Abr/2026',eds:[{ed:421,val:10,mf:6063,mr:2.9,ef:5520,er:2.7},{ed:422,val:15,mf:7883,mr:3.8,ef:6345,er:3.0},{ed:423,val:10,mf:5561,mr:2.7,ef:5330,er:2.6},{ed:424,val:10,mf:5561,mr:2.7,ef:4970,er:2.4}],tm:25068,te:22165,tr:2.7},
-    {mes:'Mai/2026',eds:[{ed:425,val:10,mf:4969,mr:2.4,ef:5730,er:2.8},{ed:426,val:20,mf:13689,mr:6.6,ef:12920,er:6.2},{ed:427,val:10,mf:4969,mr:2.4,ef:5860,er:2.8},{ed:428,val:10,mf:4969,mr:2.4,ef:5070,er:null},{ed:429,val:10,mf:4969,mr:2.4,ef:5770,er:2.8,insider_crm:1760,ga4_crm:4930}],tm:33565,te:35350,tr:4.0}
+    {mes:'Mai/2026',eds:[{ed:425,val:10,mf:4969,mr:2.4,ef:5730,er:2.8},{ed:426,val:20,mf:13689,mr:6.6,ef:12920,er:6.2},{ed:427,val:10,mf:4969,mr:2.4,ef:5860,er:2.8},{ed:428,val:10,mf:4969,mr:2.4,ef:5070,er:null},{ed:429,val:10,mf:4969,mr:2.4,ef:5770,er:2.8,insider_crm:1760,ga4_crm:4930}],tm:33565,te:35350,tr:4.0},
+    {mes:'Jun/2026',eds:[{ed:430,val:10,mf:null,mr:null,ef:6580,er:null,insider_crm:1610,ga4_crm:6580}],tm:null,te:6580,tr:null}
   ]}
 }};
 
 const CP={
-mc:{cats:[{c:'personalizacao',op:26.88,ctr:0.30,val:[{v:10,op:22.1},{v:15,op:27.4},{v:20,op:31.2},{v:25,op:28.9},{v:5,op:24.3}]},{c:'outros',op:19.12,ctr:0.29,val:[{v:10,op:17.8},{v:15,op:19.4},{v:20,op:21.0},{v:25,op:18.5},{v:5,op:16.2}]},{c:'resultado_sorteio',op:16.77,ctr:3.47,val:[{v:10,op:15.2},{v:15,op:17.1},{v:20,op:18.3},{v:25,op:16.9},{v:5,op:14.8}]},{c:'curiosidade',op:16.22,ctr:0.95,val:[{v:10,op:14.9},{v:15,op:16.5},{v:20,op:17.8},{v:25,op:15.6},{v:5,op:13.4}]},{c:'urgencia',op:14.50,ctr:0.23,val:[{v:10,op:13.2},{v:15,op:14.8},{v:20,op:16.1},{v:25,op:14.2},{v:5,op:12.9}]},{c:'premiacao_valor',op:9.22,ctr:0.16,val:[{v:10,op:8.5},{v:15,op:9.3},{v:20,op:10.8},{v:25,op:11.2},{v:5,op:7.9}]},{c:'sazonalidade',op:8.00,ctr:0.18,val:[{v:10,op:7.5},{v:15,op:8.2},{v:20,op:9.1},{v:25,op:8.8},{v:5,op:7.1}]}],elem:{sem_emoji:29.92,com_emoji:9.47,sem_caps:19.19,com_caps:9.14,com_pergunta:11.11,sem_pergunta:14.68},hour:[{h:'17h',v:54.88},{h:'19h',v:45.84},{h:'20h',v:44.45},{h:'13h',v:43.05},{h:'14h',v:42.93},{h:'21h',v:41.72},{h:'11h',v:36.86},{h:'16h',v:35.27}],dow:[{d:'Sexta',v:14.72},{d:'Quinta',v:14.67},{d:'Sábado',v:12.83},{d:'Quarta',v:12.38},{d:'Terça',v:11.50},{d:'Segunda',v:10.91},{d:'Domingo',v:9.57}],len:[{l:'Curto (<30)',op:18.95,ctr:0.48},{l:'Médio (30-50)',op:11.49,ctr:0.51},{l:'Longo (>50)',op:8.44,ctr:0.42}],topOpen:[{s:'@minascap marcou você!',sn:30600,op:66.16,ctr:0.77,rv:470,cat:'personalizacao'},{s:'Não deixe a sorte escapar!',sn:28401,op:62.61,ctr:0.42,rv:460,cat:'urgencia'},{s:'O próximo sorteado pode ser você!',sn:29114,op:60.53,ctr:0.36,rv:390,cat:'personalizacao'},{s:'Essa pode ser a sua chance!',sn:38276,op:51.03,ctr:0.38,rv:250,cat:'personalizacao'},{s:'O alivio para o seu começo de ano!',sn:44454,op:45.27,ctr:0.63,rv:1040,cat:'outros'},{s:'Já conferiu o que preparamos para você?',sn:54823,op:43.34,ctr:0.37,rv:1460,cat:'curiosidade'},{s:'Está imperdível!',sn:54736,op:43.60,ctr:0.37,rv:1020,cat:'outros'},{s:'Hoje acaba!',sn:52881,op:42.72,ctr:0.51,rv:1670,cat:'urgencia'},{s:'SAIU GANHADOR! 🏆',sn:4207,op:18.91,ctr:6.62,rv:1840,cat:'resultado_sorteio'},{s:'Sabe quem foi premiado essa semana? 👀',sn:79453,op:16.35,ctr:2.11,rv:8860,cat:'curiosidade'}],worst:[{s:'🚀 370 MIL TOTAIS: ESSE TÍTULO ESTÁ INCRÍVEL!',sn:571244,op:4.86,ctr:0.05,rv:420,cat:'premiacao_valor'},{s:'💥 PARE de perder as chances que o Minas Cap te dá!',sn:18729,op:4.56,ctr:0.14,rv:40,cat:'personalizacao'},{s:'⏳ 370 MIL AMANHÃ: ÚLTIMA CHAMADA!',sn:11856,op:4.80,ctr:0.10,rv:0,cat:'urgencia'},{s:'💸 Seu prêmio de R$ 370 mil te espera!',sn:45200,op:5.12,ctr:0.08,rv:180,cat:'premiacao_valor'},{s:'💰 MEIO MILHÃO DE REAIS NO 4º!',sn:615206,op:7.90,ctr:0.09,rv:900,cat:'premiacao_valor'},{s:'🏠 O SONHO REALIZADO TÁ NO 4º PRÊMIO!',sn:613608,op:7.80,ctr:0.10,rv:850,cat:'outros'},{s:'🚀 R$500 MIL por R$20? Acredite!',sn:318052,op:8.80,ctr:0.09,rv:1200,cat:'premiacao_valor'},{s:'❌ R$20. Você vai deixar R$500 MIL escaparem?',sn:315871,op:8.90,ctr:0.09,rv:1100,cat:'premiacao_valor'},{s:'MC - Premiação_ed522_sabado_com_saldo',sn:11705,op:5.19,ctr:0,rv:105,cat:'urgencia'},{s:'MC - Premiação_ed522_quinta_sem_saldo',sn:137732,op:5.56,ctr:0,rv:390,cat:'urgencia'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[32.34,39.20,10.30,9.66,8.70,7.78,6.6],sent:[35682,47342,404533,355432,385042,254448,155678]}},
-sm:{cats:[{c:'personalizacao',op:17.62,ctr:0.35,val:[{v:10,op:14.2},{v:15,op:18.1},{v:20,op:21.3},{v:5,op:13.8}]},{c:'curiosidade',op:17.13,ctr:0.38,val:[{v:10,op:13.9},{v:15,op:17.6},{v:20,op:20.5},{v:5,op:12.4}]},{c:'outros',op:16.25,ctr:0.20,val:[{v:10,op:13.2},{v:15,op:16.8},{v:20,op:19.2},{v:5,op:11.9}]},{c:'urgencia',op:13.95,ctr:0.23,val:[{v:10,op:11.8},{v:15,op:14.3},{v:20,op:16.9},{v:5,op:10.2}]},{c:'resultado_sorteio',op:13.79,ctr:1.10,val:[{v:10,op:12.1},{v:15,op:14.2},{v:20,op:15.8},{v:5,op:11.5}]},{c:'premiacao_valor',op:10.55,ctr:0.16,val:[{v:10,op:9.2},{v:15,op:10.8},{v:20,op:12.4},{v:5,op:8.1}]},{c:'institucional',op:7.81,ctr:0.11,val:[{v:10,op:7.2},{v:15,op:8.1},{v:20,op:9.0},{v:5,op:6.8}]},{c:'sazonalidade',op:6.74,ctr:0.08,val:[{v:10,op:6.1},{v:15,op:6.9},{v:20,op:8.2},{v:5,op:5.8}]}],elem:{sem_emoji:25.00,com_emoji:8.49,sem_caps:18.01,com_caps:7.79,com_pergunta:10.12,sem_pergunta:14.02},hour:[{h:'17h',v:51.20},{h:'19h',v:43.10},{h:'20h',v:41.80},{h:'13h',v:39.50},{h:'14h',v:38.90},{h:'21h',v:38.20},{h:'11h',v:33.40},{h:'16h',v:31.80}],dow:[{d:'Sexta',v:14.10},{d:'Quinta',v:13.90},{d:'Sábado',v:12.20},{d:'Quarta',v:11.80},{d:'Terça',v:10.90},{d:'Segunda',v:10.40},{d:'Domingo',v:9.10}],len:[{l:'Curto (<30)',op:19.50,ctr:0.45},{l:'Médio (30-50)',op:10.80,ctr:0.48},{l:'Longo (>50)',op:7.90,ctr:0.38}],topOpen:[{s:'Seu ano começa premiado!',sn:21521,op:55.15,ctr:0.57,rv:220,cat:'personalizacao'},{s:'O alívio para o seu ano está aqui!',sn:21053,op:54.77,ctr:0.44,rv:340,cat:'personalizacao'},{s:'Última chance para garantir sua sorte!',sn:18598,op:54.57,ctr:0.49,rv:200,cat:'urgencia'},{s:'Comece 2026 com R$180 mil!',sn:18727,op:54.44,ctr:0.45,rv:160,cat:'premiacao_valor'},{s:'2026 vai ser seu ano de sorte!',sn:21511,op:51.71,ctr:0.34,rv:160,cat:'outros'},{s:'VOCÊ É O NOVO GANHADOR? 🏆',sn:6836,op:14.21,ctr:2.96,rv:180,cat:'resultado_sorteio'},{s:'Seu nome pode estar nessa lista! 🏆',sn:4200,op:13.80,ctr:2.10,rv:130,cat:'resultado_sorteio'},{s:'2 minutos para mudar de vida 💰🍀',sn:8900,op:14.50,ctr:0.38,rv:90,cat:'curiosidade'},{s:'SEXTOU com S de Sorte! 🍀',sn:7200,op:13.90,ctr:0.42,rv:75,cat:'outros'},{s:'Comece 2026 com R$180 mil!',sn:18727,op:54.44,ctr:0.45,rv:160,cat:'premiacao_valor'}],worst:[{s:'Realize seus sonhos: Concorra a 170 Mil 😍',sn:17983,op:2.93,ctr:0.07,rv:60,cat:'premiacao_valor'},{s:'Não fique sem receber nossos avisos! 🚨',sn:6206,op:3.38,ctr:0.17,rv:0,cat:'institucional'},{s:'SÓ R$15! Concorra a R$300 mil em prêmios! 🔄',sn:182017,op:4.74,ctr:0.06,rv:330,cat:'premiacao_valor'},{s:'ÚLTIMO DIA PARA FICAR RICO! 💸',sn:8500,op:7.00,ctr:0.09,rv:70,cat:'urgencia'},{s:'C I N C O reais. Só isso. 🖐️',sn:9800,op:7.49,ctr:0.07,rv:80,cat:'outros'},{s:'🏆 SÓ OS FORTES CHEGAM AO FINAL!',sn:12000,op:5.80,ctr:0.06,rv:40,cat:'outros'},{s:'Realize seus sonhos: Concorra a 170 Mil 😍',sn:17984,op:3.20,ctr:0.08,rv:20,cat:'premiacao_valor'},{s:'Clique aqui para ter sorte 🔘',sn:7200,op:7.24,ctr:0.08,rv:50,cat:'curiosidade'},{s:'SMC - Premiação_ed438_sabado_com_saldo',sn:2037,op:4.67,ctr:0,rv:0,cat:'urgencia'},{s:'SMC - Premiação_ed438_sabado_sem_saldo',sn:181450,op:4.91,ctr:0,rv:660,cat:'urgencia'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[52.72,32.66,7.54,7.75,7.35,7.05,5.75],sent:[21522,22594,156463,130601,134824,87824,56823]}},
-sv:{cats:[{c:'outros',op:26.06,ctr:0.21,val:[{v:10,op:22.1},{v:15,op:27.3},{v:20,op:29.8},{v:5,op:19.4}]},{c:'premiacao_valor',op:12.02,ctr:0.19,val:[{v:10,op:10.4},{v:15,op:12.5},{v:20,op:14.2},{v:5,op:9.8}]},{c:'personalizacao',op:10.51,ctr:0.20,val:[{v:10,op:9.2},{v:15,op:10.8},{v:20,op:12.6},{v:5,op:8.4}]},{c:'curiosidade',op:10.32,ctr:0.21,val:[{v:10,op:9.0},{v:15,op:10.6},{v:20,op:12.1},{v:5,op:8.2}]},{c:'resultado_sorteio',op:10.32,ctr:2.59,val:[{v:10,op:9.1},{v:15,op:10.5},{v:20,op:12.0},{v:5,op:8.0}]},{c:'urgencia',op:9.67,ctr:0.24,val:[{v:10,op:8.4},{v:15,op:9.9},{v:20,op:11.2},{v:5,op:7.6}]},{c:'sazonalidade',op:6.35,ctr:0.11,val:[{v:10,op:5.8},{v:15,op:6.5},{v:20,op:7.4},{v:5,op:5.2}]}],elem:{sem_emoji:21.69,com_emoji:8.89,sem_caps:13.92,com_caps:8.62,com_pergunta:9.43,sem_pergunta:14.04},hour:[{h:'17h',v:49.80},{h:'19h',v:41.20},{h:'20h',v:39.60},{h:'13h',v:37.80},{h:'14h',v:36.50},{h:'21h',v:35.90},{h:'11h',v:30.10},{h:'16h',v:28.40}],dow:[{d:'Quinta',v:14.20},{d:'Sexta',v:13.90},{d:'Sábado',v:11.80},{d:'Quarta',v:11.20},{d:'Terça',v:10.60},{d:'Segunda',v:10.10},{d:'Domingo',v:9.00}],len:[{l:'Curto (<30)',op:18.20,ctr:0.42},{l:'Médio (30-50)',op:10.60,ctr:0.47},{l:'Longo (>50)',op:7.80,ctr:0.35}],topOpen:[{s:'Últimos dias para aproveitar!',sn:8436,op:58.55,ctr:0.35,rv:40,cat:'urgencia'},{s:'Super Vale está te esperando!',sn:8455,op:58.27,ctr:0.48,rv:50,cat:'outros'},{s:'Premiação de Ano Novo imperdível!',sn:9321,op:58.05,ctr:0.56,rv:160,cat:'sazonalidade'},{s:'Concorra a R$165 mil em prêmios!',sn:9377,op:57.37,ctr:0.72,rv:90,cat:'premiacao_valor'},{s:'Quer ganhar R$110 mil?',sn:9366,op:55.96,ctr:0.60,rv:80,cat:'premiacao_valor'},{s:'O alívio para o seu ano está aqui!',sn:10388,op:52.07,ctr:0.42,rv:10,cat:'personalizacao'},{s:'Seu nome está na lista de ganhadores? 🍀',sn:3056,op:15.55,ctr:6.69,rv:235,cat:'resultado_sorteio'},{s:'Saiu a lista dos ganhadores do Super Vale! ✨',sn:2672,op:13.56,ctr:5.46,rv:110,cat:'resultado_sorteio'},{s:'VEM VER O QUE ROLA NO INSTA 📸',sn:7200,op:14.80,ctr:0.21,rv:45,cat:'outros'},{s:'Onde a mágica acontece! ✨',sn:6800,op:13.50,ctr:0.18,rv:30,cat:'outros'}],worst:[{s:'Só ganha quem concorre 💰💰',sn:8317,op:2.61,ctr:0.06,rv:10,cat:'urgencia'},{s:'R$105 MIL: Fique rico neste domingo! 💰',sn:92679,op:4.50,ctr:0.10,rv:170,cat:'premiacao_valor'},{s:'🚫 Chega de boletos!',sn:6800,op:6.91,ctr:0.07,rv:20,cat:'outros'},{s:'Só compra o SUPER VALE quem quiser ficar rico! 💰',sn:7500,op:6.28,ctr:0.06,rv:25,cat:'outros'},{s:'🔥 Sua sorte muda HOJE!',sn:8900,op:6.80,ctr:0.07,rv:30,cat:'urgencia'},{s:'Super Vale: sua chance de ouro! 🥇',sn:6400,op:7.10,ctr:0.09,rv:20,cat:'outros'},{s:'VEM VER O QUE ROLA NO INSTA 📸',sn:7200,op:6.49,ctr:0.08,rv:15,cat:'outros'},{s:'SV_Premiação_ed429_sabado_com_saldo',sn:1469,op:4.39,ctr:0,rv:10,cat:'urgencia'},{s:'SV_Premiação_ed429_sabado_sem_saldo',sn:92665,op:4.48,ctr:0,rv:130,cat:'urgencia'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[56.66,30.61,7.85,8.09,7.17,6.80,5.22],sent:[9372,13216,76688,67628,61212,39676,19456]}}};
+mc:{cats:[{c:'personalizacao',op:26.88,ctr:0.30,val:[{v:10,op:22.1},{v:15,op:27.4},{v:20,op:31.2},{v:25,op:28.9},{v:5,op:24.3}]},{c:'outros',op:19.12,ctr:0.29,val:[{v:10,op:17.8},{v:15,op:19.4},{v:20,op:21.0},{v:25,op:18.5},{v:5,op:16.2}]},{c:'resultado_sorteio',op:16.77,ctr:3.47,val:[{v:10,op:15.2},{v:15,op:17.1},{v:20,op:18.3},{v:25,op:16.9},{v:5,op:14.8}]},{c:'curiosidade',op:16.22,ctr:0.95,val:[{v:10,op:14.9},{v:15,op:16.5},{v:20,op:17.8},{v:25,op:15.6},{v:5,op:13.4}]},{c:'urgencia',op:14.50,ctr:0.23,val:[{v:10,op:13.2},{v:15,op:14.8},{v:20,op:16.1},{v:25,op:14.2},{v:5,op:12.9}]},{c:'premiacao_valor',op:9.22,ctr:0.16,val:[{v:10,op:8.5},{v:15,op:9.3},{v:20,op:10.8},{v:25,op:11.2},{v:5,op:7.9}]},{c:'sazonalidade',op:8.00,ctr:0.18,val:[{v:10,op:7.5},{v:15,op:8.2},{v:20,op:9.1},{v:25,op:8.8},{v:5,op:7.1}]}],elem:{sem_emoji:29.92,com_emoji:9.47,sem_caps:19.19,com_caps:9.14,com_pergunta:11.11,sem_pergunta:14.68},hour:[{h:'17h',v:54.88},{h:'19h',v:45.84},{h:'20h',v:44.45},{h:'13h',v:43.05},{h:'14h',v:42.93},{h:'21h',v:41.72},{h:'11h',v:36.86},{h:'16h',v:35.27}],dow:[{d:'Sexta',v:14.72},{d:'Quinta',v:14.67},{d:'Sábado',v:12.83},{d:'Quarta',v:12.38},{d:'Terça',v:11.50},{d:'Segunda',v:10.91},{d:'Domingo',v:9.57}],len:[{l:'Curto (<30)',op:18.95,ctr:0.48},{l:'Médio (30-50)',op:11.49,ctr:0.51},{l:'Longo (>50)',op:8.44,ctr:0.42}],topOpen:[{s:'@minascap marcou você!',sn:30600,op:66.16,ctr:0.77,rv:470,cat:'personalizacao'},{s:'Não deixe a sorte escapar!',sn:28401,op:62.61,ctr:0.42,rv:460,cat:'urgencia'},{s:'O próximo sorteado pode ser você!',sn:29114,op:60.53,ctr:0.36,rv:390,cat:'personalizacao'},{s:'Essa pode ser a sua chance!',sn:38276,op:51.03,ctr:0.38,rv:250,cat:'personalizacao'},{s:'O alivio para o seu começo de ano!',sn:44454,op:45.27,ctr:0.63,rv:1040,cat:'outros'},{s:'Já conferiu o que preparamos para você?',sn:54823,op:43.34,ctr:0.37,rv:1460,cat:'curiosidade'},{s:'Está imperdível!',sn:54736,op:43.60,ctr:0.37,rv:1020,cat:'outros'},{s:'Hoje acaba!',sn:52881,op:42.72,ctr:0.51,rv:1670,cat:'urgencia'},{s:'SAIU GANHADOR! 🏆',sn:4207,op:18.91,ctr:6.62,rv:1840,cat:'resultado_sorteio'},{s:'Resultado do sorteio Minas Cap: confira agora 👀',sn:5251,op:13.77,ctr:2.91,rv:495,cat:'resultado_sorteio'}],worst:[{s:'🚀 370 MIL TOTAIS: ESSE TÍTULO ESTÁ INCRÍVEL!',sn:571244,op:4.86,ctr:0.05,rv:420,cat:'premiacao_valor'},{s:'💥 PARE de perder as chances que o Minas Cap te dá!',sn:18729,op:4.56,ctr:0.14,rv:40,cat:'personalizacao'},{s:'⏳ 370 MIL AMANHÃ: ÚLTIMA CHAMADA!',sn:11856,op:4.80,ctr:0.10,rv:0,cat:'urgencia'},{s:'💸 Seu prêmio de R$ 370 mil te espera!',sn:45200,op:5.12,ctr:0.08,rv:180,cat:'premiacao_valor'},{s:'Hoje é sua última chance 🔥',sn:139509,op:5.39,ctr:0.16,rv:1215,cat:'urgencia'},{s:'Gira Minas 40x R$2.500 nesse domingo 🤑',sn:140933,op:5.41,ctr:0.08,rv:510,cat:'premiacao_valor'},{s:'💰 MEIO MILHÃO DE REAIS NO 4º!',sn:615206,op:7.90,ctr:0.09,rv:900,cat:'premiacao_valor'},{s:'🏠 O SONHO REALIZADO TÁ NO 4º PRÊMIO!',sn:613608,op:7.80,ctr:0.10,rv:850,cat:'outros'},{s:'MC - Premiação_ed522_sabado_com_saldo',sn:11705,op:5.19,ctr:0,rv:105,cat:'urgencia'},{s:'MC - Premiação_ed523_sabado_com_saldo',sn:11614,op:4.58,ctr:0.08,rv:45,cat:'urgencia'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[32.34,39.20,10.30,9.66,8.70,7.78,6.55],sent:[35682,47342,404533,355432,385042,254448,907932]}},
+sm:{cats:[{c:'personalizacao',op:17.62,ctr:0.35,val:[{v:10,op:14.2},{v:15,op:18.1},{v:20,op:21.3},{v:5,op:13.8}]},{c:'curiosidade',op:17.13,ctr:0.38,val:[{v:10,op:13.9},{v:15,op:17.6},{v:20,op:20.5},{v:5,op:12.4}]},{c:'outros',op:16.25,ctr:0.20,val:[{v:10,op:13.2},{v:15,op:16.8},{v:20,op:19.2},{v:5,op:11.9}]},{c:'urgencia',op:13.95,ctr:0.23,val:[{v:10,op:11.8},{v:15,op:14.3},{v:20,op:16.9},{v:5,op:10.2}]},{c:'resultado_sorteio',op:13.79,ctr:1.10,val:[{v:10,op:12.1},{v:15,op:14.2},{v:20,op:15.8},{v:5,op:11.5}]},{c:'premiacao_valor',op:10.55,ctr:0.16,val:[{v:10,op:9.2},{v:15,op:10.8},{v:20,op:12.4},{v:5,op:8.1}]},{c:'institucional',op:7.81,ctr:0.11,val:[{v:10,op:7.2},{v:15,op:8.1},{v:20,op:9.0},{v:5,op:6.8}]},{c:'sazonalidade',op:6.74,ctr:0.08,val:[{v:10,op:6.1},{v:15,op:6.9},{v:20,op:8.2},{v:5,op:5.8}]}],elem:{sem_emoji:25.00,com_emoji:8.49,sem_caps:18.01,com_caps:7.79,com_pergunta:10.12,sem_pergunta:14.02},hour:[{h:'17h',v:51.20},{h:'19h',v:43.10},{h:'20h',v:41.80},{h:'13h',v:39.50},{h:'14h',v:38.90},{h:'21h',v:38.20},{h:'11h',v:33.40},{h:'16h',v:31.80}],dow:[{d:'Sexta',v:14.10},{d:'Quinta',v:13.90},{d:'Sábado',v:12.20},{d:'Quarta',v:11.80},{d:'Terça',v:10.90},{d:'Segunda',v:10.40},{d:'Domingo',v:9.10}],len:[{l:'Curto (<30)',op:19.50,ctr:0.45},{l:'Médio (30-50)',op:10.80,ctr:0.48},{l:'Longo (>50)',op:7.90,ctr:0.38}],topOpen:[{s:'Seu ano começa premiado!',sn:21521,op:55.15,ctr:0.57,rv:220,cat:'personalizacao'},{s:'O alívio para o seu ano está aqui!',sn:21053,op:54.77,ctr:0.44,rv:340,cat:'personalizacao'},{s:'Última chance para garantir sua sorte!',sn:18598,op:54.57,ctr:0.49,rv:200,cat:'urgencia'},{s:'Comece 2026 com R$180 mil!',sn:18727,op:54.44,ctr:0.45,rv:160,cat:'premiacao_valor'},{s:'2026 vai ser seu ano de sorte!',sn:21511,op:51.71,ctr:0.34,rv:160,cat:'outros'},{s:'VOCÊ É O NOVO GANHADOR? 🏆',sn:6836,op:14.21,ctr:2.96,rv:180,cat:'resultado_sorteio'},{s:'Confira os ganhadores desse domingo! 🏆',sn:3916,op:8.87,ctr:1.30,rv:240,cat:'resultado_sorteio'},{s:'Seu nome pode estar nessa lista! 🏆',sn:4200,op:13.80,ctr:2.10,rv:130,cat:'resultado_sorteio'},{s:'{Nome}, seu mês de sorte começa agora 🍀',sn:182080,op:6.69,ctr:0.06,rv:165,cat:'personalizacao'},{s:'Você ficou de fora do sorteio. No próximo não! 🏆',sn:188638,op:6.65,ctr:0.10,rv:150,cat:'resultado_sorteio'}],worst:[{s:'Realize seus sonhos: Concorra a 170 Mil 😍',sn:17983,op:2.93,ctr:0.07,rv:60,cat:'premiacao_valor'},{s:'Não fique sem receber nossos avisos! 🚨',sn:6206,op:3.38,ctr:0.17,rv:0,cat:'institucional'},{s:'SÓ R$15! Concorra a R$300 mil em prêmios! 🔄',sn:182017,op:4.74,ctr:0.06,rv:330,cat:'premiacao_valor'},{s:'Hoje fecha. Amanhã R$300 mil em prêmios 🏆',sn:178666,op:4.87,ctr:0.08,rv:450,cat:'urgencia'},{s:'SMC - Premiação_ed438_sabado_com_saldo',sn:2037,op:4.67,ctr:0,rv:0,cat:'urgencia'},{s:'ÚLTIMO DIA PARA FICAR RICO! 💸',sn:8500,op:7.00,ctr:0.09,rv:70,cat:'urgencia'},{s:'C I N C O reais. Só isso. 🖐️',sn:9800,op:7.49,ctr:0.07,rv:80,cat:'outros'},{s:'🏆 SÓ OS FORTES CHEGAM AO FINAL!',sn:12000,op:5.80,ctr:0.06,rv:40,cat:'outros'},{s:'Faltam 2 dias. Você vai arriscar perder? 🔥',sn:179787,op:5.78,ctr:0.05,rv:300,cat:'urgencia'},{s:'Clique aqui para ter sorte 🔘',sn:7200,op:7.24,ctr:0.08,rv:50,cat:'curiosidade'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[52.72,32.66,7.54,7.75,7.35,7.05,6.10],sent:[21522,22594,156463,130601,134824,87824,1105956]}},
+sv:{cats:[{c:'outros',op:26.06,ctr:0.21,val:[{v:10,op:22.1},{v:15,op:27.3},{v:20,op:29.8},{v:5,op:19.4}]},{c:'premiacao_valor',op:12.02,ctr:0.19,val:[{v:10,op:10.4},{v:15,op:12.5},{v:20,op:14.2},{v:5,op:9.8}]},{c:'personalizacao',op:10.51,ctr:0.20,val:[{v:10,op:9.2},{v:15,op:10.8},{v:20,op:12.6},{v:5,op:8.4}]},{c:'curiosidade',op:10.32,ctr:0.21,val:[{v:10,op:9.0},{v:15,op:10.6},{v:20,op:12.1},{v:5,op:8.2}]},{c:'resultado_sorteio',op:10.32,ctr:2.59,val:[{v:10,op:9.1},{v:15,op:10.5},{v:20,op:12.0},{v:5,op:8.0}]},{c:'urgencia',op:9.67,ctr:0.24,val:[{v:10,op:8.4},{v:15,op:9.9},{v:20,op:11.2},{v:5,op:7.6}]},{c:'sazonalidade',op:6.35,ctr:0.11,val:[{v:10,op:5.8},{v:15,op:6.5},{v:20,op:7.4},{v:5,op:5.2}]}],elem:{sem_emoji:21.69,com_emoji:8.89,sem_caps:13.92,com_caps:8.62,com_pergunta:9.43,sem_pergunta:14.04},hour:[{h:'17h',v:49.80},{h:'19h',v:41.20},{h:'20h',v:39.60},{h:'13h',v:37.80},{h:'14h',v:36.50},{h:'21h',v:35.90},{h:'11h',v:30.10},{h:'16h',v:28.40}],dow:[{d:'Quinta',v:14.20},{d:'Sexta',v:13.90},{d:'Sábado',v:11.80},{d:'Quarta',v:11.20},{d:'Terça',v:10.60},{d:'Segunda',v:10.10},{d:'Domingo',v:9.00}],len:[{l:'Curto (<30)',op:18.20,ctr:0.42},{l:'Médio (30-50)',op:10.60,ctr:0.47},{l:'Longo (>50)',op:7.80,ctr:0.35}],topOpen:[{s:'Últimos dias para aproveitar!',sn:8436,op:58.55,ctr:0.35,rv:40,cat:'urgencia'},{s:'Super Vale está te esperando!',sn:8455,op:58.27,ctr:0.48,rv:50,cat:'outros'},{s:'Premiação de Ano Novo imperdível!',sn:9321,op:58.05,ctr:0.56,rv:160,cat:'sazonalidade'},{s:'Concorra a R$165 mil em prêmios!',sn:9377,op:57.37,ctr:0.72,rv:90,cat:'premiacao_valor'},{s:'Quer ganhar R$110 mil?',sn:9366,op:55.96,ctr:0.60,rv:80,cat:'premiacao_valor'},{s:'O alívio para o seu ano está aqui!',sn:10388,op:52.07,ctr:0.42,rv:10,cat:'personalizacao'},{s:'Você pode estar na lista de ganhadores! 👀',sn:2401,op:10.21,ctr:3.36,rv:60,cat:'resultado_sorteio'},{s:'Seu nome está na lista de ganhadores? 🍀',sn:3056,op:15.55,ctr:6.69,rv:235,cat:'resultado_sorteio'},{s:'Saiu a lista dos ganhadores do Super Vale! ✨',sn:2672,op:13.56,ctr:5.46,rv:110,cat:'resultado_sorteio'},{s:'Você pode estar na lista de ganhadores! 👀',sn:100301,op:6.45,ctr:0.38,rv:40,cat:'resultado_sorteio'}],worst:[{s:'Só ganha quem concorre 💰💰',sn:8317,op:2.61,ctr:0.06,rv:10,cat:'urgencia'},{s:'R$105 MIL: Fique rico neste domingo! 💰',sn:92679,op:4.50,ctr:0.10,rv:170,cat:'premiacao_valor'},{s:'🚫 Chega de boletos!',sn:6800,op:6.91,ctr:0.07,rv:20,cat:'outros'},{s:'Só compra o SUPER VALE quem quiser ficar rico! 💰',sn:7500,op:6.28,ctr:0.06,rv:25,cat:'outros'},{s:'🔥 Sua sorte muda HOJE!',sn:8900,op:6.80,ctr:0.07,rv:30,cat:'urgencia'},{s:'Super Vale: sua chance de ouro! 🥇',sn:6400,op:7.10,ctr:0.09,rv:20,cat:'outros'},{s:'VEM VER O QUE ROLA NO INSTA 📸',sn:7200,op:6.49,ctr:0.08,rv:15,cat:'outros'},{s:'SV_Premiação_ed429_sabado_com_saldo',sn:1469,op:4.39,ctr:0,rv:10,cat:'urgencia'},{s:'SV_Premiação_ed429_sabado_sem_saldo',sn:92665,op:4.48,ctr:0,rv:130,cat:'urgencia'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[56.66,30.61,7.85,8.09,7.17,6.80,5.55],sent:[9372,13216,76688,67628,61212,39676,575595]}}};
 
 const CATS=[
 {c:'resultado_sorteio',l:'Resultado do sorteio',col:'#1D9E75',desc:'Anunciando quem ganhou ou perguntando se o usuário foi sorteado.',exMC:'"SAIU GANHADOR! 🏆"',exSM:'"VOCÊ É O NOVO GANHADOR? 🏆"',exSV:'"Seu nome está na lista de ganhadores? 🍀"'},
@@ -560,8 +674,270 @@ function aF(s){flt[s]=gF(s);rS(s);}
 function rF(s){pF(s);flt[s]=D[cap].eds;rS(s);}
 function setC(c,btn){cap=c;document.querySelectorAll('.ct').forEach(b=>b.className='ct');btn.className='ct a'+c;document.getElementById('sub').textContent=D[c].s;['camp','rank'].forEach(s=>{pF(s);flt[s]=D[c].eds;});profileMode='tot';document.getElementById('ed5tab').textContent=`⭐ Ed. R$${D[c].ed5.price} (Ed.${D[c].ed5.ed})`;rAll();}
 function setProfile(m,btn){profileMode=m;document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rBProf();}
-function showT(id,btn){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById('t-'+id).classList.add('on');btn.classList.add('on');setTimeout(()=>rAll(),40);}
-function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base')rBase();else if(id==='metas')rMetas();else if(id==='recon')rRecon();else rS(id);}
+
+function rFecho(){
+  var fd=FECHO[cap];
+  if(!fd) return;
+  // Popular select de meses
+  var sel=document.getElementById('fecho-mes-sel');
+  var curVal=sel.value;
+  while(sel.options.length>1) sel.remove(1);
+  fd.meses.forEach(function(m){
+    var opt=document.createElement('option');
+    opt.value=m.mes; opt.textContent=m.mes;
+    sel.appendChild(opt);
+  });
+  if(curVal) sel.value=curVal;
+  var mesSel=sel.value;
+  var meses=mesSel?fd.meses.filter(function(m){return m.mes===mesSel;}):fd.meses;
+  if(!meses.length){
+    document.getElementById('fecho-cards-mai').innerHTML='';
+    document.getElementById('fecho-insights').innerHTML='';
+    document.getElementById('fecho-tbl').innerHTML='';
+    return;
+  }
+  var col=cap==='mc'?'#639922':cap==='sm'?'#378ADD':'#D4537E';
+  // -- Grafico Fat x Mes + ROAS + tendencia log --
+  var fmeses=fd.meses;
+  var fvals=fmeses.map(function(m){return m.total;});
+  var froasVals=fmeses.map(function(m){return m.roas||null;});
+  var n=fvals.length;
+  var xArr=fvals.map(function(_,i){return i+1;});
+  var lnX=xArr.map(function(x){return Math.log(x);});
+  var sumLnX=lnX.reduce(function(a,b){return a+b;},0);
+  var sumY=fvals.reduce(function(a,b){return a+b;},0);
+  var sumLnX2=lnX.reduce(function(a,b){return a+b*b;},0);
+  var sumLnXY=lnX.reduce(function(a,v,i){return a+v*fvals[i];},0);
+  var bLog=(n*sumLnXY-sumLnX*sumY)/(n*sumLnX2-sumLnX*sumLnX);
+  var aLog=(sumY-bLog*sumLnX)/n;
+  var logTrend=xArr.map(function(x){return Math.round(aLog+bLog*Math.log(x));});
+  dc('c-fecho-mensal');
+  var roasMax=Math.max.apply(null,froasVals.filter(Boolean));
+  ch['c-fecho-mensal']=new Chart(document.getElementById('c-fecho-mensal'),{
+    type:'bar',
+    data:{
+      labels:fmeses.map(function(m){return m.mes;}),
+      datasets:[
+        {type:'bar',label:'Faturamento',data:fvals,
+          backgroundColor:'#0E2841',borderRadius:2,
+          yAxisID:'yFat',order:2,barPercentage:0.45,categoryPercentage:0.8},
+        {type:'line',label:'ROAS',data:froasVals,
+          borderColor:'#E8A020',backgroundColor:'transparent',
+          borderWidth:2,pointRadius:3,pointBackgroundColor:'#E8A020',
+          pointBorderColor:'#fff',pointBorderWidth:1,
+          yAxisID:'yRoas',order:1,spanGaps:true},
+        {type:'line',label:'Tendencia log',data:logTrend,
+          borderColor:'#aaaaaa',backgroundColor:'transparent',
+          borderWidth:1.5,borderDash:[3,3],pointRadius:0,
+          yAxisID:'yFat',order:3}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:12,padding:10}},
+        tooltip:{callbacks:{label:function(ctx){
+          if(ctx.dataset.label==='Faturamento') return 'R$'+ctx.raw.toLocaleString('pt-BR');
+          if(ctx.dataset.label==='ROAS') return 'ROAS: '+(ctx.raw!=null?ctx.raw+'x':'-');
+          return '';
+        }}}
+      },
+      scales:{
+        yFat:{display:false,suggestedMax:Math.max.apply(null,fvals)*1.3},
+        yRoas:{display:false,min:0,suggestedMax:roasMax*2.5},
+        x:{ticks:{font:{size:10},color:'#555'},grid:{display:false},border:{display:false}}
+      }
+    },
+    plugins:[{
+      id:'fatLabels',
+      afterDatasetDraw:function(chart){
+        var ctx2=chart.ctx;
+        var meta=chart.getDatasetMeta(0);
+        var ds=chart.data.datasets[0];
+        meta.data.forEach(function(bar,i){
+          if(ds.data[i]==null) return;
+          ctx2.save();
+          ctx2.fillStyle='#222';
+          ctx2.font='600 9px sans-serif';
+          ctx2.textAlign='center';
+          ctx2.textBaseline='bottom';
+          ctx2.fillText('R$'+fmt(ds.data[i]),bar.x,bar.y-4);
+          ctx2.restore();
+        });
+        // ROAS value next to each point on the ROAS line
+        var metaR=chart.getDatasetMeta(1);
+        var dsR=chart.data.datasets[1];
+        metaR.data.forEach(function(pt,i){
+          if(dsR.data[i]==null) return;
+          ctx2.save();
+          ctx2.fillStyle='#c47a00';
+          ctx2.font='600 9px sans-serif';
+          ctx2.textAlign='center';
+          ctx2.textBaseline='bottom';
+          ctx2.fillText(dsR.data[i]+'x',pt.x,pt.y-5);
+          ctx2.restore();
+        });
+      }
+    }]
+  });
+  // -- Cards resumo --
+  var ultimo=meses[meses.length-1];
+  var idxUlt=fd.meses.findIndex(function(m){return m.mes===ultimo.mes;});
+  var penultimo=idxUlt>0?fd.meses[idxUlt-1]:null;
+  var varPct=penultimo?((ultimo.total/penultimo.total-1)*100).toFixed(0):null;
+  var melhorEd=ultimo.eds.reduce(function(a,b){return b.rv>a.rv?b:a;});
+  var piorEd=ultimo.eds.reduce(function(a,b){return b.rv<a.rv?b:a;});
+  var pctMelhor=Math.round(melhorEd.rv/ultimo.total*100);
+  document.getElementById('fecho-mes-lbl').textContent=ultimo.mes;
+  var varHtml='';
+  if(varPct){
+    var corVar=Number(varPct)>=0?'#1D9E75':'#D85A30';
+    varHtml='<div style="font-size:11px;color:'+corVar+';margin-top:2px">'+(Number(varPct)>=0?'+':'')+varPct+'% vs '+penultimo.mes+'</div>';
+  }
+  var roasHtml=ultimo.roas?'<div class="card" style="text-align:center;padding:14px 10px"><div style="font-size:10px;color:#888780;text-transform:uppercase;margin-bottom:4px">ROAS CRM</div><div style="font-size:22px;font-weight:700;color:'+col+'">'+ultimo.roas+'x</div></div>':'';
+  document.getElementById('fecho-cards-mai').innerHTML=
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:.8rem">'+
+    '<div class="card" style="text-align:center;padding:14px 10px"><div style="font-size:10px;color:#888780;text-transform:uppercase;margin-bottom:4px">Fat. CRM '+ultimo.mes+'</div>'+
+    '<div style="font-size:22px;font-weight:700;color:'+col+'">'+fR(ultimo.total)+'</div>'+varHtml+'</div>'+
+    '<div class="card" style="text-align:center;padding:14px 10px"><div style="font-size:10px;color:#888780;text-transform:uppercase;margin-bottom:4px">Edicoes</div>'+
+    '<div style="font-size:22px;font-weight:700;color:'+col+'">'+ultimo.eds.length+'</div>'+
+    '<div style="font-size:11px;color:#636057;margin-top:2px">'+ultimo.eds.map(function(e){return 'Ed.'+e.ed;}).join(', ')+'</div></div>'+
+    '<div class="card" style="text-align:center;padding:14px 10px"><div style="font-size:10px;color:#888780;text-transform:uppercase;margin-bottom:4px">Melhor edicao</div>'+
+    '<div style="font-size:22px;font-weight:700;color:'+col+'">Ed.'+melhorEd.ed+'</div>'+
+    '<div style="font-size:11px;color:#636057;margin-top:2px">'+fR(melhorEd.rv)+' ('+pctMelhor+'% do mes)</div></div>'+
+    roasHtml+'</div>';
+  // -- Insights aprofundados --
+  var highVal=ultimo.eds.reduce(function(a,b){return b.val>a.val?b:a;});
+  var highValPct=Math.round(highVal.rv/ultimo.total*100);
+  var mediaEd=Math.round(ultimo.total/ultimo.eds.length);
+  var insights=[];
+  // fat total + var
+  var varTexto=varPct?(Number(varPct)>=0?'alta de +'+varPct+'%':'queda de '+varPct+'%')+' vs '+penultimo.mes+' ('+fR(penultimo.total)+')':'';
+  insights.push({e:'R$',t:'<b>Fat. '+ultimo.mes+': '+fR(ultimo.total)+'</b>'+(varTexto?' - '+varTexto:'')+'.'});
+  // melhor edicao com nota dias das maes se for maio
+  var diadasmaes=melhorEd.ed===519&&ultimo.mes==='Mai/2026';
+  var notaMae=diadasmaes?' (Edicao Dia das Maes - maior fat. do mes nos 3 caps)':'';
+  insights.push({e:'*',t:'<b>Melhor edicao: Ed.'+melhorEd.ed+' - R$'+melhorEd.val+'</b>'+notaMae+' - '+fR(melhorEd.rv)+', '+pctMelhor+'% do total.'});
+  // distorcao da edicao especial vs edicoes regulares
+  var edsRegulares=ultimo.eds.filter(function(e){return e.val!==highVal.val;});
+  var mediaRegular=edsRegulares.length?Math.round(edsRegulares.reduce(function(a,b){return a+b.rv;},0)/edsRegulares.length):0;
+  var diffEspecial=mediaRegular?Math.round((highVal.rv/mediaRegular-1)*100):0;
+  var insightTicket='<b>Ed.'+highVal.ed+' (R$'+highVal.val+') respondeu por '+highValPct+'% do mes.</b>';
+  if(edsRegulares.length){
+    insightTicket+=' As edicoes regulares (R$'+edsRegulares[0].val+') tiveram media de '+fR(mediaRegular)+' — a edicao especial entregou '+diffEspecial+'% a mais que essa media.';
+  }
+  insights.push({e:'#',t:insightTicket});
+  // comparativo aprofundado com mes anterior
+  if(penultimo){
+    var diffAbs=ultimo.total-penultimo.total;
+    var melhorAnt=penultimo.eds.reduce(function(a,b){return b.rv>a.rv?b:a;});
+    var mesAntTexto=Number(varPct)>=0?
+      'Crescimento de '+fR(Math.abs(diffAbs))+' sobre '+penultimo.mes+'. Melhor edicao anterior foi Ed.'+melhorAnt.ed+' com '+fR(melhorAnt.rv)+'.':
+      'Retração de '+fR(Math.abs(diffAbs))+' vs '+penultimo.mes+' ('+fR(penultimo.total)+'). Melhor edicao anterior foi Ed.'+melhorAnt.ed+' com '+fR(melhorAnt.rv)+'. Media anterior: '+fR(Math.round(penultimo.total/penultimo.eds.length))+' por edicao vs '+fR(mediaEd)+' atual.';
+    insights.push({e:'~',t:'<b>vs '+penultimo.mes+':</b> '+mesAntTexto});
+    // eds de mesmo ticket
+    var ticketAtual=ultimo.eds.filter(function(e){return e.val===15;});
+    var ticketAnt=penultimo.eds.filter(function(e){return e.val===15;});
+    if(ticketAtual.length&&ticketAnt.length){
+      var mediaAtual=Math.round(ticketAtual.reduce(function(a,b){return a+b.rv;},0)/ticketAtual.length);
+      var mediaAntT=Math.round(ticketAnt.reduce(function(a,b){return a+b.rv;},0)/ticketAnt.length);
+      var diffT=Math.round((mediaAtual/mediaAntT-1)*100);
+      insights.push({e:'=',t:'<b>Edicoes R$15 (comparavel):</b> media de '+fR(mediaAtual)+' no mes atual vs '+fR(mediaAntT)+' em '+penultimo.mes+' ('+(diffT>=0?'+':'')+diffT+'%).'});
+    }
+  }
+  // Tendencia dentro do mes (primeira vs ultima edicao regular)
+  if(edsRegulares.length>=2){
+    var primeiraReg=edsRegulares[0];
+    var ultimaReg=edsRegulares[edsRegulares.length-1];
+    var tendMes=Math.round((ultimaReg.rv/primeiraReg.rv-1)*100);
+    var tendTexto=tendMes>=0?'crescimento de +'+tendMes+'% da primeira para a ultima edicao regular':'queda de '+tendMes+'% da primeira para a ultima edicao regular';
+    insights.push({e:'>',t:'<b>Tendencia dentro do mes:</b> Ed.'+primeiraReg.ed+' ('+fR(primeiraReg.rv)+') a Ed.'+ultimaReg.ed+' ('+fR(ultimaReg.rv)+') — '+tendTexto+'.'});
+  }
+  // Fat sem a edicao especial
+  if(highVal.val!==edsRegulares[0].val&&edsRegulares.length){
+    var fatSemEspecial=ultimo.total-highVal.rv;
+    var varSemEsp=penultimo?Math.round((fatSemEspecial/penultimo.total-1)*100):null;
+    var semEspTexto='Sem a Ed.'+highVal.ed+' (R$'+highVal.val+'), o mes teria fechado em '+fR(fatSemEspecial);
+    if(varSemEsp!==null) semEspTexto+=', '+(varSemEsp>=0?'+':'')+varSemEsp+'% vs '+penultimo.mes;
+    insights.push({e:'!',t:semEspTexto+'.'});
+  }
+  // Concentracao top 2
+  var edsOrdenadas=ultimo.eds.slice().sort(function(a,b){return b.rv-a.rv;});
+  if(edsOrdenadas.length>=2){
+    var top2=edsOrdenadas[0].rv+edsOrdenadas[1].rv;
+    var top2pct=Math.round(top2/ultimo.total*100);
+    insights.push({e:'%',t:'<b>Concentracao:</b> as 2 melhores edicoes (Ed.'+edsOrdenadas[0].ed+' e Ed.'+edsOrdenadas[1].ed+') responderam por '+top2pct+'% do faturamento do mes.'});
+  }
+  document.getElementById('fecho-insights').innerHTML=insights.map(function(x){
+    return '<div class="ir"><div class="ii" style="background:#eeeee8;font-size:12px;font-weight:700;min-width:22px;text-align:center">'+x.e+'</div><div style="font-size:11px;line-height:1.6">'+x.t+'</div></div>';
+  }).join('');
+  // -- Pizza com labels nas fatias --
+  dc('c-fecho-eds');
+  var pieColors=['#1a3a5c','#2e6da4','#5b9fd4','#7ab8e8','#9ecde8','#c8e6f5','#D4537E','#e8829f'];
+  ch['c-fecho-eds']=new Chart(document.getElementById('c-fecho-eds'),{
+    type:'pie',
+    data:{
+      labels:ultimo.eds.map(function(e){return 'Ed.'+e.ed+' R$'+e.val;}),
+      datasets:[{
+        data:ultimo.eds.map(function(e){return e.rv;}),
+        backgroundColor:ultimo.eds.map(function(_,i){return pieColors[i%pieColors.length];}),
+        borderWidth:2,borderColor:'#fff'
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}},
+        tooltip:{callbacks:{label:function(ctx){return 'R$'+ctx.raw.toLocaleString('pt-BR')+' ('+Math.round(ctx.raw/ultimo.total*100)+'%)';}}}
+      }
+    },
+    plugins:[{
+      id:'pieLabels',
+      afterDatasetDraw:function(chart){
+        var ctx2=chart.ctx;
+        var ds=chart.data.datasets[0];
+        var meta=chart.getDatasetMeta(0);
+        var tot=ds.data.reduce(function(a,b){return a+b;},0);
+        meta.data.forEach(function(arc,i){
+          var pct=Math.round(ds.data[i]/tot*100);
+          if(pct<5) return;
+          var angle=(arc.startAngle+arc.endAngle)/2;
+          var r=(arc.innerRadius+arc.outerRadius)/2;
+          var x=arc.x+Math.cos(angle)*r;
+          var y=arc.y+Math.sin(angle)*r;
+          ctx2.save();
+          ctx2.fillStyle='#fff';
+          ctx2.font='bold 10px sans-serif';
+          ctx2.textAlign='center';
+          ctx2.textBaseline='middle';
+          ctx2.fillText('R$'+fmt(ds.data[i]),x,y-6);
+          ctx2.fillText(pct+'%',x,y+7);
+          ctx2.restore();
+        });
+      }
+    }]
+  });
+  // -- Tabela --
+  document.getElementById('fecho-tbl').innerHTML=meses.map(function(m){
+    return m.eds.map(function(e,i){
+      return '<tr>'+
+        '<td>Ed.'+e.ed+'</td><td style="text-align:center">R$'+e.val+'</td>'+
+        '<td style="text-align:right;font-weight:600">'+fR(e.rv)+'</td>'+
+        '<td style="text-align:right;color:#888780">'+Math.round(e.rv/m.total*100)+'%</td></tr>';
+    }).join('')+
+    '<tr style="background:#f5f4f0;font-weight:700">'+
+    '<td colspan="2" style="padding-left:4px">Total '+m.mes+'</td>'+
+    '<td style="text-align:right">'+fR(m.total)+'</td>'+
+    '<td style="text-align:right">100%</td></tr>';
+  }).join('');
+}
+function showT(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('t-'+id).classList.add('on');
+  btn.classList.add('on');
+  rAll();
+}
+function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='fecho')rFecho();else if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base')rBase();else if(id==='metas')rMetas();else if(id==='recon')rRecon();else rS(id);}
 function rS(s){if(s==='camp')rCamp();else if(s==='rank')rRank();}
 
 function rCamp(){
@@ -695,7 +1071,7 @@ function rRank(){
   document.getElementById('chins').innerHTML=[
     {e:'⬇️',t:`CTR do Web Push caiu ao longo do período — base cresceu, mais usuários novos com menor engajamento inicial.`},
     {e:'📧',t:`Abertura do e-mail está estável após crescimento de base. Campanhas de resultado do sorteio continuam com maior abertura.`},
-    {e:'📱',t:`App Push tem maior taxa de abertura (${d.ap.opr}%). Usuários com app instalado têm maior intenção de compra.`},
+    {e:'📱',t:`App Push: ${d.ap.opr}% de abertura. Embora menor que o e-mail em abertura bruta, o público com app instalado tem maior intenção de compra — base mais qualificada.`},
     {e:'💰',t:`Web Push gera maior revenue direto. E-mail tem maior alcance. Combinar os dois nas edições de ticket mais alto amplifica o resultado.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
 }
@@ -1005,7 +1381,7 @@ function rRecon(){
   const d=D[cap],col=d.col;
   const eds=d.eds.filter(e=>e.insider_crm!=null);
   const iRev=eds.map(e=>e.insider_crm); // Insider: Email + WP revenue real
-  const gRev=eds.map(e=>e.ga4_crm);       // GA4: insider/web_push + insider/email + CRM/email
+  const gRev=eds.map(e=>e.ga4_recon!=null?e.ga4_recon:e.ga4_crm);       // GA4: insider/web_push + insider/email + CRM/email
   const lbs=eds.map(e=>`Ed.${e.ed}`);
   const pctDiff=eds.map((e,i)=>{const ir=iRev[i],gr=gRev[i];return ir>0?Math.round((gr-ir)/ir*100):null;});
 
@@ -1033,10 +1409,10 @@ function rRecon(){
   const maxDiff=Math.max(...pctDiff.filter(v=>v!=null));
   const maxEd=eds[pctDiff.indexOf(maxDiff)]?.ed;
   document.getElementById('recon-insights').innerHTML=[
-    {e:'📊',t:`<b>Divergência média: +${avgDiff}%</b> — GA4 registra em média ${avgDiff}% a mais que Insider (WP + Email). Diferença esperada pela janela de atribuição e modelo de last-click do GA4.`},
-    {e:'📈',t:`<b>Maior divergência: Ed.${maxEd||'?'} (+${maxDiff}%).</b> Edições de R$5 tendem a ter maior divergência pelo volume alto de compras diretas não atribuídas ao CRM.`},
+    {e:'📊',t:`<b>Divergência média: +${avgDiff}%</b> — GA4 registra em média ${avgDiff}% a mais que Insider (WP + Email). Diferença esperada pelas distintas janelas e modelos de atribuição de cada plataforma.`},
+    {e:'📈',t:`<b>Maior divergência: Ed.${maxEd||'?'} (+${maxDiff}%).</b> Divergências altas podem indicar compras diretas via app ou browser sem cookie que o GA4 captura mas a Insider não atribui ao CRM.`},
     {e:'💡',t:`Para validar mudanças de critério de atribuição: se a divergência se mantiver estável (±10pp da média histórica), o critério está consistente. Variações maiores indicam mudança na plataforma ou no comportamento de compra.`},
-    {e:'⚠️',t:`Insider registra revenue de WP e Email separadamente. GA4 considera apenas <b>insider/web_push</b>, <b>insider/email</b> e <b>CRM/email</b>. Origens architect_web_push, architect_email e insider/insider não são contabilizadas. O GA4 consistentemente registra valores maiores que a Insider — a divergência pode estar relacionada a diferenças no modelo de atribuição entre as plataformas. Recomenda-se validar com o time de dados antes de tirar conclusões.`}
+    {e:'⚠️',t:`Insider registra revenue de WP e Email separadamente. GA4 considera apenas <b>insider/web_push</b>, <b>insider/email</b> e <b>CRM/email</b>. Origens architect_web_push, architect_email e insider/insider não são contabilizadas. O GA4 consistentemente registra valores maiores que a Insider. A divergência reflete diferenças nas janelas e modelos de atribuição — configurações em validação com o time de dados.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
 }
 
