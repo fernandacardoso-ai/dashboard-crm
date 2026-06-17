@@ -478,7 +478,7 @@ const FECHO = {
       {mes:'Fev/2026', total:21105, roas:3.0},
       {mes:'Mar/2026', total:26475, roas:3.2},
       {mes:'Abr/2026', total:22164, roas:2.7},
-      {mes:'Mai/2026', total:20810, roas:2.5}
+      {mes:'Mai/2026', total:35350, roas:2.5}
     ],
     meses:[
 
@@ -941,9 +941,11 @@ function rFecho(){
         '<td style="text-align:right;color:#888780">'+Math.round(e.rv/m.total*100)+'%</td>'+
         '</tr>';
     }).join('');
+    var totalComp=m.eds.some(function(e){return e.comp!=null;})?m.eds.reduce(function(a,e){return a+(e.comp||0);},0).toLocaleString('pt-BR'):'—';
     var total='<tr style="background:#f5f4f0;font-weight:700">'+
-      '<td colspan="3" style="padding-left:4px">Total</td>'+
+      '<td colspan="2" style="padding-left:4px">Total</td>'+
       '<td style="text-align:right">'+fR(m.total)+'</td>'+
+      '<td style="text-align:right">'+totalComp+'</td>'+
       '<td style="text-align:right">100%</td></tr>';
     return '<div class="card" style="padding:10px 14px">'+
       '<div style="font-size:11px;font-weight:700;color:'+col+';margin-bottom:8px">'+m.mes+'</div>'+
