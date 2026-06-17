@@ -154,14 +154,7 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 <div id="t-fecho" class="sec on">
   <div class="src"><span>📅 <strong>Fechamento mensal CRM</strong> — faturamento GA4 por edição e mês</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
 
-  <!-- Filtro por mês fechado -->
-  <div class="fb" style="background:#f0efe9;border:1px solid #d3d1c7;margin-bottom:.8rem">
-    <label style="font-size:11px;font-weight:600">Mês</label>
-    <select id="fecho-mes-sel" onchange="rFecho()" style="border:1px solid #d3d1c7;border-radius:4px;padding:3px 8px;font-size:12px;background:#fff">
-      <option value="">Todos os meses</option>
-    </select>
-    <button onclick="document.getElementById('fecho-mes-sel').value='';rFecho()" style="margin-left:4px">✕ Limpar</button>
-  </div>
+
 
   <!-- Gráfico Fat x Mês com ROAS -->
   <div class="card" style="margin-bottom:.8rem">
@@ -170,26 +163,28 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
     <div class="cw" style="height:260px;padding-bottom:18px"><canvas id="c-fecho-mensal"></canvas></div>
   </div>
 
+  <!-- Filtro por mês para destaques -->
+  <div class="fb" style="background:#f0efe9;border:1px solid #d3d1c7;margin-bottom:.8rem">
+    <label style="font-size:11px;font-weight:600">Mês em destaque</label>
+    <select id="fecho-mes-sel" onchange="rFecho()" style="border:1px solid #d3d1c7;border-radius:4px;padding:3px 8px;font-size:12px;background:#fff">
+      <option value="">Último mês</option>
+    </select>
+  </div>
+
   <!-- Cards de resumo -->
   <div id="fecho-cards-mai" style="margin-bottom:.8rem"></div>
 
   <!-- Insights ACIMA da tabela -->
   <div class="card" style="margin-bottom:.8rem"><div class="ct2">Destaques do fechamento</div><div id="fecho-insights"></div></div>
 
-  <!-- Pizza + Tabela lado a lado -->
-  <div class="cg">
-    <div class="card">
-      <div class="ct2">Fat. por edição — <span id="fecho-mes-lbl">Mai/2026</span></div>
-      <div class="cw" style="height:260px"><canvas id="c-fecho-eds"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="ct2">Detalhamento por edição</div>
-      <div style="overflow-x:auto"><table>
-        <thead><tr><th>Edição</th><th>Valor</th><th>Fat.</th><th>%</th></tr></thead>
-        <tbody id="fecho-tbl"></tbody>
-      </table></div>
-    </div>
+  <!-- Pizza do último mês -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2">Fat. por edição — <span id="fecho-mes-lbl">Mai/2026</span></div>
+    <div class="cw" style="height:240px"><canvas id="c-fecho-eds"></canvas></div>
   </div>
+
+  <!-- Blocos de tabela por mês (2 por linha) -->
+  <div id="fecho-tbl-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
 </div>
 
 <!-- CAMPANHAS -->
@@ -432,57 +427,69 @@ const UPD='01/06/2026';
 
 const FECHO = {
   mc:{
+    hist:[
+      {mes:'Nov/2025', total:71965, roas:1.5},
+      {mes:'Dez/2025', total:139985, roas:2.9},
+      {mes:'Jan/2026', total:142130, roas:3.0},
+      {mes:'Fev/2026', total:164640, roas:3.4},
+      {mes:'Mar/2026', total:239825, roas:5.0},
+      {mes:'Abr/2026', total:156895, roas:3.2},
+      {mes:'Mai/2026', total:243560, roas:5.0}
+    ],
     meses:[
-      {mes:'Nov/2025', total:71965, roas:1.5,
-       eds:[{ed:495,val:10,rv:71965}]},
-      {mes:'Dez/2025', total:139985, roas:2.9,
-       eds:[{ed:500,val:10,rv:139985}]},
-      {mes:'Jan/2026', total:142130, roas:3.0,
-       eds:[{ed:505,val:10,rv:31100},{ed:506,val:20,rv:54790},{ed:507,val:10,rv:38300},{ed:508,val:10,rv:17940}]},
+
       {mes:'Fev/2026', total:164640, roas:3.4,
        eds:[{ed:505,val:10,rv:31100},{ed:506,val:20,rv:54790},{ed:507,val:10,rv:38300},{ed:508,val:10,rv:40450}]},
       {mes:'Mar/2026', total:239825, roas:5.0,
        eds:[{ed:509,val:10,rv:37350},{ed:510,val:20,rv:62520},{ed:511,val:10,rv:50980},{ed:512,val:5,rv:62130},{ed:513,val:10,rv:26845}]},
-      {mes:'Abr/2026', total:165895, roas:3.2,
+      {mes:'Abr/2026', total:156895, roas:3.2,
        eds:[{ed:514,val:15,rv:36075},{ed:515,val:20,rv:43585},{ed:516,val:20,rv:41550},{ed:517,val:15,rv:35685}]},
       {mes:'Mai/2026', total:243560, roas:5.0,
-       eds:[{ed:518,val:15,rv:36280},{ed:519,val:25,rv:97955},{ed:520,val:15,rv:39405},{ed:521,val:15,rv:34215},{ed:522,val:15,rv:35705}]}
+       eds:[{ed:518,val:15,rv:36280,comp:2103},{ed:519,val:25,rv:97955,comp:3464},{ed:520,val:15,rv:39405,comp:2164},{ed:521,val:15,rv:34215,comp:1993},{ed:522,val:15,rv:35705,comp:2087}]}
     ]
   },
   sm:{
+    hist:[
+      {mes:'Nov/2025', total:38925, roas:2.4},
+      {mes:'Dez/2025', total:47635, roas:3.0},
+      {mes:'Jan/2026', total:50840, roas:3.2},
+      {mes:'Fev/2026', total:50065, roas:3.2},
+      {mes:'Mar/2026', total:62125, roas:4.0},
+      {mes:'Abr/2026', total:37645, roas:2.4},
+      {mes:'Mai/2026', total:52765, roas:3.3}
+    ],
     meses:[
-      {mes:'Nov/2025', total:38925, roas:2.4,
-       eds:[{ed:411,val:10,rv:38925}]},
-      {mes:'Dez/2025', total:47635, roas:3.0,
-       eds:[{ed:415,val:10,rv:47635}]},
-      {mes:'Jan/2026', total:50840, roas:3.2,
-       eds:[{ed:419,val:15,rv:6600},{ed:420,val:15,rv:6110},{ed:421,val:10,rv:2710},{ed:422,val:15,rv:2520},{ed:423,val:10,rv:6070},{ed:424,val:10,rv:3770},{ed:425,val:5,rv:10820},{ed:426,val:20,rv:4300}]},
+
       {mes:'Fev/2026', total:50065, roas:3.2,
-       eds:[{ed:423,val:10,rv:6070},{ed:424,val:10,rv:3770},{ed:425,val:5,rv:10820},{ed:426,val:20,rv:4300},{ed:427,val:20,rv:17525},{ed:428,val:15,rv:10430}]},
+       eds:[{ed:422,val:10,rv:10450},{ed:423,val:20,rv:19100},{ed:424,val:10,rv:10020},{ed:425,val:5,rv:10495,comp:459}]},
       {mes:'Mar/2026', total:62125, roas:4.0,
-       eds:[{ed:426,val:15,rv:14130},{ed:427,val:20,rv:17525},{ed:428,val:15,rv:10430},{ed:429,val:10,rv:5770},{ed:430,val:15,rv:9645}]},
+       eds:[{ed:426,val:15,rv:14130,comp:580},{ed:427,val:20,rv:17525,comp:443},{ed:428,val:15,rv:10430,comp:422},{ed:429,val:15,rv:10395,comp:470},{ed:430,val:15,rv:9645}]},
       {mes:'Abr/2026', total:37645, roas:2.4,
        eds:[{ed:431,val:20,rv:21565},{ed:432,val:15,rv:8610},{ed:433,val:15,rv:7470}]},
       {mes:'Mai/2026', total:52765, roas:3.3,
-       eds:[{ed:434,val:15,rv:7930},{ed:435,val:20,rv:15755},{ed:436,val:15,rv:7375},{ed:437,val:15,rv:9955},{ed:438,val:15,rv:11750}]}
+       eds:[{ed:434,val:15,rv:7930,comp:445},{ed:435,val:20,rv:15755,comp:687},{ed:436,val:15,rv:7375,comp:416},{ed:437,val:15,rv:9955,comp:592},{ed:438,val:15,rv:11750,comp:688}]}
     ]
   },
   sv:{
+    hist:[
+      {mes:'Nov/2025', total:14535, roas:1.3},
+      {mes:'Dez/2025', total:15920, roas:1.4},
+      {mes:'Jan/2026', total:17560, roas:1.5},
+      {mes:'Fev/2026', total:21105, roas:3.0},
+      {mes:'Mar/2026', total:26475, roas:3.2},
+      {mes:'Abr/2026', total:22164, roas:2.7},
+      {mes:'Mai/2026', total:20810, roas:2.5}
+    ],
     meses:[
-      {mes:'Nov/2025', total:14535, roas:1.3,
-       eds:[{ed:401,val:10,rv:14535}]},
-      {mes:'Dez/2025', total:15920, roas:1.4,
-       eds:[{ed:405,val:10,rv:15920}]},
-      {mes:'Jan/2026', total:17560, roas:1.5,
-       eds:[{ed:409,val:10,rv:2085},{ed:410,val:10,rv:2650},{ed:411,val:10,rv:1300},{ed:412,val:10,rv:945},{ed:413,val:15,rv:2040},{ed:414,val:10,rv:950},{ed:415,val:5,rv:5635},{ed:416,val:10,rv:810}]},
+
       {mes:'Fev/2026', total:21105, roas:3.0,
-       eds:[{ed:414,val:10,rv:950},{ed:415,val:5,rv:5635},{ed:416,val:10,rv:810},{ed:417,val:10,rv:1960},{ed:418,val:10,rv:1860},{ed:419,val:10,rv:1630},{ed:420,val:10,rv:1450}]},
+       eds:[{ed:412,val:10,rv:4315},{ed:413,val:15,rv:6535},{ed:414,val:10,rv:4750},{ed:415,val:5,rv:5505}]},
       {mes:'Mar/2026', total:26475, roas:3.2,
-       eds:[{ed:417,val:10,rv:1960},{ed:418,val:10,rv:1860},{ed:419,val:10,rv:1630},{ed:420,val:10,rv:1450}]},
+       eds:[{ed:416,val:10,rv:5275},{ed:417,val:15,rv:5990},{ed:418,val:10,rv:4760},{ed:419,val:10,rv:5630},{ed:420,val:10,rv:4820}]},
       {mes:'Abr/2026', total:22164, roas:2.7,
        eds:[{ed:421,val:10,rv:5520},{ed:422,val:15,rv:6345},{ed:423,val:10,rv:5330},{ed:424,val:10,rv:4970}]},
-      {mes:'Mai/2026', total:15080, roas:2.5,
-       eds:[{ed:426,val:20,rv:2250},{ed:427,val:10,rv:1990},{ed:428,val:10,rv:5070},{ed:429,val:10,rv:5770}]}
+      {mes:'Mai/2026', total:20810, roas:2.5,
+       eds:[{ed:425,val:10,rv:5730,comp:459},{ed:426,val:20,rv:2250,comp:580},{ed:427,val:10,rv:1990,comp:443},{ed:428,val:10,rv:5070,comp:422},{ed:429,val:10,rv:5770,comp:470}]}
     ]
   }
 };
@@ -680,26 +687,31 @@ function rFecho(){
   var fd=FECHO[cap];
   if(!fd) return;
   // Popular select de meses
+  // Popular select de meses
   var sel=document.getElementById('fecho-mes-sel');
-  var curVal=sel.value;
-  while(sel.options.length>1) sel.remove(1);
-  fd.meses.forEach(function(m){
-    var opt=document.createElement('option');
-    opt.value=m.mes; opt.textContent=m.mes;
-    sel.appendChild(opt);
-  });
-  if(curVal) sel.value=curVal;
-  var mesSel=sel.value;
-  var meses=mesSel?fd.meses.filter(function(m){return m.mes===mesSel;}):fd.meses;
+  if(sel){
+    var prevVal=sel.value;
+    while(sel.options.length>1) sel.remove(1);
+    fd.meses.forEach(function(m){
+      var opt=document.createElement('option');
+      opt.value=m.mes; opt.textContent=m.mes;
+      sel.appendChild(opt);
+    });
+    var validVals=fd.meses.map(function(m){return m.mes;});
+    if(prevVal && validVals.indexOf(prevVal)>=0) sel.value=prevVal;
+    else sel.value='';
+  }
+  var mesSel=sel?sel.value:'';
+  // ultimo = mes selecionado ou último do array
+  var meses=fd.meses;
   if(!meses.length){
     document.getElementById('fecho-cards-mai').innerHTML='';
     document.getElementById('fecho-insights').innerHTML='';
-    document.getElementById('fecho-tbl').innerHTML='';
     return;
   }
   var col=cap==='mc'?'#639922':cap==='sm'?'#378ADD':'#D4537E';
   // -- Grafico Fat x Mes + ROAS + tendencia log --
-  var fmeses=fd.meses;
+  var fmeses=fd.hist||fd.meses;
   var fvals=fmeses.map(function(m){return m.total;});
   var froasVals=fmeses.map(function(m){return m.roas||null;});
   var n=fvals.length;
@@ -782,7 +794,7 @@ function rFecho(){
     }]
   });
   // -- Cards resumo --
-  var ultimo=meses[meses.length-1];
+  var ultimo=mesSel?fd.meses.find(function(m){return m.mes===mesSel;})||fd.meses[fd.meses.length-1]:fd.meses[fd.meses.length-1];
   var idxUlt=fd.meses.findIndex(function(m){return m.mes===ultimo.mes;});
   var penultimo=idxUlt>0?fd.meses[idxUlt-1]:null;
   var varPct=penultimo?((ultimo.total/penultimo.total-1)*100).toFixed(0):null;
@@ -917,18 +929,27 @@ function rFecho(){
       }
     }]
   });
-  // -- Tabela --
-  document.getElementById('fecho-tbl').innerHTML=meses.map(function(m){
-    return m.eds.map(function(e,i){
+  // -- Blocos de tabela por mes (todos, 2 por linha) --
+  var allMesesFd=fd.meses;
+  document.getElementById('fecho-tbl-grid').innerHTML=allMesesFd.map(function(m){
+    var rows=m.eds.map(function(e){
       return '<tr>'+
-        '<td>Ed.'+e.ed+'</td><td style="text-align:center">R$'+e.val+'</td>'+
+        '<td>Ed.'+e.ed+'</td>'+
+        '<td style="text-align:center">R$'+e.val+'</td>'+
         '<td style="text-align:right;font-weight:600">'+fR(e.rv)+'</td>'+
-        '<td style="text-align:right;color:#888780">'+Math.round(e.rv/m.total*100)+'%</td></tr>';
-    }).join('')+
-    '<tr style="background:#f5f4f0;font-weight:700">'+
-    '<td colspan="2" style="padding-left:4px">Total '+m.mes+'</td>'+
-    '<td style="text-align:right">'+fR(m.total)+'</td>'+
-    '<td style="text-align:right">100%</td></tr>';
+        '<td style="text-align:right">'+((e.comp!=null)?e.comp.toLocaleString('pt-BR'):'—')+'</td>'+
+        '<td style="text-align:right;color:#888780">'+Math.round(e.rv/m.total*100)+'%</td>'+
+        '</tr>';
+    }).join('');
+    var total='<tr style="background:#f5f4f0;font-weight:700">'+
+      '<td colspan="3" style="padding-left:4px">Total</td>'+
+      '<td style="text-align:right">'+fR(m.total)+'</td>'+
+      '<td style="text-align:right">100%</td></tr>';
+    return '<div class="card" style="padding:10px 14px">'+
+      '<div style="font-size:11px;font-weight:700;color:'+col+';margin-bottom:8px">'+m.mes+'</div>'+
+      '<table style="width:100%">'+
+      '<thead><tr><th>Ed.</th><th>Valor</th><th style="text-align:right">Fat.</th><th style="text-align:right">Compras</th><th style="text-align:right">%</th></tr></thead>'+
+      '<tbody>'+rows+total+'</tbody></table></div>';
   }).join('');
 }
 
