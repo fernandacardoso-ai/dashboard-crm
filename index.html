@@ -139,10 +139,9 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 </div>
 <div class="tabs">
   <button class="tab on fechotab" onclick="showT('fecho',this)">📅 Fechamento</button>
-  <button class="tab"           onclick="showT('camp',this)">Campanhas</button>
-  <button class="tab"          onclick="showT('rank',this)">Rankings</button>
-  <button class="tab"          onclick="showT('base',this)">Base</button>
-  <button class="tab"          onclick="showT('copy',this)">Análise de copy</button>
+  <button class="tab"           onclick="showT('camp',this)">📋 Edições</button>
+    <button class="tab"          onclick="showT('base',this)">Base</button>
+  <button class="tab"          onclick="showT('perf',this)">📊 Performance</button>
   <button class="tab ed5tab"   id="ed5tab" onclick="showT('ed5',this)">⭐ Ed. R$5</button>
   <button class="tab metastab" onclick="showT('metas',this)">🎯 Metas</button>
   <button class="tab recontab" onclick="showT('recon',this)">🔍 GA4 vs Insider</button>
@@ -189,10 +188,10 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 <!-- CAMPANHAS -->
 <div id="t-camp" class="sec">
-  <div class="src"><span>📊 <strong>Canal</strong> (enviados, entregues, aberturas, CTR): <strong>Insider</strong></span><span>|</span><span>🛒 <strong>Conversões e revenue</strong>: <strong>GA4</strong></span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
+  <div class="src"><span>📋 <strong>Edições</strong> — desempenho por edição</span><span class="upd">✓ Atualizado em 18/06/2026</span></div>
   <div class="fb"><label>Edição</label><select id="c-ed" onchange="aF('camp')" style="width:80px"></select><div class="fsep"></div><label>De</label><input type="date" id="c-d1" onchange="aF('camp')"><label>até</label><input type="date" id="c-d2" onchange="aF('camp')"><button onclick="rF('camp')">✕</button></div>
 
-  <!-- Funil geral em pé -->
+  <!-- Funil geral -->
   <div class="card">
     <div class="ct2" style="font-size:14px">▽ Funil geral da edição</div>
     <div class="nb" style="font-size:10px;margin-bottom:.8rem">Disparos = soma WP + E-mail + App Push (Insider). Sessões, compras e revenue via GA4.</div>
@@ -209,120 +208,115 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
     <div style="font-size:10px;color:#888780;margin-top:6px">⚠️ (not set) representa sessões sem origem identificada pelo GA4 — comum em compras via app nativo e alguns browsers.</div>
   </div>
 
-  <!-- Funil por canal -->
-  <div class="card">
-    <div class="ct2" style="font-size:14px">▽ Funil por canal</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px" id="hf-grid"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px" id="hf-totals"></div>
-  </div>
-
-  <div class="ch-hdr"><span class="dot8" style="background:#378ADD"></span>Web Push</div><div class="mg" id="kwp"></div>
-  <div class="ch-hdr"><span class="dot8" style="background:#7F77DD"></span>E-mail</div><div class="mg" id="kem"></div>
-  <div class="ch-hdr"><span class="dot8" style="background:#EF9F27"></span>App Push <span style="font-size:10px;color:#888780;font-weight:400">(revenue via GA4)</span></div><div class="mg" id="kap"></div>
-
-  <div class="cg" style="margin-top:.8rem">
-    <div class="card" style="grid-column:span 2">
-      <div class="ct2">Web Push — entregues e compras por edição</div>
-      <div class="leg"><span><span class="ld" style="background:#B5D4F4"></span>Entregues (Insider)</span><span><span class="ld" style="background:#639922;border:1px dashed"></span>Compras (GA4)</span><span><span class="ld" style="background:#D85A30;border:1px dotted"></span>Revenue GA4</span></div>
-      <div class="cw" style="height:180px"><canvas id="cwp"></canvas></div>
-    </div>
-  </div>
-  <div class="cg">
-    <div class="card"><div class="ct2">E-mail — abertura e CTR (Insider)</div><div class="leg"><span><span class="ld" style="background:#7F77DD"></span>Abertura %</span><span><span class="ld" style="background:#EF9F27;border:1px dashed"></span>CTR %</span></div><div class="cw" style="height:160px"><canvas id="cem"></canvas></div></div>
-    <div class="card"><div class="ct2">Revenue por canal — GA4</div><div class="leg"><span><span class="ld" id="rwld"></span>WP</span><span><span class="ld" style="background:#AFA9EC"></span>Email</span></div><div class="cw" style="height:160px"><canvas id="crev"></canvas></div></div>
-  </div>
 
   <!-- Ticket médio -->
   <div class="cg">
-    <div class="card"><div class="ct2">Ticket médio por edição — GA4 (revenue ÷ compras)</div><div class="cw" style="height:160px"><canvas id="c-ticket"></canvas></div></div>
+    <div class="card"><div class="ct2">Ticket médio por edição — GA4</div><div class="cw" style="height:160px"><canvas id="c-ticket"></canvas></div></div>
     <div class="card"><div class="ct2">Insights de ticket médio</div><div id="ticket-insights"></div></div>
   </div>
 
-  <div class="card"><div class="ct2">Detalhamento por edição</div><div style="overflow-x:auto"><table><thead><tr><th style="width:6%">Ed.</th><th style="width:7%">Data</th><th style="width:8%">WP enviados</th><th style="width:6%">WP CTR</th><th style="width:7%">WP rev. GA4</th><th style="width:7%">Email ab.</th><th style="width:7%">Email rev. GA4</th><th style="width:7%">App ab.</th><th style="width:9%">Rev. total GA4</th><th style="width:8%">Compras GA4</th><th style="width:8%">Ticket médio</th></tr></thead><tbody id="etbl"></tbody></table></div></div>
+    <!-- Detalhamento -->
+  <div class="card"><div class="ct2">Detalhamento por edição</div>
+    <div style="overflow-x:auto">
+      <div style="max-height:300px;overflow-y:auto">
+        <table style="min-width:800px;border-collapse:separate;border-spacing:0">
+          <thead><tr>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Ed.</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Data</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Valor</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">WP enviados</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">CTR Web Push</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Rev. WP (GA4)</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Abertura e-mail</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Rev. e-mail (GA4)</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">App Push</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Revenue GA4</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Compras</th>
+            <th style="white-space:nowrap;position:sticky;top:0;background:#f5f4f0;z-index:2;border-bottom:1px solid #e8e6e0">Ticket médio</th>
+          </tr></thead>
+          <tbody id="etbl"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Retenção R$10 → R$15+ -->
+  <div class="card" id="retencao-card">
+    <div class="ct2">🔁 Retenção — compradores R$10 que voltaram nas edições R$15+</div>
+    <div id="retencao-body"></div>
+  </div>
 </div>
 
 <!-- RANKINGS -->
-<div id="t-rank" class="sec">
-  <div class="src"><span>📊 Nome exato da campanha conforme cadastrado na <strong>Insider</strong> — copie o nome para buscar na plataforma.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
-  <div class="fb"><label>Edição</label><select id="r-ed" onchange="aF('rank')" style="width:80px"></select><div class="fsep"></div><label>De</label><input type="date" id="r-d1" onchange="aF('rank')"><label>até</label><input type="date" id="r-d2" onchange="aF('rank')"><button onclick="rF('rank')">✕</button></div>
-  <div class="cg">
-    <div class="card"><div class="ct2">Conversão por canal (GA4)</div><div id="chcv"></div></div>
-    <div class="card"><div class="ct2">Alcance por canal (Insider)</div><div id="chrch"></div></div>
-  </div>
-  <div class="cg">
-    <div class="card"><div class="ct2">Web Push — melhores por CTR</div><div style="overflow-x:auto"><table><thead><tr><th style="width:60%">Nome da campanha (Insider)</th><th>Ed.</th><th>Entregues</th><th>CTR</th></tr></thead><tbody id="wpb"></tbody></table></div></div>
-    <div class="card"><div class="ct2">Web Push — piores por CTR</div><div style="overflow-x:auto"><table><thead><tr><th style="width:60%">Nome da campanha (Insider)</th><th>Ed.</th><th>Entregues</th><th>CTR</th></tr></thead><tbody id="wpw"></tbody></table></div></div>
-  </div>
-  <div class="cg">
-    <div class="card"><div class="ct2">E-mail — melhores por abertura</div><div style="overflow-x:auto"><table><thead><tr><th style="width:50%">Nome da campanha (Insider)</th><th>Ed.</th><th>Enviados</th><th>Abertura</th><th>Conv.</th><th>Revenue</th></tr></thead><tbody id="emb"></tbody></table></div></div>
-    <div class="card"><div class="ct2">E-mail — piores por abertura</div><div style="overflow-x:auto"><table><thead><tr><th style="width:50%">Nome da campanha (Insider)</th><th>Ed.</th><th>Enviados</th><th>Abertura</th><th>Conv.</th><th>Revenue</th></tr></thead><tbody id="emw"></tbody></table></div></div>
-  </div>
-  <div class="cg">
-    <div class="card"><div class="ct2">App Push — melhores por abertura</div><div style="overflow-x:auto"><table><thead><tr><th style="width:60%">Nome da campanha (Insider)</th><th>Ed.</th><th>Entregues</th><th>Abertura</th></tr></thead><tbody id="apb"></tbody></table></div></div>
-    <div class="card"><div class="ct2">Insights de canal</div><div id="chins"></div></div>
-  </div>
-</div>
+<div id="t-perf" class="sec">
+  <div class="src"><span>📊 <strong>Performance de canais</strong> — Email, Web Push e App Push</span><span class="upd">✓ Atualizado em 18/06/2026</span></div>
 
-<!-- BASE -->
-<div id="t-base" class="sec">
-  <div class="src"><span>📊 Base exportada da <strong>Insider</strong>. Compras e revenue via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
-  <div class="nb" id="bnote"></div>
+  <!-- Benchmark interno -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2">Benchmark interno — médias históricas</div>
+    <div class="nb" style="font-size:10px;margin-bottom:10px">Médias calculadas sobre todas as edições com dado disponível (jan–jun/2026).</div>
+    <div id="perf-bench"></div>
+  </div>
 
-  <div class="card"><div class="ct2" style="font-size:14px">🔽 Funil de base</div><div id="base-funnel"></div></div>
+  <!-- Gráfico Email: abertura + CTOR por edição -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2">E-mail — Abertura e CTOR por edição</div>
+    <div class="nb" style="font-size:10px;margin-bottom:6px">CTOR = cliques / aberturas (engajamento real de quem abriu). Abertura = aberturas / enviados.</div>
+    <div class="cw" style="height:220px"><canvas id="c-email-ctor"></canvas></div>
+  </div>
 
+  <!-- Gráfico WP: CTR por edição -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2">Web Push — CTR por edição</div>
+    <div class="nb" style="font-size:10px;margin-bottom:6px">CTR = cliques / entregues. Linha tracejada = média histórica.</div>
+    <div class="cw" style="height:200px"><canvas id="c-wp-ctr"></canvas></div>
+  </div>
+
+  <!-- Rankings simplificados -->
   <div class="cg">
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
-        <div class="ct2" style="margin-bottom:0">Novos cadastros — conversão para compra</div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;flex-wrap:wrap">
-          <label style="color:#636057">De</label>
-          <input type="date" id="novos-d1" onchange="rNovos()" style="font-size:11px;padding:2px 5px;border-radius:5px;border:1px solid #d3d1c7;height:22px;width:105px">
-          <label style="color:#636057">até</label>
-          <input type="date" id="novos-d2" onchange="rNovos()" style="font-size:11px;padding:2px 5px;border-radius:5px;border:1px solid #d3d1c7;height:22px;width:105px">
-          <button onclick="rNovosReset()" style="font-size:10px;padding:2px 8px;height:22px;border:1px solid #d3d1c7;border-radius:5px;background:#fff;cursor:pointer">✕</button>
-        </div>
-      </div>
-      <div id="novos-stats"></div>
+      <div class="ct2">Web Push — melhores por CTR</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Edição</th><th>Título</th><th>Entregues</th><th>CTR</th></tr></thead>
+        <tbody id="wpb"></tbody>
+      </table></div>
     </div>
     <div class="card">
-      <div class="ct2">Recência — dias desde última compra</div>
-      <div class="leg"><span><span class="ld" id="recld"></span>clientes</span></div>
-      <div class="cw" style="height:160px"><canvas id="crec"></canvas></div>
-      <div style="font-size:10px;color:#888780;margin-top:5px" id="rec-note"></div>
+      <div class="ct2">Web Push — piores por CTR</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Edição</th><th>Título</th><th>Entregues</th><th>CTR</th></tr></thead>
+        <tbody id="wpw"></tbody>
+      </table></div>
     </div>
   </div>
-
-
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
-      <div class="ct2" style="margin-bottom:0">Perfil dos clientes</div>
-      <div class="ptabs">
-        <button class="ptab on" onclick="setProfile('tot',this)">Base total</button>
-        <button class="ptab" onclick="setProfile('comp',this)">Compradores 2026</button>
-        <button class="ptab" onclick="setProfile('fiel',this)">Fiéis (3 eds. consecutivas)</button>
-      </div>
+  <div class="cg">
+    <div class="card">
+      <div class="ct2">E-mail — melhores por CTOR</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Campanha</th><th>Ed.</th><th>Título</th><th>Abertura</th><th>CTOR</th></tr></thead>
+        <tbody id="emb"></tbody>
+      </table></div>
     </div>
-    <div class="nb warn" style="font-size:10px;margin-bottom:.6rem" id="fiel-note"></div>
-    <div class="cg" style="margin-bottom:0">
-      <div><div class="ct2">Faixa etária</div><div class="cw" style="height:160px"><canvas id="cage"></canvas></div></div>
-      <div><div class="ct2">Gênero</div><div class="leg" id="gleg"></div><div class="cw" style="height:160px"><canvas id="cgdr"></canvas></div></div>
-      <div><div class="ct2">Cidades</div><div id="cities"></div></div>
+    <div class="card">
+      <div class="ct2">E-mail — piores por CTOR</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Campanha</th><th>Ed.</th><th>Título</th><th>Abertura</th><th>CTOR</th></tr></thead>
+        <tbody id="emw"></tbody>
+      </table></div>
     </div>
-    <div style="font-size:10px;color:#888780;margin-top:8px" id="profile-avg-age"></div>
+  </div>
+  <div class="cg">
+    <div class="card">
+      <div class="ct2">App Push — melhores por abertura</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Edição</th><th>Título</th><th>Entregues</th><th>Abertura</th></tr></thead>
+        <tbody id="apb"></tbody>
+      </table></div>
+    </div>
+    <div class="card"><div class="ct2">Insights de canal</div><div id="ch-ins"></div></div>
   </div>
 
-
-  <!-- Jornada do cliente -->
-  <div class="card"><div class="ct2">Jornada do cliente</div><div id="jornada"></div></div>
-
-  <div class="card"><div class="ct2">Correlações — o que diferencia fiéis</div><div id="correlacoes"></div></div>
-  <div class="nb warn">⚠️ Compras múltiplas na mesma semana (múltiplos títulos na mesma edição): dado indisponível nos exports atuais. Em desenvolvimento internamente.</div>
-  <div class="card"><div class="ct2">Oportunidades e alertas</div><div id="bins"></div></div>
-</div>
-
-<!-- COPY -->
-<div id="t-copy" class="sec">
-  <div class="src"><span>📊 Dados de campanhas via <strong>Insider</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
+  <!-- Análise de copy -->
   <div class="cg">
     <div class="card"><div class="ct2" id="ccat-title">Taxa de abertura por categoria</div><div class="cw" style="height:205px"><canvas id="ccop"></canvas></div></div>
     <div class="card"><div class="ct2" id="cctr-title">CTR por categoria</div><div class="cw" style="height:205px"><canvas id="ccctr"></canvas></div></div>
@@ -336,28 +330,61 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
     <div class="card"><div class="ct2">Comprimento do assunto</div><div class="cw" style="height:155px"><canvas id="clen"></canvas></div></div>
     <div class="card"><div class="ct2">Abertura por dia da semana</div><div class="cw" style="height:155px"><canvas id="cdow"></canvas></div></div>
   </div>
-
-  <!-- Cruzamento categoria x valor do título -->
-  <div class="card"><div class="ct2">Cruzamento — categoria de copy × valor do título</div><div id="cat-valor"></div></div>
-
-  <div class="card"><div class="ct2" id="topen-title">Top 10 por taxa de abertura</div><div style="overflow-x:auto"><table><thead><tr><th style="width:4%">#</th><th style="width:10%">Categoria</th><th style="width:48%">Assunto</th><th style="width:10%">Enviados</th><th style="width:11%">Abertura</th><th style="width:9%">CTR</th><th style="width:8%">Rev. GA4</th></tr></thead><tbody id="topen"></tbody></table></div></div>
-  <div class="card"><div class="ct2" id="tworst-title">Piores por taxa de abertura</div><div style="overflow-x:auto"><table><thead><tr><th style="width:4%">#</th><th style="width:10%">Categoria</th><th style="width:48%">Assunto</th><th style="width:10%">Enviados</th><th style="width:11%">Abertura</th><th style="width:9%">CTR</th><th style="width:8%">Rev. GA4</th></tr></thead><tbody id="tworst"></tbody></table></div></div>
-  <div class="card">
-    <div class="ct2">Decaimento da taxa de abertura</div>
-    <div class="nb" id="decay-note" style="margin-bottom:.6rem"></div>
-    <div class="leg"><span><span class="ld" id="dec-ld1"></span>Open rate %</span><span><span class="ld" id="dec-ld2" style="border:1px dashed"></span>Envios médios (mil)</span></div>
-    <div class="cw" style="height:165px"><canvas id="cdec"></canvas></div>
+  <div class="cg">
+    <div class="card"><div class="ct2" id="deca-title">Decaimento de engajamento</div><div class="cw" style="height:205px"><canvas id="cdec"></canvas></div></div>
+    <div class="card" id="topcat-card" style="display:none"><div class="ct2">Top copy por categoria</div><div id="topcat"></div></div>
   </div>
-  <div class="card"><div class="ct2">Cruzamentos — o que funciona por audiência e momento</div><div id="cross"></div></div>
 </div>
 
-<!-- ED5 -->
+<!-- COPY -->
+<div id="t-base" class="sec">
+  <div class="src"><span>📊 Base exportada da <strong>Insider</strong> — 18/06/2026</span><span class="upd">✓ Atualizado em 18/06/2026</span></div>
+  <div class="nb" id="bnote"></div>
+
+  <div class="card"><div class="ct2" style="font-size:14px">🔽 Funil de base</div><div id="base-funnel"></div></div>
+
+  <!-- Painel Insider vs ERP -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div id="base-erp"></div>
+  </div>
+
+  <!-- Gráfico novos cadastros por mês -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2">Novos cadastros por mês — 2026</div>
+    <div class="cw" style="height:180px"><canvas id="c-novos-mes"></canvas></div>
+  </div>
+
+  <!-- Recência -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2">Recência — dias desde última compra</div>
+    <div class="cw" style="height:160px"><canvas id="crec"></canvas></div>
+    <div style="font-size:10px;color:#888780;margin-top:5px" id="rec-note"></div>
+  </div>
+
+  <!-- Perfil dos clientes -->
+  <div class="card" style="margin-bottom:.8rem">
+    <div class="ct2" style="margin-bottom:12px">Perfil dos clientes</div>
+    <div id="bprof"></div>
+  </div>
+
+  <!-- Jornada do cliente -->
+  <div class="card"><div class="ct2">Jornada do cliente</div><div id="jornada"></div>
+  <div id="jornada-extra"></div></div>
+
+  <!-- Correlações -->
+  <div class="card"><div class="ct2">Correlações</div><div id="correlacoes"></div></div>
+
+  <!-- Oportunidades -->
+  <div class="card"><div class="ct2">Oportunidades e alertas</div><div id="bins"></div></div>
+
+</div>
+
 <div id="t-ed5" class="sec">
-  <div class="src"><span>📊 Compradores via <strong>Insider</strong>. Revenue e compras por canal via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
+  <div class="src"><span>📊 Compradores via <strong>Insider</strong>. Revenue e compras por canal via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 01/06/2026</span></div>
   <div id="ed5-content"></div>
 </div>
 
-<!-- METAS -->
+
 <div id="t-metas" class="sec">
   <div class="src"><span>📊 Faturamento e compras via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 09/06/2026</span></div>
   <div class="nb warn">📐 <strong>Racional da meta:</strong> média histórica do faturamento por valor de título (desde jan/2026) + % de crescimento a confirmar.</div>
@@ -423,7 +450,7 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 </div>
 
 <script>
-const UPD='01/06/2026';
+const UPD='18/06/2026';
 
 const FECHO = {
   mc:{
@@ -434,7 +461,8 @@ const FECHO = {
       {mes:'Fev/2026', total:164640, roas:3.4},
       {mes:'Mar/2026', total:239825, roas:5.0},
       {mes:'Abr/2026', total:156895, roas:3.2},
-      {mes:'Mai/2026', total:243560, roas:5.0}
+      {mes:'Mai/2026', total:243560, roas:5.0},
+      {mes:'Jun/2026', total:106845, roas:2.2}
     ],
     meses:[
 
@@ -445,7 +473,9 @@ const FECHO = {
       {mes:'Abr/2026', total:156895, roas:3.2,
        eds:[{ed:514,val:15,rv:36075},{ed:515,val:20,rv:43585},{ed:516,val:20,rv:41550},{ed:517,val:15,rv:35685}]},
       {mes:'Mai/2026', total:243560, roas:5.0,
-       eds:[{ed:518,val:15,rv:36280,comp:2103},{ed:519,val:25,rv:97955,comp:3464},{ed:520,val:15,rv:39405,comp:2164},{ed:521,val:15,rv:34215,comp:1993},{ed:522,val:15,rv:35705,comp:2087}]}
+       eds:[{ed:518,val:15,rv:36280,comp:2103},{ed:519,val:25,rv:97955,comp:3464},{ed:520,val:15,rv:39405,comp:2164},{ed:521,val:15,rv:34215,comp:1993},{ed:522,val:15,rv:35705,comp:2087}]},
+      {mes:'Jun/2026', total:106845, roas:2.2,
+       eds:[{ed:523,val:15,rv:44170,comp:2349},{ed:524,val:20,rv:41330,comp:1714},{ed:525,val:15,rv:21345,comp:913}]}
     ]
   },
   sm:{
@@ -456,7 +486,8 @@ const FECHO = {
       {mes:'Fev/2026', total:50065, roas:3.2},
       {mes:'Mar/2026', total:62125, roas:4.0},
       {mes:'Abr/2026', total:37645, roas:2.4},
-      {mes:'Mai/2026', total:52765, roas:3.3}
+      {mes:'Mai/2026', total:52765, roas:3.3},
+      {mes:'Jun/2026', total:31135, roas:2.0}
     ],
     meses:[
 
@@ -467,7 +498,9 @@ const FECHO = {
       {mes:'Abr/2026', total:37645, roas:2.4,
        eds:[{ed:431,val:20,rv:21565},{ed:432,val:15,rv:8610},{ed:433,val:15,rv:7470}]},
       {mes:'Mai/2026', total:52765, roas:3.3,
-       eds:[{ed:434,val:15,rv:7930,comp:445},{ed:435,val:20,rv:15755,comp:687},{ed:436,val:15,rv:7375,comp:416},{ed:437,val:15,rv:9955,comp:592},{ed:438,val:15,rv:11750,comp:688}]}
+       eds:[{ed:434,val:15,rv:7930,comp:445},{ed:435,val:20,rv:15755,comp:687},{ed:436,val:15,rv:7375,comp:416},{ed:437,val:15,rv:9955,comp:592},{ed:438,val:15,rv:11750,comp:688}]},
+      {mes:'Jun/2026', total:43905, roas:2.8,
+       eds:[{ed:439,val:15,rv:13430},{ed:440,val:20,rv:17705,comp:699},{ed:441,val:15,rv:12770,comp:648}]}
     ]
   },
   sv:{
@@ -478,7 +511,8 @@ const FECHO = {
       {mes:'Fev/2026', total:21105, roas:3.0},
       {mes:'Mar/2026', total:26475, roas:3.2},
       {mes:'Abr/2026', total:22164, roas:2.7},
-      {mes:'Mai/2026', total:35350, roas:2.5}
+      {mes:'Mai/2026', total:35350, roas:2.5},
+      {mes:'Jun/2026', total:25890, roas:3.4}
     ],
     meses:[
 
@@ -489,8 +523,13 @@ const FECHO = {
       {mes:'Abr/2026', total:22164, roas:2.7,
        eds:[{ed:421,val:10,rv:5520},{ed:422,val:15,rv:6345},{ed:423,val:10,rv:5330},{ed:424,val:10,rv:4970}]},
       {mes:'Mai/2026', total:35350, roas:2.5,
-       eds:[{ed:425,val:10,rv:5730,comp:459},{ed:426,val:20,rv:12920,comp:580},{ed:427,val:10,rv:5860,comp:443},{ed:428,val:10,rv:5070,comp:422},{ed:429,val:10,rv:5770,comp:470}]}
-    ]
+       eds:[{ed:425,val:10,rv:5730,comp:459},{ed:426,val:20,rv:12920,comp:580},{ed:427,val:10,rv:5860,comp:443},{ed:428,val:10,rv:5070,comp:422},{ed:429,val:10,rv:5770,comp:470}]},
+      {mes:'Jun/2026', total:25890, roas:3.4,
+       eds:[{ed:430,val:10,rv:6580},{ed:431,val:20,rv:12840,comp:511},{ed:432,val:10,rv:6470,comp:458}]}
+    ],
+    metas:{meses:[
+      {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6580,er:3.2},{ed:431,val:20,mf:12920,mr:6.2,ef:12840,er:6.2},{ed:432,val:10,mf:5214,mr:2.5,ef:6470,er:3.1},{ed:433,val:10,mf:5214,mr:2.5,ef:null,er:null}],tm:28563,te:25890,tr:3.4}
+    ]}
   }
 };
 const D={
@@ -521,14 +560,36 @@ mc:{l:'Minas Cap',s:'Minas Cap · jan–jun 2026',col:'#639922',
     {ed:520,val:15,dt:'2026-05-14',ws:1890400,wd:854128,wc:0.76,wr:3310,eo:5.65,ec:0.06,er:3030,ao:714,cg:306,rg:6340},
     {ed:521,val:15,has_crm_ga4:true,insider_crm:11510,ga4_recon:34215,ga4_crm:34215,dt:'2026-05-18',ws:2689691,wd:997140,wc:0.95,wr:17095,eo:6.6,ec:null,er:12975,ao:2673,cg:1998,rg:34215},
     {ed:522,val:15,insider_crm:8695,ga4_crm:32270,dt:'2026-05-24',ws:2540375,wd:941151,wc:0.83,wr:4855,eo:6.6,ec:null,er:5370,ao:2449,cg:1889,rg:35705},
-    {ed:523,val:15,has_crm_ga4:true,insider_crm:10110,ga4_recon:40615,ga4_crm:44170,dt:'2026-05-31',ws:2118119,wd:792189,wc:0.70,wr:4860,eo:6.55,ec:0.15,er:5250,ao:1661,cg:2349,rg:44170}
+    {ed:523,val:15,has_crm_ga4:true,insider_crm:10110,ga4_recon:40615,ga4_crm:44170,dt:'2026-05-31',ws:2118119,wd:792189,wc:0.70,wr:4860,eo:6.55,ec:0.15,er:5250,ao:1661,cg:2349,rg:44170},
+    {ed:524,val:20,dt:'2026-06-14',ws:2525811,wd:917476,wc:0.75,wr:22165,eo:6.94,ec:0.11,er:16070,ao:0,cg:1714,rg:38235,has_crm_ga4:true,insider_crm:12320,ga4_recon:38235,ga4_crm:38235},
+    {ed:525,val:15,dt:'2026-06-21',ws:2550854,wd:917670,wc:0.82,wr:8560,eo:6.81,ec:0.08,er:7900,ao:0,cg:913,rg:16460,has_crm_ga4:true,insider_crm:7785,ga4_recon:16460,ga4_crm:16460}
   ],
   wpb:[{n:'Ed.501 (30/12)',ed:501,dl:363628,ctr:1.48},{n:'Ed.504 (20/01)',ed:504,dl:238448,ctr:1.35},{n:'Ed.502 (07/01)',ed:502,dl:473747,ctr:1.24},{n:'Ed.506 (04/02)',ed:506,dl:437921,ctr:1.12},{n:'Ed.508 (19/02)',ed:508,dl:423033,ctr:1.11}],
   wpw:[{n:'Ed.523 (31/mai–06/jun)',ed:523,dl:792189,ctr:0.70},{n:'Ed.515 (07/04)',ed:515,dl:834595,ctr:0.74},{n:'Ed.514 (31/03)',ed:514,dl:850025,ctr:0.75},{n:'Ed.518 (26/04)',ed:518,dl:864308,ctr:0.75},{n:'Ed.520 (10/05)',ed:520,dl:854128,ctr:0.76}],
   emb:[{n:'MC - Ganhadores_01.06_compradores',ed:523,sn:5251,op:13.77,cv:29,rv:495},{n:'MC - Ganhadores_25.05_compradores',ed:522,sn:5404,op:12.14,cv:24,rv:555},{n:'MC - Ganhadores_01.06_não_compradores',ed:523,sn:140301,op:7.84,cv:58,rv:1140},{n:'MC - Ganhadores_25.05_não_compradores',ed:522,sn:598520,op:7.34,cv:42,rv:825},{n:'MC - Premiação_ed523_quarta_sem_saldo',ed:523,sn:141393,op:7.30,cv:37,rv:660}],
   emw:[{n:'MC - Premiação_ed523_sabado_com_saldo',ed:523,sn:11614,op:4.58,cv:3,rv:45},{n:'MC - Premiação_ed522_sabado_com_saldo',ed:522,sn:11705,op:5.19,cv:6,rv:105},{n:'MC - Premiação_ed523_sabado_sem_saldo',ed:523,sn:139509,op:5.39,cv:66,rv:1215},{n:'MC - Premiação_ed523_quinta_sem_saldo',ed:523,sn:140933,op:5.41,cv:28,rv:510},{n:'MC - Premiação_ed522_quinta_sem_saldo',ed:522,sn:137732,op:5.56,cv:20,rv:390}],
   apb:[{n:'Ed.512 (15–21/mar) ⭐R$5',ed:512,dl:11199,op:3.94},{n:'Ed.511 (08–14/mar)',ed:511,dl:132133,op:1.13},{n:'Ed.510 (01–07/mar)',ed:510,dl:129356,op:1.07},{n:'Ed.519 (03–09/mai)',ed:519,dl:412000,op:0.72},{n:'Ed.521 (18–24/mai)',ed:521,dl:449427,op:0.59}],
-  base:{total_base:783535,com_compra:697381,online_total:613848,pos:79763,rca:3770,compradores_2026:127651,recorrentes:597,ativos_14d:8059,churn_1x:18981,dormentes:300384,novos_cad_2026:22530,novos_com_compra:12024,novos_sem_compra:10506,ganhadores:7731,open_2026:291171,sem_uc:86154,avg_age_tot:42.3,avg_age_comp:45.0,avg_age_fiel:45.7,age_tot:{18:25003,25:166857,35:205167,45:140222,55:72437,65:35316},age_comp:{18:1821,25:17867,35:31600,45:27779,55:14621,65:5904},age_fiel:{18:5,25:85,35:155,45:146,55:74,65:31},gender_tot:{M:251505,F:255777,N:276253},gender_comp:{M:39599,F:36141,N:51911},gender_fiel:{M:244,F:118,N:235},cities_tot:[['Belo Horizonte',278170],['Contagem',70140],['Betim',49778],['Ribeirão das Neves',32755],['Santa Luzia',29000]],cities_comp:[['Belo Horizonte',55288],['Contagem',8310],['Betim',7103],['Rio de Janeiro',4137],['Santa Luzia',4119]],cities_fiel:[['Belo Horizonte',292],['Contagem',36],['Betim',33],['Rio de Janeiro',27],['Santa Luzia',22]],rec:[8663,34360,32130,34912,17586,104308,381889],mesmo_dia_pct:50.2,ate_7d_pct:60.8,ate_30d_pct:67.5,mais_30d_pct:32.5,recorrentes_pct:82.3,apenas_1x_pct:17.7,apenas_1x_n:114344,mediana_eds:146,ticket_medio:15.8},
+  base:{total_base:1097938,com_compra:708982,online_total:620624,pos:83901,rca:0,compradores_2026:194276,recorrentes:597,ativos_14d:74099,churn_1x:18981,dormentes:514706,novos_cad_2026:32868,novos_com_compra:3,novos_sem_compra:32865,ganhadores:7731,open_2026:291171,sem_uc:388956,
+erp_total:1121955,erp_comp_2026:282702,erp_novos_mai:6788,insider_novos_mai:6743,
+novos_mes_2026:[{m:'Jan',n:5119},{m:'Fev',n:3957},{m:'Mar',n:9683},{m:'Abr',n:4900},{m:'Mai',n:6743},{m:'Jun',n:2466}],
+avg_age_tot:42.3,avg_age_comp:45.2,avg_age_novos:40.3,avg_age_fiel:45.7,
+age_tot:{18:25003,25:166857,35:205167,45:140222,55:72437,65:35316},
+age_comp:{18:1821,25:17867,35:31600,45:27779,55:14621,65:5904},
+age_fiel:{18:5,25:85,35:155,45:146,55:74,65:31},
+gender_tot:{M:350093,F:325454,N:422391},
+gender_comp:{M:57086,F:49688,N:87502},
+gender_fiel:{M:244,F:118,N:235},
+gender_novos_cad:{M:0,F:0,N:0},
+cities_tot:[['Belo Horizonte',278805],['Contagem',69892],['Betim',49778],['Ribeirao das Neves',32755],['Santa Luzia',29000]],
+cities_comp:[['Belo Horizonte',70565],['Contagem',8354],['Betim',7711],['Rio de Janeiro',5336],['Santa Luzia',4119]],
+cities_fiel:[['Belo Horizonte',292],['Contagem',36],['Betim',33],['Rio de Janeiro',27],['Santa Luzia',22]],
+cities_novos:[['Belo Horizonte',5090],['Contagem',596],['Betim',514],['Rio de Janeiro',402],['Santa Luzia',337]],
+vida_dist:[29309,27011,26681,45013,78151,326667],vida_media:1244,vida_mediana:1047,vida_multi:532832,
+sazonal:[57081,43804,47336,55733,72534,49837,49833,62579,44513,42953,48478,71338],
+origem:{loja:620624,pos:83901,outros:0},
+reat_2026:109251,reat_pct:56.2,
+rec:[51755,22344,30365,73102,16710,514706],
+mesmo_dia_pct:50.2,ate_7d_pct:60.8,ate_30d_pct:67.5,mais_30d_pct:32.5,recorrentes_pct:82.3,apenas_1x_pct:17.7,apenas_1x_n:114344,mediana_eds:146,ticket_medio:15.8},
   ed5:{ed:512,price:5,next:'Eds.513–517',total:24545,novos:705,antigos:19308,sem_data:4532,retained:6341,retained_pct:25.8,not_retained:18204,not_retained_pct:74.2,new_in_next:20662,antigos_ret:5094,antigos_ret_pct:26.4,novos_ret:90,novos_ret_pct:12.8,ret_gender:{NI:2545,M:2254,F:1542},lost_gender:{NI:6934,F:5815,M:5455},avg_age:42.2,gender:{M:7709,F:7357,NI:9479},cities:[['Belo Horizonte',11988],['Contagem',1471],['Betim',1322],['Rio de Janeiro',1002],['Santa Luzia',871]],age_dist:{'18–24':2100,'25–34':7200,'35–44':7800,'45–54':4800,'55–64':2100,'65+':700},cap_insider_pct:91.6,cap_sistema:10569,cap_insider_n:9683,cap_mes:'Março',
     ga4_canal:{total_comp:132514,total_rev:1443010,cats:{'(not set)':{c:91375,r:990025},'Direto':{c:25559,r:283145},'Mídia paga':{c:7127,r:76680},'CRM':{c:5774,r:63170},'Orgânico':{c:2111,r:24405},'Outros':{c:568,r:5585}}}},
   metas:{meses:[
@@ -536,7 +597,7 @@ mc:{l:'Minas Cap',s:'Minas Cap · jan–jun 2026',col:'#639922',
     {mes:'Mar/2026',eds:[{ed:509,val:10,mf:null,mr:null,ef:37350,er:3.1},{ed:510,val:20,mf:44812,mr:3.7,ef:62520,er:5.2},{ed:511,val:10,mf:36334,mr:3.0,ef:50980,er:4.2},{ed:512,val:5,mf:32701,mr:2.7,ef:62130,er:5.1,ed5:true},{ed:513,val:10,mf:null,mr:null,ef:26845,er:2.2}],tm:null,te:239825,tr:5.0},
     {mes:'Abr/2026',eds:[{ed:514,val:15,mf:43530,mr:3.6,ef:36075,er:3.0},{ed:515,val:20,mf:61916,mr:5.1,ef:43585,er:3.6},{ed:516,val:20,mf:58486,mr:4.8,ef:41550,er:3.4},{ed:517,val:15,mf:41119,mr:3.4,ef:35685,er:2.9}],tm:205051,te:156895,tr:3.2},
     {mes:'Mai/2026',eds:[{ed:518,val:15,mf:35880,mr:3.0,ef:36280,er:3.0},{ed:519,val:25,mf:98995,mr:8.2,ef:97955,er:8.1},{ed:520,val:15,mf:35880,mr:3.0,ef:39405,er:3.3},{ed:521,val:15,mf:35880,mr:3.0,ef:34215,er:null},{ed:522,val:15,mf:35880,mr:3.0,ef:35705,er:2.9}],tm:242515,te:243560,tr:5.0},
-    {mes:'Jun/2026',eds:[{ed:523,val:15,mf:36227,mr:3.0,ef:44170,er:3.6,insider_crm:10110,ga4_crm:44170},{ed:524,val:20,mf:47864,mr:4.0,ef:null,er:null},{ed:525,val:15,mf:36227,mr:3.0,ef:null,er:null},{ed:526,val:15,mf:36227,mr:3.0,ef:null,er:null}],tm:156546,te:44170,tr:0.9}
+    {mes:'Jun/2026',eds:[{ed:523,val:15,mf:36227,mr:3.0,ef:44170,er:3.6,insider_crm:10110,ga4_crm:44170},{ed:524,val:20,mf:47864,mr:4.0,ef:41330,er:3.4},{ed:525,val:15,mf:36227,mr:3.0,ef:21345,er:1.8},{ed:526,val:15,mf:36227,mr:3.0,ef:null,er:null}],tm:156546,te:106845,tr:2.2}
   ]}
 },
 sm:{l:'Super Minas',s:'Super Minas · jan–jun 2026',col:'#378ADD',
@@ -565,21 +626,43 @@ sm:{l:'Super Minas',s:'Super Minas · jan–jun 2026',col:'#378ADD',
     {ed:436,val:15,dt:'2026-05-06',ws:564200,wd:321651,wc:0.68,wr:1840,eo:5.78,ec:0.06,er:1710,ao:507,cg:173,rg:3550},
     {ed:437,val:15,has_crm_ga4:true,insider_crm:5840,ga4_crm:9955,dt:'2026-05-18',ws:1053145,wd:386003,wc:0.89,wr:3680,eo:6.4,ec:null,er:2160,ao:523,cg:307,rg:9955},
     {ed:438,val:15,insider_crm:5220,ga4_crm:9555,dt:'2026-05-24',ws:998560,wd:362863,wc:0.92,wr:3495,eo:5.75,ec:null,er:1275,ao:577,cg:251,rg:11750},
-    {ed:439,val:15,has_crm_ga4:true,insider_crm:4065,ga4_recon:11300,ga4_crm:13430,dt:'2026-05-31',ws:837075,wd:304289,wc:0.68,wr:2295,eo:6.10,ec:0.07,er:1770,ao:415,cg:683,rg:13430}
+    {ed:439,val:15,has_crm_ga4:true,insider_crm:4065,ga4_recon:11300,ga4_crm:13430,dt:'2026-05-31',ws:837075,wd:304289,wc:0.68,wr:2295,eo:6.10,ec:0.07,er:1770,ao:415,cg:683,rg:13430},
+    {ed:440,val:20,dt:'2026-06-14',ws:1004084,wd:366386,wc:0.74,wr:9670,eo:6.16,ec:0.05,er:5775,ao:0,cg:699,rg:15445,has_crm_ga4:true,insider_crm:4770,ga4_recon:15445,ga4_crm:15445},
+    {ed:441,val:15,dt:'2026-06-21',ws:1010977,wd:356913,wc:0.81,wr:7685,eo:6.21,ec:0.05,er:3625,ao:0,cg:648,rg:11310,has_crm_ga4:true,insider_crm:3025,ga4_recon:11310,ga4_crm:11310}
   ],
   wpb:[{n:'Ed.423 (04/02)',ed:423,dl:153169,ctr:1.58},{n:'Ed.418 (30/12)',ed:418,dl:209899,ctr:1.45},{n:'Ed.425 (18/02) ⭐R$5',ed:425,dl:169649,ctr:1.26},{n:'Ed.426 (25/02)',ed:426,dl:217721,ctr:1.24},{n:'Ed.419 (08/01)',ed:419,dl:157440,ctr:1.20}],
-  wpw:[{n:'Ed.439 (31/mai–06/jun)',ed:439,dl:304289,ctr:0.68},{n:'Ed.436 (06/05)',ed:436,dl:321651,ctr:0.68},{n:'Ed.435 (29/04)',ed:435,dl:321122,ctr:0.78},{n:'Ed.430 (25/03)',ed:430,dl:296192,ctr:0.79},{n:'Ed.429 (18/03)',ed:429,dl:292810,ctr:0.82}],
+  wpw:[{n:'Ed.439 (31/mai–06/jun)',ed:439,dl:304289,ctr:0.68},{n:'Ed.436 (06/05)',ed:436,dl:321651,ctr:0.68},{n:'Ed.440 (14/06)',ed:440,dl:366386,ctr:0.74},{n:'Ed.435 (29/04)',ed:435,dl:321122,ctr:0.78},{n:'Ed.430 (25/03)',ed:430,dl:296192,ctr:0.79}],
   emb:[{n:'SMC - Ganhadores_01.06_compradores',ed:439,sn:3916,op:8.87,cv:10,rv:240},{n:'SMC - Ganhadores_25.05_compradores',ed:438,sn:3757,op:9.28,cv:4,rv:105},{n:'SMC - Ganhadores_01.06_não_compradores',ed:439,sn:188638,op:6.65,cv:7,rv:150},{n:'SMC - Premiação_ed439_terça_sem_saldo',ed:439,sn:182080,op:6.69,cv:9,rv:165},{n:'SMC - Ganhadores_25.05_não_compradores',ed:438,sn:189688,op:6.35,cv:5,rv:180}],
   emw:[{n:'SMC - Premiação_ed439_sabado_sem_saldo',ed:439,sn:178666,op:4.87,cv:25,rv:450},{n:'SMC - Premiação_ed439_sabado_com_saldo',ed:439,sn:1999,op:5.01,cv:1,rv:30},{n:'SMC - Premiação_ed438_sabado_com_saldo',ed:438,sn:2037,op:4.67,cv:0,rv:0},{n:'SMC - Premiação_ed438_sabado_sem_saldo',ed:438,sn:181450,op:4.91,cv:32,rv:660},{n:'SMC - Premiação_ed439_sexta_sem_saldo',ed:439,sn:179787,op:5.78,cv:17,rv:300}],
   apb:[{n:'Ed.432 (08–14/abr)',ed:432,dl:1965,op:1.48},{n:'Ed.435 (29/04–05/mai)',ed:435,dl:156309,op:0.98},{n:'Ed.439 (31/mai–06/jun)',ed:439,dl:87276,op:0.48}],
-  base:{total_base:276842,com_compra:241290,online_total:241290,compradores_2026:72818,recorrentes:538,ativos_14d:4469,churn_1x:14732,dormentes:119334,novos_cad_2026:8965,novos_com_compra:6203,novos_sem_compra:2762,ganhadores:5230,open_2026:75256,sem_uc:35552,avg_age_tot:39.8,avg_age_comp:42.2,avg_age_fiel:43.3,age_tot:{18:13185,25:68476,35:68081,45:38899,55:18637,65:8039},age_comp:{18:1596,25:12017,35:15566,45:10418,55:5251,65:2208},age_fiel:{18:9,25:94,35:141,45:77,55:48,65:29},gender_tot:{M:111768,F:114914,N:50160},gender_comp:{M:29068,F:26230,N:17520},gender_fiel:{M:316,F:142,N:80},cities_tot:[['Pouso Alegre',22471],['Varginha',16519],['Poços de Caldas',16013],['Belo Horizonte',9697],['S.S. do Paraíso',8712]],cities_comp:[['Belo Horizonte',5464],['Pouso Alegre',4860],['Varginha',4312],['Poços de Caldas',3575],['S.S. do Paraíso',2266]],cities_fiel:[['Belo Horizonte',75],['Pouso Alegre',51],['Varginha',30],['Poços de Caldas',29],['S.S. do Paraíso',19]],rec:[5311,28715,14744,20220,3828,0,0],mesmo_dia_pct:58.9,ate_7d_pct:67.2,ate_30d_pct:72.8,mais_30d_pct:27.2,recorrentes_pct:78.8,apenas_1x_pct:21.2,apenas_1x_n:45753,mediana_eds:97,ticket_medio:14.2},
+  base:{total_base:342396,com_compra:246781,online_total:246781,compradores_2026:84258,recorrentes:538,ativos_14d:33614,churn_1x:14732,dormentes:162523,novos_cad_2026:19245,novos_com_compra:6203,novos_sem_compra:13042,ganhadores:5230,open_2026:75256,sem_uc:95615,
+erp_total:339088,erp_comp_2026:113651,erp_novos_mai:3680,insider_novos_mai:3664,
+novos_mes_2026:[{m:'Jan',n:4740},{m:'Fev',n:4068},{m:'Mar',n:2849},{m:'Abr',n:2581},{m:'Mai',n:3664},{m:'Jun',n:1343}],
+avg_age_novos:36.0,avg_age_tot:39.7,avg_age_comp:41.9,avg_age_fiel:43.3,
+age_tot:{18:13185,25:68476,35:68081,45:38899,55:18637,65:8039},
+age_comp:{18:1596,25:12017,35:15566,45:10418,55:5251,65:2208},
+age_fiel:{18:9,25:94,35:141,45:77,55:48,65:29},
+gender_tot:{M:172198,F:163637,N:6561},
+gender_comp:{M:44290,F:38871,N:1097},
+gender_novos_cad:{M:10030,F:8617,N:598},
+gender_fiel:{M:316,F:142,N:80},
+cities_tot:[['Pouso Alegre',22294],['Varginha',16527],['Poços de Caldas',15974],['Belo Horizonte',9888],['S.S. do Paraíso',8594]],
+cities_comp:[['Belo Horizonte',5965],['Pouso Alegre',5612],['Varginha',4910],['Poços de Caldas',4025],['S.S. do Paraíso',2463]],
+cities_fiel:[['Belo Horizonte',75],['Pouso Alegre',51],['Varginha',30],['Poços de Caldas',29],['S.S. do Paraíso',19]],
+cities_novos:[['Belo Horizonte',819],['Varginha',602],['Pouso Alegre',487],['Poços de Caldas',383],['Alfenas',223]],
+rec:[22037,11577,13395,34699,2550,162523],
+vida_dist:[11640,11275,11290,19127,34112,83031],vida_media:830,vida_mediana:704,vida_multi:170475,
+sazonal:[19848,16611,15232,16720,19135,17347,21262,19435,13524,14073,17499,24902],
+origem:{loja:222773,pos:23535,outros:473},
+reat_2026:37111,reat_pct:44.0,
+mesmo_dia_pct:58.9,ate_7d_pct:67.2,ate_30d_pct:72.8,mais_30d_pct:27.2,recorrentes_pct:78.8,apenas_1x_pct:21.2,apenas_1x_n:45753,mediana_eds:97,ticket_medio:14.2},
   ed5:{ed:425,price:5,next:'Eds.426–433',total:7505,novos:102,antigos:5950,sem_data:1453,retained:3988,retained_pct:53.1,not_retained:3517,not_retained_pct:46.9,new_in_next:19226,antigos_ret:3248,antigos_ret_pct:54.6,novos_ret:19,novos_ret_pct:18.6,ret_gender:{M:1860,F:1407,NI:721},lost_gender:{F:1466,M:1322,NI:729},avg_age:40.0,gender:{M:3182,F:2873,NI:1450},cities:[['Belo Horizonte',854],['Varginha',562],['Pouso Alegre',530],['Poços de Caldas',471],['S.S. do Paraíso',296]],age_dist:{'18–24':620,'25–34':2100,'35–44':2250,'45–54':1450,'55–64':700,'65+':220},cap_insider_pct:17.6,cap_sistema:4415,cap_insider_n:777,cap_mes:'Fevereiro',alerta:'A Insider capturou apenas 17,6% dos novos cadastros reais em fevereiro/2026 (777 de 4.415). Números de novos subrepresentados.',
     ga4_canal:{total_comp:42230,total_rev:369150,cats:{'(not set)':{c:30128,r:262915},'Direto':{c:7240,r:63795},'Mídia paga':{c:2331,r:20010},'CRM':{c:1274,r:11405},'Orgânico':{c:790,r:6975},'Outros':{c:467,r:4050}}}},
   metas:{meses:[
     {mes:'Mar/2026',eds:[{ed:426,val:15,mf:null,mr:null,ef:14130,er:3.6},{ed:427,val:20,mf:null,mr:null,ef:17525,er:4.4},{ed:428,val:15,mf:null,mr:null,ef:10430,er:2.6},{ed:429,val:10,mf:4969,mr:2.4,ef:5770,er:2.8,er:2.6},{ed:430,val:15,mf:null,mr:null,ef:9645,er:2.4}],tm:null,te:62125,tr:4.0},
     {mes:'Abr/2026',eds:[{ed:431,val:20,mf:35811,mr:9.0,ef:21565,er:5.4},{ed:432,val:15,mf:12213,mr:3.1,ef:8610,er:2.2},{ed:433,val:15,mf:11843,mr:3.0,ef:7470,er:1.9}],tm:59867,te:37645,tr:2.4},
     {mes:'Mai/2026',eds:[{ed:434,val:15,mf:10113,mr:2.5,ef:7930,er:2.0},{ed:435,val:20,mf:10671,mr:2.7,ef:15755,er:4.0},{ed:436,val:15,mf:10113,mr:2.5,ef:7375,er:1.9},{ed:437,val:15,mf:10113,mr:2.5,ef:9955,er:2.5},{ed:438,val:15,mf:10113,mr:2.5,ef:11750,er:3.0}],tm:51123,te:52765,tr:3.3},
-    {mes:'Jun/2026',eds:[{ed:439,val:15,mf:9769,mr:2.5,ef:13430,er:3.4,insider_crm:4065,ga4_crm:13430},{ed:440,val:20,mf:18205,mr:4.6,ef:null,er:null},{ed:441,val:15,mf:9769,mr:2.5,ef:null,er:null},{ed:442,val:15,mf:9769,mr:2.5,ef:null,er:null}],tm:47512,te:13430,tr:0.8}
+    {mes:'Jun/2026',eds:[{ed:439,val:15,mf:9769,mr:2.5,ef:13430,er:3.4,insider_crm:4065,ga4_crm:13430},{ed:440,val:20,mf:18205,mr:4.6,ef:17705,er:4.5},{ed:441,val:15,mf:9769,mr:2.5,ef:12770,er:3.2},{ed:442,val:15,mf:9769,mr:2.5,ef:null,er:null}],tm:47512,te:43905,tr:2.8}
   ]}
 },
 sv:{l:'Super Vale',s:'Super Vale · jan–jun 2026',col:'#D4537E',
@@ -609,21 +692,43 @@ sv:{l:'Super Vale',s:'Super Vale · jan–jun 2026',col:'#D4537E',
     {ed:427,dt:'2026-05-14',ws:196200,wd:159112,wc:0.84,wr:1010,eo:5.23,ec:0.07,er:980,ao:436,cg:150,rg:1990},
     {ed:428,has_crm_ga4:true,insider_crm:2160,ga4_crm:4050,dt:'2026-05-18',ws:524951,wd:186863,wc:0.97,wr:1330,eo:5.5,ec:null,er:670,ao:389,cg:434,rg:5070},
     {ed:429,val:10,insider_crm:1760,ga4_crm:4930,dt:'2026-05-24',ws:498170,wd:175735,wc:0.91,wr:1020,eo:5.22,ec:null,er:450,ao:471,cg:401,rg:5770},
-    {ed:430,val:10,has_crm_ga4:true,insider_crm:1610,ga4_recon:5640,ga4_crm:6580,dt:'2026-05-31',ws:419401,wd:150377,wc:0.71,wr:760,eo:5.55,ec:0.14,er:850,ao:319,cg:453,rg:6580}
+    {ed:430,val:10,has_crm_ga4:true,insider_crm:1610,ga4_recon:5640,ga4_crm:6580,dt:'2026-05-31',ws:419401,wd:150377,wc:0.71,wr:760,eo:5.55,ec:0.14,er:850,ao:319,cg:453,rg:6580},
+    {ed:431,val:20,dt:'2026-06-14',ws:503361,wd:174321,wc:0.85,wr:5000,eo:5.53,ec:0.07,er:6600,ao:0,cg:511,rg:11600,has_crm_ga4:true,insider_crm:2690,ga4_recon:11600,ga4_crm:11600},
+    {ed:432,val:10,dt:'2026-06-21',ws:561999,wd:192475,wc:0.83,wr:3330,eo:5.48,ec:0.06,er:2480,ao:0,cg:458,rg:5810,has_crm_ga4:true,insider_crm:1200,ga4_recon:5810,ga4_crm:5810}
   ],
   wpb:[{n:'Ed.408 (30/12)',ed:408,dl:64518,ctr:1.78},{n:'Ed.409 (07/01)',ed:409,dl:77357,ctr:1.25},{n:'Ed.418 (11/03)',ed:418,dl:82972,ctr:1.24},{n:'Ed.413 (04/02)',ed:413,dl:62900,ctr:1.22},{n:'Ed.415 (18/02) ⭐R$5',ed:415,dl:70615,ctr:1.22}],
   wpw:[{n:'Ed.430 (31/mai–06/jun)',ed:430,dl:150377,ctr:0.71},{n:'Ed.422 (08/04)',ed:422,dl:136256,ctr:0.79},{n:'Ed.424 (22/04)',ed:424,dl:112800,ctr:0.80},{n:'Ed.421 (01/04)',ed:421,dl:149450,ctr:0.85},{n:'Ed.416 (25/02)',ed:416,dl:62400,ctr:0.91}],
   emb:[{n:'SV_ganhadores_01.06 - compradores',ed:430,sn:2401,op:10.21,cv:5,rv:60},{n:'SV_ganhadores_25.05 - compradores',ed:429,sn:2341,op:9.92,cv:4,rv:80},{n:'SV_ganhadores_01.06 - não_compradores',ed:430,sn:100301,op:6.45,cv:3,rv:40},{n:'SV_ganhadores_25.05 - não_compradores',ed:429,sn:100285,op:6.56,cv:8,rv:100},{n:'SV_Premiação_ed430_terça_sem_saldo',ed:430,sn:93433,op:5.82,cv:7,rv:190}],
   emw:[{n:'SV_Premiação_ed430_sabado_sem_saldo',ed:430,sn:92657,op:4.71,cv:20,rv:280},{n:'SV_Premiação_ed430_sabado_com_saldo',ed:430,sn:1463,op:4.22,cv:0,rv:0},{n:'SV_Premiação_ed429_sabado_com_saldo',ed:429,sn:1469,op:4.39,cv:1,rv:10},{n:'SV_Premiação_ed429_sabado_sem_saldo',ed:429,sn:92665,op:4.48,cv:10,rv:130},{n:'SV_Premiação_ed430_sexta_sem_saldo',ed:430,sn:92949,op:5.14,cv:6,rv:70}],
   apb:[{n:'Ed.426 (06–12/mai)',ed:426,dl:94439,op:1.06},{n:'Ed.429 (24–30/mai)',ed:429,dl:48882,op:0.96},{n:'Ed.430 (31/mai–06/jun)',ed:430,dl:51662,op:0.62}],
-  base:{total_base:171038,com_compra:126075,online_total:126075,compradores_2026:50451,recorrentes:292,ativos_14d:2557,churn_1x:21578,dormentes:60383,novos_cad_2026:13346,novos_com_compra:11270,novos_sem_compra:2076,ganhadores:0,open_2026:41404,sem_uc:44963,avg_age_tot:39.2,avg_age_comp:42.2,avg_age_fiel:43.2,age_tot:{18:5943,25:30166,35:30231,45:16369,55:7109,65:2777},age_comp:{18:612,25:4154,35:5844,45:3882,55:1883,65:735},age_fiel:{18:1,25:35,35:47,45:44,55:10,65:9},gender_tot:{M:60542,F:52955,N:57541},gender_comp:{M:18016,F:13646,N:18789},gender_fiel:{M:145,F:57,N:90},cities_tot:[['Ipatinga',12351],['Gov. Valadares',11071],['Teófilo Otoni',8037],['Coronel Fabriciano',5112],['Caratinga',4520]],cities_comp:[['Ipatinga',2639],['Belo Horizonte',2291],['Gov. Valadares',2264],['Teófilo Otoni',1838],['Caratinga',1183]],cities_fiel:[['Ipatinga',30],['Belo Horizonte',27],['Teófilo Otoni',24],['Gov. Valadares',22],['Caratinga',14]],rec:[3922,15235,11976,15480,3838,0,0],mesmo_dia_pct:68.0,ate_7d_pct:77.9,ate_30d_pct:84.1,mais_30d_pct:15.9,recorrentes_pct:75.2,apenas_1x_pct:24.8,apenas_1x_n:23018,mediana_eds:72,ticket_medio:12.1},
+  base:{total_base:205587,com_compra:133054,online_total:133054,compradores_2026:59808,recorrentes:292,ativos_14d:22622,churn_1x:21578,dormentes:73246,novos_cad_2026:21338,novos_com_compra:11270,novos_sem_compra:10068,ganhadores:0,open_2026:41404,sem_uc:72533,
+erp_total:198606,erp_comp_2026:73481,erp_novos_mai:4925,insider_novos_mai:4914,
+novos_mes_2026:[{m:'Jan',n:2451},{m:'Fev',n:1600},{m:'Mar',n:6070},{m:'Abr',n:4488},{m:'Mai',n:4914},{m:'Jun',n:1815}],
+avg_age_novos:null,avg_age_tot:39.2,avg_age_comp:42.0,avg_age_fiel:43.2,
+age_tot:{18:5943,25:30166,35:30231,45:16369,55:7109,65:2777},
+age_comp:{18:612,25:4154,35:5844,45:3882,55:1883,65:735},
+age_fiel:{18:1,25:35,35:47,45:44,55:10,65:9},
+gender_tot:{M:83757,F:68321,N:53509},
+gender_comp:{M:23204,F:17455,N:19149},
+gender_novos_cad:{M:11770,F:8304,N:1264},
+gender_fiel:{M:145,F:57,N:90},
+cities_tot:[['Ipatinga',12351],['Gov. Valadares',11071],['Teófilo Otoni',8037],['Coronel Fabriciano',5112],['Caratinga',4520]],
+cities_comp:[['Belo Horizonte',2756],['Ipatinga',2630],['Gov. Valadares',2181],['Teófilo Otoni',1919],['Caratinga',1222]],
+cities_fiel:[['Ipatinga',30],['Belo Horizonte',27],['Teófilo Otoni',24],['Gov. Valadares',22],['Caratinga',14]],
+cities_novos:[['Belo Horizonte',406],['Gov. Valadares',325],['Ipatinga',301],['Teófilo Otoni',224],['Curvelo',159]],
+rec:[14659,7963,9744,24809,2633,73246],
+vida_dist:[6641,6037,5535,9196,15410,27189],vida_media:657,vida_mediana:525,vida_multi:70008,
+sazonal:[8545,6523,7453,8050,9695,7626,8250,7654,5682,6336,6892,10052],
+origem:{loja:108993,pos:23823,outros:238},
+reat_2026:12155,reat_pct:20.3,
+mesmo_dia_pct:68.0,ate_7d_pct:77.9,ate_30d_pct:84.1,mais_30d_pct:15.9,recorrentes_pct:75.2,apenas_1x_pct:24.8,apenas_1x_n:23018,mediana_eds:72,ticket_medio:12.1},
   ed5:{ed:415,price:5,next:'Eds.416–424',total:3238,novos:35,antigos:1793,sem_data:1410,retained:1863,retained_pct:57.5,not_retained:1375,not_retained_pct:42.5,new_in_next:11504,antigos_ret:1085,antigos_ret_pct:60.5,novos_ret:11,novos_ret_pct:31.4,ret_gender:{M:793,NI:595,F:475},lost_gender:{NI:534,M:435,F:406},avg_age:40.6,gender:{M:1228,F:881,NI:1129},cities:[['Ipatinga',335],['Belo Horizonte',304],['Teófilo Otoni',264],['Gov. Valadares',248],['Caratinga',149]],age_dist:{'18–24':280,'25–34':1000,'35–44':1100,'45–54':650,'55–64':250,'65+':85},cap_insider_pct:16.0,cap_sistema:2473,cap_insider_n:395,cap_mes:'Fevereiro',alerta:'A Insider capturou apenas 16,0% dos novos cadastros reais em fevereiro/2026 (395 de 2.473). Números de novos subrepresentados.',
     ga4_canal:{total_comp:17440,total_rev:150445,cats:{'(not set)':{c:12500,r:107075},'Direto':{c:3704,r:32480},'CRM':{c:665,r:5865},'Outros':{c:237,r:2050},'Mídia paga':{c:170,r:1380},'Orgânico':{c:164,r:1595}}}},
   metas:{meses:[
     {mes:'Fev/2026',eds:[{ed:412,val:10,mf:null,mr:null,ef:4315,er:2.1},{ed:413,val:15,mf:5204,mr:2.5,ef:6535,er:3.0},{ed:414,val:10,mf:4163,mr:2.0,ef:4750,er:2.0},{ed:415,val:5,mf:4996,mr:2.4,ef:5505,er:3.0,ed5:true}],tm:null,te:21105,tr:3.0},
     {mes:'Abr/2026',eds:[{ed:421,val:10,mf:6063,mr:2.9,ef:5520,er:2.7},{ed:422,val:15,mf:7883,mr:3.8,ef:6345,er:3.0},{ed:423,val:10,mf:5561,mr:2.7,ef:5330,er:2.6},{ed:424,val:10,mf:5561,mr:2.7,ef:4970,er:2.4}],tm:25068,te:22165,tr:2.7},
     {mes:'Mai/2026',eds:[{ed:425,val:10,mf:4969,mr:2.4,ef:5730,er:2.8},{ed:426,val:20,mf:13689,mr:6.6,ef:12920,er:6.2},{ed:427,val:10,mf:4969,mr:2.4,ef:5860,er:2.8},{ed:428,val:10,mf:4969,mr:2.4,ef:5070,er:null},{ed:429,val:10,mf:4969,mr:2.4,ef:5770,er:2.8,insider_crm:1760,ga4_crm:4930}],tm:33565,te:35350,tr:4.0},
-    {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6580,er:3.2,insider_crm:1610,ga4_crm:6580},{ed:431,val:20,mf:12920,mr:6.2,ef:null,er:null},{ed:432,val:10,mf:5214,mr:2.5,ef:null,er:null},{ed:433,val:10,mf:5214,mr:2.5,ef:null,er:null}],tm:28563,te:6580,tr:0.8}
+    {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6580,er:3.2,insider_crm:1610,ga4_crm:6580},{ed:431,val:20,mf:12920,mr:6.2,ef:12840,er:6.2},{ed:432,val:10,mf:5214,mr:2.5,ef:6470,er:3.1},{ed:433,val:10,mf:5214,mr:2.5,ef:null,er:null}],tm:28563,te:25890,tr:3.4}
   ]}
 }};
 
@@ -680,7 +785,7 @@ function pF(s){const p=s[0],eds=D[cap].eds;const sel=document.getElementById(p+'
 function gF(s){const p=s[0];const ev=document.getElementById(p+'-ed')?.value||'all';const d1=document.getElementById(p+'-d1')?.value||'';const d2=document.getElementById(p+'-d2')?.value||'';if(ev!=='all')return D[cap].eds.filter(e=>e.ed==ev);return D[cap].eds.filter(e=>(!d1||e.dt>=d1)&&(!d2||e.dt<=d2));}
 function aF(s){flt[s]=gF(s);rS(s);}
 function rF(s){pF(s);flt[s]=D[cap].eds;rS(s);}
-function setC(c,btn){cap=c;document.querySelectorAll('.ct').forEach(b=>b.className='ct');btn.className='ct a'+c;document.getElementById('sub').textContent=D[c].s;['camp','rank'].forEach(s=>{pF(s);flt[s]=D[c].eds;});profileMode='tot';document.getElementById('ed5tab').textContent=`⭐ Ed. R$${D[c].ed5.price} (Ed.${D[c].ed5.ed})`;rAll();}
+function setC(c,btn){cap=c;document.querySelectorAll('.ct').forEach(b=>b.className='ct');btn.className='ct a'+c;document.getElementById('sub').textContent=D[c].s;['camp'].forEach(s=>{pF(s);flt[s]=D[c].eds;});profileMode='tot';document.getElementById('ed5tab').textContent=`⭐ Ed. R$${D[c].ed5.price} (Ed.${D[c].ed5.ed})`;rAll();}
 function setProfile(m,btn){profileMode=m;document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rBProf();}
 
 function rFecho(){
@@ -1118,8 +1223,8 @@ function showT(id,btn){
   btn.classList.add('on');
   rAll();
 }
-function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='fecho')rFecho();else if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base')rBase();else if(id==='metas')rMetas();else if(id==='recon')rRecon();else if(id==='testes')rTestes();else rS(id);}
-function rS(s){if(s==='camp')rCamp();else if(s==='rank')rRank();}
+function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='fecho')rFecho();else if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base')rBase();else if(id==='metas')rMetas();else if(id==='recon')rRecon();else if(id==='testes')rTestes();else if(id==='perf')rRank();else rS(id);}
+function rS(s){if(s==='camp')rCamp();}
 
 function rCamp(){
   const ef=flt['camp']||D[cap].eds,d=D[cap],col=d.col;
@@ -1146,26 +1251,29 @@ function rCamp(){
   const wp_d=Math.round(13321309*sc),wp_c=Math.round(132425*sc),wp_cv=ef.reduce((a,e)=>a+(e.cg?Math.round(e.cg*0.55):0),0);
   const em_d=Math.round(50090000*sc),em_o=Math.round(4230000*sc),em_c=Math.round(79211*sc),em_cv=ef.reduce((a,e)=>a+(e.cg?Math.round(e.cg*0.45):0),0);
   const ap_d=Math.round(4457988*sc),ap_o=Math.round(37751*sc);
-  document.getElementById('hf-grid').innerHTML=`
+  var _rc_hf_grid=document.getElementById('hf-grid');if(_rc_hf_grid)_rc_hf_grid.innerHTML=`
     <div><div style="font-size:10px;font-weight:700;color:#378ADD;margin-bottom:6px;text-transform:uppercase">Web Push</div><div class="nb" style="font-size:9px;padding:4px 7px;margin-bottom:5px">Métricas: Insider · Compras: GA4</div>${fnSteps([{label:'Enviados',v:wS},{label:'Entregues',v:wp_d},{label:'Cliques',v:wp_c},{label:'Compras GA4',v:wp_cv}],'#378ADD')}</div>
     <div><div style="font-size:10px;font-weight:700;color:#7F77DD;margin-bottom:6px;text-transform:uppercase">E-mail</div><div class="nb" style="font-size:9px;padding:4px 7px;margin-bottom:5px">Métricas: Insider · Compras: GA4</div>${fnSteps([{label:'Enviados',v:emS},{label:'Entregues',v:em_d},{label:'Aberturas',v:em_o},{label:'Cliques',v:em_c},{label:'Compras GA4',v:em_cv}],'#7F77DD')}</div>
     <div><div style="font-size:10px;font-weight:700;color:#EF9F27;margin-bottom:6px;text-transform:uppercase">App Push</div><div class="nb" style="font-size:9px;padding:4px 7px;margin-bottom:5px">Métricas: Insider</div>${fnSteps([{label:'Enviados',v:Math.round(4900000*sc)},{label:'Entregues',v:ap_d},{label:'Aberturas',v:ap_o}],'#EF9F27')}<div style="font-size:9px;color:#888780;margin-top:4px">Compras via GA4</div></div>`;
-  document.getElementById('hf-totals').innerHTML=`<div class="mk" style="background:${col}15;border:1px solid ${col}33"><div class="ml">Compras CRM (GA4)</div><div class="mv">${fN(totComp)}</div></div><div class="mk" style="background:${col}15;border:1px solid ${col}33"><div class="ml">Revenue CRM (GA4)</div><div class="mv">${fR(totRev)}</div></div>`;
+  var _rc_hf_totals=document.getElementById('hf-totals');if(_rc_hf_totals)_rc_hf_totals.innerHTML=`<div class="mk" style="background:${col}15;border:1px solid ${col}33"><div class="ml">Compras CRM (GA4)</div><div class="mv">${fN(totComp)}</div></div><div class="mk" style="background:${col}15;border:1px solid ${col}33"><div class="ml">Revenue CRM (GA4)</div><div class="mv">${fR(totRev)}</div></div>`;
 
   const wR=ef.reduce((a,e)=>a+(e.wr||0),0);
   const eR=ef.reduce((a,e)=>a+(e.er||0),0);
   const eF=ef.filter(e=>e.eo>0),aOp=eF.length?(eF.reduce((a,e)=>a+e.eo,0)/eF.length).toFixed(1):'—';
   const aCtr=(ef.reduce((a,e)=>a+e.wc,0)/ef.length).toFixed(2);
-  document.getElementById('kwp').innerHTML=`<div class="mk"><div class="ml">Enviados (Insider)</div><div class="mv">${fmt(wS)}</div></div><div class="mk"><div class="ml">CTR médio (Insider)</div><div class="mv">${aCtr}%</div></div><div class="mk"><div class="ml">Revenue WP (GA4)</div><div class="mv">${fR(wR)}</div></div>`;
-  document.getElementById('kem').innerHTML=`<div class="mk"><div class="ml">Enviados (Insider)</div><div class="mv">${fmt(d.em.s)}</div></div><div class="mk"><div class="ml">Abertura média (Insider)</div><div class="mv">${aOp}%</div></div><div class="mk"><div class="ml">Revenue Email (GA4)</div><div class="mv">${fR(eR)}</div></div>`;
-  document.getElementById('kap').innerHTML=`<div class="mk"><div class="ml">Entregues (Insider)</div><div class="mv">${fmt(d.ap.d)}</div></div><div class="mk"><div class="ml">Taxa abertura (Insider)</div><div class="mv">${d.ap.opr}%</div></div><div class="mk"><div class="ml">Revenue</div><div class="mv" style="font-size:11px;color:#888780">Ver GA4</div></div>`;
-  document.getElementById('rwld').style.background=col+'88';
+  var _rc_kwp=document.getElementById('kwp');if(_rc_kwp)_rc_kwp.innerHTML=`<div class="mk"><div class="ml">Enviados (Insider)</div><div class="mv">${fmt(wS)}</div></div><div class="mk"><div class="ml">CTR médio (Insider)</div><div class="mv">${aCtr}%</div></div><div class="mk"><div class="ml">Revenue WP (GA4)</div><div class="mv">${fR(wR)}</div></div>`;
+  var _rc_kem=document.getElementById('kem');if(_rc_kem)_rc_kem.innerHTML=`<div class="mk"><div class="ml">Enviados (Insider)</div><div class="mv">${fmt(d.em.s)}</div></div><div class="mk"><div class="ml">Abertura média (Insider)</div><div class="mv">${aOp}%</div></div><div class="mk"><div class="ml">Revenue Email (GA4)</div><div class="mv">${fR(eR)}</div></div>`;
+  var _rc_kap=document.getElementById('kap');if(_rc_kap)_rc_kap.innerHTML=`<div class="mk"><div class="ml">Entregues (Insider)</div><div class="mv">${fmt(d.ap.d)}</div></div><div class="mk"><div class="ml">Taxa abertura (Insider)</div><div class="mv">${d.ap.opr}%</div></div><div class="mk"><div class="ml">Revenue</div><div class="mv" style="font-size:11px;color:#888780">Ver GA4</div></div>`;
+  var _rwld=document.getElementById('rwld');if(_rwld)_rwld.style.background=col+'88';
   dc('cwp');dc('cem');dc('crev');dc('c-ticket');
   const lbs=ef.map(e=>'Ed.'+e.ed);
+  if(document.getElementById('cwp')){
   ch['cwp']=new Chart(document.getElementById('cwp'),{type:'bar',data:{labels:lbs,datasets:[{label:'Entregues',data:ef.map(e=>e.wd),backgroundColor:col+'44',yAxisID:'y'},{label:'Compras GA4',data:ef.map(e=>e.cg),type:'line',borderColor:col,backgroundColor:'transparent',borderDash:[4,3],yAxisID:'y1',tension:0.3},{label:'Rev. GA4',data:ef.map(e=>e.rg),type:'line',borderColor:'#D85A30',backgroundColor:'transparent',borderDash:[2,2],yAxisID:'y1',tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{autoSkip:ef.length>12,maxRotation:45,font:{size:10}}},y:{ticks:{callback:v=>fmt(v),font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{font:{size:10}}}}}});
+}  if(document.getElementById('cem')){
   ch['cem']=new Chart(document.getElementById('cem'),{type:'line',data:{labels:lbs,datasets:[{label:'Abertura %',data:ef.map(e=>e.eo||null),borderColor:'#7F77DD',backgroundColor:'transparent',tension:0.3,spanGaps:false},{label:'CTR %',data:ef.map(e=>e.ec||null),borderColor:'#EF9F27',backgroundColor:'transparent',borderDash:[4,3],tension:0.3,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{autoSkip:ef.length>12,maxRotation:45,font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}}}}});
+}  if(document.getElementById('crev')){
   ch['crev']=new Chart(document.getElementById('crev'),{type:'bar',data:{labels:lbs,datasets:[{label:'WP GA4',data:ef.map(e=>e.wr),backgroundColor:col+'88'},{label:'Email GA4',data:ef.map(e=>e.er),backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{autoSkip:ef.length>12,maxRotation:45,font:{size:10}}},y:{stacked:true,ticks:{callback:v=>'R$'+fmt(v),font:{size:10}}}}}});
-
+}
   // Ticket médio
   const tickets=ef.map(e=>e.cg&&e.rg?Math.round(e.rg/e.cg*10)/10:null);
   const avgTicket=tickets.filter(Boolean).reduce((a,v,_,arr)=>a+v/arr.length,0).toFixed(1);
@@ -1233,64 +1341,389 @@ function rCamp(){
 
   document.getElementById('etbl').innerHTML=ef.map(e=>{
     const ticket=e.cg&&e.rg?(e.rg/e.cg).toFixed(1):null;
-    return`<tr${e.ed5?' style="background:#EF9F270A"':''}><td><b>${e.ed}</b>${e.ed5?'<span style="font-size:9px;color:#EF9F27;margin-left:3px">R$5</span>':''}</td><td>${e.dt.substring(0,10)}</td><td>${fmt(e.ws)}</td><td>${fP(e.wc)}</td><td>${fR(e.wr)}</td><td>${e.eo>0?fP(e.eo):'—'}</td><td>${fR(e.er)}</td><td>${e.ao>0?fN(e.ao):'—'}</td><td>${fR(e.rg)}</td><td>${fN(e.cg)}</td><td>${ticket?'R$'+ticket:'—'}</td></tr>`;}).join('');
+    return`<tr${e.ed5?' style="background:#EF9F270A"':''}><td><b>${e.ed}</b>${e.ed5?'<span style="font-size:9px;color:#EF9F27;margin-left:3px">R$5</span>':''}</td><td>${e.dt.substring(0,10)}</td><td>R$${e.val}</td><td>${fmt(e.ws)}</td><td>${fP(e.wc)}</td><td>${fR(e.wr)}</td><td>${e.eo>0?fP(e.eo):'—'}</td><td>${fR(e.er)}</td><td>${e.ao>0?fN(e.ao):'—'}</td><td>${fR(e.rg)}</td><td>${fN(e.cg)}</td><td>${ticket?'R$'+ticket:'—'}</td></tr>`;}).join('');
+
+  
+
+  // ── Retenção R$10 → R$15+ ──
+  var retEl=document.getElementById('retencao-body');
+  var retCard=document.getElementById('retencao-card');
+  var retData={
+    mc:{
+      eds_r10:'501, 503, 505, 507, 508, 509 e 513',
+      eds_r15:'502, 504, 506, 510, 511, 512, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524 e 525',
+      base_erp:177508, base_ins:62361,
+      nao_erp:67559, nao_ins:56158,
+      vol_erp:109949, vol_ins:6203
+    },
+    sm:{
+      eds_r10:'418, 420, 421, 422 e 424',
+      eds_r15:'419, 423, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440 e 441',
+      base_erp:67736, base_ins:19659,
+      nao_erp:16184, nao_ins:12440,
+      vol_erp:51552, vol_ins:7217
+    }
+  };
+  if(retEl){
+    var rd=retData[cap];
+    if(!rd){
+      if(retCard) retCard.style.display='none';
+    } else {
+      if(retCard) retCard.style.display='';
+      var pct=function(v,t){return t>0?'('+Math.round(v/t*100)+'%)':'';};
+      var ret_erp=Math.round(rd.vol_erp/rd.base_erp*100);
+      var ret_ins=Math.round(rd.vol_ins/rd.base_ins*100);
+      var per_erp=Math.round(rd.nao_erp/rd.base_erp*100);
+      var per_ins=Math.round(rd.nao_ins/rd.base_ins*100);
+      retEl.innerHTML=
+        // Tabela principal
+        '<div style="overflow-x:auto">'+
+        '<table style="width:100%;border-collapse:collapse;font-size:12px">'+
+          '<thead><tr>'+
+            '<th style="text-align:left;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600"></th>'+
+            '<th style="text-align:right;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600">ERP</th>'+
+            '<th style="text-align:right;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600">Insider</th>'+
+          '</tr></thead>'+
+          '<tbody>'+
+            '<tr style="background:#fafaf8">'+
+              '<td style="padding:10px 12px;font-weight:600;color:#1a1916">Base compradores R$10</td>'+
+              '<td style="padding:10px 12px;text-align:right;font-weight:700;font-size:14px">'+rd.base_erp.toLocaleString('pt-BR')+'</td>'+
+              '<td style="padding:10px 12px;text-align:right;font-weight:700;font-size:14px;color:'+col+'">'+rd.base_ins.toLocaleString('pt-BR')+'</td>'+
+            '</tr>'+
+            '<tr>'+
+              '<td style="padding:10px 12px;font-weight:600;color:#1a1916">Não voltaram a comprar R$15+</td>'+
+              '<td style="padding:10px 12px;text-align:right">'+rd.nao_erp.toLocaleString('pt-BR')+' <span style="color:#888780;font-size:11px">'+pct(rd.nao_erp,rd.base_erp)+'</span></td>'+
+              '<td style="padding:10px 12px;text-align:right">'+rd.nao_ins.toLocaleString('pt-BR')+' <span style="color:#888780;font-size:11px">'+pct(rd.nao_ins,rd.base_ins)+'</span></td>'+
+            '</tr>'+
+            '<tr style="background:'+col+'11">'+
+              '<td style="padding:10px 12px;font-weight:700;color:'+col+'">Voltaram a comprar R$15+</td>'+
+              '<td style="padding:10px 12px;text-align:right;font-weight:700;color:'+col+'">'+rd.vol_erp.toLocaleString('pt-BR')+' <span style="font-size:11px">'+pct(rd.vol_erp,rd.base_erp)+'</span></td>'+
+              '<td style="padding:10px 12px;text-align:right;font-weight:700;color:'+col+'">'+rd.vol_ins.toLocaleString('pt-BR')+' <span style="font-size:11px">'+pct(rd.vol_ins,rd.base_ins)+'</span></td>'+
+            '</tr>'+
+          '</tbody>'+
+        '</table></div>'+
+
+        // Taxa resumo
+        '<div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">'+
+          '<div style="flex:1;min-width:140px;background:'+col+'11;border:1px solid '+col+'33;border-radius:8px;padding:12px;text-align:center">'+
+            '<div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:4px">TAXA DE RETENÇÃO — ERP</div>'+
+            '<div style="font-size:28px;font-weight:800;color:'+col+'">'+ret_erp+'%</div>'+
+            '<div style="font-size:10px;color:#636057;margin-top:2px">voltaram a comprar R$15+</div>'+
+          '</div>'+
+          '<div style="flex:1;min-width:140px;background:#FFF0EE;border:1px solid #F0C4BC;border-radius:8px;padding:12px;text-align:center">'+
+            '<div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:4px">TAXA DE PERDA — ERP</div>'+
+            '<div style="font-size:28px;font-weight:800;color:#D85A30">'+per_erp+'%</div>'+
+            '<div style="font-size:10px;color:#636057;margin-top:2px">não retornaram</div>'+
+          '</div>'+
+        '</div>'+
+
+        // Edições referência — pequeno, após a tabela
+        '<div style="margin-top:14px;font-size:10px;color:#888780;line-height:1.6">'+
+          'Edições R$10 analisadas: '+rd.eds_r10+' &nbsp;·&nbsp; Edições R$15+ verificadas: '+rd.eds_r15+
+        '</div>';
+    }
+  }
 }
 
 function rRank(){
   const d=D[cap];
+  const col=d.col;
+  var eds=d.eds.filter(function(e){return e.eo&&e.ec&&e.wc;});
+  var avgEo=eds.length?Math.round(eds.reduce(function(a,e){return a+e.eo;},0)/eds.length*10)/10:0;
+  var avgEc=eds.length?Math.round(eds.reduce(function(a,e){return a+e.ec;},0)/eds.length*100)/100:0;
+  var avgCtor=avgEo?parseFloat((avgEc/avgEo*100).toFixed(1)):0;
+  var avgWc=eds.length?Math.round(eds.reduce(function(a,e){return a+e.wc;},0)/eds.length*100)/100:0;
+  var avgAp=d.apb&&d.apb.length?Math.round(d.apb.reduce(function(a,e){return a+e.op;},0)/d.apb.length*10)/10:0;
+
+  var benchEl=document.getElementById('perf-bench');
+  if(benchEl) benchEl.innerHTML=
+    '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">'+
+    ['Email — Abertura','Email — CTOR','Web Push — CTR','App Push — Abertura','Edições analisadas'].map(function(lbl,i){
+      var vals=[avgEo+'%',avgCtor+'%',avgWc+'%',(avgAp?avgAp+'%':'—'),eds.length+' eds'];
+      var colors=['#7F77DD','#7F77DD','#378ADD','#EF9F27','#888'];
+      return '<div class="mk"><div class="ml">'+lbl+'</div><div class="mv" style="color:'+colors[i]+'">'+vals[i]+'</div></div>';
+    }).join('')+'</div>';
+
+  // ── Gráfico Email: abertura + CTOR por edição ──
+  var emEds=d.eds.filter(function(e){return e.eo&&e.ec;}).slice(-20);
+  var emLabels=emEds.map(function(e){return 'Ed.'+e.ed;});
+  var emAbertura=emEds.map(function(e){return e.eo;});
+  var emCtor=emEds.map(function(e){return e.eo?parseFloat((e.ec/e.eo*100).toFixed(1)):0;});
+  dc('c-email-ctor');
+  ch['c-email-ctor']=new Chart(document.getElementById('c-email-ctor'),{
+    type:'line',
+    data:{labels:emLabels,datasets:[
+      {label:'Abertura (%)',data:emAbertura,borderColor:'#7F77DD',backgroundColor:'#7F77DD22',borderWidth:2,pointRadius:3,tension:0.3,fill:false,yAxisID:'yAb'},
+      {label:'CTOR (%)',data:emCtor,borderColor:'#EF9F27',backgroundColor:'transparent',borderWidth:2,pointRadius:3,tension:0.3,fill:false,yAxisID:'yCtor'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:12}},
+        tooltip:{callbacks:{label:function(ctx){return ctx.dataset.label+': '+ctx.raw+'%';}}}},
+      scales:{
+        yAb:{position:'left',ticks:{callback:function(v){return v+'%';},font:{size:10}},grid:{color:'#eee'},title:{display:true,text:'Abertura',font:{size:9}}},
+        yCtor:{position:'right',ticks:{callback:function(v){return parseFloat(v.toFixed(1))+'%';},font:{size:10}},grid:{display:false},title:{display:true,text:'CTOR',font:{size:9}}},
+        x:{ticks:{font:{size:9},maxRotation:45}}
+      }
+    }
+  });
+
+  // ── Gráfico WP CTR por edição ──
+  var wpEds=d.eds.filter(function(e){return e.wc;}).slice(-20);
+  var wpLabels=wpEds.map(function(e){return 'Ed.'+e.ed;});
+  var wpVals=wpEds.map(function(e){return e.wc;});
+  var wpMed=wpVals.length?Math.round(wpVals.reduce(function(a,b){return a+b;},0)/wpVals.length*100)/100:0;
+  var wpMediaLine=wpVals.map(function(){return wpMed;});
+  dc('c-wp-ctr');
+  ch['c-wp-ctr']=new Chart(document.getElementById('c-wp-ctr'),{
+    type:'bar',
+    data:{labels:wpLabels,datasets:[
+      {type:'bar',label:'CTR (%)',data:wpVals,backgroundColor:col+'BB',borderRadius:3,order:2},
+      {type:'line',label:'Média ('+wpMed+'%)',data:wpMediaLine,borderColor:'#aaa',borderWidth:1.5,borderDash:[4,3],pointRadius:0,order:1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:12}},
+        tooltip:{callbacks:{label:function(ctx){return ctx.dataset.label+': '+ctx.raw+'%';}}}},
+      scales:{
+        y:{ticks:{callback:function(v){return v+'%';},font:{size:10}},grid:{color:'#eee'},suggestedMax:Math.max.apply(null,wpVals)*1.3},
+        x:{ticks:{font:{size:9},maxRotation:45}}
+      }
+    }
+  });
+
+  // ── Rankings WP ──
+  var wpAll=[];
+  d.eds.forEach(function(e){
+    if(e.wps) e.wps.forEach(function(w){wpAll.push({n:'Ed.'+e.ed,ed:e.ed,dl:w.dl,ctr:w.ctr});});
+    else if(e.wc) wpAll.push({n:'Ed.'+e.ed,ed:e.ed,val:e.val,dl:e.wd,ctr:e.wc});
+  });
+  wpAll.sort(function(a,b){return b.ctr-a.ctr;});
+  document.getElementById('wpb').innerHTML=wpAll.slice(0,5).map(function(r){
+    return '<tr class="hi"><td>Ed.'+r.ed+'</td><td>R$'+r.val+'</td><td>'+fmt(r.dl)+'</td><td>'+r.ctr+'%</td></tr>';
+  }).join('');
+  document.getElementById('wpw').innerHTML=wpAll.slice(-5).reverse().map(function(r){
+    return '<tr class="lo"><td>Ed.'+r.ed+'</td><td>R$'+r.val+'</td><td>'+fmt(r.dl)+'</td><td>'+r.ctr+'%</td></tr>';
+  }).join('');
+
+  // ── Rankings Email ──
+  var emAll=[];
+  d.eds.forEach(function(e){
+    if(e.ems) e.ems.forEach(function(m){emAll.push({n:m.n,ed:e.ed,op:m.op,ctor:m.op?Math.round(m.ec/m.op*1000)/10:0});});
+    else if(e.eo) emAll.push({n:'Ed.'+e.ed,ed:e.ed,val:e.val,op:e.eo,ctor:e.eo?parseFloat((e.ec/e.eo*100).toFixed(1)):0});
+  });
+  emAll.sort(function(a,b){return b.ctor-a.ctor;});
+  document.getElementById('emb').innerHTML=emAll.slice(0,5).map(function(r){
+    return '<tr class="hi"><td style="white-space:normal;line-height:1.4;font-size:11px">'+r.n+'</td><td>'+r.ed+'</td><td>R$'+(r.val||'—')+'</td><td>'+r.op+'%</td><td>'+(r.ctor||'—')+'%</td></tr>';
+  }).join('');
+  document.getElementById('emw').innerHTML=emAll.filter(function(r){return r.ctor>0;}).slice(-5).reverse().map(function(r){
+    return '<tr class="lo"><td style="white-space:normal;line-height:1.4;font-size:11px">'+r.n+'</td><td>'+r.ed+'</td><td>R$'+(r.val||'—')+'</td><td>'+r.op+'%</td><td>'+(r.ctor||'—')+'%</td></tr>';
+  }).join('');
+
+  // ── Rankings App Push ──
+  // App Push: usar d.apb (dados pré-calculados) quando disponível
+  var apbEl=document.getElementById('apb');
+  if(apbEl){
+    if(d.apb&&d.apb.length){
+      apbEl.innerHTML=d.apb.map(function(r){
+        return '<tr class="hi"><td style="white-space:normal;line-height:1.4;font-size:11px">'+r.n+'</td><td>R$'+(r.val||r.op)+'</td><td>'+fmt(r.dl)+'</td><td>'+r.op+'%</td></tr>';
+      }).join('');
+    } else {
+      var apAll=d.eds.filter(function(e){return e.ap_opr;}).sort(function(a,b){return b.ap_opr-a.ap_opr;});
+      apbEl.innerHTML=apAll.slice(0,5).map(function(e){
+        return '<tr class="hi"><td>Ed.'+e.ed+'</td><td>'+fmt(e.ao)+'</td><td>'+e.ap_opr+'%</td></tr>';
+      }).join('');
+    }
+  }
+
+  // ── Insights de canal ──
+  var insEl=document.getElementById('ch-ins');
+  if(insEl){
+    var insItems=[];
+    // 1. Tendência WP: primeiras 3 vs últimas 3 eds
+    var wpSorted=d.eds.filter(function(e){return e.wc;});
+    if(wpSorted.length>=6){
+      var first3avg=parseFloat((wpSorted.slice(0,3).reduce(function(a,e){return a+e.wc;},0)/3).toFixed(2));
+      var last3avg=parseFloat((wpSorted.slice(-3).reduce(function(a,e){return a+e.wc;},0)/3).toFixed(2));
+      var wpTrend=Math.round((last3avg/first3avg-1)*100);
+      var trendTxt=wpTrend<0?'queda de '+Math.abs(wpTrend)+'%':'alta de '+wpTrend+'%';
+      insItems.push({e:'📲',t:'CTR do Web Push caiu de <b>'+first3avg+'%</b> (início 2026) para <b>'+last3avg+'%</b> (últimas 3 eds) — '+trendTxt+'. Base cresceu e diluiu o engajamento relativo.'});
+    }
+    // 2. WP CTR por valor de título
+    var byValWc={};
+    d.eds.filter(function(e){return e.wc&&e.val;}).forEach(function(e){
+      if(!byValWc[e.val])byValWc[e.val]=[];
+      byValWc[e.val].push(e.wc);
+    });
+    var valsWc=Object.keys(byValWc).map(Number).filter(function(v){return byValWc[v].length>=2;}).sort(function(a,b){return a-b;});
+    if(valsWc.length>=2){
+      var ctrByVal=valsWc.map(function(v){return {val:v,avg:parseFloat((byValWc[v].reduce(function(a,b){return a+b;},0)/byValWc[v].length).toFixed(2))};});
+      var bestVal=ctrByVal.reduce(function(a,b){return b.avg>a.avg?b:a;});
+      var worstVal=ctrByVal.reduce(function(a,b){return b.avg<a.avg?b:a;});
+      if(bestVal.val!==worstVal.val){
+        insItems.push({e:'💡',t:'Web Push: edições de <b>R$'+bestVal.val+'</b> têm CTR médio mais alto (<b>'+bestVal.avg+'%</b>), enquanto R$'+worstVal.val+' ficam em <b>'+worstVal.avg+'%</b> — tickets menores geram mais clique proporcional.'});
+      }
+    }
+    // 3. CTOR: alta abertura ≠ alto CTOR
+    var edsComCtor=d.eds.filter(function(e){return e.eo&&e.ec&&e.eo>0;}).map(function(e){return {ed:e.ed,val:e.val,eo:e.eo,ctor:parseFloat((e.ec/e.eo*100).toFixed(1))};});
+    if(edsComCtor.length>=4){
+      var highOpen=edsComCtor.filter(function(e){return e.eo>15;});
+      var lowOpen=edsComCtor.filter(function(e){return e.eo<=15;});
+      if(highOpen.length&&lowOpen.length){
+        var ctorHigh=parseFloat((highOpen.reduce(function(a,e){return a+e.ctor;},0)/highOpen.length).toFixed(1));
+        var ctorLow=parseFloat((lowOpen.reduce(function(a,e){return a+e.ctor;},0)/lowOpen.length).toFixed(1));
+        var bestCtor=edsComCtor.reduce(function(a,b){return b.ctor>a.ctor?b:a;});
+        insItems.push({e:'📧',t:'<b>Alta abertura não garante alto CTOR.</b> Eds com abertura >15% (resultado/ganhadores) têm CTOR médio de <b>'+ctorHigh+'%</b>, enquanto eds com abertura ≤15% chegam a <b>'+ctorLow+'%</b> — quem abre é mais qualificado. Melhor CTOR: Ed.'+bestCtor.ed+' R$'+bestCtor.val+' ('+bestCtor.ctor+'%, abertura '+bestCtor.eo+'%).'});
+      }
+    }
+    if(avgAp){
+      insItems.push({e:'📱',t:'App Push: abertura média <b>'+avgAp+'%</b> sobre entregues — canal restrito a usuários com app instalado.'});
+    }
+    insEl.innerHTML=insItems.map(function(x){return '<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">'+x.e+'</div><div style="font-size:11px;line-height:1.6">'+x.t+'</div></div>';}).join('');
+  }
+
+  // ── Análise de copy ──
+  rCopy();
+  // Top copy por categoria
+  var topcatEl=document.getElementById('topcat');
+  var topcatCard=document.getElementById('topcat-card');
+  if(topcatEl&&topcatCard){
+    var d2=D[cap];
+    var catBest={};
+    (d2.copy||[]).forEach(function(e){
+      var cat=e.cat||'Outros';
+      if(!catBest[cat]||e.op>catBest[cat].op) catBest[cat]={n:e.n,op:e.op,ed:e.ed};
+    });
+    var cats=Object.keys(catBest);
+    if(cats.length){
+      topcatCard.style.display='';
+      topcatEl.innerHTML=cats.map(function(c){
+        var b=catBest[c];
+        return '<div class="ir"><div class="ii" style="background:#eeeee8;font-size:10px;font-weight:700">'+c.substring(0,2).toUpperCase()+'</div>'+
+          '<div style="font-size:11px;line-height:1.5"><b>'+c+':</b> '+b.n+'<br><span style="color:#888">Ed.'+b.ed+' · '+b.op+'% abertura</span></div></div>';
+      }).join('');
+    } else {
+      topcatCard.style.display='none';
+    }
+  }
+
   const cv=[{ch:'Web Push',v:d.wp.cvr,l:(d.wp.cvr).toFixed(3)+'% por entregue (GA4)',c:'#378ADD'},{ch:'E-mail',v:d.em.s?0.023:0,l:'ver GA4',c:'#7F77DD'},{ch:'App Push',v:null,l:'Ver GA4',c:'#EF9F27'}];
   const mx=Math.max(...cv.filter(x=>x.v).map(x=>x.v),0.001);
-  document.getElementById('chcv').innerHTML=cv.map(x=>`<div class="cr"><div class="cnm">${x.ch}</div><div class="cbw" style="background:#eeeee8;border-radius:99px;height:5px;overflow:hidden"><div style="width:${x.v?Math.round(x.v/mx*100):4}%;background:${x.v?x.c:'#D3D1C7'};height:100%;border-radius:99px"></div></div><div class="cvl">${x.l}</div></div>`).join('');
+  var _elchcv=document.getElementById('chcv');if(_elchcv)_elchcv.innerHTML=cv.map(x=>`<div class="cr"><div class="cnm">${x.ch}</div><div class="cbw" style="background:#eeeee8;border-radius:99px;height:5px;overflow:hidden"><div style="width:${x.v?Math.round(x.v/mx*100):4}%;background:${x.v?x.c:'#D3D1C7'};height:100%;border-radius:99px"></div></div><div class="cvl">${x.l}</div></div>`).join('');
   const rv=[{ch:'App Push',v:d.ap.opr,l:d.ap.opr+'% abertura',c:'#EF9F27'},{ch:'E-mail',v:d.em.op,l:d.em.op+'% abertura',c:'#7F77DD'},{ch:'Web Push',v:d.wp.ctr,l:d.wp.ctr+'% CTR',c:'#378ADD'}];
   const mr=Math.max(...rv.map(x=>x.v));
-  document.getElementById('chrch').innerHTML=rv.map(x=>`<div class="cr"><div class="cnm">${x.ch}</div><div class="cbw" style="background:#eeeee8;border-radius:99px;height:5px;overflow:hidden"><div style="width:${Math.round(x.v/mr*100)}%;background:${x.c};height:100%;border-radius:99px"></div></div><div class="cvl">${x.l}</div></div>`).join('');
+  var _elchrch=document.getElementById('chrch');if(_elchrch)_elchrch.innerHTML=rv.map(x=>`<div class="cr"><div class="cnm">${x.ch}</div><div class="cbw" style="background:#eeeee8;border-radius:99px;height:5px;overflow:hidden"><div style="width:${Math.round(x.v/mr*100)}%;background:${x.c};height:100%;border-radius:99px"></div></div><div class="cvl">${x.l}</div></div>`).join('');
   document.getElementById('wpb').innerHTML=d.wpb.map(r=>`<tr class="hi"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed}</td><td>${fmt(r.dl)}</td><td>${r.ctr}%</td></tr>`).join('');
   document.getElementById('wpw').innerHTML=d.wpw.map(r=>`<tr class="lo"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed}</td><td>${fmt(r.dl)}</td><td>${r.ctr}%</td></tr>`).join('');
   document.getElementById('emb').innerHTML=d.emb.map(r=>`<tr class="hi"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed||'—'}</td><td>${fmt(r.sn)}</td><td>${r.op}%</td><td>${r.cv!=null?r.cv:'—'}</td><td>${r.rv!=null?fR(r.rv):'—'}</td></tr>`).join('');
   document.getElementById('emw').innerHTML=d.emw.map(r=>`<tr class="lo"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed||'—'}</td><td>${fmt(r.sn)}</td><td>${r.op}%</td><td>${r.cv!=null?r.cv:'—'}</td><td>${r.rv!=null?fR(r.rv):'—'}</td></tr>`).join('');
   document.getElementById('apb').innerHTML=d.apb.map(r=>`<tr class="hi"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed}</td><td>${fmt(r.dl)}</td><td>${r.op}%</td></tr>`).join('');
-  document.getElementById('chins').innerHTML=[
+  var _elchins=document.getElementById('chins');if(_elchins)_elchins.innerHTML=[
     {e:'⬇️',t:`CTR do Web Push caiu ao longo do período — base cresceu, mais usuários novos com menor engajamento inicial.`},
     {e:'📧',t:`Abertura do e-mail está estável após crescimento de base. Campanhas de resultado do sorteio continuam com maior abertura.`},
-    {e:'📱',t:`App Push: ${d.ap.opr}% de abertura. Embora menor que o e-mail em abertura bruta, o público com app instalado tem maior intenção de compra — base mais qualificada.`},
+    {e:'📱',t:`App Push: ${d.ap.opr}% de abertura média — canal restrito a usuários com app instalado.`},
     {e:'💰',t:`Web Push gera maior revenue direto. E-mail tem maior alcance. Combinar os dois nas edições de ticket mais alto amplifica o resultado.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
 }
 
 function rBase(){
   const b=D[cap].base,col=D[cap].col,lbl=D[cap].l;
-  document.getElementById('bnote').textContent=`Base exportada da Insider — ${lbl}. Atualizada em ${UPD}.`;
+  var _el_bnote=document.getElementById('bnote');if(_el_bnote)_el_bnote.textContent=`Base exportada da Insider — ${lbl}. Atualizada em ${UPD}.`;
 
   // Funil de base
   const steps=cap==='mc'?[
-    {icon:'🏠',bg:col+'22',c:col,t:'Base total Insider',s:'Todos os cadastros registrados',v:b.total_base},
+    {icon:'🏠',bg:col+'22',c:col,t:'Base total Insider',s:'Total cadastros na Insider',v:b.total_base,erp:b.erp_total},
     {icon:'🛒',bg:'#1D9E7522',c:'#1D9E75',t:'Com compra registrada',s:'Realizaram ao menos 1 compra (qualquer data)',v:b.com_compra},
-    {icon:'📅',bg:'#378ADD22',c:'#378ADD',t:'Compradores em 2026',s:'Última compra a partir de jan/2026',v:b.compradores_2026},
-    {icon:'💻',bg:'#7F77DD22',c:'#7F77DD',t:'Canal online (LOJA)',s:'Origem da última compra = loja online/app',v:b.online_total},
-    {icon:'🏪',bg:'#EF9F2722',c:'#EF9F27',t:'Canal físico (POS)',s:'Origem da última compra = ponto de venda físico',v:b.pos||0},
-    {icon:'🤝',bg:'#D4537E22',c:'#D4537E',t:'Representante (RCA)',s:'Origem da última compra = representante comercial',v:b.rca||0},
-    {icon:'🔄',bg:'#1D9E7522',c:'#1D9E75',t:'Fiéis (3 eds. consecutivas)',s:`Compraram nas ${cap==='mc'?'Eds.519–521':cap==='sm'?'Eds.435–437':'Eds.426–428'} — cruzamento por UUID`,v:b.recorrentes}
+    {icon:'📅',bg:'#378ADD22',c:'#378ADD',t:'Compradores em 2026',s:'Jan–Mai/2026',v:b.compradores_2026,erp:b.erp_comp_2026},
+    {icon:'🔄',bg:'#1D9E7522',c:'#1D9E75',t:'Fiéis (3 eds. consecutivas)',s:`Compraram nas Eds.519–521 — cruzamento por UUID`,v:b.recorrentes}
   ]:[
     {icon:'🏠',bg:col+'22',c:col,t:'Base total Insider',s:'Todos os cadastros registrados',v:b.total_base},
     {icon:'🛒',bg:'#1D9E7522',c:'#1D9E75',t:'Com compra registrada',s:'Realizaram ao menos 1 compra (qualquer data)',v:b.com_compra},
     {icon:'📅',bg:'#378ADD22',c:'#378ADD',t:'Compradores em 2026',s:'Última compra a partir de jan/2026',v:b.compradores_2026},
     {icon:'🔄',bg:'#EF9F2722',c:'#EF9F27',t:'Fiéis (3 eds. consecutivas)',s:`Compraram nas ${cap==='sm'?'Eds.435–437':'Eds.426–428'} — cruzamento por UUID`,v:b.recorrentes}
   ];
-  document.getElementById('base-funnel').innerHTML=steps.map((s,i)=>`
-    <div class="bfs"><div class="bfs-ico" style="background:${s.bg}">${s.icon}</div>
-    <div class="bfs-lbl"><div class="bfs-t">${s.t}</div><div class="bfs-s">${s.s}</div></div>
-    <div class="bfs-v" style="color:${s.c}">${fN(s.v)}</div>
-    <div class="bfs-p">${s.v&&steps[0].v?Math.round(s.v/steps[0].v*100)+'%':'—'}</div></div>
-    ${i<steps.length-1&&steps[i+1].v?`<div style="padding:2px 0 2px 37px;font-size:9px;color:#888780">▼ ${Math.round(steps[i+1].v/Math.max(s.v,1)*100)}% avança</div>`:''}`
-  ).join('');
+  document.getElementById('base-funnel').innerHTML=steps.map((s,i)=>{
+    var erpTag='';
+    var pctErp='';
+    return '<div class="bfs"><div class="bfs-ico" style="background:'+s.bg+'">'+s.icon+'</div>'+
+      '<div class="bfs-lbl"><div class="bfs-t">'+s.t+'</div><div class="bfs-s">'+s.s+'</div></div>'+
+      '<div class="bfs-v" style="color:'+s.c+'">'+fN(s.v)+pctErp+erpTag+'</div>'+
+      '<div class="bfs-p">'+(s.v&&steps[0].v?Math.round(s.v/steps[0].v*100)+'%':'—')+'</div></div>'+
+      (i<steps.length-1&&steps[i+1].v?'<div style="padding:2px 0 2px 37px;font-size:9px;color:#888780">▼ '+Math.round(steps[i+1].v/Math.max(s.v,1)*100)+'% avança</div>':'');
+  }).join('');
 
   rNovos();
 
+  // ── Painel Insider vs ERP (só SM e SV por enquanto) ──
+  var erpEl=document.getElementById('base-erp');
+  if(erpEl){
+    if(b.erp_total){
+      var erp=b.erp_total, ins=b.total_base;
+      var pctTotal=Math.round(ins/erp*100);
+      var erp26=b.erp_comp_2026, ins26=b.compradores_2026;
+      var pct26=Math.round(ins26/erp26*100);
+      var erpNovos=b.erp_novos_mai, insNovos=b.insider_novos_mai;
+      var pctNovos=Math.round(insNovos/erpNovos*100);
+      var gapColor=function(p){return p>=95?'#1D9E75':p>=75?'#EF9F27':'#D85A30';};
+      erpEl.innerHTML=
+        '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:10px">Cobertura Insider vs ERP (fonte da verdade)</div>'+
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">'+
+        ['Total com compra na vida','Compradores 2026*','Novos cadastros (mai)'].map(function(lbl,i){
+          var insV=[ins,ins26,insNovos][i];
+          var erpV=[erp,erp26,erpNovos][i];
+          var pct=[pctTotal,pct26,pctNovos][i];
+          var gap=insV-erpV;
+          return '<div style="background:#f8f8f6;border-radius:8px;padding:10px 12px">'+
+            '<div style="font-size:10px;color:#aaa;margin-bottom:4px">'+lbl+'</div>'+
+            '<div style="font-size:13px;font-weight:800;color:'+col+'">'+insV.toLocaleString('pt-BR')+'</div>'+
+            '<div style="font-size:11px;color:#888;margin-top:2px">ERP: '+erpV.toLocaleString('pt-BR')+'</div>'+
+            '<div style="font-size:12px;font-weight:700;color:'+gapColor(pct)+';margin-top:4px">'+pct+'% cobertura</div>'+
+            '<div style="font-size:10px;color:'+(gap>=0?'#1D9E75':'#D85A30')+'">('+(gap>=0?'+':'')+gap.toLocaleString('pt-BR')+')</div>'+
+            '</div>';
+        }).join('')+
+        '</div>'+
+        '<div style="font-size:10px;color:#aaa;margin-top:8px;font-style:italic">* Gap de compradores 2026 relacionado a pagamentos PIX onde o cliente não permanece até a página de sucesso. Correção prevista na release até 15/jul/2026. ** Streaming da base histórica para a Insider ainda em andamento — números podem estar subrepresentados até a conclusão da migração.</div>';
+    } else {
+      erpEl.innerHTML='';
+    }
+  }
+
+  // ── Gráfico novos cadastros por mês ──
+  var novosMesEl=document.getElementById('c-novos-mes');
+  if(novosMesEl && b.novos_mes_2026){
+    dc('c-novos-mes');
+    var nmLabels=b.novos_mes_2026.map(function(x){return x.m+'/26';});
+    var nmVals=b.novos_mes_2026.map(function(x){return x.n;});
+    // Linha de tendência linear
+    var n2=nmVals.length,sx=0,sy=0,sxy=0,sxx=0;
+    nmVals.forEach(function(v,i){sx+=i+1;sy+=v;sxy+=(i+1)*v;sxx+=(i+1)*(i+1);});
+    var slope=(n2*sxy-sx*sy)/(n2*sxx-sx*sx);
+    var intercept=(sy-slope*sx)/n2;
+    var trendVals=nmVals.map(function(_,i){return Math.round(intercept+slope*(i+1));});
+    ch['c-novos-mes']=new Chart(novosMesEl,{
+      type:'bar',
+      data:{labels:nmLabels,datasets:[
+        {type:'bar',label:'Novos',data:nmVals,backgroundColor:col+'BB',borderRadius:4,order:2},
+        {type:'line',label:'Tendência',data:trendVals,borderColor:'#aaa',borderWidth:1.5,borderDash:[4,3],pointRadius:0,order:1}
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(ctx){return ctx.dataset.label+': '+ctx.raw.toLocaleString('pt-BR');}}}},
+        scales:{x:{ticks:{font:{size:10}}},y:{display:false,suggestedMax:Math.max.apply(null,nmVals)*1.3}}},
+      plugins:[{id:'barLbl',afterDatasetDraw:function(chart){
+        var ctx2=chart.ctx,meta=chart.getDatasetMeta(0),ds=chart.data.datasets[0];
+        meta.data.forEach(function(bar,i){
+          ctx2.save();ctx2.fillStyle='#444';ctx2.font='bold 10px sans-serif';
+          ctx2.textAlign='center';ctx2.textBaseline='bottom';
+          ctx2.fillText(ds.data[i].toLocaleString('pt-BR'),bar.x,bar.y-3);ctx2.restore();
+        });
+      }}]
+    });
+  }
+
   dc('crec');
-  document.getElementById('recld').style.background=col;
+  var _recld=document.getElementById('recld');if(_recld)_recld.style.background=col;
   ch['crec']=new Chart(document.getElementById('crec'),{type:'bar',data:{labels:['0–7d','8–14d','15–30d','31–60d','61–90d','91–365d','365d+'],datasets:[{data:b.rec,backgroundColor:col+'88'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>fmt(v),font:{size:10}}}}}});
   const comRec=b.rec.reduce((a,v)=>a+v,0);
-  document.getElementById('rec-note').textContent=`Analisados ${fN(comRec)} clientes com Data Última Compra preenchida. ${fN(b.sem_uc)} sem essa informação na Insider.`;
+  var _el_rec_note=document.getElementById('rec-note');if(_el_rec_note)_el_rec_note.textContent=`Analisados ${fN(comRec)} clientes com Data Última Compra preenchida. ${fN(b.sem_uc)} sem essa informação na Insider.`;
 
 
 
@@ -1299,69 +1732,175 @@ function rBase(){
 
 
   // Jornada do cliente
+  // ── Análises extras de jornada (SM e SV) ──
+  var jornadaExtra=document.getElementById('jornada-extra');
+  if(jornadaExtra && b.vida_dist){
+    var meses_nomes=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    var maxSaz=Math.max.apply(null,b.sazonal);
+    var sazHtml=b.sazonal.map(function(n,i){
+      var bar=Math.round(n/maxSaz*100);
+      return '<div style="text-align:center"><div style="background:#eee;border-radius:2px;height:40px;display:flex;align-items:flex-end;margin-bottom:3px">'+
+        '<div style="background:'+col+'AA;width:100%;height:'+bar+'%;border-radius:2px 2px 0 0"></div></div>'+
+        '<div style="font-size:9px;color:#aaa">'+meses_nomes[i]+'</div>'+
+        '<div style="font-size:9px;font-weight:700;color:#555">'+Math.round(n/b.sazonal.reduce(function(a,v){return a+v;},0)*100)+'%</div></div>';
+    }).join('');
+
+    var vidaLabels=['<30d','30–90d','90–180d','180–365d','1–2a','2+a'];
+    var vidaTotal=b.vida_dist.reduce(function(a,v){return a+v;},0);
+    var vidaHtml=b.vida_dist.map(function(n,i){
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #f0f0f0">'+
+        '<span style="font-size:11px;color:#666">'+vidaLabels[i]+'</span>'+
+        '<div style="flex:1;margin:0 10px;background:#eee;border-radius:2px;height:6px">'+
+          '<div style="background:'+col+'AA;width:'+Math.round(n/vidaTotal*100)+'%;height:6px;border-radius:2px"></div></div>'+
+        '<span style="font-size:11px;font-weight:700;color:#333;min-width:50px;text-align:right">'+Math.round(n/vidaTotal*100)+'% ('+n.toLocaleString('pt-BR')+')</span></div>';
+    }).join('');
+
+    var origemLoja=b.origem?b.origem.loja:0;
+    var origemPos=b.origem?b.origem.pos:0;
+    var origemTot=origemLoja+origemPos+(b.origem?b.origem.outros:0);
+
+    jornadaExtra.innerHTML=
+      '<div class="card" style="margin-top:.8rem">'+
+        '<div class="ct2" style="margin-bottom:6px">3. Tempo de relacionamento</div>'+
+        '<div style="font-size:11px;color:#666;margin-bottom:4px">Intervalo entre 1ª e última compra de clientes com 2+ compras ('+b.vida_multi.toLocaleString('pt-BR')+' clientes). Quanto maior, mais tempo o cliente permanece ativo.</div>'+
+        '<div style="font-size:11px;color:#333;font-weight:600;margin-bottom:8px">Media: '+Math.round(b.vida_media/30)+' meses &nbsp;&middot;&nbsp; Mediana: '+Math.round(b.vida_mediana/30)+' meses</div>'+
+        vidaHtml+
+      '</div>'+
+      '<div class="card" style="margin-top:.8rem">'+
+        '<div class="ct2" style="margin-bottom:6px">4. Sazonalidade da 1ª compra</div>'+
+        '<div style="font-size:11px;color:#666;margin-bottom:8px">Em qual mês do ano os clientes tendem a comprar pela primeira vez. Meses mais altos indicam melhor janela de aquisição.</div>'+
+        '<div style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px">'+sazHtml+'</div>'+
+      '</div>'+
+      '<div class="card" style="margin-top:.8rem">'+
+        '<div class="ct2" style="margin-bottom:6px">5. Origem da última compra</div>'+
+        '<div style="font-size:11px;color:#666;margin-bottom:8px">Canal pelo qual o cliente realizou sua compra mais recente. Mostra o peso do canal online vs físico na base ativa.</div>'+
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
+          '<div class="mk"><div class="ml">Online (LOJA)</div><div class="mv" style="color:'+col+'">'+Math.round(origemLoja/origemTot*100)+'%</div><div class="ms">'+origemLoja.toLocaleString('pt-BR')+' clientes</div></div>'+
+          '<div class="mk"><div class="ml">Físico (POS)</div><div class="mv">'+Math.round(origemPos/origemTot*100)+'%</div><div class="ms">'+origemPos.toLocaleString('pt-BR')+' clientes</div></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="card" style="margin-top:.8rem">'+
+        '<div class="ct2" style="margin-bottom:6px">6. Reativação</div>'+
+        '<div style="font-size:11px;color:#666;margin-bottom:8px">Compradores de 2026 cuja 1ª compra foi até 2023 — ou seja, clientes que ficaram inativos e retornaram espontaneamente.</div>'+
+        '<div style="font-size:24px;font-weight:900;color:'+col+'">'+b.reat_2026.toLocaleString('pt-BR')+'</div>'+
+        '<div style="font-size:12px;color:#1a8a5a;margin-top:3px"><b>'+b.reat_pct+'%</b> dos compradores 2026 fizeram 1ª compra até 2023</div>'+
+        '<div style="font-size:11px;color:#777;margin-top:4px">Clientes que já haviam comprado e retornaram após longo período — validam a força da base histórica para reativação via CRM.</div>'+
+      '</div>';
+  } else if(jornadaExtra){
+    jornadaExtra.innerHTML='';
+  }
+
   document.getElementById('jornada').innerHTML=`
-    <div class="nb" style="font-size:10px;margin-bottom:.6rem">Calculado a partir de Data Cadastro, Data Primeira Compra e Data Última Compra dos clientes com histórico completo na Insider. Referência: base exportada em 21/05/2026.</div>
+    <div class="nb" style="font-size:10px;margin-bottom:.6rem">Calculado a partir de Data Cadastro, Data Primeira Compra e Data Última Compra dos clientes com histórico completo na Insider. Referência: base exportada em 18/06/2026.</div>
     <div class="ct2" style="margin-bottom:5px">1. Cadastro → 1ª compra</div>
-    <div class="mg" style="grid-template-columns:repeat(4,1fr);margin-bottom:.8rem">
+    <div class="mg" style="grid-template-columns:repeat(5,1fr);margin-bottom:.8rem">
       <div class="mk"><div class="ml">Mesmo dia</div><div class="mv" style="color:${col}">${b.mesmo_dia_pct}%</div></div>
       <div class="mk"><div class="ml">Até 7 dias</div><div class="mv">${b.ate_7d_pct}%</div></div>
       <div class="mk"><div class="ml">Até 30 dias</div><div class="mv">${b.ate_30d_pct}%</div></div>
       <div class="mk"><div class="ml">Mais de 30 dias</div><div class="mv neu">${b.mais_30d_pct}%</div></div>
+      <div class="mk" style="border-left:2px solid #D85A30"><div class="ml">Sem compra (2026)</div><div class="mv dn">${fN(b.novos_sem_compra)}</div><div class="ms dn">novos nao convertidos</div></div>
     </div>
-    <div class="nb ok" style="font-size:10px;margin-bottom:.8rem">${b.mesmo_dia_pct}% dos clientes compram no mesmo dia do cadastro — o site funciona como porta de entrada e conversão simultânea.</div>
+
     <div class="ct2" style="margin-bottom:5px">2. Recorrência de compra</div>
     <div class="mg" style="grid-template-columns:1fr 1fr;margin-bottom:.8rem">
-      <div class="mk"><div class="ml">Compraram mais de 1x</div><div class="mv up">${b.recorrentes_pct}%</div><div class="ms neu">têm Data Primeira ≠ Data Última compra</div></div>
+      <div class="mk"><div class="ml">Compraram mais de 1x</div><div class="mv up">${b.recorrentes_pct}%</div><div class="ms neu">${fN(Math.round(b.com_compra*b.recorrentes_pct/100))} clientes</div></div>
       <div class="mk"><div class="ml">Compraram apenas 1x</div><div class="mv dn">${b.apenas_1x_pct}%</div><div class="ms dn">${fN(b.apenas_1x_n)} clientes</div></div>
     </div>
 `;
 
-  document.getElementById('fiel-note').textContent=`Fiéis = clientes nas 3 últimas edições consecutivas por cruzamento de UUID. Total: ${fN(b.recorrentes)}.`;
+  var fn=document.getElementById('fiel-note');if(fn)fn.textContent=`Fiéis = clientes nas 3 últimas edições consecutivas por cruzamento de UUID. Total: ${fN(b.recorrentes)}.`;
 
-  document.getElementById('correlacoes').innerHTML=[
-    {e:'👴',t:`<b>Fiéis são mais velhos que a média.</b> Idade média total: ${b.avg_age_tot} anos · compradores 2026: ${b.avg_age_comp} anos · fiéis: ${b.avg_age_fiel} anos.`},
-    {e:'🏙️',t:`<b>Cidades dos fiéis espelham as dos compradores gerais</b> — penetração uniforme. Sem cidade com retenção desproporcional.`},
-    {e:'📧',t:`<b>${fN(b.open_2026)} clientes abriram e-mail em 2026.</b> Engajamento com e-mail é correlato à recorrência de compra.`},
-    {e:'🏆',t:`<b>${fN(b.ganhadores)} ganhadores históricos.</b> Melhor prova social — clientes que ganharam tendem a comprar mais.`}
-  ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+  var corrItems=[
+    {e:'👴',t:`Fiéis têm idade média de ${b.avg_age_fiel} anos vs ${b.avg_age_comp} anos dos compradores 2026 — perfil mais maduro e fiel.`},
+    {e:'📧',t:`${fN(b.open_2026)} clientes abriram e-mail em 2026. Engajamento com e-mail é correlato à recorrência.`}
+  ];
+  if(b.ganhadores>0) corrItems.push({e:'🏆',t:`${fN(b.ganhadores)} ganhadores históricos — melhor prova social para retenção.`});
+  document.getElementById('correlacoes').innerHTML=corrItems.map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
 
   document.getElementById('bins').innerHTML=[
-    {e:'⚠️',t:`${fN(b.dormentes)} clientes sem compra há 31+ dias. Candidatos ideais para reativação.`},
-    {e:'👤',t:`${fN(b.churn_1x)} clientes compraram 1 vez e pararam. Jornada automática nos primeiros 14 dias pode reduzir esse número.`},
-    {e:'⭐',t:`${fN(b.recorrentes)} fiéis (3 edições consecutivas). Maior propensão a comprar edições de ticket alto.`},
-    {e:'📧',t:`${fN(b.open_2026)} abriram e-mail em 2026. Segmentar campanhas para esse subgrupo aumenta conversão.`},
-    {e:'📱',t:`97%+ da base acessa via mobile browser. Todo criativo deve ser validado no mobile.`}
+    {e:'⚠️',t:`${fN(b.dormentes)} clientes sem compra há mais de 180 dias — principal oportunidade de reativação via CRM.`},
+    {e:'👤',t:`${fN(b.churn_1x)} compraram apenas 1 vez. Jornada de ativação nos primeiros 14 dias pode reduzir esse número.`},
+    {e:'⭐',t:`${fN(b.recorrentes)} fiéis (3 edições consecutivas) — maior propensão a edições de ticket alto.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
 }
 
 function rNovos(){
-  const b=D[cap].base;
-  document.getElementById('novos-stats').innerHTML=`
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
-      <div class="mk"><div class="ml">Novos cadastros 2026 (Insider)</div><div class="mv">${fN(b.novos_cad_2026)}</div></div>
-      <div class="mk"><div class="ml">Compraram</div><div class="mv up">${fN(b.novos_com_compra)}</div><div class="ms up">${pct(b.novos_com_compra,b.novos_cad_2026)} dos novos</div></div>
-      <div class="mk"><div class="ml">Não compraram</div><div class="mv dn">${fN(b.novos_sem_compra)}</div></div>
-    </div>
-    ${cap!=='mc'?`<div class="nb warn" style="font-size:10px">⚠️ Insider captura ~${cap==='sm'?'17,6':'16,0'}% dos novos reais. O número real de novos é significativamente maior.</div>`:''}`;
+  var b=D[cap].base,col=D[cap].col;
+  var comp=b.novos_com_compra||0;
+  var ncomp=b.novos_sem_compra||0;
+  var total=comp+ncomp;
+  var pctComp=total?Math.round(comp/total*100):0;
+  var el=document.getElementById('novos-stats');
+  if(!el) return;
+  el.innerHTML=
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
+    '<div class="card" style="text-align:center;padding:14px">'+
+      '<div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Compraram</div>'+
+      '<div style="font-size:26px;font-weight:900;color:'+col+'">'+comp.toLocaleString('pt-BR')+'</div>'+
+      '<div style="font-size:11px;color:#1a8a5a;margin-top:3px">'+pctComp+'% dos novos</div>'+
+    '</div>'+
+    '<div class="card" style="text-align:center;padding:14px">'+
+      '<div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Não compraram</div>'+
+      '<div style="font-size:26px;font-weight:900;color:#D85A30">'+ncomp.toLocaleString('pt-BR')+'</div>'+
+      '<div style="font-size:11px;color:#D85A30;margin-top:3px">'+(100-pctComp)+'% dos novos</div>'+
+    '</div>'+
+    '</div>';
 }
-function rNovosReset(){document.getElementById('novos-d1').value='';document.getElementById('novos-d2').value='';rNovos();}
 
 function rBProf(){
-  const b=D[cap].base,col=D[cap].col,m=profileMode;
-  const ag={tot:b.age_tot,comp:b.age_comp,fiel:b.age_fiel}[m];
-  const gn={tot:b.gender_tot,comp:b.gender_comp,fiel:b.gender_fiel}[m];
-  const ci={tot:b.cities_tot,comp:b.cities_comp,fiel:b.cities_fiel}[m];
-  const avg={tot:b.avg_age_tot,comp:b.avg_age_comp,fiel:b.avg_age_fiel}[m];
-  dc('cage');dc('cgdr');
-  ch['cage']=new Chart(document.getElementById('cage'),{type:'bar',data:{labels:['18–24','25–34','35–44','45–54','55–64','65+'],datasets:[{data:['18','25','35','45','55','65'].map(k=>ag[k]||0),backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>fmt(v),font:{size:10}}}}}});
-  const gM=gn.M||0,gF=gn.F||0,gN=gn.N||0,gT=gM+gF+gN;
-  document.getElementById('gleg').innerHTML=`<span><span class="ld" style="background:${col}"></span>Masculino ${Math.round(gM/gT*100)}% (${fN(gM)})</span><span><span class="ld" style="background:#D4537E"></span>Feminino ${Math.round(gF/gT*100)}% (${fN(gF)})</span><span><span class="ld" style="background:#D3D1C7"></span>N/I ${Math.round(gN/gT*100)}%</span>`;
-  ch['cgdr']=new Chart(document.getElementById('cgdr'),{type:'doughnut',data:{labels:['Masc.','Fem.','N/I'],datasets:[{data:[gM,gF,gN],backgroundColor:[col,'#D4537E','#D3D1C7'],borderWidth:2,borderColor:'transparent'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
-  const mxC=Math.max(...ci.map(([,v])=>v),1);
-  document.getElementById('cities').innerHTML=ci.map(([c,n])=>`<div class="cy"><div class="cyn"><span>${c}</span><span>${fN(n)}</span></div><div class="cyb"><div class="cbf" style="width:${Math.round(n/mxC*100)}%;background:${col}"></div></div></div>`).join('');
-  document.getElementById('profile-avg-age').textContent=`${{tot:'Base total',comp:'Compradores 2026',fiel:'Fiéis (3 eds. consecutivas)'}[m]} — idade média: ${avg} anos`;
-}
+  var b=D[cap].base,col=D[cap].col;
 
+  function profileBlock(title, age, gM, gF, gN, gTot, cities, color){
+    var pM=gTot?Math.round(gM/gTot*100):0;
+    var pF=gTot?Math.round(gF/gTot*100):0;
+    var pN=100-pM-pF;
+    var maxC=cities.length?cities[0][1]:1;
+    var citiesHtml=cities.map(function(c){
+      var bar=Math.round(c[1]/maxC*100);
+      return '<div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:11px"><span>'+c[0]+'</span><span style="font-weight:700">'+c[1].toLocaleString('pt-BR')+'</span></div>'+
+        '<div style="background:#eee;border-radius:2px;height:4px;margin-top:2px"><div style="background:'+color+';width:'+bar+'%;height:4px;border-radius:2px"></div></div></div>';
+    }).join('');
+    return '<div class="card" style="padding:14px">'+
+      '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:'+color+';margin-bottom:10px">'+title+'</div>'+
+      '<div style="font-size:10px;color:#aaa;margin-bottom:3px">Idade média</div>'+
+      '<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px">'+(age?age+' anos':'—')+'</div>'+
+      '<div style="font-size:10px;color:#aaa;margin-bottom:6px">Gênero</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:10px">'+
+        '<div style="text-align:center;background:#f0f8ff;border-radius:6px;padding:6px"><div style="font-size:9px;color:#aaa">Masc.</div><div style="font-size:14px;font-weight:800;color:#378ADD">'+pM+'%</div><div style="font-size:9px;color:#888">'+gM.toLocaleString('pt-BR')+'</div></div>'+
+        '<div style="text-align:center;background:#fdf0f5;border-radius:6px;padding:6px"><div style="font-size:9px;color:#aaa">Fem.</div><div style="font-size:14px;font-weight:800;color:#D4537E">'+pF+'%</div><div style="font-size:9px;color:#888">'+gF.toLocaleString('pt-BR')+'</div></div>'+
+        '<div style="text-align:center;background:#f5f5f5;border-radius:6px;padding:6px"><div style="font-size:9px;color:#aaa">N/I</div><div style="font-size:14px;font-weight:800;color:#888">'+pN+'%</div><div style="font-size:9px;color:#888">'+gN.toLocaleString('pt-BR')+'</div></div>'+
+      '</div>'+
+      '<div style="font-size:10px;color:#aaa;margin-bottom:8px">Top cidades</div>'+
+      citiesHtml+'</div>';
+  }
+
+  var gc=b.gender_comp||{M:0,F:0,N:0};
+  var gn=b.gender_novos_cad||b.gender_tot||{M:0,F:0,N:0};
+  var totComp=(gc.M||0)+(gc.F||0)+(gc.N||0);
+  var totNov=(gn.M||0)+(gn.F||0)+(gn.N||0);
+
+  var compBlock=profileBlock(
+    'Compradores 2026',
+    b.avg_age_comp,
+    gc.M||0, gc.F||0, gc.N||0, totComp,
+    b.cities_comp||[],
+    col
+  );
+  var novBlock=profileBlock(
+    'Novos cadastros 2026',
+    b.avg_age_novos||null,
+    gn.M||0, gn.F||0, gn.N||0, totNov,
+    b.cities_novos||b.cities_tot||[],
+    '#888780'
+  );
+
+  var profEl=document.getElementById('bprof');
+  if(profEl) profEl.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+compBlock+novBlock+'</div>';
+
+  // Ocultar novos-profile separado (já está no bprof agora)
+  var novProfEl=document.getElementById('novos-profile');
+  if(novProfEl) novProfEl.style.display='none';
+}
 function rEd5(){
   const e=D[cap].ed5,col=D[cap].col;
   const aPct=(e.antigos/e.total*100).toFixed(1);
@@ -1589,28 +2128,33 @@ function rRecon(){
 
 function rCopy(){
   const cc=cap,cpd=CP[cc],lbl=D[cc].l;
-  document.getElementById('ccat-title').textContent=`Taxa de abertura por categoria — ${lbl}`;
-  document.getElementById('cctr-title').textContent=`CTR por categoria — ${lbl}`;
-  document.getElementById('topen-title').textContent=`Top 10 por abertura — ${lbl}`;
-  document.getElementById('tworst-title').textContent=`Piores por abertura — ${lbl}`;
+  var _cct=document.getElementById('ccat-title');if(_cct)_cct.textContent=`Taxa de abertura por categoria — ${lbl}`;
+  var _cctr=document.getElementById('cctr-title');if(_cctr)_cctr.textContent=`CTR por categoria — ${lbl}`;
+  var _tot=document.getElementById('topen-title');if(_tot)_tot.textContent=`Top 10 por abertura — ${lbl}`;
+  var _el_tworst_title=document.getElementById('tworst-title');if(_el_tworst_title)_el_tworst_title.textContent=`Piores por abertura — ${lbl}`;
   dc('ccop');dc('ccctr');dc('chour');dc('clen');dc('cdow');dc('cdec');
   const cs=[...cpd.cats].sort((a,b)=>b.op-a.op),cc2=[...cpd.cats].sort((a,b)=>b.ctr-a.ctr);
   const catL=c=>{const t=CATS.find(x=>x.c===c);return t?t.l:c;};
   ch['ccop']=new Chart(document.getElementById('ccop'),{type:'bar',data:{labels:cs.map(c=>catL(c.c)),datasets:[{data:cs.map(c=>c.op),backgroundColor:cs.map(c=>cCol(c.c))}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>v+'%',font:{size:10}}},y:{ticks:{font:{size:10}}}}}});
   ch['ccctr']=new Chart(document.getElementById('ccctr'),{type:'bar',data:{labels:cc2.map(c=>catL(c.c)),datasets:[{data:cc2.map(c=>c.ctr),backgroundColor:cc2.map(c=>cCol(c.c))}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>v+'%',font:{size:10}}},y:{ticks:{font:{size:10}}}}}});
   const exK={mc:'exMC',sm:'exSM',sv:'exSV'};
-  document.getElementById('cat-explain').innerHTML=CATS.filter(ct=>cpd.cats.find(c=>c.c===ct.c)).map(ct=>`<div style="display:flex;gap:6px;flex-direction:column;padding:6px 0;border-bottom:1px solid #e8e6e0"><div style="display:flex;align-items:center;gap:6px">${cBadge(ct.c)}<span style="font-size:11px;color:#636057">${ct.desc}</span></div><div style="font-size:10px;color:#888780"><strong>Exemplos (${lbl}):</strong> ${ct[exK[cc]]||'—'}</div></div>`).join('');
+  var catItems=CATS.filter(ct=>cpd.cats.find(c=>c.c===ct.c));
+  var half=Math.ceil(catItems.length/2);
+  var col1=catItems.slice(0,half);
+  var col2=catItems.slice(half);
+  function catRow(ct){return `<div style="padding:6px 0;border-bottom:1px solid #f0efe9"><div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">${cBadge(ct.c)}<span style="font-size:11px;color:#636057">${ct.desc}</span></div><div style="font-size:10px;color:#aaa;padding-left:4px">${ct[exK[cc]]||'—'}</div></div>`;}
+  document.getElementById('cat-explain').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px">${col1.map(catRow).join('')}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px">${col2.map(catRow).join('')}</div>`;
   const mxE=Math.max(...Object.values(cpd.elem));
   document.getElementById('elems').innerHTML=Object.entries(cpd.elem).map(([k,v])=>{const lm={sem_emoji:'Sem emoji',com_emoji:'Com emoji',sem_caps:'Sem caixa alta',com_caps:'Com caixa alta',com_pergunta:'Com pergunta',sem_pergunta:'Sem pergunta'};return`<div class="cr"><div class="cnm" style="font-weight:400">${lm[k]||k}</div><div class="cbw" style="background:#eeeee8;border-radius:99px;height:5px;overflow:hidden"><div style="width:${Math.round(v/mxE*100)}%;background:#7F77DD;height:100%;border-radius:99px"></div></div><div class="cvl">${v.toFixed(1)}%</div></div>`;}).join('');
   ch['chour']=new Chart(document.getElementById('chour'),{type:'bar',data:{labels:cpd.hour.map(h=>h.h),datasets:[{data:cpd.hour.map(h=>h.v),backgroundColor:'#EF9F2799'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}}}}});
   ch['clen']=new Chart(document.getElementById('clen'),{type:'bar',data:{labels:cpd.len.map(l=>l.l),datasets:[{label:'Open %',data:cpd.len.map(l=>l.op),backgroundColor:'#7F77DD88',yAxisID:'y'},{label:'CTR %',data:cpd.len.map(l=>l.ctr),backgroundColor:'#EF9F2788',yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%',font:{size:10}}}}}});
   ch['cdow']=new Chart(document.getElementById('cdow'),{type:'bar',data:{labels:cpd.dow.map(d=>d.d),datasets:[{data:cpd.dow.map(d=>d.v),backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}}}}});
-  document.getElementById('topen').innerHTML=cpd.topOpen.map((r,i)=>`<tr><td>${i+1}</td><td>${cBadge(r.cat)}</td><td style="white-space:normal;line-height:1.4">${r.s}</td><td>${fmt(r.sn)}</td><td style="color:#1D9E75;font-weight:700">${r.op.toFixed(1)}%</td><td>${r.ctr.toFixed(2)}%</td><td>${fR(r.rv)}</td></tr>`).join('');
-  document.getElementById('tworst').innerHTML=cpd.worst.map((r,i)=>`<tr><td>${i+1}</td><td>${cBadge(r.cat)}</td><td style="white-space:normal;line-height:1.4">${r.s}</td><td>${fmt(r.sn)}</td><td style="color:#D85A30">${r.op.toFixed(1)}%</td><td>${r.ctr.toFixed(2)}%</td><td>${fR(r.rv)}</td></tr>`).join('');
+  var _el_topen=document.getElementById('topen');if(_el_topen)_el_topen.innerHTML=cpd.topOpen.map((r,i)=>`<tr><td>${i+1}</td><td>${cBadge(r.cat)}</td><td style="white-space:normal;line-height:1.4">${r.s}</td><td>${fmt(r.sn)}</td><td style="color:#1D9E75;font-weight:700">${r.op.toFixed(1)}%</td><td>${r.ctr.toFixed(2)}%</td><td>${fR(r.rv)}</td></tr>`).join('');
+  var _el_tworst=document.getElementById('tworst');if(_el_tworst)_el_tworst.innerHTML=cpd.worst.map((r,i)=>`<tr><td>${i+1}</td><td>${cBadge(r.cat)}</td><td style="white-space:normal;line-height:1.4">${r.s}</td><td>${fmt(r.sn)}</td><td style="color:#D85A30">${r.op.toFixed(1)}%</td><td>${r.ctr.toFixed(2)}%</td><td>${fR(r.rv)}</td></tr>`).join('');
   const dec=cpd.decay,colCap=D[cc].col;
-  document.getElementById('dec-ld1').style.background=colCap;document.getElementById('dec-ld2').style.background=colCap;
-  document.getElementById('decay-note').textContent=`Envios médios saltaram de ~${Math.round(dec.sent[0]/1000)}k (${dec.months[0]}) para ~${Math.round(dec.sent[2]/1000)}k (${dec.months[2]}) — aumento de ${Math.round(dec.sent[2]/dec.sent[0])}×. A queda de abertura ocorreu entre semanas (volume), não dentro delas (frequência).`;
-  ch['cdec']=new Chart(document.getElementById('cdec'),{type:'line',data:{labels:dec.months,datasets:[{data:dec.open,borderColor:colCap,backgroundColor:'transparent',yAxisID:'y',tension:0.3},{data:dec.sent.map(v=>Math.round(v/1000)),borderColor:colCap,backgroundColor:'transparent',borderDash:[5,3],yAxisID:'y1',tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'k',font:{size:10}}}}}});
+  var _els_dec_ld1=document.getElementById('dec-ld1');if(_els_dec_ld1)_els_dec_ld1.style.background=colCap;var _els_dec_ld2=document.getElementById('dec-ld2');if(_els_dec_ld2)_els_dec_ld2.style.background=colCap;
+  var _dn=document.getElementById('decay-note');if(_dn)_dn.textContent=`Envios médios saltaram de ~${Math.round(dec.sent[0]/1000)}k (${dec.months[0]}) para ~${Math.round(dec.sent[2]/1000)}k (${dec.months[2]}) — aumento de ${Math.round(dec.sent[2]/dec.sent[0])}×. A queda de abertura ocorreu entre semanas (volume), não dentro delas (frequência).`;
+  ch['cdec']=new Chart(document.getElementById('cdec'),{type:'line',data:{labels:dec.months,datasets:[{label:'Abertura (%)',data:dec.open,borderColor:colCap,backgroundColor:'transparent',yAxisID:'y',tension:0.3},{label:'Envios (k)',data:dec.sent.map(v=>Math.round(v/1000)),borderColor:colCap,backgroundColor:'transparent',borderDash:[5,3],yAxisID:'y1',tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:12}}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'k',font:{size:10}}}}}});
 
   // Cruzamento categoria × valor do título — usando dados reais de abertura por edição
   // Cruzar edições com val definido vs open rate médio por categoria não temos dado real
@@ -1620,14 +2164,14 @@ function rCopy(){
   const valsReal=Object.keys(edsByVal).map(Number).sort((a,b)=>a-b);
   const avgByVal={};
   valsReal.forEach(v=>{const arr=edsByVal[v];avgByVal[v]=(arr.reduce((a,x)=>a+x,0)/arr.length).toFixed(1);});
-  document.getElementById('cat-valor').innerHTML=`
+  var _el_cat_valor=document.getElementById('cat-valor');if(_el_cat_valor)_el_cat_valor.innerHTML=`
     <div class="nb" style="font-size:10px;margin-bottom:.6rem">Taxa de abertura média de e-mail por valor do título da edição — calculado a partir das edições com abertura registrada. Cruzamento com categoria de copy exigiria dado de abertura por campanha × edição, disponível apenas nas últimas edições exportadas.</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.6rem">
       ${valsReal.map(v=>`<div class="mk" style="flex:1;min-width:80px;text-align:center"><div class="ml">R$${v}</div><div class="mv">${avgByVal[v]}%</div><div class="ms neu">${edsByVal[v].length} ed.</div></div>`).join('')}
     </div>
     <div class="nb warn" style="font-size:10px">Para cruzar categoria de copy × valor de título com precisão, seria necessário exportar abertura por campanha individual para todas as edições históricas.</div>`;
 
-  document.getElementById('cross').innerHTML=[
+  var _el_cross=document.getElementById('cross');if(_el_cross)_el_cross.innerHTML=[
     {e:'🏆',t:`<b>Resultado do sorteio = maior CTR.</b> ${cc==='mc'?'3.5%':cc==='sm'?'1.1%':'2.6%'} vs 0.2% de campanhas normais.`},
     {e:'👤',t:`<b>Personalização abre mais em edições de maior valor.</b> Funciona melhor com R$20–R$25, quando o cliente percebe mais em jogo.`},
     {e:'🕐',t:`<b>17h–20h é a janela ideal.</b> ${cpd.hour[0].v.toFixed(0)}% às ${cpd.hour[0].h}. Base 97% mobile.`},
@@ -1640,10 +2184,10 @@ function rCopy(){
 // GLOBAL FILTER
 let gFlt={d1:'',d2:'',val:'all'};
 function gFilter(){
-  gFlt.d1=document.getElementById('g-d1').value||'';
-  gFlt.d2=document.getElementById('g-d2').value||'';
-  gFlt.val=document.getElementById('g-val').value||'all';
-  ['camp','rank'].forEach(s=>{
+  gFlt.d1=(document.getElementById('g-d1')||{value:''}).value||'';
+  gFlt.d2=(document.getElementById('g-d2')||{value:''}).value||'';
+  gFlt.val=(document.getElementById('g-val')||{value:''}).value||'all';
+  ['camp'].forEach(s=>{
     let eds=D[cap].eds;
     if(gFlt.d1) eds=eds.filter(e=>e.dt>=gFlt.d1);
     if(gFlt.d2) eds=eds.filter(e=>e.dt<=gFlt.d2);
@@ -1653,16 +2197,16 @@ function gFilter(){
   rAll();
 }
 function gFilterReset(){
-  document.getElementById('g-d1').value='';
-  document.getElementById('g-d2').value='';
-  document.getElementById('g-val').value='all';
+  (document.getElementById('g-d1')||{value:''}).value='';
+  (document.getElementById('g-d2')||{value:''}).value='';
+  (document.getElementById('g-val')||{value:''}).value='all';
   gFlt={d1:'',d2:'',val:'all'};
-  ['camp','rank'].forEach(s=>{flt[s]=D[cap].eds;});
+  ['camp'].forEach(s=>{flt[s]=D[cap].eds;});
   rAll();
 }
 
 // INIT
-['camp','rank'].forEach(s=>{pF(s);flt[s]=D[cap].eds;});
+['camp'].forEach(s=>{pF(s);flt[s]=D[cap].eds;});
 document.getElementById('ed5tab').textContent=`⭐ Ed. R$${D[cap].ed5.price} (Ed.${D[cap].ed5.ed})`;
 setTimeout(()=>rAll(),80);
 </script>
