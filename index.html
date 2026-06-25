@@ -240,11 +240,6 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
     </div>
   </div>
 
-  <!-- Retenção R$10 → R$15+ -->
-  <div class="card" id="retencao-card">
-    <div class="ct2">🔁 Retenção — compradores R$10 que voltaram nas edições R$15+</div>
-    <div id="retencao-body"></div>
-  </div>
 </div>
 
 <!-- RANKINGS -->
@@ -341,12 +336,12 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
   <div class="src"><span>📊 Base exportada da <strong>Insider</strong> — 18/06/2026</span><span class="upd">✓ Atualizado em 18/06/2026</span></div>
   <div class="nb" id="bnote"></div>
 
-  <div class="card"><div class="ct2" style="font-size:14px">🔽 Funil de base</div><div id="base-funnel"></div></div>
-
   <!-- Painel Insider vs ERP -->
-  <div class="card" style="margin-bottom:.8rem">
+  <div class="card" style="margin-bottom:.8rem;border:1.5px solid #e8e6e0">
     <div id="base-erp"></div>
   </div>
+
+  <div class="card"><div class="ct2" style="font-size:14px">🔽 Funil de base</div><div id="base-funnel"></div></div>
 
   <!-- Gráfico novos cadastros por mês -->
   <div class="card" style="margin-bottom:.8rem">
@@ -370,6 +365,12 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
   <!-- Jornada do cliente -->
   <div class="card"><div class="ct2">Jornada do cliente</div><div id="jornada"></div>
   <div id="jornada-extra"></div></div>
+
+  <!-- Retenção R$10 → R$15+ -->
+  <div class="card" id="retencao-card">
+    <div class="ct2">🔁 Retenção — compradores R$10 que voltaram nas edições R$15+</div>
+    <div id="retencao-body"></div>
+  </div>
 
   <!-- Correlações -->
   <div class="card"><div class="ct2">Correlações</div><div id="correlacoes"></div></div>
@@ -1064,7 +1065,7 @@ const TESTES = [
   {
     id:'ab_email',
     titulo:'Teste A/B — Formato de E-mail: Imagem vs Híbrido',
-    periodo:'28–31 jan/2026',
+    periodo:'Jan/2026',
     descricao:'Comparação entre layout 100% imagem (Variante A) e formato híbrido texto+imagem (Variante B) nas réguas semanais de premiação.',
     caps:['mc','sm','sv'],
     resultado:'b_venceu',
@@ -1082,51 +1083,8 @@ const TESTES = [
       {cap:'sv',txt:'Super Vale: maior disparidade do teste — dobrou as conversões (11 vs 22).'},
       'Próximo passo: testes de copy dentro do corpo de texto híbrido (urgência e escassez).',
     ]
-  },
-  {
-    id:'jornada_sorteio',
-    titulo:'Jornada Hora do Sorteio — E-mail vs Web Push',
-    periodo:'Fev–Mar/2026',
-    descricao:'Comparação entre a jornada de aviso de sorteio via e-mail (set/25–fev/26) e a nova jornada via Web Push (2 disparos: 1h e 10min antes).',
-    caps:['mc','sm','sv'],
-    resultado:'wp_venceu',
-    badge:'Web Push venceu',
-    badge_cor:'#1a5abf',
-    metricas:[
-      {cap:'mc',label:'Minas Cap',ctr_email:'0,33%',ctr_wp:'3,95%',uplift:'12x',envios_email:'1,54M (4 meses)',envios_wp:'58k (1 mês)',mobile:'98%'},
-      {cap:'sm',label:'Super Minas',ctr_email:'0,51%',ctr_wp:'4,36%',uplift:'8,5x',envios_email:'479k (4 meses)',envios_wp:'23k (1 mês)',mobile:'99%'},
-      {cap:'sv',label:'Super Vale',ctr_email:'0,42%',ctr_wp:'4,32%',uplift:'10x',envios_email:'48,6k (4 meses)',envios_wp:'10,1k (1 mês)',mobile:'96%'},
-    ],
-    insights:[
-      'CTR médio do Web Push supera o e-mail com base muito menor — canal mais eficiente para o timing do sorteio.',
-      {cap:'mc',txt:'Minas Cap: CTR Web Push 3,95% vs 0,33% e-mail (+12x). Base 26x menor, 1.150 cliques em 1 mês. Os dois disparos têm CTR equivalente (~4%).'},
-      {cap:'sm',txt:'Super Minas: CTR Web Push 4,36% vs 0,51% e-mail (+8,5x). WP2 (10 min) supera WP1 em conversões (+16,7%) e receita (+38%).'},
-      {cap:'sv',txt:'Super Vale: CTR Web Push 4,32% vs 0,42% e-mail (+10x). WP2 (10 min) supera WP1 em todas as métricas — urgência próxima ao sorteio é determinante.'},
-      '96–99% dos cliques vêm de mobile. Para gerar 1 clique: e-mail precisa de 136–236 envios, WP apenas 45–46.',
-    ]
-  },
-  {
-    id:'inicio_semana',
-    titulo:'Estratégia de Início de Semana (Seg–Qua)',
-    periodo:'Fev–Mar/2026 (eds 502–511 MC, 419–428 SM, 409–418 SV)',
-    descricao:'Implementação de comunicações de segunda a quarta para antecipar conversões: Web Push de ganhadores na seg, duplo WP de premiação na ter, combo email+WP na qua. Comparação de 5 edições sem vs 5 com estratégia.',
-    caps:['mc','sm','sv'],
-    resultado:'positivo',
-    badge:'Antecipação confirmada',
-    badge_cor:'#c8a000',
-    metricas:[
-      {cap:'mc',label:'Minas Cap',melhor_dia:'Quarta-feira',ganho:'+2,9pp',receita_total:'R$46.755',email_conv:'13,9%',wp_ctr:'0,51%'},
-      {cap:'sm',label:'Super Minas',melhor_dia:'Terça-feira',ganho:'+2,9pp',receita_total:'R$33.475',email_conv:'14,0%',wp_ctr:'1,22%'},
-      {cap:'sv',label:'Super Vale',melhor_dia:'Segunda-feira',ganho:'+2,0pp',receita_total:'R$22.130',email_conv:'11,6%',wp_ctr:'0,59%'},
-    ],
-    insights:[
-      'A estratégia antecipou conversões para o início da semana em todas as caps, com padrões distintos por praça.',
-      {cap:'mc',txt:'Minas Cap: quarta ganhou +2,9pp de participação. E-mail de quarta é o motor de receita (conv. 13,9%). Receita total: R$46.755.'},
-      {cap:'sm',txt:'Super Minas: terça ganhou +2,9pp. WP CTR médio 1,22% (3,5x maior que email). Receita total: R$33.475.'},
-      {cap:'sv',txt:'Super Vale: segunda ganhou +2,0pp. WP de segunda (ganhadores) atingiu CTR de 8,15% — maior da estratégia. Receita total: R$22.130.'},
-      'Próximos passos: expandir duplo WP diário (07h/19h) para todas as terças e testar e-mail de premiação na terça.',
-    ]
-  },
+  }
+  ,
   {
     id:'captacao',
     titulo:'Captação de E-mail & Opt-in Web Push',
@@ -1149,27 +1107,227 @@ const TESTES = [
       'Próximo passo: substituir e-mail de ativação por web template na home. 98–100% da base é mobile-first.',
     ]
   }
+  ,
+  {
+    id:'jornada_sorteio',
+    titulo:'Jornada Hora do Sorteio — E-mail vs Web Push',
+    periodo:'Fev–Mar/2026',
+    descricao:'Comparação entre a jornada de aviso de sorteio via e-mail (set/25–fev/26) e a nova jornada via Web Push (2 disparos: 1h e 10min antes).',
+    caps:['mc','sm','sv'],
+    resultado:'wp_venceu',
+    badge:'Web Push venceu',
+    badge_cor:'#1a5abf',
+    metricas:[
+      {cap:'mc',label:'Minas Cap',ctr_email:'0,33%',ctr_wp:'3,95%',uplift:'12x',envios_email:'1,54M (4 meses)',envios_wp:'58k (1 mês)',mobile:'98%'},
+      {cap:'sm',label:'Super Minas',ctr_email:'0,51%',ctr_wp:'4,36%',uplift:'8,5x',envios_email:'479k (4 meses)',envios_wp:'23k (1 mês)',mobile:'99%'},
+      {cap:'sv',label:'Super Vale',ctr_email:'0,42%',ctr_wp:'4,32%',uplift:'10x',envios_email:'48,6k (4 meses)',envios_wp:'10,1k (1 mês)',mobile:'96%'},
+    ],
+    insights:[
+      'CTR médio do Web Push supera o e-mail com base muito menor — canal mais eficiente para o timing do sorteio.',
+      {cap:'mc',txt:'Minas Cap: CTR Web Push 3,95% vs 0,33% e-mail (+12x). Base 26x menor, 1.150 cliques em 1 mês. Os dois disparos têm CTR equivalente (~4%).'},
+      {cap:'sm',txt:'Super Minas: CTR Web Push 4,36% vs 0,51% e-mail (+8,5x). WP2 (10 min) supera WP1 em conversões (+16,7%) e receita (+38%).'},
+      {cap:'sv',txt:'Super Vale: CTR Web Push 4,32% vs 0,42% e-mail (+10x). WP2 (10 min) supera WP1 em todas as métricas — urgência próxima ao sorteio é determinante.'},
+      '96–99% dos cliques vêm de mobile. Para gerar 1 clique: e-mail precisa de 136–236 envios, WP apenas 45–46.',
+    ]
+  }
+  ,
+  {
+    id:'inicio_semana',
+    titulo:'Estratégia de Início de Semana (Seg–Qua)',
+    periodo:'Fev–Mar/2026',
+    descricao:'Implementação de comunicações de segunda a quarta para antecipar conversões: Web Push de ganhadores na seg, duplo WP de premiação na ter, combo email+WP na qua. Comparação de 5 edições sem vs 5 com estratégia.',
+    caps:['mc','sm','sv'],
+    resultado:'positivo',
+    badge:'Antecipação confirmada',
+    badge_cor:'#c8a000',
+    metricas:[
+      {cap:'mc',label:'Minas Cap',melhor_dia:'Quarta-feira',ganho:'+2,9pp',receita_total:'R$46.755',email_conv:'13,9%',wp_ctr:'0,51%'},
+      {cap:'sm',label:'Super Minas',melhor_dia:'Terça-feira',ganho:'+2,9pp',receita_total:'R$33.475',email_conv:'14,0%',wp_ctr:'1,22%'},
+      {cap:'sv',label:'Super Vale',melhor_dia:'Segunda-feira',ganho:'+2,0pp',receita_total:'R$22.130',email_conv:'11,6%',wp_ctr:'0,59%'},
+    ],
+    insights:[
+      'A estratégia antecipou conversões para o início da semana em todas as caps, com padrões distintos por praça.',
+      {cap:'mc',txt:'Minas Cap: quarta ganhou +2,9pp de participação. E-mail de quarta é o motor de receita (conv. 13,9%). Receita total: R$46.755.'},
+      {cap:'sm',txt:'Super Minas: terça ganhou +2,9pp. WP CTR médio 1,22% (3,5x maior que email). Receita total: R$33.475.'},
+      {cap:'sv',txt:'Super Vale: segunda ganhou +2,0pp. WP de segunda (ganhadores) atingiu CTR de 8,15% — maior da estratégia. Receita total: R$22.130.'},
+      'Próximos passos: expandir duplo WP diário (07h/19h) para todas as terças e testar e-mail de premiação na terça.',
+    ]
+  }
+  ,
+  {
+    id:'whats_abr26',
+    titulo:'POC WhatsApp — Minas Cap (Abr–Mai/2026)',
+    periodo:'Abr–Mai/2026',
+    descricao:'7 disparos via WhatsApp para Minas Cap com objetivo de converter compradores recentes e engajados. Meta: 10% de taxa de conversão por entregue. Custo por disparo: R$0,472.',
+    caps:['mc'],
+    resultado:'encerrado',
+    badge:'Canal encerrado',
+    badge_cor:'#888780',
+    overview:{
+      disparos:7,
+      investido:2285.86,
+      entregues:4843,
+      open_rate_med:'69,59%',
+      ctr_med:'10,82%',
+      conversoes:103,
+      cpa_med:22.19,
+      cr_del_med:'2,10%',
+      cr_clk_med:'19,01%',
+      receita:2480,
+      roas:1.08,
+      melhor:'Disparo 2 — ROAS 2,6 | CR 5,44% (base de recompra recente)',
+      pior:'Disparo 4 — ROAS 0,3 | CR 0,65% (base de desengajados)'
+    },
+    disparos:[
+      {n:1,data:'02/04',horario:'16h26',base:'Compraram no título anterior e não compraram no atual',
+       targeted:1126,sent:335,entregues:319,opens:204,clicks:34,conv:6,receita:90,roas:0.6,cpa:25.09,
+       open_rate:'63,95%',ctr:'10,66%',cr:'1,88%',delivery_rate:'95,22%',
+       insight:'Desempenho abaixo frente a outros formatos. Custo elevado vs CPA de mídia (R$2,04). Alto volume derrubado por extração sem filtro de telefone preenchido.'},
+      {n:2,data:'09/04',horario:'20h30',base:'Compraram no título anterior e não compraram no atual',
+       targeted:4413,sent:4404,entregues:882,opens:644,clicks:88,conv:48,receita:1105,roas:2.6,cpa:8.67,
+       open_rate:'73,02%',ctr:'9,98%',cr:'5,44%',delivery_rate:'20,03%',
+       insight:'Melhor desempenho do POC. Base respondeu bem em abertura e clique. CPA acima da média de mídia, mas ROAS positivo. Targeted alto com envio baixo por problema de conformidade de telefones.'},
+      {n:3,data:'16/04',horario:'20h30',base:'Compraram no título anterior e não compraram no atual',
+       targeted:1912,sent:1912,entregues:882,opens:632,clicks:68,conv:15,receita:340,roas:1.22,cpa:27.75,
+       open_rate:'71,66%',ctr:'7,71%',cr:'1,70%',delivery_rate:'46,13%',
+       insight:'Conversão em 1,70% vs meta de 10%. Bom engajamento (71,66% open rate) mas baixa eficiência na compra — mensagem pouco atrativa ou gargalo no checkout.'},
+      {n:4,data:'25/04',horario:'10h00',base:'Compraram nos últimos 12 meses + não compraram nas últimas 2 semanas + abriram 1+ email nas últimas 2 semanas',
+       targeted:10301,sent:10301,entregues:929,opens:592,clicks:69,conv:6,receita:135,roas:0.3,cpa:73.08,
+       open_rate:'63,72%',ctr:'7,43%',cr:'0,65%',delivery_rate:'9,02%',
+       insight:'Pior desempenho. Base de desengajados não converte via WhatsApp — faz mais sentido priorizar outros canais para esse público.'},
+      {n:5,data:'07/05',horario:'20h00',base:'Compraram na edição Dia das Mães 2025 + não compraram nessa edição + abriram 1+ email nos últimos 10 dias',
+       targeted:7882,sent:7880,entregues:923,opens:681,clicks:131,conv:14,receita:410,roas:0.9,cpa:31.11,
+       open_rate:'73,78%',ctr:'14,19%',cr:'1,52%',delivery_rate:'11,71%',
+       insight:'CTR de 14,19% — maior entre todos os disparos. Relacionado à mensagem de integridade do número inserida na comunicação. Conversão baixa aponta para gargalo no site/checkout, não na mensagem.'},
+      {n:6,data:'08/05',horario:'20h00',base:'Compraram na edição Dia das Mães 2025 + não compraram nessa edição + abriram 2+ emails nos últimos 10 dias',
+       targeted:4973,sent:4971,entregues:348,opens:252,clicks:48,conv:8,receita:200,roas:1.21,cpa:20.53,
+       open_rate:'72,41%',ctr:'13,79%',cr:'2,30%',delivery_rate:'7,00%',
+       insight:'Único disparo de Dia das Mães com ROAS positivo (1,21). Segmentação por 2+ emails abertos converteu melhor do que base maior com 1+ abertura — qualidade supera volume.'},
+      {n:7,data:'09/05',horario:'20h00',base:'Compraram na edição Dia das Mães 2025 + não compraram nessa edição + abriram 3+ emails nos últimos 10 dias',
+       targeted:3595,sent:3592,entregues:560,opens:384,clicks:67,conv:6,receita:200,roas:0.7,cpa:44.05,
+       open_rate:'68,57%',ctr:'11,96%',cr:'1,07%',delivery_rate:'15,59%',
+       insight:'Queda de performance — 3º disparo em 3 dias para a mesma base. Fadiga de comunicação + horário de 20h reduzindo janela de decisão.'}
+    ],
+    aprendizados:[
+      'Base de recompra recente (comprou no título anterior) é o público com maior propensão de conversão via WhatsApp.',
+      'Segmentação por engajamento em e-mail (2+ aberturas) gera conversão superior mesmo com menor volume.',
+      'Base de desengajados não converte — WhatsApp deve ser focado em públicos de alta propensão, não em reativação.',
+      'Mensagem de integridade do número impactou diretamente o CTR recorde (14,19% no Disparo 5).',
+      'Disparos consecutivos para a mesma base em menos de 3 dias causam fadiga e queda de conversão.',
+      'ROAS consolidado de 1,08 — canal se paga marginalmente, mas CPA médio de R$22,19 está bem acima da média de mídia (R$2,04).',
+    ]
+  }
+  ,
+  {
+    id:'jornada_cadastro_sm',
+    titulo:'Jornada — Estímulo ao Cadastro (Super Minas)',
+    periodo:'Abr–Mai/2026',
+    descricao:'Jornada direcionada a usuários que navegam no site do Super Minas sem possuir cadastro. Comunicações sequenciais: pop-up exibido durante a navegação + até 2 disparos de Web Push. Após validação dos resultados, a jornada foi mantida e expandida para as demais caps.',
+    caps:['sm'],
+    resultado:'b_venceu',
+    badge:'Jornada fixada e expandida',
+    badge_cor:'#1a8a5a',
+    metricas:[
+      {cap:'sm',label:'Super Minas',
+       elegiveis:'15.528',comunicados:'37%',cadastros:'7%',compras:'11%',
+       popup_ctr:'19,9%',popup_cliques:'358',popup_exibicoes:'1.803',
+       wp_envios:'5.707',wp_entregues:'3.529',wp_ctr:'10,2%',wp_cliques:'542',
+       cadastros_abs:'393',compras_abs:'42',
+       novos_pct:'15%',novos_contexto:'393 de 2.622 novos cadastros do período (09/04–08/05)'}
+    ],
+    insights:[
+      {cap:'sm',txt:'Dos 15.528 elegíveis na régua, <strong>37% receberam alguma comunicação</strong>, 7% se cadastraram e 11% realizaram uma compra.'},
+      {cap:'sm',txt:'<strong>Pop-up com CTR de 19,9%:</strong> 358 cliques em 1.803 exibições — o momento de navegação ativa é o gatilho mais eficiente para comunicação de cadastro.'},
+      {cap:'sm',txt:'<strong>15% dos novos cadastros do período entraram na jornada:</strong> 1 em cada 7 novos cadastros entre 09/04 e 08/05 passou pela régua. Taxa de conversão de 2,53% (cadastros ÷ entrantes).'},
+      {cap:'sm',txt:'Resultado validou a hipótese: jornada mantida como régua permanente e expandida para Minas Cap e Super Vale após o período de teste.'}
+    ]
+  }
+  ,
+  {
+    id:'com_saldo',
+    titulo:'Segmentação COM_SALDO — e-mail com header e saldo personalizado',
+    periodo:'Abr–Jun/2026',
+    descricao:'Separação da base em dois segmentos para o e-mail semanal: clientes com saldo ativo recebem uma comunicação com header diferenciado e texto personalizado com nome e valor do saldo. Objetivo: avaliar se a visibilidade do saldo impacta a conversão. * Números de vendas com saldo anteriores a esse período ainda serão adicionados aqui.',
+    caps:['mc','sm','sv'],
+    resultado:'em_andamento',
+    badge:'Em análise',
+    badge_cor:'#EF9F27',
+    metricas:[
+      {cap:'mc', label:'Minas Cap',    eds:'520–525', n_eds:6, enviados:278090, entregues:265095, open_rate:'6,92%', ctor:'1,34%', revenue:915, conversoes:49, sem:{open_rate:'7,13%',ctor:'1,17%',conversoes:997,revenue:20625,entregues:6966394},
+       by_ed:[
+         {ed:520,del:56752,open:'7,09%',ctr:'0,10%',rev:195,conv:10},
+         {ed:521,del:45173,open:'6,82%',ctr:'0,08%',rev:75,conv:4},
+         {ed:522,del:44920,open:'7,34%',ctr:'0,14%',rev:225,conv:13},
+         {ed:523,del:55752,open:'6,70%',ctr:'0,09%',rev:270,conv:15},
+         {ed:524,del:55522,open:'6,83%',ctr:'0,07%',rev:120,conv:6},
+         {ed:525,del:6976, open:'6,12%',ctr:'0,09%',rev:30,conv:1}
+       ]},
+      {cap:'sm', label:'Super Minas',  eds:'436–441', n_eds:6, enviados:48956,  entregues:46274,  open_rate:'7,05%', ctor:'1,54%', revenue:115, conversoes:6,  sem:{open_rate:'6,72%',ctor:'0,98%',conversoes:434,revenue:9005,entregues:4655861},
+       by_ed:[
+         {ed:436,del:9832, open:'7,70%',ctr:'0,10%',rev:45,conv:3},
+         {ed:437,del:7844, open:'6,91%',ctr:'0,06%',rev:0,conv:0},
+         {ed:438,del:7811, open:'6,80%',ctr:'0,19%',rev:0,conv:0},
+         {ed:439,del:9675, open:'7,35%',ctr:'0,10%',rev:30,conv:1},
+         {ed:440,del:9457, open:'6,67%',ctr:'0,11%',rev:40,conv:2},
+         {ed:441,del:1655, open:'5,56%',ctr:'0,06%',rev:0,conv:0}
+       ]},
+      {cap:'sv', label:'Super Vale',   eds:'424–432', n_eds:9, enviados:54312,  entregues:51012,  open_rate:'6,27%', ctor:'2,37%', revenue:230, conversoes:16, sem:{open_rate:'6,32%',ctor:'1,42%',conversoes:477,revenue:8220,entregues:3402622},
+       by_ed:[
+         {ed:424,del:5747, open:'6,47%',ctr:'0,19%',rev:20,conv:2},
+         {ed:425,del:7059, open:'6,49%',ctr:'0,14%',rev:40,conv:3},
+         {ed:426,del:4996, open:'6,06%',ctr:'0,16%',rev:40,conv:2},
+         {ed:427,del:7025, open:'6,68%',ctr:'0,14%',rev:30,conv:3},
+         {ed:428,del:5605, open:'5,89%',ctr:'0,18%',rev:10,conv:1},
+         {ed:429,del:5615, open:'6,43%',ctr:'0,12%',rev:40,conv:2},
+         {ed:430,del:6942, open:'6,05%',ctr:'0,09%',rev:0,conv:0},
+         {ed:431,del:6947, open:'6,16%',ctr:'0,17%',rev:40,conv:2},
+         {ed:432,del:1076, open:'5,20%',ctr:'0,18%',rev:10,conv:1}
+       ]}
+    ],
+    insights:[
+      {cap:'mc', txt:'<strong>SEM saldo vs bench:</strong> abertura 7,13% vs bench 7,6% (-0,47pp) — levemente abaixo. CTOR 1,17% vs bench 1,8% (-0,63pp) — abaixo do histórico, pode refletir saturação de envios no período.'},
+      {cap:'mc', txt:'<strong>COM vs SEM saldo:</strong> abertura 6,92% vs 7,13% (-0,21pp) — praticamente igual. CTOR 1,34% vs 1,17% (+0,17pp, +15%) — quem tem saldo clica proporcionalmente mais depois de abrir.'},
+      {cap:'sm', txt:'<strong>SEM saldo vs bench:</strong> abertura 6,72% vs bench 6,1% (+0,62pp) — acima do histórico. CTOR 0,98% vs bench 1,5% (-0,52pp) — abaixo do bench, base SEM saldo converteu menos após abertura.'},
+      {cap:'sm', txt:'<strong>COM vs SEM saldo:</strong> abertura 7,05% vs 6,72% (+0,33pp) — abre mais. CTOR 1,54% vs 0,98% (+0,56pp, +57%) — diferença expressiva: quem tem saldo é significativamente mais engajado após abrir.'},
+      {cap:'sv', txt:'<strong>SEM saldo vs bench:</strong> abertura 6,32% vs bench 5,8% (+0,52pp) — acima do histórico. CTOR 1,42% vs bench 2,4% (-0,98pp) — bem abaixo do bench, base SEM saldo menos propensa a clicar após abertura.'},
+      {cap:'sv', txt:'<strong>COM vs SEM saldo:</strong> abertura 6,27% vs 6,32% (-0,05pp) — idêntico. CTOR 2,37% vs 1,42% (+0,95pp, +67%) — maior delta dos três caps. A visibilidade do saldo tem forte impacto no engajamento pós-abertura.'},
+      '*Números de vendas com saldo anteriores a esse período ainda serão adicionados aqui.'
+    ]
+  }
 ];
 
+function crmToggle(ev){var el=ev.currentTarget.getAttribute("data-tid");var b=document.getElementById("b-"+el);var a=document.getElementById("a-"+el);if(!b)return;if(b.style.display==="none"){b.style.display="block";a.style.transform="rotate(180deg)";}else{b.style.display="none";a.style.transform="rotate(0deg)";}}
 function rTestes(){
   var capFil=cap;
   var col=cap==='mc'?'#639922':cap==='sm'?'#378ADD':'#D4537E';
 
   var html='';
   TESTES.forEach(function(t){
-    var metricas=capFil==='all'?t.metricas:t.metricas.filter(function(m){return m.cap===capFil;});
-    if(capFil!=='all'&&metricas.length===0) return;
+    var metricas=t.metricas?(capFil==='all'?t.metricas:t.metricas.filter(function(m){return m.cap===capFil;})):[];
+    var capMatch=t.caps?t.caps.indexOf(capFil)>=0:metricas.length>0;
+    if(capFil!=='all'&&!capMatch) return;
 
-    // Header do teste
-    html+='<div class="card" style="margin-bottom:12px">';
-    html+='<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">';
-    html+='<div>';
-    html+='<div style="font-size:13px;font-weight:700;color:#111">'+t.titulo+'</div>';
-    html+='<div style="font-size:11px;color:#888;margin-top:2px">'+t.periodo+'</div>';
+    // Header do teste — accordion
+    var tid='teste-'+t.id+'-'+capFil;
+    html+='<div class="card" style="margin-bottom:8px;padding:0;overflow:hidden">';
+    // Clickable header
+        html+='<div onclick="crmToggle(event)" data-tid="'+tid+'" style="display:flex;align-items:flex-start;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none;gap:12px">';
+    html+='<div style="flex:1;min-width:0;max-width:calc(100% - 220px)">';
+    html+='<div style="font-size:13px;font-weight:700;color:#1a1916;margin-bottom:3px">'+t.titulo+'</div>';
+    html+='<div style="font-size:11px;color:#636057;line-height:1.5;margin-top:2px">'+t.descricao+'</div>';
     html+='</div>';
-    html+='<span style="background:'+t.badge_cor+'22;color:'+t.badge_cor+';font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap;margin-left:12px">'+t.badge+'</span>';
+    html+='<div style="display:flex;align-items:flex-start;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;max-width:210px">';
+    html+='<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">';
+    html+='<span style="background:'+t.badge_cor+'22;color:'+t.badge_cor+';font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap">'+t.badge+'</span>';
+    html+='<div style="display:flex;align-items:center;gap:6px">';
+    html+='<span style="font-size:10px;color:#888;white-space:nowrap">'+t.periodo+'</span>';
+    html+='<span id="a-'+tid+'" style="font-size:12px;color:#888;transition:transform .2s;display:inline-block">▼</span>';
     html+='</div>';
-    html+='<div style="font-size:11px;color:#666;margin-bottom:12px;line-height:1.5">'+t.descricao+'</div>';
+    html+='</div>';
+    html+='</div>';
+    html+='</div>';
+    // Expandable content
+    html+='<div id="b-'+tid+'" style="display:none;padding:0 16px 16px 16px;border-top:1px solid #f0ede8">';
 
     // Tabela de métricas por cap
     if(t.id==='ab_email'){
@@ -1190,6 +1348,70 @@ function rTestes(){
         html+='<tr><td style="font-weight:600">'+m.label+'</td><td style="font-weight:700;color:#c8a000">'+m.melhor_dia+'</td><td style="font-weight:700;color:#1a8a5a">'+m.ganho+'</td><td style="font-weight:700">'+m.receita_total+'</td><td>'+m.email_conv+'</td><td>'+m.wp_ctr+'</td></tr>';
       });
       html+='</tbody></table></div>';
+    } else if(t.id==='jornada_cadastro_sm'){
+      var m=metricas[0];
+      if(m){
+        html+='<div style="overflow-x:auto;margin-bottom:12px"><table><thead><tr>';
+        html+='<th>Cap</th><th>Elegíveis</th><th>Comunicados</th><th>Cadastraram</th><th>Compraram</th><th>Pop-up CTR</th><th>WP entregues</th><th>WP CTR</th><th>Cadastros abs.</th><th>Compras abs.</th>';
+        html+='</tr></thead><tbody>';
+        html+='<tr>';
+        html+='<td style="font-weight:600">'+m.label+'</td>';
+        html+='<td>'+m.elegiveis+'</td>';
+        html+='<td style="font-weight:700;color:#378ADD">'+m.comunicados+'</td>';
+        html+='<td style="font-weight:700;color:#1a8a5a">'+m.cadastros+'</td>';
+        html+='<td style="font-weight:700;color:#639922">'+m.compras+'</td>';
+        html+='<td style="font-weight:700;color:#EF9F27">'+m.popup_ctr+'</td>';
+        html+='<td>'+m.wp_entregues+'</td>';
+        html+='<td>'+m.wp_ctr+'</td>';
+        html+='<td style="font-weight:700">'+m.cadastros_abs+'</td>';
+        html+='<td style="font-weight:700">'+m.compras_abs+'</td>';
+        html+='</tr>';
+        html+='</tbody></table></div>';
+      }
+    } else if(t.id==='com_saldo'){
+      var capMetrica=metricas[0];
+      if(capMetrica){
+        // Tabela comparativa COM vs SEM
+        html+='<div style="overflow-x:auto;margin-bottom:14px"><table style="font-size:11px;width:100%"><thead><tr>';
+        html+='<th>Segmento</th><th>Entregues</th><th>Abertura</th><th>CTOR</th><th>Conversões</th><th>Revenue</th>';
+        html+='</tr></thead><tbody>';
+        html+='<tr style="background:'+col+'11">';
+        html+='<td style="font-weight:700;color:'+col+'">COM saldo</td>';
+        html+='<td>'+capMetrica.entregues.toLocaleString('pt-BR')+'</td>';
+        html+='<td style="font-weight:700">'+capMetrica.open_rate+'</td>';
+        html+='<td style="font-weight:700;color:'+col+'">'+capMetrica.ctor+'</td>';
+        html+='<td style="font-weight:700">'+capMetrica.conversoes+'</td>';
+        html+='<td style="font-weight:700">R$'+capMetrica.revenue.toLocaleString('pt-BR')+'</td>';
+        html+='</tr>';
+        if(capMetrica.sem){
+          var s=capMetrica.sem;
+          html+='<tr>';
+          html+='<td style="font-weight:600;color:#636057">SEM saldo</td>';
+          html+='<td>'+s.entregues.toLocaleString('pt-BR')+'</td>';
+          html+='<td>'+s.open_rate+'</td>';
+          html+='<td>'+s.ctor+'</td>';
+          html+='<td>'+s.conversoes+'</td>';
+          html+='<td>R$'+s.revenue.toLocaleString('pt-BR')+'</td>';
+          html+='</tr>';
+        }
+        html+='</tbody></table></div>';
+        // Tabela por edição
+        html+='<div style="font-size:10px;font-weight:600;color:#888780;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Detalhe por edição — COM saldo</div>';
+        html+='<div style="overflow-x:auto;margin-bottom:4px"><table style="font-size:11px"><thead><tr>';
+        html+='<th>Edição</th><th>Entregues</th><th>Abertura</th><th>CTOR</th><th>Conversões</th><th>Revenue</th>';
+        html+='</tr></thead><tbody>';
+        capMetrica.by_ed.forEach(function(e){
+          html+='<tr>';
+          html+='<td style="font-weight:700">Ed.'+e.ed+'</td>';
+          html+='<td>'+e.del.toLocaleString('pt-BR')+'</td>';
+          html+='<td>'+e.open+'</td>';
+          html+='<td>'+e.ctr+'</td>';
+          html+='<td style="font-weight:'+(e.conv>0?'700':'400')+';color:'+(e.conv>0?col:'#888780')+'">'+e.conv+'</td>';
+          html+='<td style="font-weight:'+(e.rev>0?'700':'400')+';color:'+(e.rev>0?col:'#888780')+'">R$'+e.rev.toLocaleString('pt-BR')+'</td>';
+          html+='</tr>';
+        });
+        html+='</tbody></table></div>';
+      }
     } else if(t.id==='captacao'){
       html+='<div style="overflow-x:auto;margin-bottom:12px"><table><thead><tr><th>Cap</th><th>Visitantes (A)</th><th>CTR Forms</th><th>E-mails captados</th><th>Envios opt-in WP</th><th>Opt-ins gerados</th></tr></thead><tbody>';
       metricas.forEach(function(m){
@@ -1198,19 +1420,88 @@ function rTestes(){
       html+='</tbody></table></div>';
     }
 
-    // Insights — filtrar por cap quando o insight tem campo 'cap'
-    var insightsFil=t.insights.filter(function(ins){
-      if(typeof ins==='string') return true;
-      return !ins.cap || ins.cap===capFil;
-    });
-    html+='<div style="background:#f8f8f6;border-radius:6px;padding:10px 12px">';
-    html+='<div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:8px">Insights</div>';
-    insightsFil.forEach(function(ins){
-      var txt=typeof ins==='string'?ins:ins.txt;
-      html+='<div class="ir"><div class="ii" style="background:#eeeee8;font-size:12px">💡</div><div style="font-size:11px;line-height:1.55;color:#444">'+txt+'</div></div>';
-    });
-    html+='</div>';
-    html+='</div>';
+    else if(t.id==='whats_abr26'){
+      // Overview geral
+      var ov=t.overview;
+      html+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px">';
+      var ovMetrics=[
+        {l:'Disparos',v:ov.disparos},
+        {l:'Entregues',v:ov.entregues.toLocaleString('pt-BR')},
+        {l:'Open Rate médio',v:ov.open_rate_med},
+        {l:'CTR médio',v:ov.ctr_med},
+        {l:'Conversões',v:ov.conversoes},
+        {l:'CPA médio',v:'R$'+Number(ov.cpa_med).toFixed(2).replace('.',',')},
+        {l:'Receita',v:'R$'+ov.receita.toLocaleString('pt-BR')},
+        {l:'ROAS',v:Number(ov.roas).toFixed(2)},
+        {l:'Investido',v:'R$'+Number(ov.investido).toFixed(2).replace('.',',')}
+      ];
+      ovMetrics.forEach(function(m){
+        html+='<div style="background:#f8f8f6;border-radius:8px;padding:10px;text-align:center">';
+        html+='<div style="font-size:10px;color:#888;margin-bottom:4px">'+m.l+'</div>';
+        html+='<div style="font-size:15px;font-weight:800;color:#1a1916">'+m.v+'</div>';
+        html+='</div>';
+      });
+      html+='</div>';
+      html+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">';
+      html+='<div style="flex:1;min-width:200px;background:#EAF3DE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:3px">⭐ Melhor disparo</div><div style="font-size:11px;color:#1a1916">'+ov.melhor+'</div></div>';
+      html+='<div style="flex:1;min-width:200px;background:#FFF0EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:3px">⚠️ Pior disparo</div><div style="font-size:11px;color:#1a1916">'+ov.pior+'</div></div>';
+      html+='</div>';
+      // Tabela disparos
+      html+='<div style="overflow-x:auto;margin-bottom:16px"><table style="font-size:11px"><thead><tr>';
+      html+='<th>Disp.</th><th>Data</th><th>Entregues</th><th>Open Rate</th><th>CTR</th><th>Conv.</th><th>CR Entregue</th><th>Receita</th><th>ROAS</th><th>CPA</th>';
+      html+='</tr></thead><tbody>';
+      t.disparos.forEach(function(d){
+        var roasCol=d.roas>=1?'#1a8a5a':'#c0392b';
+        html+='<tr>';
+        html+='<td style="font-weight:700">D'+d.n+'</td>';
+        html+='<td>'+d.data+'</td>';
+        html+='<td>'+d.entregues.toLocaleString('pt-BR')+'</td>';
+        html+='<td>'+d.open_rate+'</td>';
+        html+='<td>'+d.ctr+'</td>';
+        html+='<td>'+d.conv+'</td>';
+        html+='<td>'+d.cr+'</td>';
+        html+='<td>R$'+d.receita.toLocaleString('pt-BR')+'</td>';
+        html+='<td style="font-weight:700;color:'+roasCol+'">'+d.roas+'</td>';
+        html+='<td>R$'+Number(d.cpa).toFixed(2)+'</td>';
+        html+='</tr>';
+      });
+      html+='</tbody></table></div>';
+      // Insights por disparo (accordion style)
+      html+='<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888780;margin-bottom:8px">Insights por disparo</div>';
+      t.disparos.forEach(function(d){
+        html+='<div style="margin-bottom:6px;padding:8px 12px;background:#f8f8f6;border-left:3px solid #e8e6e0;border-radius:0 6px 6px 0">';
+        html+='<div style="font-size:10px;font-weight:700;color:#636057;margin-bottom:3px">Disparo '+d.n+' — '+d.data+' · '+d.horario+'</div>';
+        html+='<div style="font-size:11px;line-height:1.5;color:#1a1916">'+d.insight+'</div>';
+        html+='</div>';
+      });
+      html+='</div>';
+      // Aprendizados
+      html+='<div style="background:#f8f8f6;border-radius:6px;padding:10px 12px">';
+      html+='<div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:8px">Aprendizados consolidados</div>';
+      t.aprendizados.forEach(function(a){
+        html+='<div class="ir"><div class="ii" style="background:#eeeee8;font-size:12px">💡</div><div style="font-size:11px;line-height:1.55;color:#444">'+a+'</div></div>';
+      });
+      html+='</div>';
+    }
+    if(t.id!=='whats_abr26'){
+      var insightsFil=t.insights.filter(function(ins){
+        if(typeof ins==='string') return true;
+        return !ins.cap || ins.cap===capFil;
+      });
+      html+='<div style="background:#f8f8f6;border-radius:6px;padding:10px 12px">';
+      html+='<div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:8px">Insights</div>';
+      insightsFil.forEach(function(ins){
+        var txt=typeof ins==='string'?ins:ins.txt;
+        html+='<div class="ir"><div class="ii" style="background:#eeeee8;font-size:12px">💡</div><div style="font-size:11px;line-height:1.55;color:#444">'+txt+'</div></div>';
+      });
+      html+='</div>';
+      html+='</div>'; // close accordion content
+      html+='</div>'; // close card
+    } // end if not whats_abr26
+    else {
+      html+='</div>'; // close whats accordion content
+      html+='</div>'; // close whats card
+    }
   });
 
   if(!html) html='<div class="nb">Nenhum teste registrado para este cap ainda.</div>';
@@ -1223,7 +1514,7 @@ function showT(id,btn){
   btn.classList.add('on');
   rAll();
 }
-function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='fecho')rFecho();else if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base')rBase();else if(id==='metas')rMetas();else if(id==='recon')rRecon();else if(id==='testes')rTestes();else if(id==='perf')rRank();else rS(id);}
+function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='fecho')rFecho();else if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base'){rBase();rRetencao();}else if(id==='metas')rMetas();else if(id==='recon')rRecon();else if(id==='testes')rTestes();else if(id==='perf')rRank();else rS(id);}
 function rS(s){if(s==='camp')rCamp();}
 
 function rCamp(){
@@ -1345,84 +1636,6 @@ function rCamp(){
 
   
 
-  // ── Retenção R$10 → R$15+ ──
-  var retEl=document.getElementById('retencao-body');
-  var retCard=document.getElementById('retencao-card');
-  var retData={
-    mc:{
-      eds_r10:'501, 503, 505, 507, 508, 509 e 513',
-      eds_r15:'502, 504, 506, 510, 511, 512, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524 e 525',
-      base_erp:177508, base_ins:62361,
-      nao_erp:67559, nao_ins:56158,
-      vol_erp:109949, vol_ins:6203
-    },
-    sm:{
-      eds_r10:'418, 420, 421, 422 e 424',
-      eds_r15:'419, 423, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440 e 441',
-      base_erp:67736, base_ins:19659,
-      nao_erp:16184, nao_ins:12440,
-      vol_erp:51552, vol_ins:7217
-    }
-  };
-  if(retEl){
-    var rd=retData[cap];
-    if(!rd){
-      if(retCard) retCard.style.display='none';
-    } else {
-      if(retCard) retCard.style.display='';
-      var pct=function(v,t){return t>0?'('+Math.round(v/t*100)+'%)':'';};
-      var ret_erp=Math.round(rd.vol_erp/rd.base_erp*100);
-      var ret_ins=Math.round(rd.vol_ins/rd.base_ins*100);
-      var per_erp=Math.round(rd.nao_erp/rd.base_erp*100);
-      var per_ins=Math.round(rd.nao_ins/rd.base_ins*100);
-      retEl.innerHTML=
-        // Tabela principal
-        '<div style="overflow-x:auto">'+
-        '<table style="width:100%;border-collapse:collapse;font-size:12px">'+
-          '<thead><tr>'+
-            '<th style="text-align:left;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600"></th>'+
-            '<th style="text-align:right;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600">ERP</th>'+
-            '<th style="text-align:right;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600">Insider</th>'+
-          '</tr></thead>'+
-          '<tbody>'+
-            '<tr style="background:#fafaf8">'+
-              '<td style="padding:10px 12px;font-weight:600;color:#1a1916">Base compradores R$10</td>'+
-              '<td style="padding:10px 12px;text-align:right;font-weight:700;font-size:14px">'+rd.base_erp.toLocaleString('pt-BR')+'</td>'+
-              '<td style="padding:10px 12px;text-align:right;font-weight:700;font-size:14px;color:'+col+'">'+rd.base_ins.toLocaleString('pt-BR')+'</td>'+
-            '</tr>'+
-            '<tr>'+
-              '<td style="padding:10px 12px;font-weight:600;color:#1a1916">Não voltaram a comprar R$15+</td>'+
-              '<td style="padding:10px 12px;text-align:right">'+rd.nao_erp.toLocaleString('pt-BR')+' <span style="color:#888780;font-size:11px">'+pct(rd.nao_erp,rd.base_erp)+'</span></td>'+
-              '<td style="padding:10px 12px;text-align:right">'+rd.nao_ins.toLocaleString('pt-BR')+' <span style="color:#888780;font-size:11px">'+pct(rd.nao_ins,rd.base_ins)+'</span></td>'+
-            '</tr>'+
-            '<tr style="background:'+col+'11">'+
-              '<td style="padding:10px 12px;font-weight:700;color:'+col+'">Voltaram a comprar R$15+</td>'+
-              '<td style="padding:10px 12px;text-align:right;font-weight:700;color:'+col+'">'+rd.vol_erp.toLocaleString('pt-BR')+' <span style="font-size:11px">'+pct(rd.vol_erp,rd.base_erp)+'</span></td>'+
-              '<td style="padding:10px 12px;text-align:right;font-weight:700;color:'+col+'">'+rd.vol_ins.toLocaleString('pt-BR')+' <span style="font-size:11px">'+pct(rd.vol_ins,rd.base_ins)+'</span></td>'+
-            '</tr>'+
-          '</tbody>'+
-        '</table></div>'+
-
-        // Taxa resumo
-        '<div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">'+
-          '<div style="flex:1;min-width:140px;background:'+col+'11;border:1px solid '+col+'33;border-radius:8px;padding:12px;text-align:center">'+
-            '<div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:4px">TAXA DE RETENÇÃO — ERP</div>'+
-            '<div style="font-size:28px;font-weight:800;color:'+col+'">'+ret_erp+'%</div>'+
-            '<div style="font-size:10px;color:#636057;margin-top:2px">voltaram a comprar R$15+</div>'+
-          '</div>'+
-          '<div style="flex:1;min-width:140px;background:#FFF0EE;border:1px solid #F0C4BC;border-radius:8px;padding:12px;text-align:center">'+
-            '<div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:4px">TAXA DE PERDA — ERP</div>'+
-            '<div style="font-size:28px;font-weight:800;color:#D85A30">'+per_erp+'%</div>'+
-            '<div style="font-size:10px;color:#636057;margin-top:2px">não retornaram</div>'+
-          '</div>'+
-        '</div>'+
-
-        // Edições referência — pequeno, após a tabela
-        '<div style="margin-top:14px;font-size:10px;color:#888780;line-height:1.6">'+
-          'Edições R$10 analisadas: '+rd.eds_r10+' &nbsp;·&nbsp; Edições R$15+ verificadas: '+rd.eds_r15+
-        '</div>';
-    }
-  }
 }
 
 function rRank(){
@@ -1664,7 +1877,7 @@ function rBase(){
       var pctNovos=Math.round(insNovos/erpNovos*100);
       var gapColor=function(p){return p>=95?'#1D9E75':p>=75?'#EF9F27':'#D85A30';};
       erpEl.innerHTML=
-        '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:10px">Cobertura Insider vs ERP (fonte da verdade)</div>'+
+        '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#1a1916;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #e8e6e0">📊 Cobertura Insider vs ERP <span style="font-weight:400;font-size:10px;color:#888780">(fonte da verdade)</span></div>'+
         '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">'+
         ['Total com compra na vida','Compradores 2026*','Novos cadastros (mai)'].map(function(lbl,i){
           var insV=[ins,ins26,insNovos][i];
@@ -1672,10 +1885,10 @@ function rBase(){
           var pct=[pctTotal,pct26,pctNovos][i];
           var gap=insV-erpV;
           return '<div style="background:#f8f8f6;border-radius:8px;padding:10px 12px">'+
-            '<div style="font-size:10px;color:#aaa;margin-bottom:4px">'+lbl+'</div>'+
-            '<div style="font-size:13px;font-weight:800;color:'+col+'">'+insV.toLocaleString('pt-BR')+'</div>'+
-            '<div style="font-size:11px;color:#888;margin-top:2px">ERP: '+erpV.toLocaleString('pt-BR')+'</div>'+
-            '<div style="font-size:12px;font-weight:700;color:'+gapColor(pct)+';margin-top:4px">'+pct+'% cobertura</div>'+
+            '<div style="font-size:10px;font-weight:600;color:#636057;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">'+lbl+'</div>'+
+            '<div style="font-size:22px;font-weight:800;color:'+col+'">'+insV.toLocaleString('pt-BR')+'</div>'+
+            '<div style="font-size:11px;color:#888780;margin-top:3px">ERP: '+erpV.toLocaleString('pt-BR')+'</div>'+
+            '<div style="font-size:13px;font-weight:800;color:'+gapColor(pct)+';margin-top:6px">'+pct+'% cobertura</div>'+
             '<div style="font-size:10px;color:'+(gap>=0?'#1D9E75':'#D85A30')+'">('+(gap>=0?'+':'')+gap.toLocaleString('pt-BR')+')</div>'+
             '</div>';
         }).join('')+
@@ -1822,6 +2035,62 @@ function rBase(){
     {e:'👤',t:`${fN(b.churn_1x)} compraram apenas 1 vez. Jornada de ativação nos primeiros 14 dias pode reduzir esse número.`},
     {e:'⭐',t:`${fN(b.recorrentes)} fiéis (3 edições consecutivas) — maior propensão a edições de ticket alto.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+}
+
+function rRetencao(){
+  var col=D[cap].col;
+  var retEl=document.getElementById('retencao-body');
+  var retCard=document.getElementById('retencao-card');
+  if(!retEl||!retCard) return;
+  var retData={
+    mc:{eds_r10:'501, 503, 505, 507, 508, 509 e 513',eds_r15:'502, 504, 506, 510, 511, 512, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524 e 525',base_erp:177508,base_ins:62361,nao_erp:67559,nao_ins:56158,vol_erp:109949,vol_ins:6203},
+    sm:{eds_r10:'418, 420, 421, 422 e 424',eds_r15:'419, 423, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440 e 441',base_erp:67736,base_ins:19659,nao_erp:16184,nao_ins:12440,vol_erp:51552,vol_ins:7217}
+  };
+  var rd=retData[cap];
+  if(!rd){retCard.style.display='none';return;}
+  retCard.style.display='';
+  function pct(v,t){return t>0?' ('+Math.round(v/t*100)+'%)':'';}
+  var ret_erp=Math.round(rd.vol_erp/rd.base_erp*100);
+  var per_erp=Math.round(rd.nao_erp/rd.base_erp*100);
+  var html='';
+  html+='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">';
+  html+='<thead><tr>';
+  html+='<th style="text-align:left;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600"></th>';
+  html+='<th style="text-align:right;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600">ERP</th>';
+  html+='<th style="text-align:right;padding:9px 12px;border-bottom:2px solid #e8e6e0;font-size:11px;color:#636057;font-weight:600">Insider</th>';
+  html+='</tr></thead><tbody>';
+  html+='<tr style="background:#fafaf8">';
+  html+='<td style="padding:10px 12px;font-weight:600;color:#1a1916">Base compradores R$10</td>';
+  html+='<td style="padding:10px 12px;text-align:right;font-weight:700;font-size:14px">'+rd.base_erp.toLocaleString('pt-BR')+'</td>';
+  html+='<td style="padding:10px 12px;text-align:right;font-weight:700;font-size:14px;color:'+col+'">'+rd.base_ins.toLocaleString('pt-BR')+'</td>';
+  html+='</tr>';
+  html+='<tr>';
+  html+='<td style="padding:10px 12px;font-weight:600;color:#1a1916">Não voltaram a comprar R$15+</td>';
+  html+='<td style="padding:10px 12px;text-align:right">'+rd.nao_erp.toLocaleString('pt-BR')+pct(rd.nao_erp,rd.base_erp)+'</td>';
+  html+='<td style="padding:10px 12px;text-align:right">'+rd.nao_ins.toLocaleString('pt-BR')+pct(rd.nao_ins,rd.base_ins)+'</td>';
+  html+='</tr>';
+  html+='<tr style="background:'+col+'22">';
+  html+='<td style="padding:10px 12px;font-weight:700;color:'+col+'">Voltaram a comprar R$15+</td>';
+  html+='<td style="padding:10px 12px;text-align:right;font-weight:700;color:'+col+'">'+rd.vol_erp.toLocaleString('pt-BR')+pct(rd.vol_erp,rd.base_erp)+'</td>';
+  html+='<td style="padding:10px 12px;text-align:right;font-weight:700;color:'+col+'">'+rd.vol_ins.toLocaleString('pt-BR')+pct(rd.vol_ins,rd.base_ins)+'</td>';
+  html+='</tr>';
+  html+='</tbody></table></div>';
+  html+='<div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">';
+  html+='<div style="flex:1;min-width:140px;background:'+col+'22;border:1px solid '+col+'55;border-radius:8px;padding:12px;text-align:center">';
+  html+='<div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:4px">TAXA DE RETENÇÃO — ERP</div>';
+  html+='<div style="font-size:28px;font-weight:800;color:'+col+'">'+ret_erp+'%</div>';
+  html+='<div style="font-size:10px;color:#636057;margin-top:2px">voltaram a comprar R$15+</div>';
+  html+='</div>';
+  html+='<div style="flex:1;min-width:140px;background:#FFF0EE;border:1px solid #F0C4BC;border-radius:8px;padding:12px;text-align:center">';
+  html+='<div style="font-size:10px;color:#636057;font-weight:600;margin-bottom:4px">TAXA DE PERDA — ERP</div>';
+  html+='<div style="font-size:28px;font-weight:800;color:#D85A30">'+per_erp+'%</div>';
+  html+='<div style="font-size:10px;color:#636057;margin-top:2px">não retornaram</div>';
+  html+='</div>';
+  html+='</div>';
+  html+='<div style="margin-top:14px;font-size:10px;color:#888780;line-height:1.6">';
+  html+='Edições R$10 analisadas: '+rd.eds_r10+' &nbsp;·&nbsp; Edições R$15+ verificadas: '+rd.eds_r15;
+  html+='</div>';
+  retEl.innerHTML=html;
 }
 
 function rNovos(){
@@ -2212,7 +2481,69 @@ setTimeout(()=>rAll(),80);
 </script>
 
 <div id="t-testes" class="sec">
-  <div class="src"><span>🧪 <strong>Testes CRM</strong> — resultados e insights do 1º semestre de 2026</span><span class="upd">✓ Ref. jan–mar/2026</span></div>
+  <div class="src"><span>🧪 <strong>Testes CRM</strong> — resultados e insights do 1º semestre de 2026</span><span class="upd">✓ Ref. jan–jun/2026</span></div>
+
+  <!-- Roadmap de testes -->
+  <div style="background:linear-gradient(135deg,#1a3a5c 0%,#1e4976 100%);border-radius:12px;padding:24px;margin-bottom:16px;color:#fff">
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.12)">
+      <span style="font-size:18px">📋</span>
+      <div>
+        <div style="font-size:14px;font-weight:800;letter-spacing:.02em;color:#fff">Status dos testes</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:1px">O que está rodando e o que entra a seguir</div>
+      </div>
+    </div>
+
+    <!-- Em andamento -->
+    <div style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1D9E75;box-shadow:0 0 6px #1D9E75"></span>
+        <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#1D9E75">Em andamento</span>
+        <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,.35);background:rgba(255,255,255,.07);padding:2px 8px;border-radius:99px">Conclusão ~20/07/2026</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px">✉️ Redução de segmentação dos e-mails — todas as caps</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5">Saindo de "não comprou na edição vigente" para "não comprou na edição vigente + comprou pelo menos 1x nos últimos 6 meses". <span style="color:rgba(255,255,255,.35)">Teoria: aumento de abertura com público mais engajado.</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px">🕔 Mudança de horário dos e-mails — todas as caps</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5">De terça a sexta saindo das 7h para as 17h, com base na análise de melhor horário do dashboard. <span style="color:rgba(255,255,255,.35)">Teoria: aumento de abertura.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Próximos -->
+    <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3)"></span>
+        <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45)">Próximos testes</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px">
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:3px">🖼️ A/B — Web template de saldo</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.5">Informar que possui saldo vs exibir o valor do saldo no texto — qual converte mais?</div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:3px">🏆 A/B — Web template de resultados</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.5">Atual vs gatilho de pertencimento: "você pode estar nessa lista na próxima semana".</div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:3px">📸 Instagram — Jornada de onboarding</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.5">Comunicação no início da jornada do cliente melhora conversão para o Instagram?</div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:3px">📊 Pesquisa — Seguidores do Instagram</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.5">Perguntar se já segue gera atributo novo na base. Teremos boa adesão às respostas?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#636057;white-space:nowrap">📁 Resultados dos testes realizados</div>
+    <div style="flex:1;height:1px;background:#e8e6e0"></div>
+  </div>
 
   <div id="testes-content"></div>
 </div>
