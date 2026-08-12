@@ -2662,11 +2662,9 @@ async function pmoSetStatus(acaoId, novoStatus){
 var PMO_URL = 'https://script.google.com/macros/s/AKfycbxJlwOFD4xWsxQ3A4Ysd-EhPX5SfPI6bN9u8ZavfsGZER9MJJLp9qZ9VHj-C8qgjgdd/exec';
 async function pmoSave(){
   try{
-    await fetch(PMO_URL, {
-      method: 'POST',
-      body: JSON.stringify(PMO.semanas),
-      headers: {'Content-Type': 'application/json'}
-    });
+    var form = new FormData();
+    form.append('data', JSON.stringify(PMO.semanas));
+    await fetch(PMO_URL, {method:'POST', body:form, mode:'no-cors'});
   } catch(e){ console.warn('pmoSave error:', e); }
 }
 async function pmoLoad(){
