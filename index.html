@@ -449,9 +449,12 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 
 <script id="cover-logic">
-function showIdeias(){
+async function showIdeias(){
   document.getElementById('cover').style.display='none';
   document.getElementById('ideias-panel').style.display='block';
+  var el = document.getElementById('ideias-panel-content');
+  if(el) el.innerHTML = '<div style="padding:40px;text-align:center;color:#888">A carregar...</div>';
+  await pmoLoad();
   rPMO();
 }
 function backFromIdeias(){
@@ -2164,7 +2167,7 @@ function rDiaPais(){
     out += '<li>Jornada desengajados: <strong>10 conversões</strong> em base sem compra em 2026 e sem comunicação — resultado positivo para reativação</li>';
   }
   if(cap==='sm'){
-    out += '<li>Campanha Saldo 50%: OR <strong>26,25%</strong> vs 7,35% regular — <strong>+257%</strong>. CTR <strong>0,98%</strong> vs 0,14% regular</li>';
+    out += '<li>Campanha de Saldo: OR <strong>26,25%</strong> vs 7,35% regular — <strong>+257%</strong>. CTR <strong>0,98%</strong> vs 0,14% regular</li>';
     out += '<li>E-mails desengajados: OR <strong>14,69%</strong> — mais que o dobro do benchmark de 6,3%</li>';
     out += '<li>Pop Up abandono de sessão: CTR <strong>41,6%</strong> em 113 impressões</li>';
     out += '<li>Jornada compra abandonada: <strong>24 conversões</strong> e R$560 — Pop Up on-site com CTR de 23,2%</li>';
@@ -2640,7 +2643,7 @@ function pmoToggle(id){
   if(el) el.style.display = el.style.display==='none'?'block':'none';
 }
 
-function pmoSetStatus(acaoId, novoStatus){
+async function pmoSetStatus(acaoId, novoStatus){
   PMO.semanas.forEach(function(s){
     s.acoes.forEach(function(a){
       if(a.id===acaoId){
@@ -2652,21 +2655,57 @@ function pmoSetStatus(acaoId, novoStatus){
       }
     });
   });
+  await pmoSave();
   rPMO();
 }
 
-function pmoAddComment(acaoId){
+var PMO_URL = 'https://script.google.com/macros/s/AKfycbxJlwOFD4xWsxQ3A4Ysd-EhPX5SfPI6bN9u8ZavfsGZER9MJJLp9qZ9VHj-C8qgjgdd/exec';
+async function pmoSave(){
+  try{
+    await fetch(PMO_URL, {
+      method: 'POST',
+      body: JSON.stringify(PMO.semanas),
+      headers: {'Content-Type': 'application/json'}
+    });
+  } catch(e){ console.warn('pmoSave error:', e); }
+}
+async function pmoLoad(){
+  try{
+    var res = await fetch(PMO_URL);
+    var text = await res.text();
+    if(text && text !== '{}'){
+      var data = JSON.parse(text);
+      if(Array.isArray(data)){
+        data.forEach(function(sem, si){
+          if(PMO.semanas[si]){
+            sem.acoes.forEach(function(a, ai){
+              if(PMO.semanas[si].acoes[ai]){
+                PMO.semanas[si].acoes[ai].comentarios = a.comentarios || [];
+                PMO.semanas[si].acoes[ai].historico = a.historico || [];
+                PMO.semanas[si].acoes[ai].status = a.status || PMO.semanas[si].acoes[ai].status;
+              }
+            });
+          }
+        });
+      }
+    }
+  } catch(e){ console.warn('pmoLoad error:', e); }
+}
+async function pmoAddComment(acaoId){
   var inp = document.getElementById('inp-'+acaoId);
   if(!inp || !inp.value.trim()) return;
   var ts = new Date().toLocaleDateString('pt-BR');
+  var txt = inp.value.trim();
+  inp.value = '';
   PMO.semanas.forEach(function(s){
     s.acoes.forEach(function(a){
       if(a.id===acaoId){
-        a.comentarios.push(ts+' — '+inp.value.trim());
+        a.comentarios.push(ts+' — '+txt);
         a.historico.push(ts+' — Comentário adicionado');
       }
     });
   });
+  await pmoSave();
   rPMO();
 }
 
