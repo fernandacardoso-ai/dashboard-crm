@@ -2588,7 +2588,7 @@ function rPMO(){
       ['planejado','em_andamento','concluido','bloqueado'].forEach(function(st){
         var sc2 = statusCfg[st];
         var sel = a.status===st;
-        out += '<button onclick="pmoSetStatus(\''+a.id+'\',\''+st+'\')" style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid '+(sel?sc2.col:'#ddd')+';background:'+(sel?sc2.bg:'#fff')+';color:'+(sel?sc2.col:'#aaa')+';cursor:pointer">'+sc2.label+'</button>';
+      var sel = a.status===st; out += '<button data-aid="'+a.id+'" data-st="'+st+'" onclick="pmoSetStatus(this.dataset.aid,this.dataset.st)" style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid '+(sel?sc2.col:'#ddd')+';background:'+(sel?sc2.bg:'#fff')+';color:'+(sel?sc2.col:'#aaa')+';cursor:pointer">'+sc2.label+'</button>';
       });
       out += '</div>';
 
@@ -2608,7 +2608,7 @@ function rPMO(){
       out += '</div>';
       out += '<div style="display:flex;gap:6px">';
       out += '<input id="inp-'+a.id+'" type="text" placeholder="Adicionar comentário..." style="flex:1;font-size:11px;padding:6px 10px;border:1px solid #e8e6e0;border-radius:6px;outline:none">';
-      out += '<button onclick="pmoAddComment(\'+a.id+\')" style="font-size:11px;font-weight:700;padding:6px 14px;border-radius:6px;border:none;background:#1a1916;color:#fff;cursor:pointer">Adicionar</button>';
+      out += '<button data-id="'+a.id+'" onclick="pmoAddComment(this.dataset.id)" style="font-size:11px;font-weight:700;padding:6px 14px;border-radius:6px;border:none;background:#1a1916;color:#fff;cursor:pointer">Adicionar</button>';
       out += '</div>';
       out += '</div>';
       out += '</div></div>';
