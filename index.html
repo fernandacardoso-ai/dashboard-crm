@@ -1186,12 +1186,12 @@ const DIAPAIS = {
       {icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários destacando os R$2 milhões em prêmios. Terça a sábado, múltiplos horários.'},
       {icon:'📧',title:'E-mail — Premiação',desc:'Campanhas de premiação enviadas diariamente de terça a sábado. Segmentação: não comprou na edição vigente (excl. base saldo).'},
       {icon:'📧',title:'E-mail — Awareness',desc:'2 envios especiais na terça e na quinta com comunicação de awareness da ação Dia dos Pais.'},
-      {icon:'📧',title:'E-mail — Desengajados',desc:'Enviado na sexta para base desengajada. OR 12,33% — mais do que o dobro da média.'},
+      {icon:'📧',title:'E-mail — Reativação',desc:'Enviado na sexta para clientes sem compra recente. OR 12,33% — mais do que o dobro da média.'},
       {icon:'📧',title:'E-mail — Últimas Horas',desc:'Disparo no sábado com urgência de encerramento.'},
       {icon:'📱',title:'Pop Up — Saldo (Home)',desc:'Exibido para clientes com saldo disponível. CTA: presentear o pai.'},
       {icon:'📱',title:'Pop Up — Premiação (Pág. Resultados)',desc:'Exibido para clientes sem compra na edição vigente.'},
       {icon:'🔄',title:'Jornada — Compra Abandonada',desc:'Email + Web Push + Pop Up para quem adicionou ao carrinho mas não concluiu.'},
-      {icon:'🔄',title:'Jornada — Desengajados',desc:'Web Push + App Push para base sem compra em 2026 e sem acesso ao site. Início 06/08.'},
+      {icon:'🔄',title:'Jornada — Reativação',desc:'Web Push + App Push para base sem compra em 2026 e sem acesso ao site. Início 06/08.'},
       {icon:'📨',title:'ERP Push — Régua Diária',desc:'De terça a sábado, frequência de 2 a 8 disparos/dia conforme o dia da semana.'},
       {icon:'🖥️',title:'Máscara Site — Teste A/B',desc:'Personalização da homepage para clientes sem compra. 50% da base recebe / 50% não recebe.'},
       {icon:'📱',title:'Pop Up — Intenção de Saída',desc:'Reforço do prêmio para usuários que clicam em sair (qualquer página).'}
@@ -1204,7 +1204,7 @@ const DIAPAIS = {
         {canal:'Pop Up on-site',enviados:0,entregues:315,clicks:57,ctr:18.1,conv:3,rev:100},
         {canal:'App Push',enviados:238,entregues:235,clicks:18,ctr:7.66,conv:0,rev:0}
       ]},
-    jornada2:{label:'Jornada — Desengajados',periodo:'06–11/ago',entradas:124679,saidas:122,conv:10,rev:355,
+    jornada2:{label:'Jornada — Reativação',periodo:'06–11/ago',entradas:124679,saidas:122,conv:10,rev:355,
       canais:[
         {canal:'Web Push',enviados:60938,entregues:21875,clicks:185,ctr:0.85,conv:8,rev:275},
         {canal:'App Push',enviados:4760,entregues:4713,clicks:80,ctr:1.70,conv:2,rev:80}
@@ -1229,7 +1229,7 @@ const DIAPAIS = {
     extras:{jornada:{label:'Jornada — Compra Abandonada',periodo:'30/jul–11/ago',entradas:28224,saidas:5138,conv:24,rev:560,canais:[{canal:'Web Push',sent:21845,del:11265,clicks:403,ctr:3.58,conv:13,rev:300},{canal:'Email',sent:5772,del:5533,clicks:48,ctr:0.49,conv:3,rev:80},{canal:'Pop Up on-site',sent:0,del:198,clicks:46,ctr:23.23,conv:8,rev:180},{canal:'App Push',sent:70,del:70,clicks:3,ctr:4.29,conv:0,rev:0}]},popup_sessao:{label:'Pop Up — Abandono de Sessão',periodo:'07–09/ago',imp:113,clicks:47,ctr:41.6,conv:1,rev:60},popup_prem:{label:'Pop Up — Premiação (Pág. Resultados)',periodo:'02–09/ago',imp:1628,clicks:91,ctr:5.6,conv:2,rev:null},popup_saldo:{label:'Pop Up — Saldo (Home)',periodo:'02–09/ago',imp:61,clicks:17,ctr:27.9,conv:0,rev:0},},
     wp_camps:[{name:'SM-Edicao448_quarta',sent:54312,del:20890,clicks:175,ctr:0.84,conv:12,rev:380,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_2',sent:54182,del:19853,clicks:151,ctr:0.76,conv:7,rev:140,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_3',sent:54110,del:20986,clicks:161,ctr:0.77,conv:10,rev:260,saldo:false,domingo:false},{name:'SM-Edicao448_quinta',sent:54052,del:20574,clicks:123,ctr:0.6,conv:7,rev:260,saldo:false,domingo:false},{name:'SM-Edicao448_quinta_2 ',sent:53937,del:19347,clicks:107,ctr:0.55,conv:5,rev:100,saldo:false,domingo:false},{name:'SM-Edicao448_quinta_3 ',sent:53861,del:20287,clicks:106,ctr:0.52,conv:11,rev:300,saldo:false,domingo:false},{name:'SM-Edicao448_sabado',sent:53499,del:18152,clicks:128,ctr:0.71,conv:12,rev:380,saldo:false,domingo:false},{name:'SM-Edicao448_sabado_2',sent:53389,del:18061,clicks:124,ctr:0.69,conv:8,rev:160,saldo:false,domingo:false},{name:'SM-Edicao448_sabado_3',sent:53360,del:18520,clicks:106,ctr:0.57,conv:4,rev:80,saldo:false,domingo:false},{name:'SM-Edicao448_sexta',sent:53788,del:19419,clicks:120,ctr:0.62,conv:6,rev:140,saldo:false,domingo:false},{name:'SM-Edicao448_sexta_2',sent:53683,del:19123,clicks:97,ctr:0.51,conv:10,rev:200,saldo:false,domingo:false},{name:'SM-Edicao448_sexta_3  ',sent:53625,del:19724,clicks:122,ctr:0.62,conv:14,rev:320,saldo:false,domingo:false},{name:'SM-Edicao448_terça',sent:54608,del:19829,clicks:176,ctr:0.89,conv:15,rev:420,saldo:false,domingo:false},{name:'SM-Edicao448_terça_2',sent:54434,del:19619,clicks:183,ctr:0.93,conv:8,rev:180,saldo:false,domingo:false},{name:'SM-Edicao448_terça_3',sent:54371,del:21308,clicks:163,ctr:0.76,conv:10,rev:220,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_campanha_saldo ',sent:62,del:21,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_quinta_campanha_saldo ',sent:61,del:18,clicks:2,ctr:11.11,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_sabado_campanha_saldo',sent:60,del:26,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_segunda_campanha_saldo',sent:63,del:19,clicks:1,ctr:5.26,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_sexta_campanha_saldo  ',sent:61,del:23,clicks:1,ctr:4.35,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_terça_campanha_saldo ',sent:62,del:20,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_domingo  ',sent:14616,del:6242,clicks:95,ctr:1.52,conv:15,rev:320,saldo:false,domingo:true},],
     camps:[{name:'SMC - Premiação_ed448_ultimas_horas',subject:`Corre! As vendas estão quase no fim 😱`,sent:34938,or:3.35,ctr:0.16,conv:17,rev:340,desg:false,saldo:false},{name:'SMC - Premiação_ed448_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:37832,or:6.51,ctr:0.15,conv:16,rev:360,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quarta',subject:`Especial Dia dos Pais com R$800 mil em prêmios! 💰`,sent:37528,or:6.27,ctr:0.09,conv:12,rev:240,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quinta',subject:`O melhor presente do Dia dos Pais custa R$20🎁`,sent:36950,or:5.91,ctr:0.09,conv:12,rev:260,desg:false,saldo:false},{name:'SMC - Premiação_ed448_sexta',subject:`Dia dos Pais com R$800 mil em prêmios 👨`,sent:36085,or:5.51,ctr:0.11,conv:9,rev:240,desg:false,saldo:false},{name:'SMC - Premiação_ed448_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje 🏆`,sent:35693,or:4.7,ctr:0.11,conv:12,rev:300,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quinta_2',subject:`Seu pai vai AMAR um presente de 800 mil reais🎁`,sent:37409,or:5.98,ctr:0.07,conv:9,rev:200,desg:false,saldo:false},{name:'SMC - Premiação_ed448_terça_2',subject:`Seu pai merece o melhor presente🎁`,sent:38055,or:6.48,ctr:0.11,conv:15,rev:300,desg:false,saldo:false},{name:'SMC - Premiação_ed448_segunda_campanha_saldo',subject:`Você ganhou um bônus especial de R$10,00 🎁`,sent:862,or:32.9,ctr:2.0,conv:5,rev:120,desg:false,saldo:true},{name:'SMC - Premiação_ed448_terça_campanha_saldo',subject:`Ei, já deu uma olhada no seu saldo Super Minas?  💰`,sent:845,or:28.43,ctr:0.84,conv:1,rev:20,desg:false,saldo:true},{name:'SMC - Premiação_ed448_quarta_campanha_saldo',subject:`Você tem R$10 de presente esperando🎁`,sent:850,or:26.86,ctr:1.08,conv:2,rev:40,desg:false,saldo:true},{name:'SMC - Premiação_ed448_quinta_campanha_saldo',subject:`Seu presente de Dia dos Pais ainda está aqui👨`,sent:845,or:25.15,ctr:0.48,conv:0,rev:0,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sexta_campanha_saldo',subject:`Últimos 2 dias do seu saldo exclusivo⏰`,sent:840,or:23.24,ctr:0.73,conv:4,rev:100,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sabado_campanha_saldo',subject:`Hoje é o último dia de usar seu saldo! 🚨`,sent:835,or:20.71,ctr:0.85,conv:2,rev:20,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:55955,or:14.69,ctr:0.25,conv:9,rev:240,desg:true,saldo:false},],
-    acoes:[{icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários com R$800 mil em prêmios. Terça a sábado, múltiplos horários.'},{icon:'🔔',title:'Web Push — Campanha Saldo',desc:'"Você foi escolhido!" — WP específico para a base selecionada com oferta de saldo.'},{icon:'📧',title:'E-mail — Premiação',desc:'Campanhas de premiação enviadas diariamente de terça a sábado para base excluindo quem tem input de saldo.'},{icon:'📧',title:'E-mail — Awareness',desc:'2 envios especiais na terça e na quinta com comunicação de awareness da ação Dia dos Pais.'},{icon:'📧',title:'E-mail — Desengajados',desc:'OR 14,69% — quase o dobro da média. Enviado na sexta.'},{icon:'📧',title:'E-mail — Últimas Horas',desc:'Sábado — urgência de encerramento.'},{icon:'📧',title:'E-mail — Campanha Saldo ⚡',desc:'Base ultra-segmentada: 5.077 pessoas. OR 26,25% vs 7,35% regular. "Você foi escolhido!"'},{icon:'📱',title:'Pop Up — Saldo (Home)',desc:'"Boa notícia! Você possui saldo disponível. Que tal presentear seu pai?"'},{icon:'📱',title:'Pop Up — Premiação (Pág. Resultados)',desc:'Exibido para quem não comprou na edição vigente — AON.'},{icon:'🔄',title:'Jornada — Compra Abandonada',desc:'Email + Web Push + Pop Up: "Você quase garantiu seu título de Dia dos Pais!"'},{icon:'📱',title:'Pop Up — Abandono de Sessão',desc:'"Espera um segundo... Domingo tem R$800 mil. Vai ficar sem a sua chance?"'},{icon:'📧',title:'E-mail — Base Desengajada (Ação Extra)',desc:'Awareness para base que não interagiu recentemente. Tema presente para o pai.'},{icon:'📨',title:'ERP Push — Régua Diária',desc:'De terça a sábado, 2 a 8 disparos/dia.'},],
+    acoes:[{icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários com R$800 mil em prêmios. Terça a sábado, múltiplos horários.'},{icon:'🔔',title:'Web Push — Campanha Saldo',desc:'"Você foi escolhido!" — WP específico para a base selecionada com oferta de saldo.'},{icon:'📧',title:'E-mail — Premiação',desc:'Campanhas de premiação enviadas diariamente de terça a sábado para base excluindo quem tem input de saldo.'},{icon:'📧',title:'E-mail — Awareness',desc:'2 envios especiais na terça e na quinta com comunicação de awareness da ação Dia dos Pais.'},{icon:'📧',title:'E-mail — Reativação',desc:'OR 14,69% — quase o dobro da média. Enviado na sexta.'},{icon:'📧',title:'E-mail — Últimas Horas',desc:'Sábado — urgência de encerramento.'},{icon:'📧',title:'E-mail — Campanha Saldo ⚡',desc:'Base ultra-segmentada: 5.077 pessoas. OR 26,25% vs 7,35% regular. "Você foi escolhido!"'},{icon:'📱',title:'Pop Up — Saldo (Home)',desc:'"Boa notícia! Você possui saldo disponível. Que tal presentear seu pai?"'},{icon:'📱',title:'Pop Up — Premiação (Pág. Resultados)',desc:'Exibido para quem não comprou na edição vigente — AON.'},{icon:'🔄',title:'Jornada — Compra Abandonada',desc:'Email + Web Push + Pop Up: "Você quase garantiu seu título de Dia dos Pais!"'},{icon:'📱',title:'Pop Up — Abandono de Sessão',desc:'"Espera um segundo... Domingo tem R$800 mil. Vai ficar sem a sua chance?"'},{icon:'📧',title:'E-mail — Reativação (Ação Extra)',desc:'Awareness para base que não interagiu recentemente. Tema presente para o pai.'},{icon:'📨',title:'ERP Push — Régua Diária',desc:'De terça a sábado, 2 a 8 disparos/dia.'},],
     saldo:{
     base:887,
     desc:'Clientes que compravam em eds R$10 e pararam nas eds R$15, sem saldo, com opt-in de email e abertura nos últimos 2 meses. Oferta: R$10 de saldo = 50% de desconto no título.',
@@ -1270,7 +1270,7 @@ const DIAPAIS = {
   },
     wp_camps:[{name:'SV-Ed439_premiação_quarta',sent:28552,del:10693,clicks:77,ctr:0.72,conv:8,rev:220,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quarta_2',sent:28539,del:10170,clicks:97,ctr:0.95,conv:2,rev:60,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quarta_3',sent:28531,del:10882,clicks:106,ctr:0.97,conv:7,rev:180,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta',sent:28486,del:10444,clicks:74,ctr:0.71,conv:5,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta_2',sent:28495,del:9799,clicks:66,ctr:0.67,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta_3',sent:28516,del:10705,clicks:77,ctr:0.72,conv:6,rev:120,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado',sent:28577,del:9527,clicks:53,ctr:0.56,conv:5,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado_2',sent:28682,del:9501,clicks:66,ctr:0.69,conv:2,rev:40,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado_3',sent:28768,del:9990,clicks:71,ctr:0.71,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta',sent:28460,del:10493,clicks:55,ctr:0.52,conv:1,rev:40,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta_2',sent:28468,del:9852,clicks:56,ctr:0.57,conv:3,rev:60,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta_3',sent:28535,del:10399,clicks:49,ctr:0.47,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça',sent:28615,del:10515,clicks:83,ctr:0.79,conv:5,rev:120,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça_2',sent:28593,del:10196,clicks:90,ctr:0.88,conv:8,rev:280,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça_3',sent:28584,del:11022,clicks:73,ctr:0.66,conv:6,rev:160,saldo:false,domingo:false},{name:'SV-Ed439_domingo ',sent:28538,del:10190,clicks:168,ctr:1.65,conv:10,rev:200,saldo:false,domingo:true},],
     camps:[{name:'SV_Premiação_ed439_ultimas horas',subject:`Corre! As vendas estão quase no fim 😱`,sent:20132,or:3.25,ctr:0.12,conv:8,rev:140,desg:false,saldo:false},{name:'SV_Premiação_ed439_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:21486,or:5.98,ctr:0.15,conv:9,rev:340,desg:false,saldo:false},{name:'SV_Premiação_ed439_quarta',subject:`Especial Dia dos Pais com MEIO MILHÃO em prêmios! 💰`,sent:21349,or:5.87,ctr:0.16,conv:8,rev:180,desg:false,saldo:false},{name:'SV_Premiação_ed439_quinta',subject:`O melhor presente do Dia dos Pais custa R$20 🎁`,sent:21105,or:5.61,ctr:0.1,conv:5,rev:120,desg:false,saldo:false},{name:'SV_Premiação_ed439_sexta',subject:`Dia dos Pais com MEIO MILHÃO em prêmios 👨`,sent:20728,or:5.1,ctr:0.17,conv:9,rev:200,desg:false,saldo:false},{name:'SV_Premiação_ed439_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje🏆`,sent:20548,or:4.45,ctr:0.16,conv:8,rev:220,desg:false,saldo:false},{name:'SV_Premiação_ed439_terça_2',subject:`Seu pai merece o melhor presente 🎁`,sent:21537,or:6.01,ctr:0.15,conv:6,rev:120,desg:false,saldo:false},{name:'SV_Premiação_ed439_quinta_2',subject:`Presentão para o papai: MEIO MILHÃO em prêmios!🎁`,sent:21248,or:5.49,ctr:0.12,conv:8,rev:200,desg:false,saldo:false},{name:'SV_Premiação_ed439_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:32846,or:12.05,ctr:0.22,conv:8,rev:200,desg:true,saldo:false},],
-    acoes:[{icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários com Meio Milhão em prêmios. Terça a sábado.'},{icon:'📧',title:'E-mail — Premiação',desc:'Campanhas de premiação enviadas diariamente de terça a sábado.'},{icon:'📧',title:'E-mail — Awareness',desc:'2 envios especiais na terça e na quinta com comunicação de awareness da ação Dia dos Pais.'},{icon:'📧',title:'E-mail — Desengajados',desc:'OR 12,05% — quase o dobro da média. Enviado na sexta.'},{icon:'📧',title:'E-mail — Últimas Horas',desc:'Sábado — urgência de encerramento.'},{icon:'📱',title:'Pop Up — Premiação (Pág. Resultados)',desc:'Exibido para quem não comprou na edição vigente.'},{icon:'📱',title:'Pop Up — Saldo (Home)',desc:'Incentivo ao uso do saldo na compra.'},{icon:'🔄',title:'Jornada — Compra Abandonada',desc:'Email + Web Push + Pop Up: "Você quase garantiu seu título de Dia dos Pais!"'},{icon:'📱',title:'Pop Up — Abandono de Sessão',desc:'Reforço do prêmio para usuários saindo do site.'},{icon:'📧',title:'E-mail — Base Desengajada',desc:'Awareness para base sem interação recente.'},{icon:'📧',title:'E-mail — Base Full Cap do Norte',desc:'Ação específica para base da região Norte. Início 07/08.'},{icon:'📨',title:'ERP Push — Régua Diária',desc:'De terça a sábado, 2 a 8 disparos/dia.'},],
+    acoes:[{icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários com Meio Milhão em prêmios. Terça a sábado.'},{icon:'📧',title:'E-mail — Premiação',desc:'Campanhas de premiação enviadas diariamente de terça a sábado.'},{icon:'📧',title:'E-mail — Awareness',desc:'2 envios especiais na terça e na quinta com comunicação de awareness da ação Dia dos Pais.'},{icon:'📧',title:'E-mail — Reativação',desc:'OR 12,05% — quase o dobro da média. Enviado na sexta.'},{icon:'📧',title:'E-mail — Últimas Horas',desc:'Sábado — urgência de encerramento.'},{icon:'📱',title:'Pop Up — Premiação (Pág. Resultados)',desc:'Exibido para quem não comprou na edição vigente.'},{icon:'📱',title:'Pop Up — Saldo (Home)',desc:'Incentivo ao uso do saldo na compra.'},{icon:'🔄',title:'Jornada — Compra Abandonada',desc:'Email + Web Push + Pop Up: "Você quase garantiu seu título de Dia dos Pais!"'},{icon:'📱',title:'Pop Up — Abandono de Sessão',desc:'Reforço do prêmio para usuários saindo do site.'},{icon:'📧',title:'E-mail — Reativação',desc:'Awareness para base sem interação recente.'},{icon:'📧',title:'E-mail — Base Full Cap do Norte',desc:'Ação específica para base da região Norte. Início 07/08.'},{icon:'📨',title:'ERP Push — Régua Diária',desc:'De terça a sábado, 2 a 8 disparos/dia.'},],
     saldo:null
   },
 };
@@ -2151,90 +2151,6 @@ function rDiaPais(){
   });
   out += '</div></div></div>';
 
-  // ── 2. O QUE FUNCIONOU / APRENDIZADOS ────────────────
-  out += '<div class="cg" style="margin-bottom:.8rem">';
-
-  // O que funcionou
-  out += '<div class="card" style="border-left:3px solid #1D9E75"><div class="ct2" style="color:#1D9E75">✅ O que funcionou</div>';
-  out += '<ul style="margin:6px 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
-
-  if(cap==='mc'){
-    out += '<li>E-mails desengajados: OR <strong>12,33%</strong> — mais do dobro do benchmark de 7,1%</li>';
-    out += '<li>Máscara site Azul (mobile): CTR <strong>7,37%</strong> vs 2,25% do site normal — <strong>+3,3x</strong>, 16 conv vs 9</li>';
-    out += '<li>Pop Up abandono de sessão: CTR <strong>38,3%</strong> em 725 impressões</li>';
-    out += '<li>Pop Up premiação (pág. resultados): <strong>4 conversões</strong> em 1.566 impressões</li>';
-    out += '<li>Jornada compra abandonada: <strong>38 conversões</strong> e R$1.270 — Pop Up on-site com CTR de 18,1%</li>';
-    out += '<li>Jornada desengajados: <strong>10 conversões</strong> em base sem compra em 2026 e sem comunicação — resultado positivo para reativação</li>';
-  }
-  if(cap==='sm'){
-    out += '<li>Campanha de Saldo: OR <strong>26,25%</strong> vs 7,35% regular — <strong>+257%</strong>. CTR <strong>0,98%</strong> vs 0,14% regular</li>';
-    out += '<li>E-mails desengajados: OR <strong>14,69%</strong> — mais que o dobro do benchmark de 6,3%</li>';
-    out += '<li>Pop Up abandono de sessão: CTR <strong>41,6%</strong> em 113 impressões</li>';
-    out += '<li>Jornada compra abandonada: <strong>24 conversões</strong> e R$560 — Pop Up on-site com CTR de 23,2%</li>';
-  }
-  if(cap==='sv'){
-    out += '<li>E-mails desengajados: OR <strong>12,05%</strong> — mais do dobro do benchmark de 5,7%</li>';
-    out += '<li>Pop Up abandono de sessão: CTR <strong>53,7%</strong> em 67 impressões — maior CTR entre as caps</li>';
-    out += '<li>Pop Up saldo home: <strong>2 conversões</strong> em apenas 29 impressões (CTR 24,1%)</li>';
-    out += '<li>Jornada compra abandonada: Pop Up on-site com CTR de <strong>26,3%</strong> e 1 conversão</li>';
-    out += '<li>Web Push com CTR <strong>0,28%</strong> acima do benchmark histórico de 0,72%</li>';
-  }
-  out += '</ul></div>';
-
-  // Aprendizados
-  out += '<div class="card" style="border-left:3px solid #EF9F27"><div class="ct2" style="color:#c47a00">💡 Aprendizados</div>';
-  out += '<ul style="margin:6px 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
-  out += '<li>Meta de faturamento não atingida: <strong>'+atingPct+'%</strong> do objetivo — ROAS <strong>'+d.ga4_roas+'x</strong> vs alvo '+d.meta_roas+'x</li>';
-
-  if(cap==='mc'){
-    out += '<li>Pop Up saldo home com apenas <strong>134 impressões</strong> em 7 dias — base elegível pequena</li>';
-    out += '<li>Máscara desktop: CTR alto (37,1%) mas <strong>zero conversões</strong> — comportamento diferente do mobile; usuário de desktop não conclui a compra no mesmo acesso</li>';
-  }
-  if(cap==='sm'){
-    out += '<li>Pop Up saldo home com apenas <strong>61 impressões</strong> — base com saldo elegível é pequena ou critério de exibição muito restrito</li>';
-    out += '<li>Pop Up premiação (pág. resultados): <strong>2 conversões</strong> em 1.628 impressões — testar CTA mais direto</li>';
-    out += '<li>Campanha saldo demonstrou enorme potencial de reativação — <strong>escalar em próximas datas especiais</strong> e avaliar ampliar a base elegível</li>';
-    out += '<li>Desengajados respondem excepcionalmente em datas comemorativas — estruturar régua dedicada para toda ação especial</li>';
-  }
-  if(cap==='sv'){
-    out += '<li>Pop Up saldo home com apenas <strong>29 impressões</strong> — menor volume das 3 caps; base com saldo elegível muito pequena</li>';
-    out += '<li>Pop Up premiação (pág. resultados): <strong>zero conversões</strong> em 812 impressões — revisar CTA ou momento de exibição</li>';
-
-  }
-  out += '</ul></div></div>';
-
-  // ── 3. AÇÕES EXECUTADAS ───────────────────────────────
-  out += '<div class="card" style="margin-bottom:.8rem"><div class="ct2">📋 Ações CRM executadas</div>';
-  out += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-top:8px">';
-  d.acoes.forEach(function(a){
-    out += '<div style="background:#f8f7f4;border-radius:8px;padding:10px 12px;border-left:3px solid '+col+'">';
-    out += '<div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:3px">'+a.icon+' '+a.title+'</div>';
-    out += '<div style="font-size:11px;color:#636057;line-height:1.4">'+a.desc+'</div></div>';
-  });
-  out += '</div></div>';
-
-  // ── 4. EMAIL ─────────────────────────────────────────
-  var bm_or=d.bm_or, bm_ctor=d.bm_ctor;
-  var rows='';
-  d.camps.forEach(function(c){
-    if(c.saldo && cap!=='sm') return;
-    var label=c.name.replace(/.*_ed\d+_/,'').replace(/.*Edicao\d+_/,'').replace(/_/g,' ');
-    label=label.charAt(0).toUpperCase()+label.slice(1);
-    var ctor=c.or>0?parseFloat((c.ctr/c.or*100).toFixed(1)):0;
-    var bg=c.desg?' style="background:#f0ffe8"':(c.saldo?' style="background:#fffae6"':'');
-    rows+='<tr'+bg+'><td style="white-space:normal;font-size:11px;line-height:1.4">'+label+(c.desg?' 🟢':'')+(c.saldo?' ⚡':'')+'</td>';
-    rows+='<td style="font-size:10px;color:#888;white-space:normal;line-height:1.3"><em>'+c.subject+'</em></td>';
-    rows+='<td>'+fN(c.sent)+'</td>';
-    rows+='<td style="color:'+(c.or>=bm_or?'#1D9E75':'#1a1916')+';font-weight:700">'+c.or.toFixed(2)+'%</td>';
-    rows+='<td style="color:'+(ctor>=bm_ctor?'#1D9E75':'#1a1916')+';font-weight:700">'+ctor.toFixed(1)+'%</td>';
-    rows+='<td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
-  });
-  var thS=col+';color:#fff;text-align:left;padding:5px 7px;font-size:10px;font-weight:600;border-bottom:none';
-  var bmRow='<tr style="background:#fff0f0"><td colspan="2" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="color:#636057">—</td><td style="font-weight:700;color:#a80000">'+bm_or.toFixed(1)+'%</td><td style="font-weight:700;color:#a80000">'+bm_ctor.toFixed(1)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>';
-  out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">📧 E-mail — Resultados por campanha</div>';
-  out+='<div style="display:flex;gap:16px;margin-bottom:8px;font-size:12px;flex-wrap:wrap"><span>Total: <strong>'+fN(d.email_sent)+'</strong></span><span>OR: <strong>'+d.email_or.toFixed(2)+'%</strong></span><span>CTOR: <strong>'+parseFloat((d.email_ctr/d.email_or*100).toFixed(1))+'%</strong></span><span>Receita: <strong>'+fR(d.email_rev)+'</strong></span></div>';
-  out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thS+'">Campanha</td><td style="background:'+thS+'">Subject</td><td style="background:'+thS+'">Enviados</td><td style="background:'+thS+'">Abertura</td><td style="background:'+thS+'">CTOR</td><td style="background:'+thS+'">Conv.</td><td style="background:'+thS+'">Receita</td></tr>'+bmRow+'</thead><tbody>'+rows+'</tbody></table></div>';
-  out+='<div style="font-size:11px;color:#636057;margin-top:6px">🟢 Desengajados'+(cap==='sm'?' · ⚡ Campanha Saldo':'')+'  ·  <span style="color:#a80000;font-weight:700">linha vermelha = benchmark</span></div>';
   if(d.saldo && cap==='sm'){
     var s=d.saldo;
     var e=s.erp, em=s.email, wp=s.wp;
@@ -2299,32 +2215,8 @@ function rDiaPais(){
     out+='</div></div>';
     out+='</div></div>';
   }
-  out+='</div>';
 
-  // ── 5. WEB PUSH ──────────────────────────────────────
-  var bm_wc=d.bm_wc;
-  out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">🔔 Web Push — Resultados por campanha</div>';
-  out+='<div style="display:flex;gap:16px;margin-bottom:8px;font-size:12px;flex-wrap:wrap"><span>Total enviados: <strong>'+fN(d.wp_sent)+'</strong></span><span>Entregues: <strong>'+fN(d.wp_del)+'</strong></span><span>CTR médio: <strong>'+d.wp_ctr.toFixed(2)+'%</strong></span><span>Receita: <strong>'+fR(d.wp_rev)+'</strong></span></div>';
-  if(d.wp_camps && d.wp_camps.length){
-    var wpRows='';
-    d.wp_camps.forEach(function(w){
-      if(w.saldo && cap!=='sm') return;
-      var label=w.name.replace(/.*_ed\d+_/,'').replace(/.*Edicao\d+_/,'').replace(/_/g,' ');
-      label=label.charAt(0).toUpperCase()+label.slice(1);
-      var bg=w.domingo?' style="background:#f0f4ff"':(w.saldo?' style="background:#fffae6"':'');
-      wpRows+='<tr'+bg+'><td style="font-size:11px;white-space:normal;line-height:1.4;min-width:180px">'+label+(w.domingo?' 🌙':'')+(w.saldo?' ⚡':'')+'</td>';
-      wpRows+='<td>'+fN(w.sent)+'</td><td>'+fN(w.del)+'</td>';
-      wpRows+='<td style="color:'+(w.ctr>=bm_wc?'#1D9E75':'#1a1916')+';font-weight:700">'+w.ctr.toFixed(2)+'%</td>';
-      wpRows+='<td>'+w.conv+'</td><td>'+fR(w.rev)+'</td></tr>';
-    });
-    var thW=col+';color:#fff;text-align:left;padding:5px 7px;font-size:10px;font-weight:600;border-bottom:none';
-    var bmWpRow='<tr style="background:#fff0f0"><td colspan="3" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="font-weight:700;color:#a80000">'+bm_wc.toFixed(2)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>';
-    out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thW+'">Campanha</td><td style="background:'+thW+'">Enviados</td><td style="background:'+thW+'">Entregues</td><td style="background:'+thW+'">CTR</td><td style="background:'+thW+'">Conv.</td><td style="background:'+thW+'">Receita</td></tr>'+bmWpRow+'</thead><tbody>'+wpRows+'</tbody></table></div>';
-    out+='<div style="font-size:11px;color:#636057;margin-top:6px">🌙 Pós-sorteio (domingo)'+(cap==='sm'?' · ⚡ Campanha Saldo':'')+'  ·  <span style="color:#a80000;font-weight:700">linha vermelha = benchmark</span></div>';
-  }
-  out+='</div>';
-
-  // ── 6. AÇÕES ESPECIAIS ───────────────────────────────
+  // ── 1. AÇÕES ESPECIAIS ───────────────────────────────
   if(d.extras){
     var ex=d.extras;
     out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">⚙️ Ações especiais — Jornadas & Pop Ups</div>';
@@ -2405,6 +2297,116 @@ function rDiaPais(){
     }
     out+='</div>';
   }
+  // ── 2. EMAIL ─────────────────────────────────────────
+  var bm_or=d.bm_or, bm_ctor=d.bm_ctor;
+  var rows='';
+  d.camps.forEach(function(c){
+    if(c.saldo && cap!=='sm') return;
+    var label=c.name.replace(/.*_ed\d+_/,'').replace(/.*Edicao\d+_/,'').replace(/_/g,' ');
+    label=label.charAt(0).toUpperCase()+label.slice(1);
+    if(c.desg) label='Sexta Reativação';
+    var ctor=c.or>0?parseFloat((c.ctr/c.or*100).toFixed(1)):0;
+    var bg=c.desg?' style="background:#f0ffe8"':(c.saldo?' style="background:#fffae6"':'');
+    rows+='<tr'+bg+'><td style="white-space:normal;font-size:11px;line-height:1.4">'+label+(c.desg?' 🟢 Reativação':'')+(c.saldo?' ⚡':'')+'</td>';
+    rows+='<td style="font-size:10px;color:#888;white-space:normal;line-height:1.3"><em>'+c.subject+'</em></td>';
+    rows+='<td>'+fN(c.sent)+'</td>';
+    rows+='<td style="color:'+(c.or>=bm_or?'#1D9E75':'#1a1916')+';font-weight:700">'+c.or.toFixed(2)+'%</td>';
+    rows+='<td style="color:'+(ctor>=bm_ctor?'#1D9E75':'#1a1916')+';font-weight:700">'+ctor.toFixed(1)+'%</td>';
+    rows+='<td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
+  });
+  var thS=col+';color:#fff;text-align:left;padding:5px 7px;font-size:10px;font-weight:600;border-bottom:none';
+  var bmRow='<tr style="background:#fff0f0"><td colspan="2" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="color:#636057">—</td><td style="font-weight:700;color:#a80000">'+bm_or.toFixed(1)+'%</td><td style="font-weight:700;color:#a80000">'+bm_ctor.toFixed(1)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>';
+  out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">📧 E-mail — Resultados por campanha</div>';
+  out+='<div style="display:flex;gap:16px;margin-bottom:8px;font-size:12px;flex-wrap:wrap"><span>Total: <strong>'+fN(d.email_sent)+'</strong></span><span>OR: <strong>'+d.email_or.toFixed(2)+'%</strong></span><span>CTOR: <strong>'+parseFloat((d.email_ctr/d.email_or*100).toFixed(1))+'%</strong></span><span>Receita: <strong>'+fR(d.email_rev)+'</strong></span></div>';
+  out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thS+'">Campanha</td><td style="background:'+thS+'">Subject</td><td style="background:'+thS+'">Enviados</td><td style="background:'+thS+'">Abertura</td><td style="background:'+thS+'">CTOR</td><td style="background:'+thS+'">Conv.</td><td style="background:'+thS+'">Receita</td></tr>'+bmRow+'</thead><tbody>'+rows+'</tbody></table></div>';
+  out+='<div style="font-size:11px;color:#636057;margin-top:6px">🟢 Reativação'+(cap==='sm'?' · ⚡ Campanha Saldo':'')+'  ·  <span style="color:#a80000;font-weight:700">linha vermelha = benchmark</span></div>';
+  out+='</div>';
+
+  // ── 3. WEB PUSH ──────────────────────────────────────
+  var bm_wc=d.bm_wc;
+  out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">🔔 Web Push — Resultados por campanha</div>';
+  out+='<div style="display:flex;gap:16px;margin-bottom:8px;font-size:12px;flex-wrap:wrap"><span>Total enviados: <strong>'+fN(d.wp_sent)+'</strong></span><span>Entregues: <strong>'+fN(d.wp_del)+'</strong></span><span>CTR médio: <strong>'+d.wp_ctr.toFixed(2)+'%</strong></span><span>Receita: <strong>'+fR(d.wp_rev)+'</strong></span></div>';
+  if(d.wp_camps && d.wp_camps.length){
+    var wpRows='';
+    d.wp_camps.forEach(function(w){
+      if(w.saldo && cap!=='sm') return;
+      var label=w.name.replace(/.*_ed\d+_/,'').replace(/.*Edicao\d+_/,'').replace(/_/g,' ');
+      label=label.charAt(0).toUpperCase()+label.slice(1);
+      var bg=w.domingo?' style="background:#f0f4ff"':(w.saldo?' style="background:#fffae6"':'');
+      wpRows+='<tr'+bg+'><td style="font-size:11px;white-space:normal;line-height:1.4;min-width:180px">'+label+(w.domingo?' 🌙':'')+(w.saldo?' ⚡':'')+'</td>';
+      wpRows+='<td>'+fN(w.sent)+'</td><td>'+fN(w.del)+'</td>';
+      wpRows+='<td style="color:'+(w.ctr>=bm_wc?'#1D9E75':'#1a1916')+';font-weight:700">'+w.ctr.toFixed(2)+'%</td>';
+      wpRows+='<td>'+w.conv+'</td><td>'+fR(w.rev)+'</td></tr>';
+    });
+    var thW=col+';color:#fff;text-align:left;padding:5px 7px;font-size:10px;font-weight:600;border-bottom:none';
+    var bmWpRow='<tr style="background:#fff0f0"><td colspan="3" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="font-weight:700;color:#a80000">'+bm_wc.toFixed(2)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>';
+    out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thW+'">Campanha</td><td style="background:'+thW+'">Enviados</td><td style="background:'+thW+'">Entregues</td><td style="background:'+thW+'">CTR</td><td style="background:'+thW+'">Conv.</td><td style="background:'+thW+'">Receita</td></tr>'+bmWpRow+'</thead><tbody>'+wpRows+'</tbody></table></div>';
+    out+='<div style="font-size:11px;color:#636057;margin-top:6px">🌙 Pós-sorteio (domingo)'+(cap==='sm'?' · ⚡ Campanha Saldo':'')+'  ·  🟢 Reativação  ·  <span style="color:#a80000;font-weight:700">linha vermelha = benchmark</span></div>';
+  }
+  out+='</div>';
+
+  // ── 4. AÇÕES CRM EXECUTADAS ───────────────────────────────
+  out += '<div class="card" style="margin-bottom:.8rem"><div class="ct2">📋 Ações CRM executadas</div>';
+  out += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-top:8px">';
+  d.acoes.forEach(function(a){
+    out += '<div style="background:#f8f7f4;border-radius:8px;padding:10px 12px;border-left:3px solid '+col+'">';
+    out += '<div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:3px">'+a.icon+' '+a.title+'</div>';
+    out += '<div style="font-size:11px;color:#636057;line-height:1.4">'+a.desc+'</div></div>';
+  });
+  out += '</div></div>';
+
+  // ── 5. O QUE FUNCIONOU / APRENDIZADOS ────────────────
+  out += '<div class="cg" style="margin-bottom:.8rem">';
+
+  // O que funcionou
+  out += '<div class="card" style="border-left:3px solid #1D9E75"><div class="ct2" style="color:#1D9E75">✅ O que funcionou</div>';
+  out += '<ul style="margin:6px 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
+
+  if(cap==='mc'){
+    out += '<li>E-mails reativação: OR <strong>12,33%</strong> — mais do dobro do benchmark de 7,1%</li>';
+    out += '<li>Máscara site Azul (mobile): CTR <strong>7,37%</strong> vs 2,25% do site normal — <strong>+3,3x</strong>, 16 conv vs 9</li>';
+    out += '<li>Pop Up abandono de sessão: CTR <strong>38,3%</strong> em 725 impressões</li>';
+    out += '<li>Pop Up premiação (pág. resultados): <strong>4 conversões</strong> em 1.566 impressões</li>';
+    out += '<li>Jornada compra abandonada: <strong>38 conversões</strong> e R$1.270 — Pop Up on-site com CTR de 18,1%</li>';
+    out += '<li>Jornada Reativação: <strong>10 conversões</strong> em base sem compra em 2026 e sem comunicação — resultado positivo</li>';
+  }
+  if(cap==='sm'){
+    out += '<li>Campanha de Saldo: OR <strong>26,25%</strong> vs 7,35% regular — <strong>+257%</strong>. CTR <strong>0,98%</strong> vs 0,14% regular</li>';
+    out += '<li>E-mails reativação: OR <strong>14,69%</strong> — mais que o dobro do benchmark de 6,3%</li>';
+    out += '<li>Pop Up abandono de sessão: CTR <strong>41,6%</strong> em 113 impressões</li>';
+    out += '<li>Jornada compra abandonada: <strong>24 conversões</strong> e R$560 — Pop Up on-site com CTR de 23,2%</li>';
+  }
+  if(cap==='sv'){
+    out += '<li>E-mails reativação: OR <strong>12,05%</strong> — mais do dobro do benchmark de 5,7%</li>';
+    out += '<li>Pop Up abandono de sessão: CTR <strong>53,7%</strong> em 67 impressões — maior CTR entre as caps</li>';
+    out += '<li>Pop Up saldo home: <strong>2 conversões</strong> em apenas 29 impressões (CTR 24,1%)</li>';
+    out += '<li>Jornada compra abandonada: Pop Up on-site com CTR de <strong>26,3%</strong> e 1 conversão</li>';
+    out += '<li>Web Push com CTR <strong>0,28%</strong> acima do benchmark histórico de 0,72%</li>';
+  }
+  out += '</ul></div>';
+
+  // Aprendizados
+  out += '<div class="card" style="border-left:3px solid #EF9F27"><div class="ct2" style="color:#c47a00">💡 Aprendizados</div>';
+  out += '<ul style="margin:6px 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
+  out += '<li>Meta de faturamento não atingida: <strong>'+atingPct+'%</strong> do objetivo — ROAS <strong>'+d.ga4_roas+'x</strong> vs alvo '+d.meta_roas+'x</li>';
+
+  if(cap==='mc'){
+    out += '<li>Pop Up saldo home com apenas <strong>134 impressões</strong> em 7 dias — critério de exibição muito restrito, apenas 2x por semana</li>';
+    out += '<li>Máscara desktop: CTR alto (37,1%) mas <strong>zero conversões</strong> — comportamento diferente do mobile; usuário de desktop não conclui a compra no mesmo acesso</li>';
+  }
+  if(cap==='sm'){
+    out += '<li>Pop Up saldo home com apenas <strong>61 impressões</strong> — critério de exibição muito restrito, apenas 2x por semana</li>';
+    out += '<li>Pop Up premiação (pág. resultados): <strong>2 conversões</strong> em 1.628 impressões — testar CTA mais direto</li>';
+    out += '<li>Campanha de Saldo demonstrou enorme potencial de reativação — acompanhar os compradores para entender se o hábito de compra continua ou se foi apenas conversão de ocasião. Como a taxa de conversão foi boa, iremos transformar em <strong>always on</strong> com o mesmo investimento, trocando a base semana a semana</li>';
+    out += '<li>Clientes sem compra respondem excepcionalmente em datas comemorativas — estruturar régua dedicada para toda ação especial</li>';
+  }
+  if(cap==='sv'){
+    out += '<li>Pop Up saldo home com apenas <strong>29 impressões</strong> — critério de exibição muito restrito, apenas 2x por semana</li>';
+    out += '<li>Pop Up premiação (pág. resultados): <strong>zero conversões</strong> em 812 impressões — revisar CTA ou momento de exibição</li>';
+
+  }
+  out += '</ul></div></div>';
+
 
   el.innerHTML = out;
   var imgEl=document.getElementById('diapais-imgs');
