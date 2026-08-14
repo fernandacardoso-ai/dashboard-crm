@@ -2767,12 +2767,12 @@ async function pmoAddComment(acaoId){
     out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1rem">';
 
     out += '<div class="card"><div class="ct2">📊 Alcance por Canal</div>';
-    out += '<canvas id="chart-reach-'+cap+'" height="220"></canvas>';
+    out += '<canvas id="chart-reach-'+cap+'" height="160" style="max-height:160px"></canvas>';
     out += '<div style="font-size:10px;color:#888;margin-top:6px">Email = entregues · WP = entregues · Pop Ups = impressões · Jornadas = entradas</div>';
     out += '</div>';
 
     out += '<div class="card"><div class="ct2">🛒 Conversões por Canal</div>';
-    out += '<canvas id="chart-conv-'+cap+'" height="220"></canvas>';
+    out += '<canvas id="chart-conv-'+cap+'" height="160" style="max-height:160px"></canvas>';
     out += '<div style="font-size:10px;color:#888;margin-top:6px">Conversões Insider por canal (canais com 0 conv excluídos)</div>';
     out += '</div>';
 
