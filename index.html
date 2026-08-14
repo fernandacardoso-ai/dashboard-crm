@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard CRM — Caps de Minas</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f5f4f0;color:#1a1916;padding:16px}
@@ -2345,7 +2345,9 @@ function rDiaPais(){
   }
   out+='</div>';
 
-  // ── 4. AÇÕES CRM EXECUTADAS ───────────────────────────────
+  // ── 4. AÇÕES CRM EXECUTADAS ────────────────────────────
+  // Charts div injected into out — rendered after el.innerHTML
+  out += '<div id="dp-charts-'+cap+'" style="margin-bottom:.8rem"></div>';
   out += '<div class="card" style="margin-bottom:.8rem"><div class="ct2">📋 Ações CRM executadas</div>';
   out += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-top:8px">';
   d.acoes.forEach(function(a){
@@ -2411,6 +2413,7 @@ function rDiaPais(){
   el.innerHTML = out;
   var imgEl=document.getElementById('diapais-imgs');
   if(imgEl && DIAPAIS_IMGS[cap]) imgEl.innerHTML=DIAPAIS_IMGS[cap];
+  rDiaPaisCharts();
 }
 
 function rIdeias(){
@@ -2708,6 +2711,95 @@ async function pmoAddComment(acaoId){
   await pmoSave();
   rPMO();
 }
+
+  // Chart data computed from channel metrics
+  function rDiaPaisCharts(){
+    var d = DIAPAIS[cap];
+    var ex = d.extras || {};
+
+    // ── Reach data ─────────────────────────────────────────
+    var reachLabels = [], reachVals = [];
+    var convLabels  = [], convVals  = [];
+
+    // Email
+    reachLabels.push('Email'); reachVals.push(d.email_sent||0);
+    // WP
+    reachLabels.push('Web Push'); reachVals.push(d.wp_del||0);
+    // Popups
+    if(ex.popup_sessao){ reachLabels.push('Pop Up Sessão'); reachVals.push(ex.popup_sessao.imp||0); }
+    if(ex.popup_saldo){  reachLabels.push('Pop Up Saldo');  reachVals.push(ex.popup_saldo.imp||0); }
+    if(ex.popup_prem){   reachLabels.push('Pop Up Premiação'); reachVals.push(ex.popup_prem.imp||0); }
+    // Jornadas
+    if(ex.jornada){  reachLabels.push('Jornada C.Abandonada'); reachVals.push(ex.jornada.entradas||0); }
+    if(ex.jornada2){ reachLabels.push('Jornada Reativação');   reachVals.push(ex.jornada2.entradas||0); }
+    // Base Norte (SV)
+    if(ex.base_norte){
+      var bnTotal = 0;
+      ex.base_norte.email.forEach(function(e){ bnTotal += e.entregues; });
+      ex.base_norte.wp.forEach(function(w){ bnTotal += w.entregues; });
+      reachLabels.push('Base Norte'); reachVals.push(bnTotal);
+    }
+
+    // ── Conv data ──────────────────────────────────────────
+    // Sum email camps conv
+    var emailConv = 0;
+    if(d.camps) d.camps.forEach(function(c){ emailConv += c.conv||0; });
+    convLabels.push('Email'); convVals.push(emailConv);
+    convLabels.push('Web Push'); convVals.push(d.wp_conv||0);
+    if(ex.popup_sessao && ex.popup_sessao.conv){ convLabels.push('Pop Up Sessão'); convVals.push(ex.popup_sessao.conv); }
+    if(ex.popup_saldo && ex.popup_saldo.conv){   convLabels.push('Pop Up Saldo');  convVals.push(ex.popup_saldo.conv); }
+    if(ex.popup_prem && ex.popup_prem.conv){     convLabels.push('Pop Up Premiação'); convVals.push(ex.popup_prem.conv); }
+    if(ex.jornada && ex.jornada.conv){  convLabels.push('Jornada C.Abandonada'); convVals.push(ex.jornada.conv); }
+    if(ex.jornada2 && ex.jornada2.conv){ convLabels.push('Jornada Reativação'); convVals.push(ex.jornada2.conv); }
+    // SM saldo
+    if(d.saldo && cap==='sm' && d.saldo.erp){ convLabels.push('Campanha Saldo'); convVals.push(d.saldo.erp.compraram||0); }
+
+    // Filter zeros from conv
+    var convFiltered = convLabels.map(function(l,i){ return {l:l,v:convVals[i]}; }).filter(function(x){ return x.v>0; });
+    convLabels = convFiltered.map(function(x){ return x.l; });
+    convVals   = convFiltered.map(function(x){ return x.v; });
+
+    var colors = ['#378ADD','#1D9E75','#EF9F27','#E30613','#9B59B6','#F39C12','#2ECC71','#E74C3C','#95A5A6'];
+
+    var el = document.getElementById('dp-charts-'+cap);
+    if(!el) return;
+    var out = '';
+    out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1rem">';
+
+    out += '<div class="card"><div class="ct2">📊 Alcance por Canal</div>';
+    out += '<canvas id="chart-reach-'+cap+'" height="220"></canvas>';
+    out += '<div style="font-size:10px;color:#888;margin-top:6px">Email = entregues · WP = entregues · Pop Ups = impressões · Jornadas = entradas</div>';
+    out += '</div>';
+
+    out += '<div class="card"><div class="ct2">🛒 Conversões por Canal</div>';
+    out += '<canvas id="chart-conv-'+cap+'" height="220"></canvas>';
+    out += '<div style="font-size:10px;color:#888;margin-top:6px">Conversões Insider por canal (canais com 0 conv excluídos)</div>';
+    out += '</div>';
+
+    out += '</div>';
+    el.innerHTML = out;
+
+    var pieOpts = {
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{size:10}, padding:8 } }
+      },
+      responsive:true
+    };
+
+    // Draw reach chart
+    new Chart(document.getElementById('chart-reach-'+cap), {
+      type:'pie',
+      data:{ labels:reachLabels, datasets:[{ data:reachVals, backgroundColor:colors.slice(0,reachLabels.length), borderWidth:2, borderColor:'#fff' }] },
+      options: pieOpts
+    });
+
+    // Draw conv chart
+    new Chart(document.getElementById('chart-conv-'+cap), {
+      type:'pie',
+      data:{ labels:convLabels, datasets:[{ data:convVals, backgroundColor:colors.slice(0,convLabels.length), borderWidth:2, borderColor:'#fff' }] },
+      options: pieOpts
+    });
+  }
 
 function rTestes(){
   var capFil=cap;
@@ -3960,6 +4052,7 @@ document.body.style.setProperty('--cap-col','#E30613');
 </div>
 <div id="t-diapais" class="sec">
   <div class="src"><span>👨 <strong>Dia dos Pais 2026</strong> — ed 532 (MC) · 448 (SM) · 439 (SV) · 02–09/ago</span><span class="upd">✓ 11/08/2026</span></div>
+  <div id="diapais-charts"></div>
   <div id="diapais-content"></div>
   <div class="card" style="margin-top:.8rem">
     <div class="ct2">🖼️ Peças CRM</div>
