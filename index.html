@@ -2763,41 +2763,148 @@ async function pmoAddComment(acaoId){
 
     var el = document.getElementById('dp-charts-'+cap);
     if(!el) return;
-    var out = '';
-    out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1rem">';
 
-    out += '<div class="card"><div class="ct2">📊 Alcance por Canal</div>';
-    out += '<canvas id="chart-reach-'+cap+'" height="160" style="max-height:160px"></canvas>';
+    var fmtN = function(n){ return (n||0).toLocaleString('pt-BR'); };
+    var reachTotal = reachVals.reduce(function(a,b){ return a+(b||0); }, 0);
+    var convTotal  = convVals.reduce(function(a,b){ return a+(b||0); }, 0);
+    var totStyle = 'float:right;font-size:11px;font-weight:700;color:#1a1916;background:#f2f0eb;padding:2px 8px;border-radius:99px';
+
+    var out = '';
+    out += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:16px;margin-bottom:1rem">';
+
+    out += '<div class="card"><div class="ct2">📊 Alcance por Canal<span style="'+totStyle+'">Total: '+fmtN(reachTotal)+'</span></div>';
+    out += '<div style="position:relative;height:290px"><canvas id="chart-reach-'+cap+'"></canvas></div>';
     out += '<div style="font-size:10px;color:#888;margin-top:6px">Email = entregues · WP = entregues · Pop Ups = impressões · Jornadas = entradas</div>';
     out += '</div>';
 
-    out += '<div class="card"><div class="ct2">🛒 Conversões por Canal</div>';
-    out += '<canvas id="chart-conv-'+cap+'" height="160" style="max-height:160px"></canvas>';
+    out += '<div class="card"><div class="ct2">🛒 Conversões por Canal<span style="'+totStyle+'">Total: '+fmtN(convTotal)+'</span></div>';
+    out += '<div style="position:relative;height:290px"><canvas id="chart-conv-'+cap+'"></canvas></div>';
     out += '<div style="font-size:10px;color:#888;margin-top:6px">Conversões Insider por canal (canais com 0 conv excluídos)</div>';
     out += '</div>';
 
     out += '</div>';
     el.innerHTML = out;
 
+    // Plugin: rótulos fixos fora da pizza (nome + valor + %) para TODAS as fatias
+    var pieOutLabels = {
+      id:'pieOutLabels',
+      afterDatasetsDraw: function(chart){
+        var meta = chart.getDatasetMeta(0);
+        if(!meta.data || !meta.data.length) return;
+        var ds = chart.data.datasets[0];
+        var vals = ds.data, labs = chart.data.labels;
+        var total = vals.reduce(function(a,b){ return a+(b||0); }, 0);
+        if(!total) return;
+        var ctx = chart.ctx;
+        var cx = meta.data[0].x, cy = meta.data[0].y, r = meta.data[0].outerRadius;
+
+        var LH = 11.5;                       // altura da linha
+        var fontName = '700 10px system-ui,-apple-system,Segoe UI,Arial';
+        var fontVal  = '600 10px system-ui,-apple-system,Segoe UI,Arial';
+        var maxTextW = 78;                   // largura máxima do bloco de texto
+
+        // quebra o nome do canal em até 2 linhas
+        function wrap(text){
+          ctx.font = fontName;
+          if(ctx.measureText(text).width <= maxTextW) return [text];
+          var words = text.split(' '), lines = [], cur = '';
+          words.forEach(function(w){
+            var test = cur ? cur+' '+w : w;
+            if(ctx.measureText(test).width <= maxTextW || !cur){ cur = test; }
+            else { lines.push(cur); cur = w; }
+          });
+          if(cur) lines.push(cur);
+          return lines.slice(0,2);
+        }
+
+        var items = meta.data.map(function(arc,i){
+          var ang = (arc.startAngle + arc.endAngle) / 2;
+          var cos = Math.cos(ang), sin = Math.sin(ang);
+          var v = vals[i] || 0;
+          var pct = v/total*100;
+          var pctStr = (pct < 0.1 ? pct.toFixed(2) : pct.toFixed(1)).replace('.', ',') + '%';
+          var lines = wrap(String(labs[i])).concat([fmtN(v)+' · '+pctStr]);
+          return {
+            i:i,
+            side: cos >= 0 ? 1 : -1,
+            ax: cx + cos*(r+2),
+            ay: cy + sin*(r+2),
+            ty: cy + sin*(r+18),
+            h: lines.length * LH,
+            lines: lines,
+            color: (ds.backgroundColor && ds.backgroundColor[i]) || '#999'
+          };
+        });
+
+        // resolve sobreposições verticais respeitando a altura de cada bloco
+        var pad = 4, minY = 4, maxY = chart.height - 4;
+        [1,-1].forEach(function(side){
+          var arr = items.filter(function(it){ return it.side === side; })
+                         .sort(function(a,b){ return a.ty - b.ty; });
+          for(var k=0;k<arr.length;k++){
+            var topLimit = (k===0) ? minY + arr[k].h/2
+                                   : arr[k-1].ty + arr[k-1].h/2 + pad + arr[k].h/2;
+            if(arr[k].ty < topLimit) arr[k].ty = topLimit;
+          }
+          for(var j=arr.length-1;j>=0;j--){
+            var botLimit = maxY - arr[j].h/2;
+            if(arr[j].ty > botLimit) arr[j].ty = botLimit;
+            if(j>0){
+              var prevLimit = arr[j].ty - arr[j].h/2 - pad - arr[j-1].h/2;
+              if(arr[j-1].ty > prevLimit) arr[j-1].ty = prevLimit;
+            }
+          }
+        });
+
+        items.forEach(function(it){
+          var elbowX = cx + it.side*(r+16);
+          var endX   = elbowX + it.side*8;
+          ctx.save();
+          ctx.strokeStyle = it.color;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(it.ax, it.ay);
+          ctx.lineTo(elbowX, it.ty);
+          ctx.lineTo(endX, it.ty);
+          ctx.stroke();
+
+          var tx = endX + it.side*4;
+          var y0 = it.ty - it.h/2 + LH/2;
+          ctx.textAlign = it.side > 0 ? 'left' : 'right';
+          ctx.textBaseline = 'middle';
+          it.lines.forEach(function(ln, k){
+            var last = (k === it.lines.length-1);
+            ctx.font = last ? fontVal : fontName;
+            ctx.fillStyle = last ? '#4a4740' : '#1a1916';
+            ctx.fillText(ln, tx, y0 + k*LH);
+          });
+          ctx.restore();
+        });
+      }
+    };
+
     var pieOpts = {
-      plugins:{
-        legend:{ position:'bottom', labels:{ font:{size:10}, padding:8 } }
-      },
-      responsive:true
+      plugins:{ legend:{ display:false }, tooltip:{ enabled:false } },
+      layout:{ padding:{ left:116, right:116, top:14, bottom:14 } },
+      animation:false,
+      responsive:true,
+      maintainAspectRatio:false
     };
 
     // Draw reach chart
     new Chart(document.getElementById('chart-reach-'+cap), {
       type:'pie',
       data:{ labels:reachLabels, datasets:[{ data:reachVals, backgroundColor:colors.slice(0,reachLabels.length), borderWidth:2, borderColor:'#fff' }] },
-      options: pieOpts
+      options: pieOpts,
+      plugins:[pieOutLabels]
     });
 
     // Draw conv chart
     new Chart(document.getElementById('chart-conv-'+cap), {
       type:'pie',
       data:{ labels:convLabels, datasets:[{ data:convVals, backgroundColor:colors.slice(0,convLabels.length), borderWidth:2, borderColor:'#fff' }] },
-      options: pieOpts
+      options: pieOpts,
+      plugins:[pieOutLabels]
     });
   }
 
