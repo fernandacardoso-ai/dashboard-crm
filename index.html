@@ -566,9 +566,6 @@ function backToCover() {
   <!-- Cards de resumo -->
   <div id="fecho-cards-mai" style="margin-bottom:.8rem"></div>
 
-  <!-- Insights ACIMA da tabela -->
-  <div class="card" style="margin-bottom:.8rem"><div class="ct2">Destaques do fechamento</div><div id="fecho-insights"></div></div>
-
   <!-- Pizza do último mês -->
   <div class="card" style="margin-bottom:.8rem">
     <div class="ct2">Fat. por edição — <span id="fecho-mes-lbl">Mai/2026</span></div>
@@ -577,6 +574,9 @@ function backToCover() {
 
   <!-- CRM: sessões, vendas, conversão por edição/dia/canal -->
   <div id="fecho-crm"></div>
+
+  <!-- Destaques (depois do bloco de CRM, antes das tabelas mensais) -->
+  <div class="card" style="margin-bottom:.8rem"><div class="ct2">Destaques do fechamento</div><div id="fecho-insights"></div></div>
 
   <!-- Blocos de tabela por mês (2 por linha) -->
   <div id="fecho-tbl-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
@@ -630,93 +630,69 @@ function backToCover() {
 
 <!-- RANKINGS -->
 <div id="t-perf" class="sec">
-  <div class="src"><span>📊 <strong>Performance de canais</strong> — Email, Web Push e App Push</span><span class="upd">✓ Atualizado em 17/08/2026</span></div>
+  <div class="src"><span>📊 <strong>Performance de canais</strong> — Web Push e E-mail</span><span class="upd">✓ Atualizado em 17/08/2026</span></div>
 
-  <!-- Benchmark interno -->
+  <!-- Benchmark interno (os dois canais) -->
   <div class="card" style="margin-bottom:.8rem">
     <div class="ct2">Benchmark interno — médias históricas</div>
     <div class="nb" style="font-size:10px;margin-bottom:10px">Médias calculadas sobre todas as edições com dado disponível (jan–jul/2026).</div>
     <div id="perf-bench"></div>
   </div>
 
-  <!-- Gráfico Email: abertura + CTOR por edição -->
-  <div class="card" style="margin-bottom:.8rem">
-    <div class="ct2">E-mail — Abertura e CTOR por edição</div>
-    <div class="nb" style="font-size:10px;margin-bottom:6px">CTOR = cliques / aberturas (engajamento real de quem abriu). Abertura = aberturas / enviados.</div>
-    <div class="cw" style="height:220px"><canvas id="c-email-ctor"></canvas></div>
+  <!-- ===================== WEB PUSH ===================== -->
+  <div id="perf-sec-wp" style="border:1.5px solid #E30613;border-radius:12px;padding:0;margin-bottom:1rem;overflow:hidden">
+    <div id="perf-hdr-wp" style="background:#E30613;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+      <span style="color:#fff;font-size:14px;font-weight:700">🔔 Web Push</span>
+      <span style="color:rgba(255,255,255,.85);font-size:10px">CTR por edição · horário de disparo</span>
+    </div>
+    <div style="padding:14px 16px 4px">
+      <div class="card" style="margin-bottom:.8rem">
+        <div class="ct2">CTR por edição</div>
+        <div class="nb" style="font-size:10px;margin-bottom:6px">CTR = cliques / entregues. Linha tracejada = média histórica.</div>
+        <div class="cw" style="height:200px"><canvas id="c-wp-ctr"></canvas></div>
+      </div>
+      <div id="perf-horario-wp"></div>
+    </div>
   </div>
 
-  <!-- Gráfico WP: CTR por edição -->
-  <div class="card" style="margin-bottom:.8rem">
-    <div class="ct2">Web Push — CTR por edição</div>
-    <div class="nb" style="font-size:10px;margin-bottom:6px">CTR = cliques / entregues. Linha tracejada = média histórica.</div>
-    <div class="cw" style="height:200px"><canvas id="c-wp-ctr"></canvas></div>
+  <!-- ===================== E-MAIL ===================== -->
+  <div style="border:1.5px solid #378ADD;border-radius:12px;padding:0;margin-bottom:1rem;overflow:hidden">
+    <div style="background:#378ADD;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+      <span style="color:#fff;font-size:14px;font-weight:700">✉️ E-mail</span>
+      <span style="color:rgba(255,255,255,.85);font-size:10px">abertura e CTOR · horário de envio · análise de copy</span>
+    </div>
+    <div style="padding:14px 16px 4px">
+      <div class="card" style="margin-bottom:.8rem">
+        <div class="ct2">Abertura e CTOR por edição</div>
+        <div class="nb" style="font-size:10px;margin-bottom:6px">CTOR = cliques / aberturas (engajamento real de quem abriu). Abertura = aberturas / enviados.</div>
+        <div class="cw" style="height:220px"><canvas id="c-email-ctor"></canvas></div>
+      </div>
+
+      <div id="perf-horario-em"></div>
+
+      <div style="margin:14px 0 8px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#378ADD">Análise de copy</div><div style="font-size:10px;color:#888780;margin-top:2px">Recalculada sobre todas as campanhas de mar/2026 a 15/ago/2026, período em que a base já estava estabilizada. Antes disso a abertura era inflada por uma base muito menor.</div></div>
+      <div class="cg">
+        <div class="card"><div class="ct2" id="ccat-title">Taxa de abertura por categoria</div><div class="cw" style="height:205px"><canvas id="ccop"></canvas></div></div>
+        <div class="card"><div class="ct2" id="cctr-title">CTR por categoria</div><div class="cw" style="height:205px"><canvas id="ccctr"></canvas></div></div>
+      </div>
+      <div class="card"><div class="ct2">O que significa cada categoria — com exemplos reais</div><div id="cat-explain"></div></div>
+      <div class="cg">
+        <div class="card"><div class="ct2">Elementos do assunto × taxa de abertura</div><div id="elems"></div></div>
+        <div class="card"><div class="ct2">Abertura por horário de envio</div><div class="cw" style="height:170px"><canvas id="chour"></canvas></div></div>
+      </div>
+      <div class="cg">
+        <div class="card"><div class="ct2">Comprimento do assunto</div><div class="cw" style="height:155px"><canvas id="clen"></canvas></div></div>
+        <div class="card"><div class="ct2">Abertura por dia da semana</div><div class="cw" style="height:155px"><canvas id="cdow"></canvas></div></div>
+      </div>
+      <div class="cg">
+        <div class="card"><div class="ct2" id="deca-title">Abertura e volume por mês</div><div class="cw" style="height:205px"><canvas id="cdec"></canvas></div></div>
+        <div class="card" id="topcat-card" style="display:none"><div class="ct2">Top copy por categoria</div><div id="topcat"></div></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Rankings simplificados -->
-  <div class="cg">
-    <div class="card">
-      <div class="ct2">Web Push — melhores por CTR</div>
-      <div style="overflow-x:auto"><table>
-        <thead><tr><th>Edição</th><th>Título</th><th>Entregues</th><th>CTR</th></tr></thead>
-        <tbody id="wpb"></tbody>
-      </table></div>
-    </div>
-    <div class="card">
-      <div class="ct2">Web Push — piores por CTR</div>
-      <div style="overflow-x:auto"><table>
-        <thead><tr><th>Edição</th><th>Título</th><th>Entregues</th><th>CTR</th></tr></thead>
-        <tbody id="wpw"></tbody>
-      </table></div>
-    </div>
-  </div>
-  <div class="cg">
-    <div class="card">
-      <div class="ct2">E-mail — melhores por CTOR</div>
-      <div class="nb" style="font-size:10px;margin-bottom:6px;margin-top:-2px">⚠️ Apenas edições de mar/2026 em diante — base maior, taxas comparáveis.</div>
-      <div style="overflow-x:auto"><table>
-        <thead><tr><th>Campanha</th><th>Ed.</th><th>Título</th><th>Abertura</th><th>CTOR</th></tr></thead>
-        <tbody id="emb"></tbody>
-      </table></div>
-    </div>
-    <div class="card">
-      <div class="ct2">E-mail — piores por CTOR</div>
-      <div class="nb" style="font-size:10px;margin-bottom:6px;margin-top:-2px">⚠️ Apenas edições de mar/2026 em diante — base maior, taxas comparáveis.</div>
-      <div style="overflow-x:auto"><table>
-        <thead><tr><th>Campanha</th><th>Ed.</th><th>Título</th><th>Abertura</th><th>CTOR</th></tr></thead>
-        <tbody id="emw"></tbody>
-      </table></div>
-    </div>
-  </div>
-  <div class="cg">
-    <div class="card">
-      <div class="ct2">App Push — melhores por abertura</div>
-      <div style="overflow-x:auto"><table>
-        <thead><tr><th>Edição</th><th>Título</th><th>Entregues</th><th>Abertura</th></tr></thead>
-        <tbody id="apb"></tbody>
-      </table></div>
-    </div>
-    <div class="card"><div class="ct2">Insights de canal</div><div id="ch-ins"></div></div>
-  </div>
-
-  <!-- Análise de copy -->
-  <div class="cg">
-    <div class="card"><div class="ct2" id="ccat-title">Taxa de abertura por categoria</div><div class="cw" style="height:205px"><canvas id="ccop"></canvas></div></div>
-    <div class="card"><div class="ct2" id="cctr-title">CTR por categoria</div><div class="cw" style="height:205px"><canvas id="ccctr"></canvas></div></div>
-  </div>
-  <div class="card"><div class="ct2">O que significa cada categoria — com exemplos reais</div><div id="cat-explain"></div></div>
-  <div class="cg">
-    <div class="card"><div class="ct2">Elementos do assunto × taxa de abertura</div><div id="elems"></div></div>
-    <div class="card"><div class="ct2">Melhores horários de envio</div><div class="cw" style="height:170px"><canvas id="chour"></canvas></div></div>
-  </div>
-  <div class="cg">
-    <div class="card"><div class="ct2">Comprimento do assunto</div><div class="cw" style="height:155px"><canvas id="clen"></canvas></div></div>
-    <div class="card"><div class="ct2">Abertura por dia da semana</div><div class="cw" style="height:155px"><canvas id="cdow"></canvas></div></div>
-  </div>
-  <div class="cg">
-    <div class="card"><div class="ct2" id="deca-title">Decaimento de engajamento</div><div class="cw" style="height:205px"><canvas id="cdec"></canvas></div></div>
-    <div class="card" id="topcat-card" style="display:none"><div class="ct2">Top copy por categoria</div><div id="topcat"></div></div>
-  </div>
+  <!-- Insights combinando os dois canais -->
+  <div class="card" style="margin-bottom:.8rem"><div class="ct2">Insights de canal</div><div id="ch-ins"></div></div>
 </div>
 
 <!-- COPY -->
@@ -1175,8 +1151,8 @@ const DIAPAIS = {
     name:'Minas Cap',col:'#E30613',col2:'#FDC300',prem:'R$ 2 milhões em prêmios',
     ed:'532',val:25,meta_fat:97955,meta_roas:6.4,bm_or:7.1,bm_ctor:2.0,bm_wc:0.75,
     ga4_rev:50805,ga4_comp:1745,ga4_roas:3.3,
-    email_sent:936040,email_or:7.52,email_ctr:0.19,email_rev:10700,
-    wp_sent:2294534,wp_del:849590,wp_ctr:0.26,wp_conv:397,wp_rev:12905,
+    email_sent:936040,email_or:7.52,email_ctr:0.19,email_rev:10675,
+    wp_sent:2294534,wp_del:849590,wp_ctr:0.26,wp_conv:287,wp_rev:8540,
     saldo:null,
     acoes:[
       {icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários destacando os R$2 milhões em prêmios. Terça a sábado, múltiplos horários.'},
@@ -1213,18 +1189,18 @@ const DIAPAIS = {
       desktop:{normal_vis:309,normal_ctr:1.94,normal_conv:0,normal_rev:0,azul_vis:342,azul_ctr:37.13,azul_conv:0,azul_rev:0}
     }
   },
-    wp_camps:[{name:'MC-ED532_premiação_quarta',sent:133433,del:50966,clicks:332,ctr:0.65,conv:16,rev:475,saldo:false,domingo:false},{name:'MC-ED532_premiação_quarta_2',sent:133305,del:49613,clicks:403,ctr:0.81,conv:19,rev:675,saldo:false,domingo:false},{name:'MC-ED532_premiação_quarta_3',sent:133117,del:51047,clicks:396,ctr:0.78,conv:27,rev:890,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta',sent:132807,del:50339,clicks:306,ctr:0.61,conv:23,rev:725,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta_2',sent:132688,del:48824,clicks:271,ctr:0.56,conv:15,rev:550,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta_3',sent:132509,del:49386,clicks:261,ctr:0.53,conv:17,rev:450,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta_4',sent:132585,del:49510,clicks:362,ctr:0.73,conv:26,rev:840,saldo:false,domingo:false},{name:'MC-ED532_premiação_sabado',sent:131765,del:46445,clicks:301,ctr:0.65,conv:23,rev:650,saldo:false,domingo:false},{name:'MC-ED532_premiação_sabado_2',sent:131752,del:44556,clicks:281,ctr:0.63,conv:22,rev:825,saldo:false,domingo:false},{name:'MC-ED532_premiação_sabado_3',sent:131651,del:45817,clicks:347,ctr:0.76,conv:32,rev:1075,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta',sent:132258,del:50649,clicks:295,ctr:0.58,conv:14,rev:375,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta_2',sent:132145,del:47745,clicks:228,ctr:0.48,conv:10,rev:375,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta_3',sent:132074,del:48236,clicks:241,ctr:0.5,conv:15,rev:450,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta_4',sent:132120,del:48124,clicks:503,ctr:1.05,conv:22,rev:850,saldo:false,domingo:false},{name:'MC-ED532_premiação_terça',sent:134169,del:50334,clicks:368,ctr:0.73,conv:28,rev:1000,saldo:false,domingo:false},{name:'MC-ED532_premiação_terça_2',sent:133919,del:49571,clicks:418,ctr:0.84,conv:22,rev:675,saldo:false,domingo:false},{name:'MC-ED532_premiação_terça_3',sent:133736,del:51831,clicks:418,ctr:0.81,conv:25,rev:775,saldo:false,domingo:false},{name:'MC-ED532_domingo ',sent:38501,del:16597,clicks:246,ctr:1.48,conv:41,rev:1250,saldo:false,domingo:true},],
-    camps:[{name:'MC - Premiação_ed532_ultimas_horas_sabado',subject:`Corre! As vendas estão quase no fim🚨`,sent:85578,or:3.46,ctr:0.22,conv:54,rev:1550,desg:false,saldo:false},{name:'MC - Premiação_ed532_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:92480,or:7.3,ctr:0.17,conv:41,rev:1300,desg:false,saldo:false},{name:'MC - Premiação_ed532_quarta',subject:`Especial Dia dos Pais com mais de R$2 milhões! 💰`,sent:91710,or:6.71,ctr:0.16,conv:36,rev:1050,desg:false,saldo:false},{name:'MC - Premiação_ed532_quinta',subject:`O melhor presente do Dia dos Pais custa R$25🎁`,sent:90355,or:6.49,ctr:0.12,conv:28,rev:800,desg:false,saldo:false},{name:'MC - Premiação_ed532_sexta',subject:`Dia dos Pais com mais de R$2 milhões em prêmios👨`,sent:88297,or:5.91,ctr:0.16,conv:36,rev:1075,desg:false,saldo:false},{name:'MC - Premiação_ed532_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje🏆`,sent:87441,or:5.07,ctr:0.18,conv:43,rev:1225,desg:false,saldo:false},{name:'MC - Premiação_ed532_terça_2',subject:`Seu pai merece o melhor presente🎁`,sent:92790,or:6.85,ctr:0.17,conv:32,rev:850,desg:false,saldo:false},{name:'MC - Premiação_ed532_quinta_2',subject:`Seu pai vai AMAR um presente de + de 2 MILHÕES 🎁`,sent:91197,or:6.53,ctr:0.15,conv:31,rev:1000,desg:false,saldo:false},{name:'MC - Premiação_ed532_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:216192,or:12.33,ctr:0.31,conv:57,rev:1850,desg:true,saldo:false},]
+    wp_camps:[{name:'MC-ED532_premiação_quarta',sent:133433,del:50966,clicks:332,ctr:0.65,conv:14,rev:350,saldo:false,domingo:false},{name:'MC-ED532_premiação_quarta_2',sent:133305,del:49613,clicks:403,ctr:0.81,conv:16,rev:425,saldo:false,domingo:false},{name:'MC-ED532_premiação_quarta_3',sent:133117,del:51047,clicks:396,ctr:0.78,conv:20,rev:625,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta',sent:132807,del:50339,clicks:306,ctr:0.61,conv:15,rev:415,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta_2',sent:132688,del:48824,clicks:271,ctr:0.56,conv:6,rev:175,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta_3',sent:132509,del:49386,clicks:261,ctr:0.53,conv:23,rev:700,saldo:false,domingo:false},{name:'MC-ED532_premiação_quinta_4',sent:132585,del:49510,clicks:362,ctr:0.73,conv:14,rev:425,saldo:false,domingo:false},{name:'MC-ED532_premiação_sabado',sent:131765,del:46445,clicks:301,ctr:0.65,conv:19,rev:575,saldo:false,domingo:false},{name:'MC-ED532_premiação_sabado_2',sent:131752,del:44556,clicks:281,ctr:0.63,conv:18,rev:450,saldo:false,domingo:false},{name:'MC-ED532_premiação_sabado_3',sent:131651,del:45817,clicks:347,ctr:0.76,conv:22,rev:650,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta',sent:132258,del:50649,clicks:295,ctr:0.58,conv:11,rev:300,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta_2',sent:132145,del:47745,clicks:228,ctr:0.48,conv:12,rev:425,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta_3',sent:132074,del:48236,clicks:241,ctr:0.5,conv:12,rev:300,saldo:false,domingo:false},{name:'MC-ED532_premiação_sexta_4',sent:132120,del:48124,clicks:503,ctr:1.05,conv:21,rev:700,saldo:false,domingo:false},{name:'MC-ED532_premiação_terça',sent:134169,del:50334,clicks:368,ctr:0.73,conv:15,rev:525,saldo:false,domingo:false},{name:'MC-ED532_premiação_terça_2',sent:133919,del:49571,clicks:418,ctr:0.84,conv:7,rev:225,saldo:false,domingo:false},{name:'MC-ED532_premiação_terça_3',sent:133736,del:51831,clicks:418,ctr:0.81,conv:18,rev:525,saldo:false,domingo:false},{name:'MC-ED532_domingo ',sent:38501,del:16597,clicks:246,ctr:1.48,conv:24,rev:750,saldo:false,domingo:true},],
+    camps:[{name:'MC - Premiação_ed532_ultimas_horas_sabado',subject:`Corre! As vendas estão quase no fim🚨`,sent:85578,or:3.46,ctr:0.22,conv:50,rev:1425,desg:false,saldo:false},{name:'MC - Premiação_ed532_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:92480,or:7.3,ctr:0.17,conv:43,rev:1450,desg:false,saldo:false},{name:'MC - Premiação_ed532_quarta',subject:`Especial Dia dos Pais com mais de R$2 milhões! 💰`,sent:91710,or:6.71,ctr:0.16,conv:30,rev:850,desg:false,saldo:false},{name:'MC - Premiação_ed532_quinta',subject:`O melhor presente do Dia dos Pais custa R$25🎁`,sent:90355,or:6.49,ctr:0.12,conv:25,rev:725,desg:false,saldo:false},{name:'MC - Premiação_ed532_sexta',subject:`Dia dos Pais com mais de R$2 milhões em prêmios👨`,sent:88297,or:5.91,ctr:0.16,conv:35,rev:1000,desg:false,saldo:false},{name:'MC - Premiação_ed532_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje🏆`,sent:87441,or:5.07,ctr:0.18,conv:35,rev:1025,desg:false,saldo:false},{name:'MC - Premiação_ed532_terça_2',subject:`Seu pai merece o melhor presente🎁`,sent:92790,or:6.85,ctr:0.17,conv:23,rev:625,desg:false,saldo:false},{name:'MC - Premiação_ed532_quinta_2',subject:`Seu pai vai AMAR um presente de + de 2 MILHÕES 🎁`,sent:91197,or:6.53,ctr:0.15,conv:31,rev:875,desg:false,saldo:false},{name:'MC - Premiação_ed532_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:216192,or:12.33,ctr:0.31,conv:85,rev:2700,desg:true,saldo:false},]
   },
   sm:{
     name:'Super Minas',col:'#c47a00',col2:'#E30613',prem:'R$ 800 mil em prêmios',
     ed:'448',val:20,meta_fat:25000,meta_roas:6.9,bm_or:6.3,bm_ctor:1.6,bm_wc:0.69,
     ga4_rev:15020,ga4_comp:682,ga4_roas:3.5,
-    email_sent:355522,email_or:7.35,email_ctr:0.14,email_rev:2780,
-    wp_sent:824196,wp_del:302061,wp_ctr:0.26,wp_conv:154,wp_rev:3860,
+    email_sent:355522,email_or:7.35,email_ctr:0.14,email_rev:2700,
+    wp_sent:824196,wp_del:302061,wp_ctr:0.26,wp_conv:155,wp_rev:3220,
     extras:{jornada:{label:'Jornada — Compra Abandonada',periodo:'30/jul–11/ago',entradas:28224,saidas:5138,conv:24,rev:560,canais:[{canal:'Web Push',sent:21845,del:11265,clicks:403,ctr:3.58,conv:13,rev:300},{canal:'Email',sent:5772,del:5533,clicks:48,ctr:0.49,conv:3,rev:80},{canal:'Pop Up on-site',sent:0,del:198,clicks:46,ctr:23.23,conv:8,rev:180},{canal:'App Push',sent:70,del:70,clicks:3,ctr:4.29,conv:0,rev:0}]},popup_sessao:{label:'Pop Up — Abandono de Sessão',periodo:'07–09/ago',imp:113,clicks:47,ctr:41.6,conv:1,rev:60},popup_prem:{label:'Pop Up — Premiação (Pág. Resultados)',periodo:'02–09/ago',imp:1628,clicks:91,ctr:5.6,conv:2,rev:null},popup_saldo:{label:'Pop Up — Saldo (Home)',periodo:'02–09/ago',imp:61,clicks:17,ctr:27.9,conv:0,rev:0},},
-    wp_camps:[{name:'SM-Edicao448_quarta',sent:54312,del:20890,clicks:175,ctr:0.84,conv:12,rev:380,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_2',sent:54182,del:19853,clicks:151,ctr:0.76,conv:7,rev:140,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_3',sent:54110,del:20986,clicks:161,ctr:0.77,conv:10,rev:260,saldo:false,domingo:false},{name:'SM-Edicao448_quinta',sent:54052,del:20574,clicks:123,ctr:0.6,conv:7,rev:260,saldo:false,domingo:false},{name:'SM-Edicao448_quinta_2 ',sent:53937,del:19347,clicks:107,ctr:0.55,conv:5,rev:100,saldo:false,domingo:false},{name:'SM-Edicao448_quinta_3 ',sent:53861,del:20287,clicks:106,ctr:0.52,conv:11,rev:300,saldo:false,domingo:false},{name:'SM-Edicao448_sabado',sent:53499,del:18152,clicks:128,ctr:0.71,conv:12,rev:380,saldo:false,domingo:false},{name:'SM-Edicao448_sabado_2',sent:53389,del:18061,clicks:124,ctr:0.69,conv:8,rev:160,saldo:false,domingo:false},{name:'SM-Edicao448_sabado_3',sent:53360,del:18520,clicks:106,ctr:0.57,conv:4,rev:80,saldo:false,domingo:false},{name:'SM-Edicao448_sexta',sent:53788,del:19419,clicks:120,ctr:0.62,conv:6,rev:140,saldo:false,domingo:false},{name:'SM-Edicao448_sexta_2',sent:53683,del:19123,clicks:97,ctr:0.51,conv:10,rev:200,saldo:false,domingo:false},{name:'SM-Edicao448_sexta_3  ',sent:53625,del:19724,clicks:122,ctr:0.62,conv:14,rev:320,saldo:false,domingo:false},{name:'SM-Edicao448_terça',sent:54608,del:19829,clicks:176,ctr:0.89,conv:15,rev:420,saldo:false,domingo:false},{name:'SM-Edicao448_terça_2',sent:54434,del:19619,clicks:183,ctr:0.93,conv:8,rev:180,saldo:false,domingo:false},{name:'SM-Edicao448_terça_3',sent:54371,del:21308,clicks:163,ctr:0.76,conv:10,rev:220,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_campanha_saldo ',sent:62,del:21,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_quinta_campanha_saldo ',sent:61,del:18,clicks:2,ctr:11.11,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_sabado_campanha_saldo',sent:60,del:26,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_segunda_campanha_saldo',sent:63,del:19,clicks:1,ctr:5.26,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_sexta_campanha_saldo  ',sent:61,del:23,clicks:1,ctr:4.35,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_terça_campanha_saldo ',sent:62,del:20,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_domingo  ',sent:14616,del:6242,clicks:95,ctr:1.52,conv:15,rev:320,saldo:false,domingo:true},],
-    camps:[{name:'SMC - Premiação_ed448_ultimas_horas',subject:`Corre! As vendas estão quase no fim 😱`,sent:34938,or:3.35,ctr:0.16,conv:17,rev:340,desg:false,saldo:false},{name:'SMC - Premiação_ed448_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:37832,or:6.51,ctr:0.15,conv:16,rev:360,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quarta',subject:`Especial Dia dos Pais com R$800 mil em prêmios! 💰`,sent:37528,or:6.27,ctr:0.09,conv:12,rev:240,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quinta',subject:`O melhor presente do Dia dos Pais custa R$20🎁`,sent:36950,or:5.91,ctr:0.09,conv:12,rev:260,desg:false,saldo:false},{name:'SMC - Premiação_ed448_sexta',subject:`Dia dos Pais com R$800 mil em prêmios 👨`,sent:36085,or:5.51,ctr:0.11,conv:9,rev:240,desg:false,saldo:false},{name:'SMC - Premiação_ed448_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje 🏆`,sent:35693,or:4.7,ctr:0.11,conv:12,rev:300,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quinta_2',subject:`Seu pai vai AMAR um presente de 800 mil reais🎁`,sent:37409,or:5.98,ctr:0.07,conv:9,rev:200,desg:false,saldo:false},{name:'SMC - Premiação_ed448_terça_2',subject:`Seu pai merece o melhor presente🎁`,sent:38055,or:6.48,ctr:0.11,conv:15,rev:300,desg:false,saldo:false},{name:'SMC - Premiação_ed448_segunda_campanha_saldo',subject:`Você ganhou um bônus especial de R$10,00 🎁`,sent:862,or:32.9,ctr:2.0,conv:5,rev:120,desg:false,saldo:true},{name:'SMC - Premiação_ed448_terça_campanha_saldo',subject:`Ei, já deu uma olhada no seu saldo Super Minas?  💰`,sent:845,or:28.43,ctr:0.84,conv:1,rev:20,desg:false,saldo:true},{name:'SMC - Premiação_ed448_quarta_campanha_saldo',subject:`Você tem R$10 de presente esperando🎁`,sent:850,or:26.86,ctr:1.08,conv:2,rev:40,desg:false,saldo:true},{name:'SMC - Premiação_ed448_quinta_campanha_saldo',subject:`Seu presente de Dia dos Pais ainda está aqui👨`,sent:845,or:25.15,ctr:0.48,conv:0,rev:0,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sexta_campanha_saldo',subject:`Últimos 2 dias do seu saldo exclusivo⏰`,sent:840,or:23.24,ctr:0.73,conv:4,rev:100,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sabado_campanha_saldo',subject:`Hoje é o último dia de usar seu saldo! 🚨`,sent:835,or:20.71,ctr:0.85,conv:2,rev:20,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:55955,or:14.69,ctr:0.25,conv:9,rev:240,desg:true,saldo:false},],
+    wp_camps:[{name:'SM-Edicao448_quarta',sent:54312,del:20890,clicks:175,ctr:0.84,conv:11,rev:240,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_2',sent:54182,del:19853,clicks:151,ctr:0.76,conv:8,rev:160,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_3',sent:54110,del:20986,clicks:161,ctr:0.77,conv:10,rev:200,saldo:false,domingo:false},{name:'SM-Edicao448_quinta',sent:54052,del:20574,clicks:123,ctr:0.6,conv:6,rev:120,saldo:false,domingo:false},{name:'SM-Edicao448_quinta_2 ',sent:53937,del:19347,clicks:107,ctr:0.55,conv:4,rev:80,saldo:false,domingo:false},{name:'SM-Edicao448_quinta_3 ',sent:53861,del:20287,clicks:106,ctr:0.52,conv:8,rev:160,saldo:false,domingo:false},{name:'SM-Edicao448_sabado',sent:53499,del:18152,clicks:128,ctr:0.71,conv:12,rev:260,saldo:false,domingo:false},{name:'SM-Edicao448_sabado_2',sent:53389,del:18061,clicks:124,ctr:0.69,conv:12,rev:240,saldo:false,domingo:false},{name:'SM-Edicao448_sabado_3',sent:53360,del:18520,clicks:106,ctr:0.57,conv:9,rev:180,saldo:false,domingo:false},{name:'SM-Edicao448_sexta',sent:53788,del:19419,clicks:120,ctr:0.62,conv:7,rev:140,saldo:false,domingo:false},{name:'SM-Edicao448_sexta_2',sent:53683,del:19123,clicks:97,ctr:0.51,conv:7,rev:140,saldo:false,domingo:false},{name:'SM-Edicao448_sexta_3  ',sent:53625,del:19724,clicks:122,ctr:0.62,conv:15,rev:300,saldo:false,domingo:false},{name:'SM-Edicao448_terça',sent:54608,del:19829,clicks:176,ctr:0.89,conv:11,rev:260,saldo:false,domingo:false},{name:'SM-Edicao448_terça_2',sent:54434,del:19619,clicks:183,ctr:0.93,conv:11,rev:220,saldo:false,domingo:false},{name:'SM-Edicao448_terça_3',sent:54371,del:21308,clicks:163,ctr:0.76,conv:12,rev:280,saldo:false,domingo:false},{name:'SM-Edicao448_quarta_campanha_saldo ',sent:62,del:21,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_quinta_campanha_saldo ',sent:61,del:18,clicks:2,ctr:11.11,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_sabado_campanha_saldo',sent:60,del:26,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_segunda_campanha_saldo',sent:63,del:19,clicks:1,ctr:5.26,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_sexta_campanha_saldo  ',sent:61,del:23,clicks:1,ctr:4.35,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_terça_campanha_saldo ',sent:62,del:20,clicks:0,ctr:0.0,conv:0,rev:0,saldo:true,domingo:false},{name:'SM-Edicao448_domingo  ',sent:14616,del:6242,clicks:95,ctr:1.52,conv:12,rev:240,saldo:false,domingo:true},],
+    camps:[{name:'SMC - Premiação_ed448_ultimas_horas',subject:`Corre! As vendas estão quase no fim 😱`,sent:34938,or:3.35,ctr:0.16,conv:19,rev:400,desg:false,saldo:false},{name:'SMC - Premiação_ed448_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:37832,or:6.51,ctr:0.15,conv:13,rev:280,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quarta',subject:`Especial Dia dos Pais com R$800 mil em prêmios! 💰`,sent:37528,or:6.27,ctr:0.09,conv:11,rev:240,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quinta',subject:`O melhor presente do Dia dos Pais custa R$20🎁`,sent:36950,or:5.91,ctr:0.09,conv:11,rev:240,desg:false,saldo:false},{name:'SMC - Premiação_ed448_sexta',subject:`Dia dos Pais com R$800 mil em prêmios 👨`,sent:36085,or:5.51,ctr:0.11,conv:9,rev:200,desg:false,saldo:false},{name:'SMC - Premiação_ed448_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje 🏆`,sent:35693,or:4.7,ctr:0.11,conv:12,rev:260,desg:false,saldo:false},{name:'SMC - Premiação_ed448_quinta_2',subject:`Seu pai vai AMAR um presente de 800 mil reais🎁`,sent:37409,or:5.98,ctr:0.07,conv:8,rev:180,desg:false,saldo:false},{name:'SMC - Premiação_ed448_terça_2',subject:`Seu pai merece o melhor presente🎁`,sent:38055,or:6.48,ctr:0.11,conv:6,rev:120,desg:false,saldo:false},{name:'SMC - Premiação_ed448_segunda_campanha_saldo',subject:`Você ganhou um bônus especial de R$10,00 🎁`,sent:862,or:32.9,ctr:2.0,conv:5,rev:120,desg:false,saldo:true},{name:'SMC - Premiação_ed448_terça_campanha_saldo',subject:`Ei, já deu uma olhada no seu saldo Super Minas?  💰`,sent:845,or:28.43,ctr:0.84,conv:1,rev:20,desg:false,saldo:true},{name:'SMC - Premiação_ed448_quarta_campanha_saldo',subject:`Você tem R$10 de presente esperando🎁`,sent:850,or:26.86,ctr:1.08,conv:2,rev:40,desg:false,saldo:true},{name:'SMC - Premiação_ed448_quinta_campanha_saldo',subject:`Seu presente de Dia dos Pais ainda está aqui👨`,sent:845,or:25.15,ctr:0.48,conv:0,rev:0,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sexta_campanha_saldo',subject:`Últimos 2 dias do seu saldo exclusivo⏰`,sent:840,or:23.24,ctr:0.73,conv:4,rev:100,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sabado_campanha_saldo',subject:`Hoje é o último dia de usar seu saldo! 🚨`,sent:835,or:20.71,ctr:0.85,conv:2,rev:20,desg:false,saldo:true},{name:'SMC - Premiação_ed448_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:55955,or:14.69,ctr:0.25,conv:19,rev:480,desg:true,saldo:false},],
     acoes:[{icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários com R$800 mil em prêmios. Terça a sábado, múltiplos horários.'},{icon:'🔔',title:'Web Push — Campanha Saldo',desc:'"Você foi escolhido!" — WP específico para a base selecionada com oferta de saldo.'},{icon:'📧',title:'E-mail — Premiação',desc:'Campanhas de premiação enviadas diariamente de terça a sábado para base excluindo quem tem input de saldo.'},{icon:'📧',title:'E-mail — Awareness',desc:'2 envios especiais na terça e na quinta com comunicação de awareness da ação Dia dos Pais.'},{icon:'📧',title:'E-mail — Reativação',desc:'OR 14,69% — quase o dobro da média. Enviado na sexta.'},{icon:'📧',title:'E-mail — Últimas Horas',desc:'Sábado — urgência de encerramento.'},{icon:'📧',title:'E-mail — Campanha Saldo ⚡',desc:'Base ultra-segmentada: 5.077 pessoas. OR 26,25% vs 7,35% regular. "Você foi escolhido!"'},{icon:'📱',title:'Pop Up — Saldo (Home)',desc:'"Boa notícia! Você possui saldo disponível. Que tal presentear seu pai?"'},{icon:'📱',title:'Pop Up — Premiação (Pág. Resultados)',desc:'Exibido para quem não comprou na edição vigente — AON.'},{icon:'🔄',title:'Jornada — Compra Abandonada',desc:'Email + Web Push + Pop Up: "Você quase garantiu seu título de Dia dos Pais!"'},{icon:'📱',title:'Pop Up — Abandono de Sessão',desc:'"Espera um segundo... Domingo tem R$800 mil. Vai ficar sem a sua chance?"'},{icon:'📧',title:'E-mail — Reativação (Ação Extra)',desc:'Awareness para base que não interagiu recentemente. Tema presente para o pai.'},{icon:'📨',title:'ERP Push — Régua Diária',desc:'De terça a sábado, 2 a 8 disparos/dia.'},],
     saldo:{
     base:887,
@@ -1239,8 +1215,8 @@ const DIAPAIS = {
     name:'Super Vale',col:'#c85000',col2:'#FDC300',prem:'R$ 500 mil em prêmios',
     ed:'439',val:10,meta_fat:13000,meta_roas:5.9,bm_or:5.7,bm_ctor:2.3,bm_wc:0.72,
     ga4_rev:7230,ga4_comp:320,ga4_roas:3.3,
-    email_sent:200979,email_or:6.36,email_ctr:0.15,email_rev:1720,
-    wp_sent:456939,wp_del:164378,wp_ctr:0.28,wp_conv:80,wp_rev:1920,
+    email_sent:200979,email_or:6.36,email_ctr:0.15,email_rev:1420,
+    wp_sent:456939,wp_del:164378,wp_ctr:0.28,wp_conv:68,wp_rev:1500,
     extras:{
     base_norte:{label:'Ação Base Cap do Norte → Super Vale',periodo:'07–08/ago',
       desc:'Comunicações direcionando clientes da base Cap do Norte para compra de títulos Super Vale. Conversões inclusas no total GA4 de SV.',
@@ -1264,8 +1240,8 @@ const DIAPAIS = {
     popup_prem:{label:'Pop Up — Premiação (Pág. Resultados)',periodo:'02–09/ago',imp:812,clicks:66,ctr:8.1,conv:0,rev:null},
     popup_saldo:{label:'Pop Up — Saldo (Home)',periodo:'02–09/ago',imp:29,clicks:7,ctr:24.1,conv:2,rev:null}
   },
-    wp_camps:[{name:'SV-Ed439_premiação_quarta',sent:28552,del:10693,clicks:77,ctr:0.72,conv:8,rev:220,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quarta_2',sent:28539,del:10170,clicks:97,ctr:0.95,conv:2,rev:60,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quarta_3',sent:28531,del:10882,clicks:106,ctr:0.97,conv:7,rev:180,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta',sent:28486,del:10444,clicks:74,ctr:0.71,conv:5,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta_2',sent:28495,del:9799,clicks:66,ctr:0.67,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta_3',sent:28516,del:10705,clicks:77,ctr:0.72,conv:6,rev:120,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado',sent:28577,del:9527,clicks:53,ctr:0.56,conv:5,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado_2',sent:28682,del:9501,clicks:66,ctr:0.69,conv:2,rev:40,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado_3',sent:28768,del:9990,clicks:71,ctr:0.71,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta',sent:28460,del:10493,clicks:55,ctr:0.52,conv:1,rev:40,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta_2',sent:28468,del:9852,clicks:56,ctr:0.57,conv:3,rev:60,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta_3',sent:28535,del:10399,clicks:49,ctr:0.47,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça',sent:28615,del:10515,clicks:83,ctr:0.79,conv:5,rev:120,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça_2',sent:28593,del:10196,clicks:90,ctr:0.88,conv:8,rev:280,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça_3',sent:28584,del:11022,clicks:73,ctr:0.66,conv:6,rev:160,saldo:false,domingo:false},{name:'SV-Ed439_domingo ',sent:28538,del:10190,clicks:168,ctr:1.65,conv:10,rev:200,saldo:false,domingo:true},],
-    camps:[{name:'SV_Premiação_ed439_ultimas horas',subject:`Corre! As vendas estão quase no fim 😱`,sent:20132,or:3.25,ctr:0.12,conv:8,rev:140,desg:false,saldo:false},{name:'SV_Premiação_ed439_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:21486,or:5.98,ctr:0.15,conv:9,rev:340,desg:false,saldo:false},{name:'SV_Premiação_ed439_quarta',subject:`Especial Dia dos Pais com MEIO MILHÃO em prêmios! 💰`,sent:21349,or:5.87,ctr:0.16,conv:8,rev:180,desg:false,saldo:false},{name:'SV_Premiação_ed439_quinta',subject:`O melhor presente do Dia dos Pais custa R$20 🎁`,sent:21105,or:5.61,ctr:0.1,conv:5,rev:120,desg:false,saldo:false},{name:'SV_Premiação_ed439_sexta',subject:`Dia dos Pais com MEIO MILHÃO em prêmios 👨`,sent:20728,or:5.1,ctr:0.17,conv:9,rev:200,desg:false,saldo:false},{name:'SV_Premiação_ed439_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje🏆`,sent:20548,or:4.45,ctr:0.16,conv:8,rev:220,desg:false,saldo:false},{name:'SV_Premiação_ed439_terça_2',subject:`Seu pai merece o melhor presente 🎁`,sent:21537,or:6.01,ctr:0.15,conv:6,rev:120,desg:false,saldo:false},{name:'SV_Premiação_ed439_quinta_2',subject:`Presentão para o papai: MEIO MILHÃO em prêmios!🎁`,sent:21248,or:5.49,ctr:0.12,conv:8,rev:200,desg:false,saldo:false},{name:'SV_Premiação_ed439_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:32846,or:12.05,ctr:0.22,conv:8,rev:200,desg:true,saldo:false},],
+    wp_camps:[{name:'SV-Ed439_premiação_quarta',sent:28552,del:10693,clicks:77,ctr:0.72,conv:4,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quarta_2',sent:28539,del:10170,clicks:97,ctr:0.95,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quarta_3',sent:28531,del:10882,clicks:106,ctr:0.97,conv:7,rev:160,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta',sent:28486,del:10444,clicks:74,ctr:0.71,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta_2',sent:28495,del:9799,clicks:66,ctr:0.67,conv:2,rev:40,saldo:false,domingo:false},{name:'SV-Ed439_premiação_quinta_3',sent:28516,del:10705,clicks:77,ctr:0.72,conv:2,rev:40,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado',sent:28577,del:9527,clicks:53,ctr:0.56,conv:5,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado_2',sent:28682,del:9501,clicks:66,ctr:0.69,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sabado_3',sent:28768,del:9990,clicks:71,ctr:0.71,conv:5,rev:140,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta',sent:28460,del:10493,clicks:55,ctr:0.52,conv:0,rev:0,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta_2',sent:28468,del:9852,clicks:56,ctr:0.57,conv:5,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_sexta_3',sent:28535,del:10399,clicks:49,ctr:0.47,conv:5,rev:100,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça',sent:28615,del:10515,clicks:83,ctr:0.79,conv:3,rev:60,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça_2',sent:28593,del:10196,clicks:90,ctr:0.88,conv:7,rev:200,saldo:false,domingo:false},{name:'SV-Ed439_premiação_terça_3',sent:28584,del:11022,clicks:73,ctr:0.66,conv:4,rev:80,saldo:false,domingo:false},{name:'SV-Ed439_domingo ',sent:28538,del:10190,clicks:168,ctr:1.65,conv:7,rev:140,saldo:false,domingo:true},],
+    camps:[{name:'SV_Premiação_ed439_ultimas horas',subject:`Corre! As vendas estão quase no fim 😱`,sent:20132,or:3.25,ctr:0.12,conv:7,rev:140,desg:false,saldo:false},{name:'SV_Premiação_ed439_terça',subject:`Seu pai quer MUITO que você abra esse email 💙`,sent:21486,or:5.98,ctr:0.15,conv:7,rev:240,desg:false,saldo:false},{name:'SV_Premiação_ed439_quarta',subject:`Especial Dia dos Pais com MEIO MILHÃO em prêmios! 💰`,sent:21349,or:5.87,ctr:0.16,conv:7,rev:160,desg:false,saldo:false},{name:'SV_Premiação_ed439_quinta',subject:`O melhor presente do Dia dos Pais custa R$20 🎁`,sent:21105,or:5.61,ctr:0.1,conv:5,rev:100,desg:false,saldo:false},{name:'SV_Premiação_ed439_sexta',subject:`Dia dos Pais com MEIO MILHÃO em prêmios 👨`,sent:20728,or:5.1,ctr:0.17,conv:10,rev:200,desg:false,saldo:false},{name:'SV_Premiação_ed439_sabado',subject:`O Dia dos Pais mais premiado de MINAS encerra hoje🏆`,sent:20548,or:4.45,ctr:0.16,conv:6,rev:140,desg:false,saldo:false},{name:'SV_Premiação_ed439_terça_2',subject:`Seu pai merece o melhor presente 🎁`,sent:21537,or:6.01,ctr:0.15,conv:5,rev:100,desg:false,saldo:false},{name:'SV_Premiação_ed439_quinta_2',subject:`Presentão para o papai: MEIO MILHÃO em prêmios!🎁`,sent:21248,or:5.49,ctr:0.12,conv:7,rev:180,desg:false,saldo:false},{name:'SV_Premiação_ed439_sexta_desengajados',subject:`Cadê você? A sorte perguntou 🍀`,sent:32846,or:12.05,ctr:0.22,conv:8,rev:160,desg:true,saldo:false},],
     acoes:[{icon:'🔔',title:'Web Push — Premiação',desc:'Disparos diários com Meio Milhão em prêmios. Terça a sábado.'},{icon:'📧',title:'E-mail — Premiação',desc:'Campanhas de premiação enviadas diariamente de terça a sábado.'},{icon:'📧',title:'E-mail — Awareness',desc:'2 envios especiais na terça e na quinta com comunicação de awareness da ação Dia dos Pais.'},{icon:'📧',title:'E-mail — Reativação',desc:'OR 12,05% — quase o dobro da média. Enviado na sexta.'},{icon:'📧',title:'E-mail — Últimas Horas',desc:'Sábado — urgência de encerramento.'},{icon:'📱',title:'Pop Up — Premiação (Pág. Resultados)',desc:'Exibido para quem não comprou na edição vigente.'},{icon:'📱',title:'Pop Up — Saldo (Home)',desc:'Incentivo ao uso do saldo na compra.'},{icon:'🔄',title:'Jornada — Compra Abandonada',desc:'Email + Web Push + Pop Up: "Você quase garantiu seu título de Dia dos Pais!"'},{icon:'📱',title:'Pop Up — Abandono de Sessão',desc:'Reforço do prêmio para usuários saindo do site.'},{icon:'📧',title:'E-mail — Reativação',desc:'Awareness para base sem interação recente.'},{icon:'📧',title:'E-mail — Base Full Cap do Norte',desc:'Ação específica para base da região Norte. Início 07/08.'},{icon:'📨',title:'ERP Push — Régua Diária',desc:'De terça a sábado, 2 a 8 disparos/dia.'},],
     saldo:null
   },
@@ -1456,10 +1432,25 @@ const PMO = {
 };
 
 const CP={
-mc:{cats:[{c:'personalizacao',op:26.88,ctr:0.30,val:[{v:10,op:22.1},{v:15,op:27.4},{v:20,op:31.2},{v:25,op:28.9},{v:5,op:24.3}]},{c:'outros',op:19.12,ctr:0.29,val:[{v:10,op:17.8},{v:15,op:19.4},{v:20,op:21.0},{v:25,op:18.5},{v:5,op:16.2}]},{c:'resultado_sorteio',op:16.77,ctr:3.47,val:[{v:10,op:15.2},{v:15,op:17.1},{v:20,op:18.3},{v:25,op:16.9},{v:5,op:14.8}]},{c:'curiosidade',op:16.22,ctr:0.95,val:[{v:10,op:14.9},{v:15,op:16.5},{v:20,op:17.8},{v:25,op:15.6},{v:5,op:13.4}]},{c:'urgencia',op:14.50,ctr:0.23,val:[{v:10,op:13.2},{v:15,op:14.8},{v:20,op:16.1},{v:25,op:14.2},{v:5,op:12.9}]},{c:'premiacao_valor',op:9.22,ctr:0.16,val:[{v:10,op:8.5},{v:15,op:9.3},{v:20,op:10.8},{v:25,op:11.2},{v:5,op:7.9}]},{c:'sazonalidade',op:8.00,ctr:0.18,val:[{v:10,op:7.5},{v:15,op:8.2},{v:20,op:9.1},{v:25,op:8.8},{v:5,op:7.1}]}],elem:{sem_emoji:29.92,com_emoji:9.47,sem_caps:19.19,com_caps:9.14,com_pergunta:11.11,sem_pergunta:14.68},hour:[{h:'17h',v:54.88},{h:'19h',v:45.84},{h:'20h',v:44.45},{h:'13h',v:43.05},{h:'14h',v:42.93},{h:'21h',v:41.72},{h:'11h',v:36.86},{h:'16h',v:35.27}],dow:[{d:'Sexta',v:14.72},{d:'Quinta',v:14.67},{d:'Sábado',v:12.83},{d:'Quarta',v:12.38},{d:'Terça',v:11.50},{d:'Segunda',v:10.91},{d:'Domingo',v:9.57}],len:[{l:'Curto (<30)',op:18.95,ctr:0.48},{l:'Médio (30-50)',op:11.49,ctr:0.51},{l:'Longo (>50)',op:8.44,ctr:0.42}],topOpen:[{s:'@minascap marcou você!',sn:30600,op:66.16,ctr:0.77,rv:470,cat:'personalizacao'},{s:'Não deixe a sorte escapar!',sn:28401,op:62.61,ctr:0.42,rv:460,cat:'urgencia'},{s:'O próximo sorteado pode ser você!',sn:29114,op:60.53,ctr:0.36,rv:390,cat:'personalizacao'},{s:'Essa pode ser a sua chance!',sn:38276,op:51.03,ctr:0.38,rv:250,cat:'personalizacao'},{s:'O alivio para o seu começo de ano!',sn:44454,op:45.27,ctr:0.63,rv:1040,cat:'outros'},{s:'Já conferiu o que preparamos para você?',sn:54823,op:43.34,ctr:0.37,rv:1460,cat:'curiosidade'},{s:'Está imperdível!',sn:54736,op:43.60,ctr:0.37,rv:1020,cat:'outros'},{s:'Hoje acaba!',sn:52881,op:42.72,ctr:0.51,rv:1670,cat:'urgencia'},{s:'SAIU GANHADOR! 🏆',sn:4207,op:18.91,ctr:6.62,rv:1840,cat:'resultado_sorteio'},{s:'Resultado do sorteio Minas Cap: confira agora 👀',sn:5251,op:13.77,ctr:2.91,rv:495,cat:'resultado_sorteio'}],worst:[{s:'🚀 370 MIL TOTAIS: ESSE TÍTULO ESTÁ INCRÍVEL!',sn:571244,op:4.86,ctr:0.05,rv:420,cat:'premiacao_valor'},{s:'💥 PARE de perder as chances que o Minas Cap te dá!',sn:18729,op:4.56,ctr:0.14,rv:40,cat:'personalizacao'},{s:'⏳ 370 MIL AMANHÃ: ÚLTIMA CHAMADA!',sn:11856,op:4.80,ctr:0.10,rv:0,cat:'urgencia'},{s:'💸 Seu prêmio de R$ 370 mil te espera!',sn:45200,op:5.12,ctr:0.08,rv:180,cat:'premiacao_valor'},{s:'Hoje é sua última chance 🔥',sn:139509,op:5.39,ctr:0.16,rv:1215,cat:'urgencia'},{s:'Gira Minas 40x R$2.500 nesse domingo 🤑',sn:140933,op:5.41,ctr:0.08,rv:510,cat:'premiacao_valor'},{s:'💰 MEIO MILHÃO DE REAIS NO 4º!',sn:615206,op:7.90,ctr:0.09,rv:900,cat:'premiacao_valor'},{s:'🏠 O SONHO REALIZADO TÁ NO 4º PRÊMIO!',sn:613608,op:7.80,ctr:0.10,rv:850,cat:'outros'},{s:'MC - Premiação_ed522_sabado_com_saldo',sn:11705,op:5.19,ctr:0,rv:105,cat:'urgencia'},{s:'MC - Premiação_ed523_sabado_com_saldo',sn:11614,op:4.58,ctr:0.08,rv:45,cat:'urgencia'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[32.34,39.20,10.30,9.66,8.70,7.78,6.55],sent:[35682,47342,404533,355432,385042,254448,907932]}},
-sm:{cats:[{c:'personalizacao',op:17.62,ctr:0.35,val:[{v:10,op:14.2},{v:15,op:18.1},{v:20,op:21.3},{v:5,op:13.8}]},{c:'curiosidade',op:17.13,ctr:0.38,val:[{v:10,op:13.9},{v:15,op:17.6},{v:20,op:20.5},{v:5,op:12.4}]},{c:'outros',op:16.25,ctr:0.20,val:[{v:10,op:13.2},{v:15,op:16.8},{v:20,op:19.2},{v:5,op:11.9}]},{c:'urgencia',op:13.95,ctr:0.23,val:[{v:10,op:11.8},{v:15,op:14.3},{v:20,op:16.9},{v:5,op:10.2}]},{c:'resultado_sorteio',op:13.79,ctr:1.10,val:[{v:10,op:12.1},{v:15,op:14.2},{v:20,op:15.8},{v:5,op:11.5}]},{c:'premiacao_valor',op:10.55,ctr:0.16,val:[{v:10,op:9.2},{v:15,op:10.8},{v:20,op:12.4},{v:5,op:8.1}]},{c:'institucional',op:7.81,ctr:0.11,val:[{v:10,op:7.2},{v:15,op:8.1},{v:20,op:9.0},{v:5,op:6.8}]},{c:'sazonalidade',op:6.74,ctr:0.08,val:[{v:10,op:6.1},{v:15,op:6.9},{v:20,op:8.2},{v:5,op:5.8}]}],elem:{sem_emoji:25.00,com_emoji:8.49,sem_caps:18.01,com_caps:7.79,com_pergunta:10.12,sem_pergunta:14.02},hour:[{h:'17h',v:51.20},{h:'19h',v:43.10},{h:'20h',v:41.80},{h:'13h',v:39.50},{h:'14h',v:38.90},{h:'21h',v:38.20},{h:'11h',v:33.40},{h:'16h',v:31.80}],dow:[{d:'Sexta',v:14.10},{d:'Quinta',v:13.90},{d:'Sábado',v:12.20},{d:'Quarta',v:11.80},{d:'Terça',v:10.90},{d:'Segunda',v:10.40},{d:'Domingo',v:9.10}],len:[{l:'Curto (<30)',op:19.50,ctr:0.45},{l:'Médio (30-50)',op:10.80,ctr:0.48},{l:'Longo (>50)',op:7.90,ctr:0.38}],topOpen:[{s:'Seu ano começa premiado!',sn:21521,op:55.15,ctr:0.57,rv:220,cat:'personalizacao'},{s:'O alívio para o seu ano está aqui!',sn:21053,op:54.77,ctr:0.44,rv:340,cat:'personalizacao'},{s:'Última chance para garantir sua sorte!',sn:18598,op:54.57,ctr:0.49,rv:200,cat:'urgencia'},{s:'Comece 2026 com R$180 mil!',sn:18727,op:54.44,ctr:0.45,rv:160,cat:'premiacao_valor'},{s:'2026 vai ser seu ano de sorte!',sn:21511,op:51.71,ctr:0.34,rv:160,cat:'outros'},{s:'VOCÊ É O NOVO GANHADOR? 🏆',sn:6836,op:14.21,ctr:2.96,rv:180,cat:'resultado_sorteio'},{s:'Confira os ganhadores desse domingo! 🏆',sn:3916,op:8.87,ctr:1.30,rv:240,cat:'resultado_sorteio'},{s:'Seu nome pode estar nessa lista! 🏆',sn:4200,op:13.80,ctr:2.10,rv:130,cat:'resultado_sorteio'},{s:'{Nome}, seu mês de sorte começa agora 🍀',sn:182080,op:6.69,ctr:0.06,rv:165,cat:'personalizacao'},{s:'Você ficou de fora do sorteio. No próximo não! 🏆',sn:188638,op:6.65,ctr:0.10,rv:150,cat:'resultado_sorteio'}],worst:[{s:'Realize seus sonhos: Concorra a 170 Mil 😍',sn:17983,op:2.93,ctr:0.07,rv:60,cat:'premiacao_valor'},{s:'Não fique sem receber nossos avisos! 🚨',sn:6206,op:3.38,ctr:0.17,rv:0,cat:'institucional'},{s:'SÓ R$15! Concorra a R$300 mil em prêmios! 🔄',sn:182017,op:4.74,ctr:0.06,rv:330,cat:'premiacao_valor'},{s:'Hoje fecha. Amanhã R$300 mil em prêmios 🏆',sn:178666,op:4.87,ctr:0.08,rv:450,cat:'urgencia'},{s:'SMC - Premiação_ed438_sabado_com_saldo',sn:2037,op:4.67,ctr:0,rv:0,cat:'urgencia'},{s:'ÚLTIMO DIA PARA FICAR RICO! 💸',sn:8500,op:7.00,ctr:0.09,rv:70,cat:'urgencia'},{s:'C I N C O reais. Só isso. 🖐️',sn:9800,op:7.49,ctr:0.07,rv:80,cat:'outros'},{s:'🏆 SÓ OS FORTES CHEGAM AO FINAL!',sn:12000,op:5.80,ctr:0.06,rv:40,cat:'outros'},{s:'Faltam 2 dias. Você vai arriscar perder? 🔥',sn:179787,op:5.78,ctr:0.05,rv:300,cat:'urgencia'},{s:'Clique aqui para ter sorte 🔘',sn:7200,op:7.24,ctr:0.08,rv:50,cat:'curiosidade'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[52.72,32.66,7.54,7.75,7.35,7.05,6.10],sent:[21522,22594,156463,130601,134824,87824,1105956]}},
-sv:{cats:[{c:'outros',op:26.06,ctr:0.21,val:[{v:10,op:22.1},{v:15,op:27.3},{v:20,op:29.8},{v:5,op:19.4}]},{c:'premiacao_valor',op:12.02,ctr:0.19,val:[{v:10,op:10.4},{v:15,op:12.5},{v:20,op:14.2},{v:5,op:9.8}]},{c:'personalizacao',op:10.51,ctr:0.20,val:[{v:10,op:9.2},{v:15,op:10.8},{v:20,op:12.6},{v:5,op:8.4}]},{c:'curiosidade',op:10.32,ctr:0.21,val:[{v:10,op:9.0},{v:15,op:10.6},{v:20,op:12.1},{v:5,op:8.2}]},{c:'resultado_sorteio',op:10.32,ctr:2.59,val:[{v:10,op:9.1},{v:15,op:10.5},{v:20,op:12.0},{v:5,op:8.0}]},{c:'urgencia',op:9.67,ctr:0.24,val:[{v:10,op:8.4},{v:15,op:9.9},{v:20,op:11.2},{v:5,op:7.6}]},{c:'sazonalidade',op:6.35,ctr:0.11,val:[{v:10,op:5.8},{v:15,op:6.5},{v:20,op:7.4},{v:5,op:5.2}]}],elem:{sem_emoji:21.69,com_emoji:8.89,sem_caps:13.92,com_caps:8.62,com_pergunta:9.43,sem_pergunta:14.04},hour:[{h:'17h',v:49.80},{h:'19h',v:41.20},{h:'20h',v:39.60},{h:'13h',v:37.80},{h:'14h',v:36.50},{h:'21h',v:35.90},{h:'11h',v:30.10},{h:'16h',v:28.40}],dow:[{d:'Quinta',v:14.20},{d:'Sexta',v:13.90},{d:'Sábado',v:11.80},{d:'Quarta',v:11.20},{d:'Terça',v:10.60},{d:'Segunda',v:10.10},{d:'Domingo',v:9.00}],len:[{l:'Curto (<30)',op:18.20,ctr:0.42},{l:'Médio (30-50)',op:10.60,ctr:0.47},{l:'Longo (>50)',op:7.80,ctr:0.35}],topOpen:[{s:'Últimos dias para aproveitar!',sn:8436,op:58.55,ctr:0.35,rv:40,cat:'urgencia'},{s:'Super Vale está te esperando!',sn:8455,op:58.27,ctr:0.48,rv:50,cat:'outros'},{s:'Premiação de Ano Novo imperdível!',sn:9321,op:58.05,ctr:0.56,rv:160,cat:'sazonalidade'},{s:'Concorra a R$165 mil em prêmios!',sn:9377,op:57.37,ctr:0.72,rv:90,cat:'premiacao_valor'},{s:'Quer ganhar R$110 mil?',sn:9366,op:55.96,ctr:0.60,rv:80,cat:'premiacao_valor'},{s:'O alívio para o seu ano está aqui!',sn:10388,op:52.07,ctr:0.42,rv:10,cat:'personalizacao'},{s:'Você pode estar na lista de ganhadores! 👀',sn:2401,op:10.21,ctr:3.36,rv:60,cat:'resultado_sorteio'},{s:'Seu nome está na lista de ganhadores? 🍀',sn:3056,op:15.55,ctr:6.69,rv:235,cat:'resultado_sorteio'},{s:'Saiu a lista dos ganhadores do Super Vale! ✨',sn:2672,op:13.56,ctr:5.46,rv:110,cat:'resultado_sorteio'},{s:'Você pode estar na lista de ganhadores! 👀',sn:100301,op:6.45,ctr:0.38,rv:40,cat:'resultado_sorteio'}],worst:[{s:'Só ganha quem concorre 💰💰',sn:8317,op:2.61,ctr:0.06,rv:10,cat:'urgencia'},{s:'R$105 MIL: Fique rico neste domingo! 💰',sn:92679,op:4.50,ctr:0.10,rv:170,cat:'premiacao_valor'},{s:'🚫 Chega de boletos!',sn:6800,op:6.91,ctr:0.07,rv:20,cat:'outros'},{s:'Só compra o SUPER VALE quem quiser ficar rico! 💰',sn:7500,op:6.28,ctr:0.06,rv:25,cat:'outros'},{s:'🔥 Sua sorte muda HOJE!',sn:8900,op:6.80,ctr:0.07,rv:30,cat:'urgencia'},{s:'Super Vale: sua chance de ouro! 🥇',sn:6400,op:7.10,ctr:0.09,rv:20,cat:'outros'},{s:'VEM VER O QUE ROLA NO INSTA 📸',sn:7200,op:6.49,ctr:0.08,rv:15,cat:'outros'},{s:'SV_Premiação_ed429_sabado_com_saldo',sn:1469,op:4.39,ctr:0,rv:10,cat:'urgencia'},{s:'SV_Premiação_ed429_sabado_sem_saldo',sn:92665,op:4.48,ctr:0,rv:130,cat:'urgencia'}],decay:{months:['dez/25','jan/26','fev/26','mar/26','abr/26','mai/26','jun/26'],open:[56.66,30.61,7.85,8.09,7.17,6.80,5.55],sent:[9372,13216,76688,67628,61212,39676,575595]}}};
-
+mc:{cats:[{c: "resultado_sorteio", op: 8.69, ctr: 0.56, n: 62}, {c: "institucional", op: 8.35, ctr: 0.13, n: 5}, {c: "personalizacao", op: 8.14, ctr: 0.11, n: 37}, {c: "premiacao_valor", op: 7.94, ctr: 0.12, n: 94}, {c: "urgencia", op: 7.86, ctr: 0.14, n: 46}, {c: "outros", op: 7.82, ctr: 0.13, n: 38}, {c: "curiosidade", op: 7.58, ctr: 0.1, n: 11}],elem:{sem_emoji:8.46,com_emoji:8.02,sem_caps:8.13,com_caps:7.98,com_pergunta:8.2,sem_pergunta:7.97},
+ hour:[{h: "15h", v: 9.1, n: 4}, {h: "09h", v: 8.69, n: 7}, {h: "10h", v: 8.38, n: 23}, {h: "17h", v: 7.93, n: 43}, {h: "07h", v: 7.92, n: 209}],dow:[{d: "Segunda", v: 8.72, n: 46}, {d: "Terça", v: 8.26, n: 36}, {d: "Sexta", v: 8.06, n: 59}, {d: "Sábado", v: 7.98, n: 59}, {d: "Quarta", v: 7.85, n: 44}, {d: "Quinta", v: 7.45, n: 49}],len:[{l: "Curto (<30)", op: 8.14, ctr: 0.2, n: 30}, {l: "Médio (30-50)", op: 7.99, ctr: 0.18, n: 241}, {l: "Longo (>50)", op: 8.42, ctr: 0.21, n: 24}],
+ topOpen:[{s: "🏆 SAIU O RESULTA DA SEMANA! Veja se você ganhou!", sn: 22830, op: 15.24, ctr: 5.71, rv: 1800, cat: "resultado_sorteio"}, {s: "Cadê você? A sorte perguntou 🍀", sn: 216192, op: 15.04, ctr: 0.39, rv: 2030, cat: "personalizacao"}, {s: "{{c_nome_social|Amigo(a)}} tem novidade!", sn: 95478, op: 9.88, ctr: 0.74, rv: 1705, cat: "outros"}, {s: "💰SAIU A LISTA DOS GANHADORES DO SORTEIO!", sn: 613332, op: 9.79, ctr: 1.18, rv: 2400, cat: "resultado_sorteio"}, {s: "🌟 Obrigado por transformar vidas com a gente!", sn: 128643, op: 9.75, ctr: 0.14, rv: 790, cat: "outros"}, {s: "Você participou ano passado. Volte agora! 🌸", sn: 66445, op: 9.59, ctr: 0.67, rv: 425, cat: "urgencia"}],
+ worst:[{s: "🚀 370 MIL TOTAIS: ESSE TÍTULO ESTA INCRÍVEL! ", sn: 571244, op: 5.54, ctr: 0.05, rv: 665, cat: "outros"}, {s: "{{name|Amigo(a)}}, é agora ou nunca! 🔥", sn: 87320, op: 5.71, ctr: 0.26, rv: 1365, cat: "urgencia"}, {s: "💎 150 MIL NO 4º PRÊMIO: JÁ IMAGINOU ESSE PIX?", sn: 569647, op: 5.79, ctr: 0.05, rv: 660, cat: "curiosidade"}, {s: "💎 Dois prêmios de R$130 MIL? É real!", sn: 580406, op: 5.9, ctr: 0.06, rv: 795, cat: "premiacao_valor"}, {s: "💰 SÓ R$15! Menos que um ovo de Páscoa hein😉", sn: 620437, op: 6.05, ctr: 0.05, rv: 785, cat: "premiacao_valor"}, {s: "R$380 mil em prêmios. Seu título: R$15💰", sn: 87903, op: 6.18, ctr: 0.13, rv: 510, cat: "premiacao_valor"}],
+ decay:{months: ["mar/26", "abr/26", "mai/26", "jun/26", "jul/26", "ago/26"], open: [8.43, 7.76, 7.84, 8.06, 8.38, 8.24], sent: [14572728, 15786736, 14756089, 3558795, 4699429, 1671465]},
+ meta:{camp: 295, del: 52627667, op: 8.04, ctr: 0.19}},
+sm:{cats:[{c: "resultado_sorteio", op: 7.42, ctr: 0.24, n: 65}, {c: "personalizacao", op: 7.35, ctr: 0.09, n: 32}, {c: "outros", op: 7.31, ctr: 0.09, n: 30}, {c: "curiosidade", op: 7.25, ctr: 0.09, n: 8}, {c: "urgencia", op: 7.01, ctr: 0.1, n: 42}, {c: "premiacao_valor", op: 6.97, ctr: 0.08, n: 95}],elem:{sem_emoji:7.48,com_emoji:7.11,sem_caps:7.21,com_caps:7.09,com_pergunta:7.22,sem_pergunta:7.13},
+ hour:[{h: "17h", v: 7.54, n: 47}, {h: "12h", v: 7.5, n: 4}, {h: "07h", v: 7.09, n: 197}, {h: "10h", v: 6.94, n: 19}],dow:[{d: "Segunda", v: 7.5, n: 45}, {d: "Terça", v: 7.37, n: 35}, {d: "Sexta", v: 7.17, n: 53}, {d: "Sábado", v: 7.01, n: 53}, {d: "Quarta", v: 6.99, n: 45}, {d: "Quinta", v: 6.95, n: 47}],len:[{l: "Curto (<30)", op: 7.36, ctr: 0.13, n: 46}, {l: "Médio (30-50)", op: 7.05, ctr: 0.11, n: 206}, {l: "Longo (>50)", op: 7.48, ctr: 0.16, n: 27}],
+ topOpen:[{s: "Essa semana tem mais!", sn: 73506, op: 17.25, ctr: 0.24, rv: 385, cat: "outros"}, {s: "Cadê você? A sorte perguntou 🍀", sn: 55955, op: 17.06, ctr: 0.31, rv: 255, cat: "personalizacao"}, {s: "{{c_nome_social|Amigo(a)}}, saiu a lista dos ganhadores!🏆", sn: 187772, op: 8.63, ctr: 0.44, rv: 90, cat: "resultado_sorteio"}, {s: "Notificação importante pra você 📲", sn: 44877, op: 8.03, ctr: 0.37, rv: 285, cat: "personalizacao"}, {s: "Aviso importante do Super Minas ⚠️", sn: 36474, op: 8.01, ctr: 0.27, rv: 225, cat: "personalizacao"}, {s: "SAIU O RESULTADO DE ONTEM! 📄", sn: 186477, op: 7.83, ctr: 0.24, rv: 240, cat: "resultado_sorteio"}],
+ worst:[{s: "{{name|Amigo(a)}}, é agora ou nunca! 🔥", sn: 37305, op: 4.98, ctr: 0.15, rv: 300, cat: "urgencia"}, {s: "R$300 mil em prêmios. Seu título: R$15💰", sn: 37508, op: 5.47, ctr: 0.06, rv: 120, cat: "premiacao_valor"}, {s: "Sabe o que R$15 compram hoje? 🤔", sn: 38488, op: 6.2, ctr: 0.05, rv: 90, cat: "urgencia"}, {s: "O Dia dos Pais mais premiado de MINAS encerra hoje 🏆", sn: 35693, op: 6.21, ctr: 0.12, rv: 335, cat: "urgencia"}, {s: "O Bola na Trave continua! ⚽", sn: 38120, op: 6.21, ctr: 0.06, rv: 165, cat: "outros"}, {s: "Seu pai vai AMAR um presente de 800 mil reais🎁", sn: 37409, op: 6.37, ctr: 0.07, rv: 200, cat: "personalizacao"}],
+ decay:{months: ["mar/26", "abr/26", "mai/26", "jun/26", "jul/26", "ago/26"], open: [6.98, 7.07, 7.22, 7.08, 7.53, 7.57], sent: [4309837, 4718824, 5231805, 4092194, 2238012, 662650]},
+ meta:{camp: 279, del: 20282670, op: 7.15, ctr: 0.12}},
+sv:{cats:[{c: "resultado_sorteio", op: 7.28, ctr: 0.46, n: 61}, {c: "personalizacao", op: 7.05, ctr: 0.1, n: 34}, {c: "curiosidade", op: 6.61, ctr: 0.1, n: 17}, {c: "premiacao_valor", op: 6.52, ctr: 0.1, n: 94}, {c: "outros", op: 6.49, ctr: 0.09, n: 27}, {c: "urgencia", op: 6.49, ctr: 0.11, n: 36}],elem:{sem_emoji:6.75,com_emoji:6.72,sem_caps:6.76,com_caps:6.64,com_pergunta:6.74,sem_pergunta:6.72},
+ hour:[{h: "07h", v: 6.72, n: 198}, {h: "10h", v: 6.67, n: 28}, {h: "17h", v: 6.37, n: 38}],dow:[{d: "Segunda", v: 7.4, n: 46}, {d: "Terça", v: 6.82, n: 33}, {d: "Sexta", v: 6.61, n: 57}, {d: "Sábado", v: 6.55, n: 54}, {d: "Quarta", v: 6.5, n: 39}, {d: "Quinta", v: 6.47, n: 44}],len:[{l: "Curto (<30)", op: 6.76, ctr: 0.18, n: 34}, {l: "Médio (30-50)", op: 6.73, ctr: 0.19, n: 203}, {l: "Longo (>50)", op: 6.7, ctr: 0.13, n: 37}],
+ topOpen:[{s: "Cadê você? A sorte perguntou 🍀", sn: 32846, op: 15.44, ctr: 0.33, rv: 220, cat: "personalizacao"}, {s: "Já tá sabendo do novo milionário? 💸", sn: 21729, op: 10.31, ctr: 1.55, rv: 80, cat: "resultado_sorteio"}, {s: "Notificação importante pra você 📲", sn: 24084, op: 9.14, ctr: 0.64, rv: 240, cat: "personalizacao"}, {s: "Obrigado por salvar vidas! ❤️", sn: 22492, op: 8.67, ctr: 0.12, rv: 30, cat: "outros"}, {s: "Veja quem levou os prêmios de ontem! 💸", sn: 100166, op: 7.89, ctr: 0.4, rv: 90, cat: "resultado_sorteio"}, {s: "Tem prêmio extra todo mês", sn: 22398, op: 7.75, ctr: 0.27, rv: 175, cat: "outros"}],
+ worst:[{s: "R$210 mil em prêmios. Seu título: R$10💰", sn: 23478, op: 5.72, ctr: 0.15, rv: 130, cat: "premiacao_valor"}, {s: "{{name|Amigo(a)}}, é agora ou nunca! 🔥", sn: 23331, op: 5.78, ctr: 0.28, rv: 230, cat: "urgencia"}, {s: "Presentão para o papai: MEIO MILHÃO em prêmios!🎁", sn: 21248, op: 5.93, ctr: 0.13, rv: 210, cat: "premiacao_valor"}, {s: "As vendas já estão no segundo tempo. Não perde! ⚽", sn: 102569, op: 6.0, ctr: 0.07, rv: 120, cat: "urgencia"}, {s: "70 chances de mil reais... o PIX tá no gatilho!", sn: 93162, op: 6.05, ctr: 0.07, rv: 130, cat: "outros"}, {s: "O  melhor presente pra hoje custa só R$20 🌹", sn: 92741, op: 6.1, ctr: 0.06, rv: 200, cat: "urgencia"}],
+ decay:{months: ["mar/26", "abr/26", "mai/26", "jun/26", "jul/26", "ago/26"], open: [6.69, 6.61, 6.81, 6.61, 6.99, 7.16], sent: [2231719, 2570905, 2632502, 2103677, 908537, 388924]},
+ meta:{camp: 274, del: 10272010, op: 6.73, ctr: 0.17}}
+};
 const CATS=[
 {c:'resultado_sorteio',l:'Resultado do sorteio',col:'#1D9E75',desc:'Anunciando quem ganhou ou perguntando se o usuário foi sorteado.',exMC:'"SAIU GANHADOR! 🏆"',exSM:'"VOCÊ É O NOVO GANHADOR? 🏆"',exSV:'"Seu nome está na lista de ganhadores? 🍀"'},
 {c:'personalizacao',l:'Personalização',col:'#F9AE00',desc:'Usam o nome do usuário ou criam sensação de mensagem exclusiva.',exMC:'"@minascap marcou você!"',exSM:'"Seu ano começa premiado!"',exSV:'"Super Vale está te esperando!"'},
@@ -2123,7 +2114,7 @@ const TESTES = [
     id:'wp_cidade_ganhadores',
     titulo:'Web Push segmentado por bairro dos ganhadores',
     periodo:'Ago/2026',
-    descricao:'Na sexta da edição, além dos disparos para a base geral, foram criados web pushes específicos para os bairros de onde saíram os ganhadores da edição anterior. Objetivo: testar se a prova social local aumenta a conversão.',
+    descricao:'Na sexta da edição, além dos disparos para a base geral, foram criados web pushes específicos para os bairros de onde saíram os ganhadores da edição anterior. Objetivo: testar se a prova social local aumenta a conversão. Comparação contra os disparos da base geral do mesmo dia. Entregues e CTR via Insider; sessões, vendas e receita via GA4 por campanha.',
     caps:['mc','sm','sv'],
     resultado:'inconclusivo',
     badge:'Concluído — resultado inconclusivo',
@@ -2131,44 +2122,44 @@ const TESTES = [
     metricas:[
       {cap:'mc',label:'Minas Cap',
        grupos:[
-         {n:'Base geral da edição',camp:19,del:308178,ctr:'0,73%',conv:262,rev:5330,tx:'0,085%'},
-         {n:'Bairros de ganhadores',camp:29,del:1870,ctr:'2,35%',conv:4,rev:105,tx:'0,214%'},
-         {n:'Ganhadores + jornadas (recorrentes)',camp:7,del:94076,ctr:'1,67%',conv:71,rev:1715,tx:'0,075%'}
+         {n:'Bairros de ganhadores',camp:29,del:1870,ctr:'2,35%',sess:91,conv:3,rev:60,tx:'3,30%'},
+         {n:'Base geral da sexta',camp:4,del:65224,ctr:'0,55%',sess:610,conv:34,rev:615,tx:'5,57%'}
        ],
        destaques:[
-         {n:'Industrial',del:445,conv:2,rev:30},
-         {n:'Senhora das Graças',del:48,conv:1,rev:60},
-         {n:'Mineirão',del:22,conv:1,rev:15}
+         {n:'Industrial',sess:22,conv:1,rev:15},
+         {n:'Mineirão',sess:14,conv:1,rev:15},
+         {n:'Senhora das Graças',sess:3,conv:1,rev:30}
        ]},
       {cap:'sm',label:'Super Minas',
        grupos:[
-         {n:'Base geral da edição',camp:19,del:145520,ctr:'0,76%',conv:99,rev:2235,tx:'0,068%'},
-         {n:'Bairros de ganhadores',camp:7,del:98,ctr:'3,06%',conv:0,rev:0,tx:'0,000%'},
-         {n:'Ganhadores + jornadas (recorrentes)',camp:7,del:37710,ctr:'2,02%',conv:41,rev:845,tx:'0,109%'}
-       ],
-       destaques:[]},
-      {cap:'sv',label:'Super Vale',
-       grupos:[
-         {n:'Base geral da edição',camp:19,del:197752,ctr:'0,74%',conv:64,rev:870,tx:'0,032%'},
-         {n:'Bairros de ganhadores',camp:9,del:77810,ctr:'0,63%',conv:11,rev:120,tx:'0,014%'},
-         {n:'Ganhadores + jornadas (recorrentes)',camp:7,del:25843,ctr:'2,05%',conv:11,rev:190,tx:'0,043%'}
+         {n:'Bairros de ganhadores',camp:7,del:98,ctr:'3,06%',sess:5,conv:1,rev:15,tx:'20,00%'},
+         {n:'Base geral da sexta',camp:4,del:25623,ctr:'0,53%',sess:152,conv:21,rev:315,tx:'13,82%'}
        ],
        destaques:[
-         {n:'Reduto',del:8139,conv:4,rev:50},
-         {n:'Mutum',del:10493,conv:2,rev:20},
-         {n:'Caratinga',del:8309,conv:1,rev:10}
-       ]}
+         {n:'Itanhandu',sess:4,conv:1,rev:15}
+       ]},
+      {cap:'sv',label:'Super Vale',
+       grupos:[
+         {n:'Bairros de ganhadores',camp:9,del:77810,ctr:'0,63%',sess:414,conv:12,rev:130,tx:'2,90%'},
+         {n:'Base geral da sexta',camp:4,del:41472,ctr:'0,53%',sess:238,conv:15,rev:180,tx:'6,30%'}
+       ],
+       destaques:[
+         {n:'Reduto',sess:63,conv:3,rev:30},
+         {n:'Caratinga',sess:41,conv:3,rev:40},
+         {n:'Mutum',sess:64,conv:2,rev:20},
+         {n:'Salinas',sess:52,conv:1,rev:10}
+       ]},
     ],
     insights:[
-      {cap:'mc',txt:'Os 29 bairros somaram 1.870 entregues e tiveram <b>CTR de 2,35%</b>, 3,2x o da base geral da edição (0,73%). Quem recebeu o push citando o próprio bairro clicou muito mais.'},
-      {cap:'mc',txt:'Em receita o resultado não se sustenta: <b>4 vendas e R$ 105</b>, ainda que a taxa de conversão tenha ficado em 0,214% contra 0,085% da base geral. O único bairro com base relevante era o Industrial (445 entregues, 2 vendas); os outros 28 somaram 1.425 entregues e 20 deles não tiveram nenhum clique.'},
-      {cap:'mc',txt:'<b>Conclusão:</b> a taxa é boa, mas 29 campanhas montadas manualmente para 4 vendas e R$ 105 não sustentam o tempo de operação. Reservar a ação para quando um dos prêmios principais sair no online — aí a notícia do ganhador do bairro tem força de verdade e justifica montar as campanhas.'},
-      {cap:'sm',txt:'Os 7 bairros de ganhadores tinham <b>232 pessoas com opt-in</b> e 98 entregas — o alcance do disparo foi o fator limitante, não a mensagem.'},
-      {cap:'sm',txt:'Os 3 cliques em 98 entregues dão <b>CTR de 3,06%</b>, contra 0,76% da base geral da edição. A direção é favorável, mas com esse alcance nenhuma venda era esperada.'},
-      {cap:'sm',txt:'<b>Conclusão:</b> com 98 entregas no total, o retorno possível não sustenta o tempo de montar sete campanhas. Reservar a ação para quando um dos prêmios principais sair no online — nesse caso vale abrir exceção mesmo com base pequena.'},
-      {cap:'sv',txt:'Os bairros de ganhadores da SV têm base bem maior: 9 campanhas, 257.146 enviados e <b>77.810 entregues</b> — cada disparo alcançou por volta de 8 a 10 mil pessoas, volume de disparo geral e não de nicho.'},
-      {cap:'sv',txt:'Com esse volume a prova social local não apareceu: <b>CTR de 0,63% contra 0,74%</b> da base geral e taxa de conversão de 0,014% contra 0,032% — metade do desempenho do disparo comum.'},
-      {cap:'sv',txt:'<b>Conclusão:</b> 9 campanhas para 11 vendas e R$ 120, com desempenho abaixo do disparo comum e com a mesma pessoa recebendo os dois pushes no mesmo dia (Teófilo Otoni levou dois disparos). Não sustenta o trabalho: reservar a ação para quando um dos prêmios principais sair no online.'},
+      {cap:'mc',txt:'O push do bairro fez a pessoa clicar muito mais — <b>CTR de 2,35% contra 0,55%</b> da base geral do mesmo dia —, mas quem chegou por ele comprou menos: <b>3,30% das sessões contra 5,57%</b>.'},
+      {cap:'mc',txt:'No total, 29 disparos geraram 91 sessões, <b>3 vendas e R$ 60</b>. Converteram Industrial (22 sessões), Mineirão (14) e Senhora das Graças (3); os outros 15 bairros com sessão não venderam nada.'},
+      {cap:'mc',txt:'<b>Conclusão:</b> a curiosidade de ver o próprio bairro citado gera clique, não compra, e 29 campanhas montadas manualmente para R$ 60 não sustentam o tempo de operação. Reservar a ação para quando um dos prêmios principais sair no online — aí a notícia do ganhador do bairro tem força de verdade e justifica montar as campanhas.'},
+      {cap:'sm',txt:'Os 7 bairros tinham <b>98 entregas</b> no total e geraram 5 sessões e <b>1 venda</b> (Itanhandu). O alcance foi o fator limitante, não a mensagem.'},
+      {cap:'sm',txt:'É a maior taxa de venda sobre entregues das três caps — <b>1,02% contra 0,082%</b> da base geral do mesmo dia. Com 5 sessões o número não sustenta conclusão, mas indica que em base pequena a mensagem local funciona.'},
+      {cap:'sm',txt:'<b>Conclusão:</b> com esse alcance o retorno possível não sustenta o tempo de montar sete campanhas. Reservar a ação para quando um dos prêmios principais sair no online — nesse caso vale abrir exceção mesmo com base pequena.'},
+      {cap:'sv',txt:'Os bairros de ganhadores da SV têm base bem maior: 9 disparos, 77.810 entregues e 414 sessões — volume de disparo geral e não de nicho.'},
+      {cap:'sv',txt:'Com esse volume a prova social local não apareceu em nenhuma métrica: <b>CTR de 0,63%</b> contra 0,53% da base geral, mas conversão de <b>2,90% das sessões contra 6,30%</b> e apenas 12 vendas com R$ 130 de receita.'},
+      {cap:'sv',txt:'<b>Conclusão:</b> desempenho abaixo do disparo comum, com a mesma pessoa recebendo os dois pushes no mesmo dia (Teófilo Otoni levou dois disparos). Não sustenta o trabalho: reservar a ação para quando um dos prêmios principais sair no online.'},
     ]
   }
 ];
@@ -2311,7 +2302,8 @@ function rDiaPais(){
       var thJ=col+';color:#fff;text-align:left;padding:4px 7px;font-size:10px;font-weight:600;border-bottom:none';
       var jRows='';
       j.canais.forEach(function(c){
-        jRows+='<tr><td style="font-size:11px">'+c.canal+'</td><td>'+(c.enviados>0?fN(c.enviados):'—')+'</td><td>'+fN(c.entregues)+'</td><td style="font-weight:700">'+c.ctr.toFixed(2)+'%</td><td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
+        var _cs=(c.enviados!=null?c.enviados:c.sent), _cd=(c.entregues!=null?c.entregues:c.del);
+        jRows+='<tr><td style="font-size:11px">'+c.canal+'</td><td>'+(_cs>0?fN(_cs):'—')+'</td><td>'+fN(_cd)+'</td><td style="font-weight:700">'+c.ctr.toFixed(2)+'%</td><td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
       });
       out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thJ+'">Canal</td><td style="background:'+thJ+'">Enviados</td><td style="background:'+thJ+'">Entregues</td><td style="background:'+thJ+'">CTR</td><td style="background:'+thJ+'">Conv.</td><td style="background:'+thJ+'">Receita</td></tr></thead><tbody>'+jRows+'</tbody></table></div></div>';
     });
@@ -2829,7 +2821,7 @@ async function pmoAddComment(acaoId){
 
     out += '<div class="card"><div class="ct2">🛒 Conversões por Canal<span style="'+totStyle+'">Total: '+fmtN(convTotal)+'</span></div>';
     out += '<div style="position:relative;height:290px"><canvas id="chart-conv-'+cap+'"></canvas></div>';
-    out += '<div style="font-size:10px;color:#888;margin-top:6px">Conversões Insider por canal (canais com 0 conv excluídos)</div>';
+    out += '<div style="font-size:10px;color:#888;margin-top:6px">Vendas do GA4 por campanha em e-mail, web push e disparos avulsos. Pop ups e jornadas seguem na Insider; Campanha de Saldo, no ERP. Canais com 0 venda excluídos.</div>';
     out += '</div>';
 
     out += '</div>';
@@ -3078,30 +3070,30 @@ function rTestes(){
       if(mg){
         html+='<div style="overflow-x:auto;margin-bottom:12px"><table style="font-size:11px;table-layout:auto"><thead><tr>'
           +'<th>Grupo de disparos</th><th style="text-align:right">Camp.</th><th style="text-align:right">Entregues</th>'
-          +'<th style="text-align:right">CTR</th><th style="text-align:right">Conv.</th><th style="text-align:right">Receita</th>'
-          +'<th style="text-align:right">Taxa de conversão</th></tr></thead><tbody>';
+          +'<th style="text-align:right">CTR</th><th style="text-align:right">Sessões</th><th style="text-align:right">Vendas</th>'
+          +'<th style="text-align:right">Receita</th><th style="text-align:right">Taxa de conversão</th></tr></thead><tbody>';
         mg.grupos.forEach(function(g,gi){
-          var hi=(gi===1);
+          var hi=(gi===0);
           html+='<tr'+(hi?' style="background:'+col+'0f"':'')+'><td style="font-weight:'+(hi?'700':'600')+'">'+g.n+'</td>'
             +'<td style="text-align:right">'+g.camp+'</td>'
             +'<td style="text-align:right">'+g.del.toLocaleString('pt-BR')+'</td>'
             +'<td style="text-align:right">'+g.ctr+'</td>'
+            +'<td style="text-align:right">'+g.sess.toLocaleString('pt-BR')+'</td>'
             +'<td style="text-align:right;font-weight:600">'+g.conv+'</td>'
             +'<td style="text-align:right">R$'+g.rev.toLocaleString('pt-BR')+'</td>'
             +'<td style="text-align:right;font-weight:700;color:'+(hi?col:'#636057')+'">'+g.tx+'</td></tr>';
         });
-        html+='</tbody></table></div>';
+        html+='</tbody></table>'
+          +'<div style="font-size:10px;color:#888780;margin-top:5px">Entregues e CTR: Insider. Sessões, vendas e receita: GA4 por campanha. Taxa de conversão = vendas ÷ sessões.</div></div>';
         if(mg.destaques && mg.destaques.length){
-          html+='<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888780;margin-bottom:6px">Bairros que converteram</div>';
+          html+='<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888780;margin-bottom:6px">Bairros que venderam</div>';
           html+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
           mg.destaques.forEach(function(x){
             html+='<div style="background:#f8f8f6;border:1px solid #e8e6e0;border-radius:8px;padding:7px 10px">'
               +'<div style="font-size:11px;font-weight:700">'+x.n+'</div>'
-              +'<div style="font-size:10px;color:#636057">'+x.del.toLocaleString('pt-BR')+' entregues · '+x.conv+' conv. · R$'+x.rev+'</div></div>';
+              +'<div style="font-size:10px;color:#636057">'+x.sess+' sessões · '+x.conv+(x.conv>1?' vendas':' venda')+' · R$'+x.rev+'</div></div>';
           });
           html+='</div></div>';
-        } else {
-          html+='<div class="nb" style="font-size:10px;margin-bottom:12px">Nenhum bairro converteu nesta cap — base entregue total de '+mg.grupos[1].del.toLocaleString('pt-BR')+' pessoas.</div>';
         }
       }
     } else if(t.id==='captacao'){
@@ -3203,39 +3195,39 @@ const SESSCONV = {
   mc:{meses:[
    {mes:'Ago/2026',inv:15225,invMes:60900,eds:[
     {ed:531,val:15,per:'26/jul–01/ago',site:{s:434490,t:49105,r:841075},crm:{s:27442,t:1118,r:19755},
-     ch:[{n:'Web Push',s:21260,t:698,r:12270},{n:'Email',s:5248,t:403,r:7185},{n:'Architect',s:824,t:14,r:255},{n:'Outros',s:110,t:3,r:45}],
+     ch:[{n:'Web Push',s:21260,t:698,r:12270,best:{n:'Ganhadores 27/07 — não compradores',s:1866,t:65,r:1225}},{n:'Email',s:5248,t:403,r:7185,best:{n:'Sábado — sem saldo',s:318,t:57,r:1035}},{n:'Architect',s:824,t:14,r:255,best:{n:'Carrinho Abandonado (teste gatilho)',s:606,t:7,r:120}},{n:'Outros',s:110,t:3,r:45}],
      dias:[{d:'26/jul dom',ss:108022,st:3157,sr:53910,cs:4681,ct:60,cr:1080},{d:'27/jul seg',ss:44108,st:1621,sr:28965,cs:4121,ct:50,cr:795},{d:'28/jul ter',ss:30219,st:1799,sr:31370,cs:2890,ct:66,cr:1260},{d:'29/jul qua',ss:30241,st:2199,sr:37960,cs:2978,ct:92,cr:1560},{d:'30/jul qui',ss:36019,st:3247,sr:58535,cs:2726,ct:97,cr:1830},{d:'31/jul sex',ss:45602,st:5853,sr:101630,cs:3097,ct:134,cr:2430},{d:'01/ago sáb',ss:140279,st:31229,sr:528705,cs:6949,ct:619,cr:10800}]},
     {ed:532,val:25,per:'02–08/ago',site:{s:608308,t:79974,r:2234645},crm:{s:33834,t:1745,r:50805},
-     ch:[{n:'Web Push',s:23018,t:1004,r:29055},{n:'Email',s:7578,t:663,r:19110},{n:'Architect',s:3076,t:74,r:2465},{n:'Outros',s:162,t:4,r:175}],
+     ch:[{n:'Web Push',s:23018,t:1004,r:29055,best:{n:'Domingo — abertura da edição',s:584,t:24,r:750}},{n:'Email',s:7578,t:663,r:19110,best:{n:'Sexta — reativação',s:1042,t:85,r:2700}},{n:'Architect',s:3076,t:74,r:2465,best:{n:'Carrinho Abandonado (teste gatilho)',s:836,t:32,r:1265}},{n:'Outros',s:162,t:4,r:175}],
      dias:[{d:'02/ago dom',ss:123101,st:4679,sr:123240,cs:4829,ct:90,cr:2700},{d:'03/ago seg',ss:51348,st:2600,sr:75105,cs:3495,ct:69,cr:2035},{d:'04/ago ter',ss:40075,st:2906,sr:82090,cs:3469,ct:119,cr:3600},{d:'05/ago qua',ss:47078,st:4055,sr:116960,cs:3636,ct:146,cr:4405},{d:'06/ago qui',ss:60018,st:6591,sr:188645,cs:4144,ct:188,cr:5445},{d:'07/ago sex',ss:77271,st:11722,sr:331890,cs:5273,ct:292,cr:8930},{d:'08/ago sáb',ss:209417,st:47421,sr:1316715,cs:8988,ct:841,cr:23690}]},
     {ed:533,val:15,per:'09–15/ago',site:{s:526203,t:52506,r:917810},crm:{s:23645,t:973,r:17850},
-     ch:[{n:'Web Push',s:15733,t:597,r:10850},{n:'Email',s:5900,t:324,r:6085},{n:'Architect',s:1950,t:49,r:870},{n:'Outros',s:62,t:3,r:45}],
+     ch:[{n:'Web Push',s:15733,t:597,r:10850,best:{n:'Ganhadores 10/08, 11h — não compradores',s:572,t:20,r:430}},{n:'Email',s:5900,t:324,r:6085,best:{n:'Sábado 07h',s:391,t:53,r:915}},{n:'Architect',s:1950,t:49,r:870,best:{n:'Compra Abandonada Dia dos Pais',s:633,t:16,r:275}},{n:'Outros',s:62,t:3,r:45}],
      dias:[{d:'09/ago dom',ss:157659,st:3388,sr:75335,cs:5511,ct:70,cr:1600},{d:'10/ago seg',ss:59768,st:1907,sr:34145,cs:4183,ct:52,cr:1005},{d:'11/ago ter',ss:35810,st:1775,sr:31520,cs:2193,ct:65,cr:1135},{d:'12/ago qua',ss:36849,st:2250,sr:40070,cs:1862,ct:54,cr:920},{d:'13/ago qui',ss:38573,st:3273,sr:57025,cs:1905,ct:87,cr:1655},{d:'14/ago sex',ss:47075,st:6015,sr:104305,cs:2200,ct:151,cr:2755},{d:'15/ago sáb',ss:150469,st:33898,sr:575410,cs:5791,ct:494,cr:8780}]}
    ]}
   ]},
   sm:{meses:[
    {mes:'Ago/2026',inv:4350,invMes:17400,eds:[
     {ed:447,val:15,per:'26/jul–01/ago',site:{s:131409,t:11868,r:199780},crm:{s:6267,t:377,r:6330},
-     ch:[{n:'Web Push',s:5179,t:259,r:4425},{n:'Email',s:876,t:107,r:1740},{n:'Architect',s:206,t:11,r:165},{n:'Outros',s:6,t:0,r:0}],
+     ch:[{n:'Web Push',s:5179,t:259,r:4425,best:{n:'Ganhadores 27/07 — não compradores',s:860,t:23,r:505}},{n:'Email',s:876,t:107,r:1740,best:{n:'Sábado — sem saldo',s:63,t:20,r:300}},{n:'Architect',s:206,t:11,r:165,best:{n:'Compra Abandonada',s:202,t:9,r:135}},{n:'Outros',s:6,t:0,r:0}],
      dias:[{d:'26/jul dom',ss:41001,st:1493,sr:25020,cs:1394,ct:33,cr:600},{d:'27/jul seg',ss:11703,st:710,sr:12355,cs:1096,ct:19,cr:300},{d:'28/jul ter',ss:7996,st:824,sr:14270,cs:611,ct:21,cr:330},{d:'29/jul qua',ss:7870,st:912,sr:15440,cs:611,ct:26,cr:465},{d:'30/jul qui',ss:9549,st:1375,sr:23115,cs:581,ct:29,cr:450},{d:'31/jul sex',ss:12578,st:2646,sr:44600,cs:633,ct:48,cr:810},{d:'01/ago sáb',ss:40712,st:3908,sr:64980,cs:1341,ct:201,cr:3375}]},
     {ed:448,val:20,per:'02–08/ago',site:{s:175308,t:18783,r:422410},crm:{s:7036,t:682,r:15020},
-     ch:[{n:'Web Push',s:5240,t:425,r:9130},{n:'Email',s:1297,t:236,r:5440},{n:'Architect',s:488,t:21,r:450},{n:'Outros',s:11,t:0,r:0}],
+     ch:[{n:'Web Push',s:5240,t:425,r:9130,best:{n:'Sexta — 3º disparo',s:121,t:15,r:300}},{n:'Email',s:1297,t:236,r:5440,best:{n:'Sexta — reativação',s:143,t:19,r:480}},{n:'Architect',s:488,t:21,r:450,best:{n:'Compra Abandonada',s:108,t:11,r:210}},{n:'Outros',s:11,t:0,r:0}],
      dias:[{d:'02/ago dom',ss:41791,st:2253,sr:47550,cs:1249,ct:46,cr:925},{d:'03/ago seg',ss:13889,st:1139,sr:27060,cs:723,ct:32,cr:810},{d:'04/ago ter',ss:10231,st:1230,sr:28775,cs:810,ct:58,cr:1240},{d:'05/ago qua',ss:13043,st:1996,sr:44470,cs:846,ct:63,cr:1350},{d:'06/ago qui',ss:16476,st:3133,sr:71400,cs:735,ct:69,cr:1560},{d:'07/ago sex',ss:21385,st:2564,sr:56830,cs:892,ct:93,cr:2015},{d:'08/ago sáb',ss:58493,st:6468,sr:146325,cs:1781,ct:321,cr:7120}]},
     {ed:449,val:15,per:'09–15/ago',site:{s:156727,t:11627,r:201680},crm:{s:5388,t:411,r:7355},
-     ch:[{n:'Web Push',s:4112,t:297,r:5170},{n:'Email',s:889,t:95,r:1835},{n:'Architect',s:386,t:19,r:350},{n:'Outros',s:1,t:0,r:0}],
+     ch:[{n:'Web Push',s:4112,t:297,r:5170,best:{n:'Sábado 21h — 4º disparo',s:43,t:10,r:285}},{n:'Email',s:889,t:95,r:1835,best:{n:'Sábado 07h',s:60,t:15,r:360}},{n:'Architect',s:386,t:19,r:350,best:{n:'Compra Abandonada Dia dos Pais',s:216,t:8,r:150}},{n:'Outros',s:1,t:0,r:0}],
      dias:[{d:'09/ago dom',ss:54432,st:1791,sr:35340,cs:1485,ct:33,cr:670},{d:'10/ago seg',ss:16759,st:743,sr:13230,cs:890,ct:12,cr:245},{d:'11/ago ter',ss:10039,st:711,sr:12190,cs:462,ct:21,cr:325},{d:'12/ago qua',ss:9561,st:911,sr:16045,cs:360,ct:22,cr:420},{d:'13/ago qui',ss:10194,st:1263,sr:21055,cs:618,ct:34,cr:550},{d:'14/ago sex',ss:12497,st:2314,sr:39200,cs:412,ct:49,cr:810},{d:'15/ago sáb',ss:43245,st:3894,sr:64620,cs:1161,ct:240,cr:4335}]}
    ]}
   ]},
   sv:{meses:[
    {mes:'Ago/2026',inv:2175,invMes:8700,eds:[
     {ed:438,val:10,per:'26/jul–01/ago',site:{s:79382,t:12514,r:151550},crm:{s:3895,t:238,r:2955},
-     ch:[{n:'Web Push',s:2948,t:139,r:1795},{n:'Email',s:867,t:94,r:1100},{n:'Architect',s:69,t:4,r:40},{n:'Outros',s:11,t:1,r:20}],
+     ch:[{n:'Web Push',s:2948,t:139,r:1795,best:{n:'Ganhadores 27/07 — não compradores',s:398,t:11,r:130}},{n:'Email',s:867,t:94,r:1100,best:{n:'Sábado — sem saldo',s:40,t:11,r:130}},{n:'Architect',s:69,t:4,r:40,best:{n:'Compra Abandonada',s:69,t:4,r:40}},{n:'Outros',s:11,t:1,r:20}],
      dias:[{d:'26/jul dom',ss:23869,st:926,sr:11655,cs:829,ct:17,cr:220},{d:'27/jul seg',ss:8245,st:448,sr:5120,cs:654,ct:13,cr:150},{d:'28/jul ter',ss:4896,st:470,sr:5690,cs:461,ct:25,cr:310},{d:'29/jul qua',ss:5109,st:590,sr:7480,cs:429,ct:17,cr:180},{d:'30/jul qui',ss:6196,st:920,sr:11555,cs:384,ct:26,cr:325},{d:'31/jul sex',ss:7936,st:1593,sr:19010,cs:407,ct:36,cr:400},{d:'01/ago sáb',ss:23131,st:7567,sr:91040,cs:731,ct:104,cr:1370}]},
     {ed:439,val:20,per:'02–08/ago',site:{s:98659,t:16105,r:358420},crm:{s:4404,t:322,r:7230},
-     ch:[{n:'Web Push',s:3060,t:172,r:3920},{n:'Email',s:1064,t:141,r:3110},{n:'Architect',s:273,t:9,r:200},{n:'Outros',s:7,t:0,r:0}],
+     ch:[{n:'Web Push',s:3060,t:172,r:3920,best:{n:'Sábado — 4º disparo',s:49,t:8,r:180}},{n:'Email',s:1064,t:141,r:3110,best:{n:'Sexta',s:41,t:10,r:200}},{n:'Architect',s:273,t:9,r:200,best:{n:'Compra Abandonada Dia dos Pais',s:152,t:4,r:100}},{n:'Outros',s:7,t:0,r:0}],
      dias:[{d:'02/ago dom',ss:25010,st:946,sr:18980,cs:786,ct:23,cr:390},{d:'03/ago seg',ss:9389,st:545,sr:13175,cs:566,ct:6,cr:140},{d:'04/ago ter',ss:6036,st:545,sr:12650,cs:495,ct:37,cr:1250},{d:'05/ago qua',ss:7115,st:795,sr:18020,cs:498,ct:28,cr:600},{d:'06/ago qui',ss:8834,st:1237,sr:28045,cs:451,ct:32,cr:740},{d:'07/ago sex',ss:12792,st:2416,sr:55680,cs:569,ct:52,cr:1030},{d:'08/ago sáb',ss:29483,st:9621,sr:211870,cs:1039,ct:144,cr:3080}]},
     {ed:440,val:10,per:'09–15/ago',site:{s:88547,t:13144,r:163650},crm:{s:4733,t:254,r:3250},
-     ch:[{n:'Web Push',s:3607,t:157,r:1970},{n:'Email',s:916,t:91,r:1220},{n:'Architect',s:207,t:6,r:60},{n:'Outros',s:3,t:0,r:0}],
+     ch:[{n:'Web Push',s:3607,t:157,r:1970,best:{n:'Quarta 15h30 — 2º disparo',s:78,t:6,r:90}},{n:'Email',s:916,t:91,r:1220,best:{n:'Sábado 07h',s:63,t:17,r:280}},{n:'Architect',s:207,t:6,r:60,best:{n:'Compra Abandonada Dia dos Pais',s:82,t:2,r:20}},{n:'Outros',s:3,t:0,r:0}],
      dias:[{d:'09/ago dom',ss:26194,st:968,sr:15440,cs:888,ct:19,cr:320},{d:'10/ago seg',ss:9372,st:547,sr:7200,cs:722,ct:8,cr:90},{d:'11/ago ter',ss:6132,st:482,sr:6000,cs:497,ct:18,cr:210},{d:'12/ago qua',ss:6789,st:717,sr:8830,cs:425,ct:22,cr:290},{d:'13/ago qui',ss:7048,st:930,sr:11080,cs:569,ct:25,cr:260},{d:'14/ago sex',ss:9066,st:1665,sr:19870,cs:682,ct:43,cr:510},{d:'15/ago sáb',ss:23946,st:7835,sr:95230,cs:950,ct:119,cr:1570}]}
    ]}
   ]}
@@ -3327,13 +3319,24 @@ function rFechoCRM(){
       +'<div class="cyb"><div class="cbf" style="width:'+Math.min(100,pesoS*8).toFixed(1)+'%;background:#B9B6AC"></div></div></div>';
     o+='<div style="height:6px"></div>';
     // canais
-    o+='<div style="font-size:10px;font-weight:600;color:#636057;margin-bottom:4px">Conversão por canal</div>';
-    e.ch.forEach(function(c){
+    o+='<div style="font-size:10px;font-weight:600;color:#636057;margin-bottom:4px">Conversão por canal <span style="font-weight:400;color:#a8a59c">· clique no canal para ver o melhor disparo</span></div>';
+    e.ch.forEach(function(c,ci){
       if(!c.s) return;
       var cv=num(c.t,c.s);
-      o+='<div class="cr" style="padding:4px 0"><div class="cnm" style="min-width:64px;font-size:10px">'+lbl(c.n)+'</div>'
+      var bt=c.best;
+      var tid='bd-'+cap+'-'+e.ed+'-'+ci;
+      o+='<div class="cr" style="padding:4px 0'+(bt?';cursor:pointer':'')+'"'+(bt?' onclick="crmToggle(event)" data-tid="'+tid+'"':'')+'>'
+        +'<div class="cnm" style="min-width:64px;font-size:10px">'+lbl(c.n)+(bt?' <span id="a-'+tid+'" style="display:inline-block;color:#a8a59c;transition:transform .2s">▾</span>':'')+'</div>'
         +'<div class="cbw"><div class="cbf" style="width:'+(maxConv?cv/maxConv*100:0).toFixed(1)+'%;background:'+(CH_COL[c.n]||col)+'"></div></div>'
         +'<div class="cvl" style="min-width:140px;font-size:10px">'+cv.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'% · '+n(c.t)+' vendas · '+rs(c.r)+'</div></div>';
+      if(bt){
+        o+='<div id="b-'+tid+'" style="display:none;margin:2px 0 8px 8px;padding:8px 10px;border-left:2px solid '+(CH_COL[c.n]||col)+';background:#f9f8f5;border-radius:0 6px 6px 0">'
+          +'<div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#888780;margin-bottom:3px">'+(c.n==='Architect'?'Jornada que mais vendeu':'Disparo que mais vendeu')+'</div>'
+          +'<div style="font-size:11px;font-weight:700;margin-bottom:2px">'+bt.n+'</div>'
+          +'<div style="font-size:10px;color:#636057">'+n(bt.s)+' sessões · <b>'+n(bt.t)+' vendas</b> · '+rs(bt.r)+' · '+pc(bt.t,bt.s)+' de conversão</div>'
+          +'<div style="font-size:9px;color:#a8a59c;margin-top:3px">'+pc(bt.t,c.t,0)+' das vendas do canal na edição</div>'
+          +'</div>';
+      }
     });
     o+='</div>';
   });
@@ -3507,6 +3510,165 @@ function rFechoCRM(){
   dc('c-fcrm-dia');
 }
 
+const HORARIO = {
+  mc:{eds:[{ed:533,per:'09–15/ago',mes:'Ago/2026',extra:{s:142,t:15,r:255},emails:[{d:'Segunda',h:'07h',n:'Ganhadores (não compradores)',s:1008,t:27,r:475},{d:'Segunda',h:'07h',n:'Ganhadores (compradores)',s:607,t:15,r:360},{d:'Terça',h:'17h',n:'Premiação',s:154,t:18,r:375},{d:'Quarta',h:'17h',n:'Premiação',s:141,t:20,r:375},{d:'Quinta',h:'17h',n:'Premiação',s:127,t:15,r:315},{d:'Sexta',h:'17h',n:'Premiação',s:174,t:21,r:375},{d:'Sábado',h:'07h',n:'Premiação',s:391,t:53,r:915}],slots:[
+    {d:'Domingo',h:'15h30',s:450,t:10,r:250},{d:'Terça',h:'10h30',s:299,t:9,r:135},{d:'Terça',h:'15h30',s:247,t:5,r:75},{d:'Terça',h:'21h',s:361,t:14,r:225},
+    {d:'Quarta',h:'09h',s:242,t:9,r:165},{d:'Quarta',h:'15h30',s:196,t:3,r:45},{d:'Quarta',h:'00h30',s:210,t:6,r:90},{d:'Quinta',h:'10h30',s:144,t:7,r:105},
+    {d:'Quinta',h:'14h30',s:144,t:2,r:30},{d:'Quinta',h:'21h',s:181,t:10,r:150},{d:'Quinta',h:'00h30',s:123,t:5,r:75},{d:'Sexta',h:'09h',s:143,t:12,r:225},
+    {d:'Sexta',h:'15h30',s:156,t:7,r:105},{d:'Sexta',h:'21h',s:114,t:7,r:105},{d:'Sexta',h:'00h30',s:129,t:7,r:120},{d:'Sábado',h:'11h',s:174,t:10,r:150},
+    {d:'Sábado',h:'14h',s:138,t:7,r:105},{d:'Sábado',h:'17h30',s:165,t:15,r:240},{d:'Sábado',h:'21h',s:174,t:13,r:255}
+  ]}]},
+  sm:{eds:[{ed:449,per:'09–15/ago',mes:'Ago/2026',extra:{s:34,t:7,r:105},emails:[{d:'Segunda',h:'07h',n:'Ganhadores',s:58,t:2,r:30},{d:'Terça',h:'17h',n:'Premiação',s:35,t:7,r:120},{d:'Quarta',h:'17h',n:'Premiação',s:21,t:3,r:90},{d:'Quinta',h:'17h',n:'Premiação',s:25,t:7,r:105},{d:'Sexta',h:'17h',n:'Premiação',s:20,t:5,r:90},{d:'Sábado',h:'07h',n:'Premiação',s:60,t:15,r:360}],slots:[
+    {d:'Domingo',h:'15h30',s:96,t:2,r:30},{d:'Terça',h:'10h30',s:77,t:5,r:120},{d:'Terça',h:'15h30',s:65,t:4,r:60},{d:'Terça',h:'21h',s:97,t:6,r:90},
+    {d:'Quarta',h:'09h',s:57,t:2,r:30},{d:'Quarta',h:'15h30',s:32,t:3,r:45},{d:'Quarta',h:'00h30',s:20,t:1,r:15},{d:'Quinta',h:'10h30',s:202,t:10,r:150},
+    {d:'Quinta',h:'14h30',s:181,t:3,r:45},{d:'Quinta',h:'21h',s:27,t:2,r:30},{d:'Quinta',h:'00h30',s:31,t:0,r:0},{d:'Sexta',h:'09h',s:38,t:4,r:60},
+    {d:'Sexta',h:'15h30',s:27,t:2,r:30},{d:'Sexta',h:'21h',s:26,t:5,r:75},{d:'Sexta',h:'00h30',s:36,t:6,r:90},{d:'Sábado',h:'11h',s:31,t:4,r:60},
+    {d:'Sábado',h:'14h',s:63,t:7,r:120},{d:'Sábado',h:'17h30',s:46,t:7,r:105},{d:'Sábado',h:'21h',s:43,t:10,r:285}
+  ]}]},
+  sv:{eds:[{ed:440,per:'09–15/ago',mes:'Ago/2026',extra:{s:49,t:4,r:40},emails:[{d:'Segunda',h:'07h',n:'Ganhadores (não compradores)',s:171,t:5,r:50},{d:'Segunda',h:'07h',n:'Ganhadores (compradores)',s:83,t:1,r:10},{d:'Terça',h:'17h',n:'Premiação',s:27,t:5,r:50},{d:'Quarta',h:'17h',n:'Premiação',s:21,t:5,r:60},{d:'Quinta',h:'17h',n:'Premiação',s:28,t:5,r:60},{d:'Sexta',h:'17h',n:'Premiação',s:32,t:7,r:80},{d:'Sábado',h:'07h',n:'Premiação',s:63,t:17,r:280}],slots:[
+    {d:'Domingo',h:'15h30',s:187,t:1,r:10},{d:'Terça',h:'10h30',s:110,t:5,r:50},{d:'Terça',h:'15h30',s:122,t:6,r:60},{d:'Terça',h:'21h',s:130,t:3,r:30},
+    {d:'Quarta',h:'09h',s:113,t:2,r:20},{d:'Quarta',h:'15h30',s:78,t:6,r:90},{d:'Quarta',h:'00h30',s:69,t:0,r:0},{d:'Quinta',h:'10h30',s:87,t:1,r:10},
+    {d:'Quinta',h:'14h30',s:42,t:3,r:30},{d:'Quinta',h:'21h',s:54,t:3,r:30},{d:'Quinta',h:'00h30',s:46,t:3,r:40},{d:'Sexta',h:'09h',s:50,t:3,r:40},
+    {d:'Sexta',h:'15h30',s:60,t:4,r:40},{d:'Sexta',h:'21h',s:63,t:2,r:30},{d:'Sexta',h:'00h30',s:43,t:5,r:60},{d:'Sábado',h:'11h',s:65,t:6,r:60},
+    {d:'Sábado',h:'14h',s:60,t:4,r:40},{d:'Sábado',h:'17h30',s:67,t:3,r:50},{d:'Sábado',h:'21h',s:48,t:2,r:20}
+  ]}]}
+};
+
+
+// ===== RANKING POR HORÁRIO DE DISPARO (web push) =====
+function rHorario(){
+  var elWp=document.getElementById('perf-horario-wp');
+  var elEm=document.getElementById('perf-horario-em');
+  if(!elWp && !elEm) return;
+  if(elWp) elWp.innerHTML='';
+  if(elEm) elEm.innerHTML='';
+  var H=HORARIO[cap]; if(!H||!H.eds||!H.eds.length) return;
+  var col = cap==='mc'?'#E30613':cap==='sm'?'#F9AE00':'#FF7C07';
+  var n=function(v){ return (v||0).toLocaleString('pt-BR'); };
+  var rs=function(v){ return 'R$ '+(v||0).toLocaleString('pt-BR'); };
+  var pc=function(a,b,d){ if(!b) return '—'; d=(d===undefined?2:d);
+    return (a/b*100).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})+'%'; };
+  var ORD=['00h30','09h','10h30','11h','14h','14h30','15h30','17h30','21h'];
+
+  // consolida todos os slots de todas as edições disponíveis
+  var slots=[], eds=[];
+  H.eds.forEach(function(e){
+    eds.push('Ed.'+e.ed);
+    e.slots.forEach(function(x){ slots.push(x); });
+  });
+  var porHora={};
+  slots.forEach(function(x){
+    if(!porHora[x.h]) porHora[x.h]={h:x.h,s:0,t:0,r:0,n:0};
+    var a=porHora[x.h]; a.s+=x.s; a.t+=x.t; a.r+=x.r; a.n++;
+  });
+  var horas=Object.keys(porHora).sort(function(a,b){ return ORD.indexOf(a)-ORD.indexOf(b); });
+  var maxCv=0, maxT=0;
+  horas.forEach(function(h){ var a=porHora[h]; var cv=a.t/a.s*100; if(cv>maxCv) maxCv=cv; if(a.t>maxT) maxT=a.t; });
+
+  var o='', om='';
+  // ---- por horário do dia ----
+  o+='<div class="card" style="margin-bottom:.8rem">';
+  o+='<div class="ct2">⏰ Desempenho por horário de disparo</div>';
+  o+='<div class="nb" style="font-size:10px;margin-bottom:10px">Vendas e sessões do GA4 por campanha, agrupadas pelo horário de disparo confirmado na Insider. Base atual: '+eds.join(' · ')+'. A cada edição nova o ranking se soma.</div>';
+  o+='<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th>Horário</th><th style="text-align:right">Disparos</th>'
+    +'<th style="text-align:right">Sessões</th><th style="text-align:right">Vendas</th><th style="text-align:right">Receita</th>'
+    +'<th style="text-align:right">Conversão</th><th style="width:26%">Vendas por disparo</th></tr></thead><tbody>';
+  horas.forEach(function(h){
+    var a=porHora[h], cv=a.t/a.s*100, vpd=a.t/a.n;
+    var top=(cv>=maxCv-0.001);
+    o+='<tr'+(top?' style="background:'+col+'0f"':'')+'><td style="font-weight:700">'+h+'</td>'
+      +'<td style="text-align:right;color:#888780">'+a.n+'</td>'
+      +'<td style="text-align:right">'+n(a.s)+'</td>'
+      +'<td style="text-align:right;font-weight:600">'+n(a.t)+'</td>'
+      +'<td style="text-align:right">'+rs(a.r)+'</td>'
+      +'<td style="text-align:right;font-weight:700;color:'+(top?col:'#1a1916')+'">'+pc(a.t,a.s)+'</td>'
+      +'<td><div class="cyb"><div class="cbf" style="width:'+(maxT?a.t/maxT*100:0).toFixed(1)+'%;background:'+col+'"></div></div>'
+      +'<div style="font-size:9px;color:#888780;margin-top:2px">'+vpd.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' venda(s) por disparo</div></td></tr>';
+  });
+  o+='</tbody></table></div></div>';
+
+  // ---- ranking dos slots (dia + hora) ----
+  var rank=slots.slice().sort(function(a,b){ return (b.t-a.t)||(b.r-a.r); });
+  o+='<div class="cg">';
+  o+='<div class="card"><div class="ct2">🏆 Melhores slots — dia + horário</div>'
+    +'<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th>Slot</th><th style="text-align:right">Sessões</th>'
+    +'<th style="text-align:right">Vendas</th><th style="text-align:right">Conversão</th></tr></thead><tbody>';
+  rank.slice(0,5).forEach(function(x,i){
+    o+='<tr'+(i===0?' style="background:'+col+'0f"':'')+'><td><b>'+x.d+'</b> '+x.h+'</td>'
+      +'<td style="text-align:right">'+n(x.s)+'</td><td style="text-align:right;font-weight:700">'+n(x.t)+'</td>'
+      +'<td style="text-align:right">'+pc(x.t,x.s)+'</td></tr>';
+  });
+  o+='</tbody></table></div></div>';
+  o+='<div class="card"><div class="ct2">🔻 Piores slots — dia + horário</div>'
+    +'<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th>Slot</th><th style="text-align:right">Sessões</th>'
+    +'<th style="text-align:right">Vendas</th><th style="text-align:right">Conversão</th></tr></thead><tbody>';
+  rank.slice(-5).reverse().forEach(function(x,i,arr){
+    o+='<tr'+(i===arr.length-1?' style="background:#EF9F2712"':'')+'><td><b>'+x.d+'</b> '+x.h+'</td>'
+      +'<td style="text-align:right">'+n(x.s)+'</td><td style="text-align:right;font-weight:700">'+n(x.t)+'</td>'
+      +'<td style="text-align:right">'+pc(x.t,x.s)+'</td></tr>';
+  });
+  o+='</tbody></table></div></div>';
+  o+='</div>';
+
+  // ---- e-mail por horário ----
+  var mails=[];
+  H.eds.forEach(function(e){ if(e.emails) e.emails.forEach(function(m){ mails.push(m); }); });
+  if(mails.length){
+    var porH={};
+    mails.forEach(function(m){
+      if(!porH[m.h]) porH[m.h]={h:m.h,s:0,t:0,r:0,n:0};
+      var a=porH[m.h]; a.s+=m.s; a.t+=m.t; a.r+=m.r; a.n++;
+    });
+    var hs=Object.keys(porH).sort();
+    var maxT2=0; mails.forEach(function(m){ if(m.t>maxT2) maxT2=m.t; });
+    om+='<div class="card" style="margin-bottom:.8rem">';
+    om+='<div class="ct2">Desempenho por horário de envio</div>';
+    om+='<div class="nb" style="font-size:10px;margin-bottom:10px">A grade de e-mail tem só dois horários: 07h (segunda dos ganhadores e sábado) e 17h (terça a sexta). Como o 07h coincide com esses dois dias, não é possível separar o efeito do horário do efeito do dia.</div>';
+    om+='<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th>Horário</th><th style="text-align:right">Envios</th>'
+      +'<th style="text-align:right">Sessões</th><th style="text-align:right">Vendas</th><th style="text-align:right">Receita</th>'
+      +'<th style="text-align:right">Conversão</th></tr></thead><tbody>';
+    hs.forEach(function(h){
+      var a=porH[h];
+      om+='<tr><td style="font-weight:700">'+h+'</td><td style="text-align:right;color:#888780">'+a.n+'</td>'
+        +'<td style="text-align:right">'+n(a.s)+'</td><td style="text-align:right;font-weight:600">'+n(a.t)+'</td>'
+        +'<td style="text-align:right">'+rs(a.r)+'</td>'
+        +'<td style="text-align:right;font-weight:700;color:'+col+'">'+pc(a.t,a.s)+'</td></tr>';
+    });
+    om+='</tbody></table></div>';
+    om+='<div style="font-size:10px;font-weight:600;color:#636057;margin:12px 0 6px">Cada envio da edição</div>';
+    mails.slice().sort(function(a,b){ return (b.t-a.t)||(b.r-a.r); }).forEach(function(m){
+      om+='<div style="margin-bottom:8px">'
+        +'<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">'
+        +'<span><b>'+m.d+' '+m.h+'</b> <span style="color:#888780">'+m.n+'</span></span>'
+        +'<span style="font-weight:700;color:'+col+'">'+pc(m.t,m.s)+'</span></div>'
+        +'<div class="cyb"><div class="cbf" style="width:'+(maxT2?m.t/maxT2*100:0).toFixed(1)+'%;background:#378ADD"></div></div>'
+        +'<div style="font-size:10px;color:#888780;margin-top:2px">'+n(m.s)+' sessões · '+n(m.t)+' vendas · '+rs(m.r)+'</div></div>';
+    });
+    om+='</div>';
+  }
+
+  // ---- leituras ----
+  var melhorCv=horas.slice().sort(function(a,b){ return porHora[b].t/porHora[b].s - porHora[a].t/porHora[a].s; })[0];
+  var piorCv=horas.slice().sort(function(a,b){ return porHora[a].t/porHora[a].s - porHora[b].t/porHora[b].s; })[0];
+  var maisVol=horas.slice().sort(function(a,b){ return porHora[b].s - porHora[a].s; })[0];
+  var ins=[];
+  ins.push({e:'⏰',t:'O horário de <b>'+melhorCv+'</b> converte '+pc(porHora[melhorCv].t,porHora[melhorCv].s)+', contra '+pc(porHora[piorCv].t,porHora[piorCv].s)+' de <b>'+piorCv+'</b>.'});
+  ins.push({e:'📊',t:'<b>'+maisVol+'</b> é o horário que traz mais sessões ('+n(porHora[maisVol].s)+'), com conversão de '+pc(porHora[maisVol].t,porHora[maisVol].s)+' — volume alto não garante venda.'});
+  var madr=porHora['00h30'];
+  if(madr) ins.push({e:'🌙',t:'Os disparos de <b>00h30</b> somam '+n(madr.t)+' vendas em '+n(madr.s)+' sessões ('+pc(madr.t,madr.s)+') — vale acompanhar antes de decidir manter o horário na grade.'});
+  if(H.eds.length===1) ins.push({e:'⚠️',t:'Leitura de <b>uma edição</b>. Os horários vêm do export da Insider, que só existe a partir da Ed.'+H.eds[0].ed+'; a cada semana nova o ranking fica mais confiável.'});
+  o+='<div class="card" style="margin-top:.8rem"><div class="ct2">💡 Leituras — horários</div>'+ins.map(function(x){
+    return '<div class="ir"><div class="ii" style="background:'+col+'1f;font-size:12px;font-weight:700;min-width:22px;text-align:center">'+x.e+'</div><div style="font-size:11px;line-height:1.6">'+x.t+'</div></div>';
+  }).join('')+'</div>';
+
+  if(H.eds[0].extra){
+    var ex=H.eds[0].extra;
+    o+='<div class="nb" style="font-size:10px;margin-top:8px">Fora do ranking: o 5º disparo de sábado da Ed.'+H.eds[0].ed+' ('+n(ex.s)+' sessões · '+n(ex.t)+' vendas · '+rs(ex.r)+') não consta no export da Insider com horário, por isso não entrou em nenhum slot.</div>';
+  }
+  if(elWp) elWp.innerHTML=o;
+  if(elEm) elEm.innerHTML=om;
+}
+
 function showT(id,btn){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
@@ -3658,12 +3820,6 @@ function rRank(){
     else if(e.wc) wpAll.push({n:'Ed.'+e.ed,ed:e.ed,val:e.val,dl:e.wd,ctr:e.wc});
   });
   wpAll.sort(function(a,b){return b.ctr-a.ctr;});
-  document.getElementById('wpb').innerHTML=wpAll.slice(0,5).map(function(r){
-    return '<tr class="hi"><td>Ed.'+r.ed+'</td><td>R$'+r.val+'</td><td>'+fmt(r.dl)+'</td><td>'+r.ctr+'%</td></tr>';
-  }).join('');
-  document.getElementById('wpw').innerHTML=wpAll.slice(-5).reverse().map(function(r){
-    return '<tr class="lo"><td>Ed.'+r.ed+'</td><td>R$'+r.val+'</td><td>'+fmt(r.dl)+'</td><td>'+r.ctr+'%</td></tr>';
-  }).join('');
 
   // ── Rankings Email — apenas mar/2026+ (base estabilizada) ──
   var emAll=[];
@@ -3674,30 +3830,6 @@ function rRank(){
     else if(e.eo) emAll.push({n:'Ed.'+e.ed,ed:e.ed,val:e.val,op:e.eo,ctor:e.eo?parseFloat((e.ec/e.eo*100).toFixed(1)):0});
   });
   emAll.sort(function(a,b){return b.ctor-a.ctor;});
-  document.getElementById('emb').innerHTML=emAll.slice(0,5).map(function(r){
-    return '<tr class="hi"><td style="white-space:normal;line-height:1.4;font-size:11px">'+r.n+'</td><td>'+r.ed+'</td><td>R$'+(r.val||'—')+'</td><td>'+r.op+'%</td><td>'+(r.ctor||'—')+'%</td></tr>';
-  }).join('');
-  document.getElementById('emw').innerHTML=emAll.filter(function(r){return r.ctor>0;}).slice(-5).reverse().map(function(r){
-    return '<tr class="lo"><td style="white-space:normal;line-height:1.4;font-size:11px">'+r.n+'</td><td>'+r.ed+'</td><td>R$'+(r.val||'—')+'</td><td>'+r.op+'%</td><td>'+(r.ctor||'—')+'%</td></tr>';
-  }).join('');
-
-  // ── Rankings App Push ──
-  // App Push: usar d.apb (dados pré-calculados) quando disponível
-  var apbEl=document.getElementById('apb');
-  if(apbEl){
-    if(d.apb&&d.apb.length){
-      apbEl.innerHTML=d.apb.map(function(r){
-        return '<tr class="hi"><td style="white-space:normal;line-height:1.4;font-size:11px">'+r.n+'</td><td>R$'+(r.val||r.op)+'</td><td>'+fmt(r.dl)+'</td><td>'+r.op+'%</td></tr>';
-      }).join('');
-    } else {
-      var apAll=d.eds.filter(function(e){return e.ap_opr;}).sort(function(a,b){return b.ap_opr-a.ap_opr;});
-      apbEl.innerHTML=apAll.slice(0,5).map(function(e){
-        return '<tr class="hi"><td>Ed.'+e.ed+'</td><td>'+fmt(e.ao)+'</td><td>'+e.ap_opr+'%</td></tr>';
-      }).join('');
-    }
-  }
-
-  // ── Insights de canal ──
   var insEl=document.getElementById('ch-ins');
   if(insEl){
     var insItems=[];
@@ -3774,17 +3906,15 @@ function rRank(){
   const rv=[{ch:'App Push',v:d.ap.opr,l:d.ap.opr+'% abertura',c:'#EF9F27'},{ch:'E-mail',v:d.em.op,l:d.em.op+'% abertura',c:'#7F77DD'},{ch:'Web Push',v:d.wp.ctr,l:d.wp.ctr+'% CTR',c:'#378ADD'}];
   const mr=Math.max(...rv.map(x=>x.v));
   var _elchrch=document.getElementById('chrch');if(_elchrch)_elchrch.innerHTML=rv.map(x=>`<div class="cr"><div class="cnm">${x.ch}</div><div class="cbw" style="background:#eeeee8;border-radius:99px;height:5px;overflow:hidden"><div style="width:${Math.round(x.v/mr*100)}%;background:${x.c};height:100%;border-radius:99px"></div></div><div class="cvl">${x.l}</div></div>`).join('');
-  document.getElementById('wpb').innerHTML=d.wpb.map(r=>`<tr class="hi"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed}</td><td>${fmt(r.dl)}</td><td>${r.ctr}%</td></tr>`).join('');
-  document.getElementById('wpw').innerHTML=d.wpw.map(r=>`<tr class="lo"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed}</td><td>${fmt(r.dl)}</td><td>${r.ctr}%</td></tr>`).join('');
-  document.getElementById('emb').innerHTML=d.emb.map(r=>`<tr class="hi"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed||'—'}</td><td>${fmt(r.sn)}</td><td>${r.op}%</td><td>${r.cv!=null?r.cv:'—'}</td><td>${r.rv!=null?fR(r.rv):'—'}</td></tr>`).join('');
-  document.getElementById('emw').innerHTML=d.emw.map(r=>`<tr class="lo"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed||'—'}</td><td>${fmt(r.sn)}</td><td>${r.op}%</td><td>${r.cv!=null?r.cv:'—'}</td><td>${r.rv!=null?fR(r.rv):'—'}</td></tr>`).join('');
-  document.getElementById('apb').innerHTML=d.apb.map(r=>`<tr class="hi"><td style="white-space:normal;line-height:1.4">${r.n}</td><td>${r.ed}</td><td>${fmt(r.dl)}</td><td>${r.op}%</td></tr>`).join('');
   var _elchins=document.getElementById('chins');if(_elchins)_elchins.innerHTML=[
     {e:'⬇️',t:`CTR do Web Push caiu ao longo do período — base cresceu, mais usuários novos com menor engajamento inicial.`},
     {e:'📧',t:`Abertura do e-mail está estável após crescimento de base. Campanhas de resultado do sorteio continuam com maior abertura.`},
-    {e:'📱',t:`App Push: ${d.ap.opr}% de abertura média — canal restrito a usuários com app instalado.`},
     {e:'💰',t:`Web Push gera maior revenue direto. E-mail tem maior alcance. Combinar os dois nas edições de ticket mais alto amplifica o resultado.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+  rHorario();
+  var _wpSec=document.getElementById('perf-sec-wp'), _wpHdr=document.getElementById('perf-hdr-wp');
+  if(_wpSec) _wpSec.style.borderColor=col;
+  if(_wpHdr) _wpHdr.style.background=col;
 }
 
 function rBase(){
@@ -4372,7 +4502,7 @@ function rCopy(){
   var _el_tworst=document.getElementById('tworst');if(_el_tworst)_el_tworst.innerHTML=cpd.worst.map((r,i)=>`<tr><td>${i+1}</td><td>${cBadge(r.cat)}</td><td style="white-space:normal;line-height:1.4">${r.s}</td><td>${fmt(r.sn)}</td><td style="color:#D85A30">${r.op.toFixed(1)}%</td><td>${r.ctr.toFixed(2)}%</td><td>${fR(r.rv)}</td></tr>`).join('');
   const dec=cpd.decay,colCap=D[cc].col;
   var _els_dec_ld1=document.getElementById('dec-ld1');if(_els_dec_ld1)_els_dec_ld1.style.background=colCap;var _els_dec_ld2=document.getElementById('dec-ld2');if(_els_dec_ld2)_els_dec_ld2.style.background=colCap;
-  var _dn=document.getElementById('decay-note');if(_dn)_dn.textContent=`Envios médios saltaram de ~${Math.round(dec.sent[0]/1000)}k (${dec.months[0]}) para ~${Math.round(dec.sent[2]/1000)}k (${dec.months[2]}) — aumento de ${Math.round(dec.sent[2]/dec.sent[0])}×. A queda de abertura ocorreu entre semanas (volume), não dentro delas (frequência).`;
+  var _dn=document.getElementById('decay-note');if(_dn)_dn.textContent=`Abertura por mês desde mar/2026, quando a base estabilizou: variou entre ${Math.min.apply(null,dec.open).toFixed(2)}% e ${Math.max.apply(null,dec.open).toFixed(2)}%. Envios caíram de ~${Math.round(dec.sent[0]/1000000*10)/10}M (${dec.months[0]}) para ~${Math.round(dec.sent[dec.sent.length-1]/1000000*10)/10}M (${dec.months[dec.months.length-1]}) sem perda de abertura.`;
   ch['cdec']=new Chart(document.getElementById('cdec'),{type:'line',data:{labels:dec.months,datasets:[{label:'Abertura (%)',data:dec.open,borderColor:colCap,backgroundColor:'transparent',yAxisID:'y',tension:0.3},{label:'Envios (k)',data:dec.sent.map(v=>Math.round(v/1000)),borderColor:colCap,backgroundColor:'transparent',borderDash:[5,3],yAxisID:'y1',tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:12}}},scales:{x:{ticks:{font:{size:10}}},y:{ticks:{callback:v=>v+'%',font:{size:10}}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'k',font:{size:10}}}}}});
 
   // Cruzamento categoria × valor do título — usando dados reais de abertura por edição
@@ -4390,13 +4520,20 @@ function rCopy(){
     </div>
     <div class="nb warn" style="font-size:10px">Para cruzar categoria de copy × valor de título com precisão, seria necessário exportar abertura por campanha individual para todas as edições históricas.</div>`;
 
+  var _catTop=[...cpd.cats].sort((a,b)=>b.ctr-a.ctr)[0];
+  var _catBase=[...cpd.cats].filter(c=>c.c!==_catTop.c).sort((a,b)=>b.ctr-a.ctr)[0];
+  var _opMax=[...cpd.cats].sort((a,b)=>b.op-a.op)[0], _opMin=[...cpd.cats].sort((a,b)=>a.op-b.op)[0];
+  var _hMax=cpd.hour[0], _hMin=cpd.hour[cpd.hour.length-1];
+  var _dMax=cpd.dow[0], _dMin=cpd.dow[cpd.dow.length-1];
+  var _lnS=cpd.len.map(l=>l.op), _lnSpread=(Math.max.apply(null,_lnS)-Math.min.apply(null,_lnS)).toFixed(2);
+  var _decMin=Math.min.apply(null,dec.open), _decMax=Math.max.apply(null,dec.open);
   var _el_cross=document.getElementById('cross');if(_el_cross)_el_cross.innerHTML=[
-    {e:'🏆',t:`<b>Resultado do sorteio = maior CTR.</b> ${cc==='mc'?'3.5%':cc==='sm'?'1.1%':'2.6%'} vs 0.2% de campanhas normais.`},
-    {e:'👤',t:`<b>Personalização abre mais em edições de maior valor.</b> Funciona melhor com R$20–R$25, quando o cliente percebe mais em jogo.`},
-    {e:'🕐',t:`<b>17h–20h é a janela ideal.</b> ${cpd.hour[0].v.toFixed(0)}% às ${cpd.hour[0].h}. Base 97% mobile.`},
-    {e:'📝',t:`<b>Assuntos curtos (<30 chars) abrem ${Math.round(cpd.len[0].op/cpd.len[2].op)}× mais</b> que longos.`},
-    {e:'🚫',t:`<b>Caixa alta e emoji derrubam a abertura.</b> Sem emoji: ${cpd.elem.sem_emoji}% vs com: ${cpd.elem.com_emoji}%.`},
-    {e:'📈',t:`<b>Decaimento é de base.</b> Volume saltou ${Math.round(dec.sent[2]/dec.sent[0])}× — a abertura caiu junto, não por frequência de envio.`}
+    {e:'🏆',t:`<b>${catL(_catTop.c)} é a única categoria que muda o clique:</b> CTR de ${_catTop.ctr}% contra ${_catBase.ctr}% da segunda colocada. Na abertura a diferença desaparece.`},
+    {e:'📊',t:`<b>Abertura quase não varia por categoria:</b> de ${_opMin.op}% (${catL(_opMin.c)}) a ${_opMax.op}% (${catL(_opMax.c)}) — ${(_opMax.op-_opMin.op).toFixed(2)} p.p. de diferença em ${cpd.meta.camp} campanhas.`},
+    {e:'🕐',t:`<b>Horário:</b> ${_hMax.h} abre ${_hMax.v}% e ${_hMin.h} abre ${_hMin.v}%. Os horários com muitas campanhas ficam todos perto da média de ${cpd.meta.op}%, então a diferença dos extremos vem de poucos envios.`},
+    {e:'📅',t:`<b>Dia da semana:</b> ${_dMax.d} lidera com ${_dMax.v}% e ${_dMin.d} fecha com ${_dMin.v}%. ${_dMax.d} é o dia do e-mail de ganhadores, o que explica boa parte da vantagem.`},
+    {e:'📝',t:`<b>Comprimento e elementos do assunto praticamente não pesam:</b> ${_lnSpread} p.p. entre o melhor e o pior tamanho; sem emoji ${cpd.elem.sem_emoji}% contra ${cpd.elem.com_emoji}% com emoji.`},
+    {e:'📈',t:`<b>A base parou de decair:</b> abertura entre ${_decMin.toFixed(2)}% e ${_decMax.toFixed(2)}% desde mar/2026, com o volume de envio caindo. A queda histórica era diluição de base, não desgaste de copy.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
 }
 
@@ -4495,7 +4632,8 @@ document.body.style.setProperty('--cap-col','#E30613');
   <div id="testes-content"></div>
 </div>
 <div id="t-diapais" class="sec">
-  <div class="src"><span>👨 <strong>Dia dos Pais 2026</strong> — ed 532 (MC) · 448 (SM) · 439 (SV) · 02–09/ago</span><span class="upd">✓ 11/08/2026</span></div>
+  <div class="src"><span>👨 <strong>Dia dos Pais 2026</strong> — ed 532 (MC) · 448 (SM) · 439 (SV) · 02–09/ago</span><span class="upd">✓ 17/08/2026</span></div>
+  <div class="nb" style="font-size:10px;margin-bottom:.8rem">Fonte das vendas: <b>GA4 por campanha</b> em e-mail, web push e disparos avulsos. <b>Insider</b> nos pop ups e nas jornadas, onde o GA4 não separa por canal do fluxo. <b>ERP</b> na Campanha de Saldo, que é medida na base e não em sessão de site.</div>
   <div id="diapais-charts"></div>
   <div id="diapais-content"></div>
   <div class="card" style="margin-top:.8rem">
