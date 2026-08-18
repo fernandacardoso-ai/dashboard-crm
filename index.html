@@ -122,6 +122,13 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 .jornada-sub{font-size:10px;color:#636057;margin-top:2px}
 .jornada-val{font-size:15px;font-weight:700;min-width:60px;text-align:right}
 .tab.ed5tab.on{background:#EF9F27 !important;border-color:#EF9F27 !important;color:#fff !important}
+
+.dp-acao{background:#f8f7f4;border:1px solid #ece9e2;border-left:3px solid var(--dpc,#c9c6bd);border-radius:8px;padding:10px 12px;transition:box-shadow .15s,transform .15s,background .15s}
+.dp-acao:hover{background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.07);transform:translateY(-1px)}
+.dp-acao-off{opacity:.75}
+.dp-acao-off:hover{background:#f8f7f4;box-shadow:none;transform:none}
+.dp-acao-on{background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.10)}
+.dp-chip{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:.03em}
 </style>
 </head>
 <body>
@@ -1150,7 +1157,7 @@ const DIAPAIS = {
   mc:{
     name:'Minas Cap',col:'#E30613',col2:'#FDC300',prem:'R$ 2 milhões em prêmios',
     ed:'532',val:25,meta_fat:97955,meta_roas:6.4,bm_or:7.1,bm_ctor:2.0,bm_wc:0.75,
-    ga4_rev:50805,ga4_comp:1745,ga4_roas:3.3,
+    ga4_rev:50805,ga4_comp:1745,ga4_roas:3.3,ga4_sess:33834,
     email_sent:936040,email_or:7.52,email_ctr:0.19,email_rev:10675,
     wp_sent:2294534,wp_del:849590,wp_ctr:0.26,wp_conv:287,wp_rev:8540,
     saldo:null,
@@ -1195,7 +1202,7 @@ const DIAPAIS = {
   sm:{
     name:'Super Minas',col:'#c47a00',col2:'#E30613',prem:'R$ 800 mil em prêmios',
     ed:'448',val:20,meta_fat:25000,meta_roas:6.9,bm_or:6.3,bm_ctor:1.6,bm_wc:0.69,
-    ga4_rev:15020,ga4_comp:682,ga4_roas:3.5,
+    ga4_rev:15020,ga4_comp:682,ga4_roas:3.5,ga4_sess:7036,
     email_sent:355522,email_or:7.35,email_ctr:0.14,email_rev:2700,
     wp_sent:824196,wp_del:302061,wp_ctr:0.26,wp_conv:155,wp_rev:3220,
     extras:{jornada:{label:'Jornada — Compra Abandonada',periodo:'30/jul–11/ago',entradas:28224,saidas:5138,conv:24,rev:560,canais:[{canal:'Web Push',sent:21845,del:11265,clicks:403,ctr:3.58,conv:13,rev:300},{canal:'Email',sent:5772,del:5533,clicks:48,ctr:0.49,conv:3,rev:80},{canal:'Pop Up on-site',sent:0,del:198,clicks:46,ctr:23.23,conv:8,rev:180},{canal:'App Push',sent:70,del:70,clicks:3,ctr:4.29,conv:0,rev:0}]},popup_sessao:{label:'Pop Up — Abandono de Sessão',periodo:'07–09/ago',imp:113,clicks:47,ctr:41.6,conv:1,rev:60},popup_prem:{label:'Pop Up — Premiação (Pág. Resultados)',periodo:'02–09/ago',imp:1628,clicks:91,ctr:5.6,conv:2,rev:null},popup_saldo:{label:'Pop Up — Saldo (Home)',periodo:'02–09/ago',imp:61,clicks:17,ctr:27.9,conv:0,rev:0},},
@@ -1214,7 +1221,7 @@ const DIAPAIS = {
   sv:{
     name:'Super Vale',col:'#c85000',col2:'#FDC300',prem:'R$ 500 mil em prêmios',
     ed:'439',val:10,meta_fat:13000,meta_roas:5.9,bm_or:5.7,bm_ctor:2.3,bm_wc:0.72,
-    ga4_rev:7230,ga4_comp:320,ga4_roas:3.3,
+    ga4_rev:7230,ga4_comp:320,ga4_roas:3.3,ga4_sess:4404,
     email_sent:200979,email_or:6.36,email_ctr:0.15,email_rev:1420,
     wp_sent:456939,wp_del:164378,wp_ctr:0.28,wp_conv:68,wp_rev:1500,
     extras:{
@@ -2164,6 +2171,22 @@ const TESTES = [
   }
 ];
 
+function dpPick(cap, ix){
+  var cont=document.getElementById('dp-res-'+cap); if(!cont) return;
+  var alvo=document.getElementById('dpr-'+cap+'-'+ix);
+  var jaAberto = alvo && alvo.style.display==='block';
+  var paineis=cont.children;
+  for(var i=0;i<paineis.length;i++) paineis[i].style.display='none';
+  var cards=document.querySelectorAll('[id^="dpa-'+cap+'-"]');
+  for(var j=0;j<cards.length;j++) cards[j].classList.remove('dp-acao-on');
+  if(!jaAberto && alvo){
+    alvo.style.display='block';
+    var c=document.getElementById('dpa-'+cap+'-'+ix);
+    if(c) c.classList.add('dp-acao-on');
+    if(c && c.scrollIntoView) { /* mantém a lista visível */ }
+  }
+}
+
 function crmToggle(ev){var el=ev.currentTarget.getAttribute("data-tid");var b=document.getElementById("b-"+el);var a=document.getElementById("a-"+el);if(!b)return;if(b.style.display==="none"){b.style.display="block";a.style.transform="rotate(180deg)";}else{b.style.display="none";a.style.transform="rotate(0deg)";}}
 
 function rDiaPais(){
@@ -2184,11 +2207,15 @@ function rDiaPais(){
   out += '<div><div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:2px">👨 Dia dos Pais 2026 — '+d.name+'</div>';
   out += '<div style="font-size:13px;color:rgba(255,255,255,.45)">Ed. '+d.ed+' · Título R$'+d.val+' · '+d.prem+'</div></div>';
   out += '<div style="display:flex;gap:12px;flex-wrap:wrap">';
-  ['Receita CRM|'+fR(d.ga4_rev)+'|'+col,'Meta|'+fR(d.meta_fat)+'|#fff','Atingimento|'+atingPct+'%|'+deltaCol,'ROAS|'+d.ga4_roas+'x (alvo '+d.meta_roas+'x)|'+col].forEach(function(chip){
+  var _sess=d.ga4_sess||0;
+  var _tx=_sess?(d.ga4_comp/_sess*100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%':'—';
+  ['Receita CRM|'+fR(d.ga4_rev)+'|'+col,'Meta|'+fR(d.meta_fat)+'|#fff','Atingimento|'+atingPct+'%|'+deltaCol,'ROAS|'+d.ga4_roas+'x (alvo '+d.meta_roas+'x)|'+col,'Sessões geradas|'+fN(_sess)+'|#fff','Conversão CRM|'+_tx+'|'+col+'|'+fN(d.ga4_comp)+' vendas ÷ '+fN(_sess)+' sessões'].forEach(function(chip){
     var p=chip.split('|');
     out += '<div style="background:rgba(255,255,255,.08);border-radius:8px;padding:10px 16px;text-align:center;min-width:110px">';
     out += '<div style="font-size:10px;color:rgba(255,255,255,.4);margin-bottom:2px">'+p[0]+'</div>';
-    out += '<div style="font-size:18px;font-weight:700;color:'+p[2]+'">'+p[1]+'</div></div>';
+    out += '<div style="font-size:18px;font-weight:700;color:'+p[2]+'">'+p[1]+'</div>';
+    if(p[3]) out += '<div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;white-space:nowrap">'+p[3]+'</div>';
+    out += '</div>';
   });
   out += '</div></div></div>';
 
@@ -2257,154 +2284,268 @@ function rDiaPais(){
     out+='</div></div>';
   }
 
-  // ── 1. AÇÕES ESPECIAIS ───────────────────────────────
-  if(d.extras){
-    var ex=d.extras;
-    out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">⚙️ Ações especiais — Jornadas & Pop Ups</div>';
+  out+='<div id="diapais-yoy"></div>';
 
-    // Base Norte (SV only)
-    if(ex.base_norte){
-      var bn = ex.base_norte;
-      out += '<div style="margin-bottom:14px">';
-      out += '<div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:6px">🌎 '+bn.label+' <span style="font-size:10px;color:#888;font-weight:400">('+bn.periodo+')</span></div>';
-      out += '<div style="font-size:11px;color:#636057;margin-bottom:8px;line-height:1.4">'+bn.desc+'</div>';
-      var thBN = col+';color:#fff;text-align:left;padding:4px 7px;font-size:10px;font-weight:600;border-bottom:none';
-      // Email
-      out += '<div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:4px">📧 E-mail</div>';
-      out += '<div style="overflow-x:auto;margin-bottom:8px"><table><thead><tr>';
-      out += '<td style="background:'+thBN+'">Campanha</td><td style="background:'+thBN+'">Enviados</td><td style="background:'+thBN+'">Entregues</td><td style="background:'+thBN+'">Abertura</td><td style="background:'+thBN+'">CTOR</td>';
-      out += '</tr></thead><tbody>';
-      bn.email.forEach(function(e){
-        out += '<tr><td style="font-size:11px">'+e.nome+' ('+e.data+')</td><td>'+fN(e.enviados)+'</td><td>'+fN(e.entregues)+'</td><td style="font-weight:700">'+e.abertura.toFixed(2)+'%</td><td style="font-weight:700">'+e.ctor.toFixed(2)+'%</td></tr>';
-      });
-      out += '</tbody></table></div>';
-      // WP
-      out += '<div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:4px">🔔 Web Push</div>';
-      out += '<div style="overflow-x:auto"><table><thead><tr>';
-      out += '<td style="background:'+thBN+'">Campanha</td><td style="background:'+thBN+'">Enviados</td><td style="background:'+thBN+'">Entregues</td><td style="background:'+thBN+'">CTR</td>';
-      out += '</tr></thead><tbody>';
-      bn.wp.forEach(function(w){
-        out += '<tr><td style="font-size:11px">'+w.nome+' ('+w.data+')</td><td>'+fN(w.enviados)+'</td><td>'+fN(w.entregues)+'</td><td style="font-weight:700">'+w.ctr.toFixed(2)+'%</td></tr>';
-      });
-      out += '</tbody></table></div>';
-      out += '</div>';
-    }
 
-    // Jornadas
-    [ex.jornada, ex.jornada2].forEach(function(j){
-      if(!j) return;
-      out+='<div style="margin-bottom:12px"><div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:6px">🔄 '+j.label+' <span style="font-size:10px;color:#888;font-weight:400">('+j.periodo+')</span></div>';
-      out+='<div class="cg" style="margin-bottom:6px">';
-      out+='<div class="mk" style="text-align:center"><div class="ml">Entradas</div><div class="mv">'+fN(j.entradas)+'</div></div>';
-      out+='<div class="mk" style="text-align:center"><div class="ml">Saídas (compra)</div><div class="mv" style="color:#1D9E75">'+fN(j.saidas)+'</div></div>';
-      out+='<div class="mk" style="text-align:center"><div class="ml">Conversões</div><div class="mv">'+j.conv+'</div></div>';
-      out+='<div class="mk" style="text-align:center"><div class="ml">Receita</div><div class="mv">'+fR(j.rev)+'</div></div></div>';
-      var thJ=col+';color:#fff;text-align:left;padding:4px 7px;font-size:10px;font-weight:600;border-bottom:none';
-      var jRows='';
-      j.canais.forEach(function(c){
-        var _cs=(c.enviados!=null?c.enviados:c.sent), _cd=(c.entregues!=null?c.entregues:c.del);
-        jRows+='<tr><td style="font-size:11px">'+c.canal+'</td><td>'+(_cs>0?fN(_cs):'—')+'</td><td>'+fN(_cd)+'</td><td style="font-weight:700">'+c.ctr.toFixed(2)+'%</td><td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
-      });
-      out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thJ+'">Canal</td><td style="background:'+thJ+'">Enviados</td><td style="background:'+thJ+'">Entregues</td><td style="background:'+thJ+'">CTR</td><td style="background:'+thJ+'">Conv.</td><td style="background:'+thJ+'">Receita</td></tr></thead><tbody>'+jRows+'</tbody></table></div></div>';
+  // ── AÇÕES CRM: menu clicável ─────────────────────────
+  var ex = d.extras || {};
+  var res = {};   // chave -> html do resultado
+
+  // ---- helpers de tabela ----
+  var thS = col+';color:#fff;text-align:left;padding:5px 7px;font-size:10px;font-weight:600;border-bottom:none';
+  var bm_or=d.bm_or, bm_ctor=d.bm_ctor, bm_wc=d.bm_wc;
+
+  function tabelaEmail(lista, comBench){
+    if(!lista.length) return '';
+    var rows='';
+    lista.forEach(function(c){
+      var label=c.name.replace(/.*_ed\d+_/,'').replace(/.*Edicao\d+_/,'').replace(/_/g,' ');
+      label=label.charAt(0).toUpperCase()+label.slice(1);
+      if(c.desg) label='Sexta Reativação';
+      var ctor=c.or>0?parseFloat((c.ctr/c.or*100).toFixed(1)):0;
+      rows+='<tr><td style="white-space:normal;font-size:11px;line-height:1.4">'+label+'</td>';
+      rows+='<td style="font-size:10px;color:#888;white-space:normal;line-height:1.3"><em>'+c.subject+'</em></td>';
+      rows+='<td>'+fN(c.sent)+'</td>';
+      rows+='<td style="color:'+(c.or>=bm_or?'#1D9E75':'#1a1916')+';font-weight:700">'+c.or.toFixed(2)+'%</td>';
+      rows+='<td style="color:'+(ctor>=bm_ctor?'#1D9E75':'#1a1916')+';font-weight:700">'+ctor.toFixed(1)+'%</td>';
+      rows+='<td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
     });
-
-    // Pop Ups
-    out+='<div style="font-size:12px;font-weight:700;color:#1a1916;margin:10px 0 6px">📱 Pop Ups</div>';
-    out+='<div class="cg">';
-    [ex.popup_prem, ex.popup_saldo, ex.popup_sessao].forEach(function(p){
-      if(!p) return;
-      out+='<div class="mk"><div class="ml">'+p.label+'</div><div style="font-size:10px;color:#888;margin-bottom:4px">'+p.periodo+'</div>';
-      out+='<div style="display:flex;gap:10px;font-size:11px;flex-wrap:wrap"><span>Impressões: <strong>'+fN(p.imp)+'</strong></span><span>CTR: <strong style="color:'+col+'">'+p.ctr.toFixed(1)+'%</strong></span><span>Conv.: <strong>'+p.conv+'</strong></span>';
-      if(p.rev!=null) out+='<span>Receita: <strong>'+fR(p.rev)+'</strong></span>';
-      out+='</div></div>';
-    });
-    out+='</div>';
-
-    // Máscara A/B (MC only)
-    if(ex.mascara && ex.mascara.mobile){
-      var m=ex.mascara;
-      out+='<div style="margin-top:12px"><div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:8px">🖥️ '+m.label+' <span style="font-size:10px;color:#888;font-weight:400">('+m.periodo+')</span></div>';
-      out+='<div class="cg">';
-      [{dev:'📱 Mobile',data:m.mobile},{dev:'🖥️ Desktop',data:m.desktop}].forEach(function(item){
-        var md=item.data;
-        out+='<div class="card"><div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:6px">'+item.dev+'</div>';
-        out+='<table><thead><tr>';
-        ['Variante','Visitantes','CTR','Conv.','Receita'].forEach(function(h){ out+='<td style="background:#636057;color:#fff;padding:4px 8px;font-size:10px;font-weight:600">'+h+'</td>'; });
-        out+='</tr></thead><tbody>';
-        out+='<tr><td style="font-size:11px">Site normal</td><td>'+fN(md.normal_vis)+'</td><td>'+md.normal_ctr.toFixed(2)+'%</td><td>'+md.normal_conv+'</td><td>'+fR(md.normal_rev)+'</td></tr>';
-        out+='<tr style="background:#f0ffe8"><td style="font-size:11px;font-weight:700">Máscara azul ✓</td><td>'+fN(md.azul_vis)+'</td><td style="color:#1D9E75;font-weight:700">'+md.azul_ctr.toFixed(2)+'%</td><td style="color:#1D9E75;font-weight:700">'+md.azul_conv+'</td><td style="color:#1D9E75;font-weight:700">'+fR(md.azul_rev)+'</td></tr>';
-        out+='</tbody></table></div>';
-      });
-      out+='</div><div style="font-size:11px;color:#636057;margin-top:4px">✓ Máscara azul venceu — mobile +3,3x CTR com '+(m.mobile.azul_conv-m.mobile.normal_conv)+' conversões a mais.</div></div>';
-    }
-    out+='</div>';
+    var bmRow = comBench
+      ? '<tr style="background:#fff0f0"><td colspan="3" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="font-weight:700;color:#a80000">'+bm_or.toFixed(1)+'%</td><td style="font-weight:700;color:#a80000">'+bm_ctor.toFixed(1)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>'
+      : '';
+    var tot=lista.reduce(function(s2,c){ return {sent:s2.sent+c.sent, conv:s2.conv+c.conv, rev:s2.rev+c.rev}; },{sent:0,conv:0,rev:0});
+    var h='<div style="display:flex;gap:14px;margin-bottom:8px;font-size:11px;flex-wrap:wrap;color:#636057">'
+      +'<span>Envios: <strong style="color:#1a1916">'+lista.length+'</strong></span>'
+      +'<span>Enviados: <strong style="color:#1a1916">'+fN(tot.sent)+'</strong></span>'
+      +'<span>Vendas: <strong style="color:'+col+'">'+fN(tot.conv)+'</strong></span>'
+      +'<span>Receita: <strong style="color:'+col+'">'+fR(tot.rev)+'</strong></span></div>';
+    h+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thS+'">Campanha</td><td style="background:'+thS+'">Subject</td><td style="background:'+thS+'">Enviados</td><td style="background:'+thS+'">Abertura</td><td style="background:'+thS+'">CTOR</td><td style="background:'+thS+'">Vendas</td><td style="background:'+thS+'">Receita</td></tr>'+bmRow+'</thead><tbody>'+rows+'</tbody></table></div>';
+    if(comBench) h+='<div style="font-size:10px;color:#a80000;margin-top:5px;font-weight:600">linha vermelha = benchmark histórico da cap</div>';
+    return h;
   }
-  // ── 2. EMAIL ─────────────────────────────────────────
-  var bm_or=d.bm_or, bm_ctor=d.bm_ctor;
-  var rows='';
-  d.camps.forEach(function(c){
-    if(c.saldo && cap!=='sm') return;
-    var label=c.name.replace(/.*_ed\d+_/,'').replace(/.*Edicao\d+_/,'').replace(/_/g,' ');
-    label=label.charAt(0).toUpperCase()+label.slice(1);
-    if(c.desg) label='Sexta Reativação';
-    var ctor=c.or>0?parseFloat((c.ctr/c.or*100).toFixed(1)):0;
-    var bg=c.desg?' style="background:#f0ffe8"':(c.saldo?' style="background:#fffae6"':'');
-    rows+='<tr'+bg+'><td style="white-space:normal;font-size:11px;line-height:1.4">'+label+(c.desg?' 🟢 Reativação':'')+(c.saldo?' ⚡':'')+'</td>';
-    rows+='<td style="font-size:10px;color:#888;white-space:normal;line-height:1.3"><em>'+c.subject+'</em></td>';
-    rows+='<td>'+fN(c.sent)+'</td>';
-    rows+='<td style="color:'+(c.or>=bm_or?'#1D9E75':'#1a1916')+';font-weight:700">'+c.or.toFixed(2)+'%</td>';
-    rows+='<td style="color:'+(ctor>=bm_ctor?'#1D9E75':'#1a1916')+';font-weight:700">'+ctor.toFixed(1)+'%</td>';
-    rows+='<td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
-  });
-  var thS=col+';color:#fff;text-align:left;padding:5px 7px;font-size:10px;font-weight:600;border-bottom:none';
-  var bmRow='<tr style="background:#fff0f0"><td colspan="2" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="color:#636057">—</td><td style="font-weight:700;color:#a80000">'+bm_or.toFixed(1)+'%</td><td style="font-weight:700;color:#a80000">'+bm_ctor.toFixed(1)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>';
-  out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">📧 E-mail — Resultados por campanha</div>';
-  out+='<div style="display:flex;gap:16px;margin-bottom:8px;font-size:12px;flex-wrap:wrap"><span>Total: <strong>'+fN(d.email_sent)+'</strong></span><span>OR: <strong>'+d.email_or.toFixed(2)+'%</strong></span><span>CTOR: <strong>'+parseFloat((d.email_ctr/d.email_or*100).toFixed(1))+'%</strong></span><span>Receita: <strong>'+fR(d.email_rev)+'</strong></span></div>';
-  out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thS+'">Campanha</td><td style="background:'+thS+'">Subject</td><td style="background:'+thS+'">Enviados</td><td style="background:'+thS+'">Abertura</td><td style="background:'+thS+'">CTOR</td><td style="background:'+thS+'">Conv.</td><td style="background:'+thS+'">Receita</td></tr>'+bmRow+'</thead><tbody>'+rows+'</tbody></table></div>';
-  out+='<div style="font-size:11px;color:#636057;margin-top:6px">🟢 Reativação'+(cap==='sm'?' · ⚡ Campanha Saldo':'')+'  ·  <span style="color:#a80000;font-weight:700">linha vermelha = benchmark</span></div>';
-  out+='</div>';
 
-  // ── 3. WEB PUSH ──────────────────────────────────────
-  var bm_wc=d.bm_wc;
-  out+='<div class="card" style="margin-bottom:.8rem"><div class="ct2">🔔 Web Push — Resultados por campanha</div>';
-  out+='<div style="display:flex;gap:16px;margin-bottom:8px;font-size:12px;flex-wrap:wrap"><span>Total enviados: <strong>'+fN(d.wp_sent)+'</strong></span><span>Entregues: <strong>'+fN(d.wp_del)+'</strong></span><span>CTR médio: <strong>'+d.wp_ctr.toFixed(2)+'%</strong></span><span>Receita: <strong>'+fR(d.wp_rev)+'</strong></span></div>';
-  if(d.wp_camps && d.wp_camps.length){
-    var wpRows='';
-    d.wp_camps.forEach(function(w){
-      if(w.saldo && cap!=='sm') return;
+  function tabelaWp(lista){
+    if(!lista.length) return '';
+    var rows='';
+    lista.forEach(function(w){
       var label=w.name.replace(/.*_ed\d+_/,'').replace(/.*Edicao\d+_/,'').replace(/_/g,' ');
       label=label.charAt(0).toUpperCase()+label.slice(1);
-      var bg=w.domingo?' style="background:#f0f4ff"':(w.saldo?' style="background:#fffae6"':'');
-      wpRows+='<tr'+bg+'><td style="font-size:11px;white-space:normal;line-height:1.4;min-width:180px">'+label+(w.domingo?' 🌙':'')+(w.saldo?' ⚡':'')+'</td>';
-      wpRows+='<td>'+fN(w.sent)+'</td><td>'+fN(w.del)+'</td>';
-      wpRows+='<td style="color:'+(w.ctr>=bm_wc?'#1D9E75':'#1a1916')+';font-weight:700">'+w.ctr.toFixed(2)+'%</td>';
-      wpRows+='<td>'+w.conv+'</td><td>'+fR(w.rev)+'</td></tr>';
+      rows+='<tr'+(w.domingo?' style="background:#f0f4ff"':'')+'><td style="font-size:11px;white-space:normal;line-height:1.4;min-width:170px">'+label+(w.domingo?' 🌙 pós-sorteio':'')+'</td>';
+      rows+='<td>'+fN(w.sent)+'</td><td>'+fN(w.del)+'</td>';
+      rows+='<td style="color:'+(w.ctr>=bm_wc?'#1D9E75':'#1a1916')+';font-weight:700">'+w.ctr.toFixed(2)+'%</td>';
+      rows+='<td>'+w.conv+'</td><td>'+fR(w.rev)+'</td></tr>';
     });
-    var thW=col+';color:#fff;text-align:left;padding:5px 7px;font-size:10px;font-weight:600;border-bottom:none';
-    var bmWpRow='<tr style="background:#fff0f0"><td colspan="3" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="font-weight:700;color:#a80000">'+bm_wc.toFixed(2)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>';
-    out+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thW+'">Campanha</td><td style="background:'+thW+'">Enviados</td><td style="background:'+thW+'">Entregues</td><td style="background:'+thW+'">CTR</td><td style="background:'+thW+'">Conv.</td><td style="background:'+thW+'">Receita</td></tr>'+bmWpRow+'</thead><tbody>'+wpRows+'</tbody></table></div>';
-    out+='<div style="font-size:11px;color:#636057;margin-top:6px">🌙 Pós-sorteio (domingo)'+(cap==='sm'?' · ⚡ Campanha Saldo':'')+'  ·  🟢 Reativação  ·  <span style="color:#a80000;font-weight:700">linha vermelha = benchmark</span></div>';
+    var bmRow='<tr style="background:#fff0f0"><td colspan="3" style="font-weight:700;font-size:11px;color:#a80000;padding:5px 8px">📊 Benchmark histórico (mar+)</td><td style="font-weight:700;color:#a80000">'+bm_wc.toFixed(2)+'%</td><td style="color:#636057">—</td><td style="color:#636057">—</td></tr>';
+    var tot=lista.reduce(function(s2,w){ return {sent:s2.sent+w.sent, del:s2.del+w.del, conv:s2.conv+w.conv, rev:s2.rev+w.rev}; },{sent:0,del:0,conv:0,rev:0});
+    var h='<div style="display:flex;gap:14px;margin-bottom:8px;font-size:11px;flex-wrap:wrap;color:#636057">'
+      +'<span>Disparos: <strong style="color:#1a1916">'+lista.length+'</strong></span>'
+      +'<span>Entregues: <strong style="color:#1a1916">'+fN(tot.del)+'</strong></span>'
+      +'<span>Vendas: <strong style="color:'+col+'">'+fN(tot.conv)+'</strong></span>'
+      +'<span>Receita: <strong style="color:'+col+'">'+fR(tot.rev)+'</strong></span></div>';
+    h+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thS+'">Campanha</td><td style="background:'+thS+'">Enviados</td><td style="background:'+thS+'">Entregues</td><td style="background:'+thS+'">CTR</td><td style="background:'+thS+'">Vendas</td><td style="background:'+thS+'">Receita</td></tr>'+bmRow+'</thead><tbody>'+rows+'</tbody></table></div>';
+    h+='<div style="font-size:10px;color:#a80000;margin-top:5px;font-weight:600">linha vermelha = benchmark histórico da cap</div>';
+    return h;
   }
-  out+='</div>';
 
-  // ── 4. AÇÕES CRM EXECUTADAS ────────────────────────────
-  // Charts div injected into out — rendered after el.innerHTML
+  // ---- e-mail, separado por ação ----
+  var camps=(d.camps||[]).filter(function(c){ return !(c.saldo && cap!=='sm'); });
+  var isSaldo=function(c){ return !!c.saldo; };
+  var isReat =function(c){ return !!c.desg; };
+  var isAware=function(c){ return /_(terça|terca|quinta)_2$/i.test(c.name); };
+  var isUlt  =function(c){ return /ultimas/i.test(c.name); };
+  res['email_prem']  = tabelaEmail(camps.filter(function(c){ return !isSaldo(c)&&!isReat(c)&&!isAware(c)&&!isUlt(c); }), true);
+  res['email_aware'] = tabelaEmail(camps.filter(isAware), true);
+  res['email_reat']  = tabelaEmail(camps.filter(isReat), true);
+  res['email_ult']   = tabelaEmail(camps.filter(isUlt), true);
+  res['email_saldo'] = tabelaEmail(camps.filter(isSaldo), true);
+
+  // ---- web push, separado por ação ----
+  var wps=(d.wp_camps||[]).filter(function(w){ return !(w.saldo && cap!=='sm'); });
+  res['wp_prem']  = tabelaWp(wps.filter(function(w){ return !w.saldo; }));
+  res['wp_saldo'] = tabelaWp(wps.filter(function(w){ return !!w.saldo; }));
+
+  // ---- jornadas ----
+  function blocoJornada(j){
+    if(!j) return '';
+    var h='<div class="cg" style="margin-bottom:6px">';
+    h+='<div class="mk" style="text-align:center"><div class="ml">Entradas</div><div class="mv">'+fN(j.entradas)+'</div></div>';
+    h+='<div class="mk" style="text-align:center"><div class="ml">Saídas (compra)</div><div class="mv" style="color:#1D9E75">'+fN(j.saidas)+'</div></div>';
+    h+='<div class="mk" style="text-align:center"><div class="ml">Conversões</div><div class="mv">'+j.conv+'</div></div>';
+    h+='<div class="mk" style="text-align:center"><div class="ml">Receita</div><div class="mv">'+fR(j.rev)+'</div></div></div>';
+    var jRows='';
+    j.canais.forEach(function(c){
+      var _cs=(c.enviados!=null?c.enviados:c.sent), _cd=(c.entregues!=null?c.entregues:c.del);
+      jRows+='<tr><td style="font-size:11px">'+c.canal+'</td><td>'+(_cs>0?fN(_cs):'—')+'</td><td>'+fN(_cd)+'</td><td style="font-weight:700">'+c.ctr.toFixed(2)+'%</td><td>'+c.conv+'</td><td>'+fR(c.rev)+'</td></tr>';
+    });
+    h+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thS+'">Canal</td><td style="background:'+thS+'">Enviados</td><td style="background:'+thS+'">Entregues</td><td style="background:'+thS+'">CTR</td><td style="background:'+thS+'">Conv.</td><td style="background:'+thS+'">Receita</td></tr></thead><tbody>'+jRows+'</tbody></table></div>';
+    h+='<div class="nb" style="font-size:10px;margin-top:6px">Métricas da jornada medidas na Insider — o GA4 não separa a jornada por canal do fluxo.</div>';
+    return h;
+  }
+  res['jornada']  = blocoJornada(ex.jornada);
+  res['jornada2'] = blocoJornada(ex.jornada2);
+
+  // ---- pop ups ----
+  function blocoPopup(p){
+    if(!p) return '';
+    var h='<div style="display:flex;gap:8px;flex-wrap:wrap">';
+    [['Período',p.periodo],['Impressões',fN(p.imp)],['Cliques',fN(p.clicks)],['CTR',p.ctr.toFixed(1)+'%'],['Conversões',String(p.conv)]].forEach(function(r){
+      h+='<div class="mk" style="flex:1;min-width:96px;text-align:center"><div class="ml">'+r[0]+'</div><div class="mv" style="font-size:14px">'+r[1]+'</div></div>';
+    });
+    if(p.rev!=null) h+='<div class="mk" style="flex:1;min-width:96px;text-align:center"><div class="ml">Receita</div><div class="mv" style="font-size:14px">'+fR(p.rev)+'</div></div>';
+    h+='</div><div class="nb" style="font-size:10px;margin-top:8px">Pop up medido na Insider: impressão, clique e conversão do próprio componente.</div>';
+    return h;
+  }
+  res['popup_prem']   = blocoPopup(ex.popup_prem);
+  res['popup_saldo']  = blocoPopup(ex.popup_saldo);
+  res['popup_sessao'] = blocoPopup(ex.popup_sessao);
+
+  // ---- máscara A/B ----
+  if(ex.mascara && ex.mascara.mobile){
+    var m=ex.mascara, hm='<div class="cg">';
+    [{dev:'📱 Mobile',data:m.mobile},{dev:'🖥️ Desktop',data:m.desktop}].forEach(function(item){
+      var md=item.data;
+      hm+='<div class="card"><div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:6px">'+item.dev+'</div><table><thead><tr>';
+      ['Variante','Visitantes','CTR','Conv.','Receita'].forEach(function(hh){ hm+='<td style="background:#636057;color:#fff;padding:4px 8px;font-size:10px;font-weight:600">'+hh+'</td>'; });
+      hm+='</tr></thead><tbody>';
+      hm+='<tr><td style="font-size:11px">Site normal</td><td>'+fN(md.normal_vis)+'</td><td>'+md.normal_ctr.toFixed(2)+'%</td><td>'+md.normal_conv+'</td><td>'+fR(md.normal_rev)+'</td></tr>';
+      hm+='<tr style="background:#f0ffe8"><td style="font-size:11px;font-weight:700">Máscara azul ✓</td><td>'+fN(md.azul_vis)+'</td><td style="color:#1D9E75;font-weight:700">'+md.azul_ctr.toFixed(2)+'%</td><td style="color:#1D9E75;font-weight:700">'+md.azul_conv+'</td><td style="color:#1D9E75;font-weight:700">'+fR(md.azul_rev)+'</td></tr>';
+      hm+='</tbody></table></div>';
+    });
+    hm+='</div><div style="font-size:11px;color:#636057;margin-top:6px">✓ Máscara azul venceu no mobile: '+(m.mobile.azul_conv-m.mobile.normal_conv)+' conversões a mais.</div>';
+    res['mascara']=hm;
+  }
+
+  // ---- base norte (SV) como resultado ----
+  if(ex.base_norte){
+    var _bn=ex.base_norte, thBN2=col+';color:#fff;text-align:left;padding:4px 7px;font-size:10px;font-weight:600;border-bottom:none';
+    var hbn='<div style="font-size:11px;color:#636057;margin-bottom:8px;line-height:1.4">'+_bn.desc+' <span style="color:#a8a59c">('+_bn.periodo+')</span></div>';
+    hbn+='<div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:4px">📧 E-mail</div>';
+    hbn+='<div style="overflow-x:auto;margin-bottom:8px"><table><thead><tr><td style="background:'+thBN2+'">Campanha</td><td style="background:'+thBN2+'">Enviados</td><td style="background:'+thBN2+'">Entregues</td><td style="background:'+thBN2+'">Abertura</td><td style="background:'+thBN2+'">CTOR</td></tr></thead><tbody>';
+    _bn.email.forEach(function(e){
+      hbn+='<tr><td style="font-size:11px">'+e.nome+' ('+e.data+')</td><td>'+fN(e.enviados)+'</td><td>'+fN(e.entregues)+'</td><td style="font-weight:700">'+e.abertura.toFixed(2)+'%</td><td style="font-weight:700">'+e.ctor.toFixed(2)+'%</td></tr>';
+    });
+    hbn+='</tbody></table></div>';
+    hbn+='<div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:4px">🔔 Web Push</div>';
+    hbn+='<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thBN2+'">Campanha</td><td style="background:'+thBN2+'">Enviados</td><td style="background:'+thBN2+'">Entregues</td><td style="background:'+thBN2+'">CTR</td></tr></thead><tbody>';
+    _bn.wp.forEach(function(w){
+      hbn+='<tr><td style="font-size:11px">'+w.nome+' ('+w.data+')</td><td>'+fN(w.enviados)+'</td><td>'+fN(w.entregues)+'</td><td style="font-weight:700">'+w.ctr.toFixed(2)+'%</td></tr>';
+    });
+    hbn+='</tbody></table></div>';
+    res['base_norte']=hbn;
+  }
+
+  // ---- de cada ação para o resultado ----
+  function chaveDaAcao(t){
+    var s2=t.toLowerCase();
+    if(/erp/.test(s2)) return null;
+    if(/web push/.test(s2)) return /saldo/.test(s2) ? 'wp_saldo' : 'wp_prem';
+    if(/mascara|máscara/.test(s2)) return 'mascara';
+    if(/jornada/.test(s2)) return /reativa/.test(s2) ? 'jornada2' : 'jornada';
+    if(/pop up/.test(s2)){
+      if(/saldo/.test(s2)) return 'popup_saldo';
+      if(/sess/.test(s2)) return 'popup_sessao';
+      if(/sa[íi]da/.test(s2)) return 'popup_sessao';
+      return 'popup_prem';
+    }
+    if(/norte/.test(s2)) return 'base_norte';
+    if(/mail/.test(s2)){
+      if(/saldo/.test(s2)) return 'email_saldo';
+      if(/reativa/.test(s2)) return 'email_reat';
+      if(/awareness/.test(s2)) return 'email_aware';
+      if(/[úu]ltimas/.test(s2)) return 'email_ult';
+      return 'email_prem';
+    }
+    return null;
+  }
+
   out += '<div id="dp-charts-'+cap+'" style="margin-bottom:.8rem"></div>';
-  out += '<div class="card" style="margin-bottom:.8rem"><div class="ct2">📋 Ações CRM executadas</div>';
-  out += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-top:8px">';
+
+  // monta a lista sem repetir resultado
+  var itens=[], vistos={};
   d.acoes.forEach(function(a){
-    out += '<div style="background:#f8f7f4;border-radius:8px;padding:10px 12px;border-left:3px solid '+col+'">';
-    out += '<div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:3px">'+a.icon+' '+a.title+'</div>';
-    out += '<div style="font-size:11px;color:#636057;line-height:1.4">'+a.desc+'</div></div>';
+    var k=chaveDaAcao(a.title);
+    if(k && res[k]){
+      if(vistos[k]) return;      // mesma ação já listada (ex.: reativação e reativação extra)
+      vistos[k]=true;
+      itens.push({a:a,k:k});
+    } else {
+      itens.push({a:a,k:null});
+    }
   });
-  out += '</div></div>';
+
+  out += '<div class="card" style="margin-bottom:.8rem">';
+  out += '<div class="ct2">📋 Ações CRM executadas</div>';
+  out += '<div style="display:flex;align-items:center;gap:8px;background:'+col+'12;border:1px dashed '+col+'66;border-radius:8px;padding:8px 12px;margin:8px 0 12px">'
+    +'<span style="font-size:16px">👆</span>'
+    +'<span style="font-size:12px;color:#1a1916;line-height:1.4"><b>Clique em uma ação para ver o resultado dela.</b> O resultado abre logo abaixo da lista, em largura cheia.</span></div>';
+  out += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px">';
+  itens.forEach(function(it,ix){
+    var temRes=!!it.k;
+    var idc='dpa-'+cap+'-'+ix;
+    out += '<div id="'+idc+'"'+(temRes?' onclick="dpPick(\''+cap+'\','+ix+')" style="cursor:pointer;--dpc:'+col+'"':' style=""')
+      +' class="dp-acao'+(temRes?'':' dp-acao-off')+'">';
+    out += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:3px">';
+    out += '<div style="font-size:12px;font-weight:700;color:#1a1916">'+it.a.icon+' '+it.a.title+'</div>';
+    out += temRes
+      ? '<span class="dp-chip" style="background:'+col+'1a;color:'+col+'">ver resultado ▸</span>'
+      : '<span class="dp-chip" style="background:#efeee9;color:#a8a59c">sem métrica</span>';
+    out += '</div>';
+    out += '<div style="font-size:11px;color:#636057;line-height:1.4">'+it.a.desc+'</div>';
+    out += '</div>';
+  });
+  out += '</div>';
+
+  // painel de resultado, largura cheia
+  out += '<div id="dp-res-'+cap+'" style="margin-top:12px">';
+  itens.forEach(function(it,ix){
+    if(!it.k) return;
+    out += '<div id="dpr-'+cap+'-'+ix+'" style="display:none">'
+      + '<div style="border:1px solid '+col+'55;border-radius:10px;overflow:hidden">'
+      + '<div style="background:'+col+';color:#fff;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">'
+      + '<span style="font-size:12px;font-weight:700">'+it.a.icon+' '+it.a.title+'</span>'
+      + '<span onclick="dpPick(\''+cap+'\','+ix+')" style="font-size:11px;cursor:pointer;opacity:.85">fechar ✕</span></div>'
+      + '<div style="padding:14px">'+res[it.k]+'</div></div></div>';
+  });
+  out += '</div>';
+
+  var faltando=Object.keys(res).filter(function(k){ return res[k] && !vistos[k]; });
+  if(faltando.length){
+    out += '<div class="nb warn" style="font-size:10px;margin-top:10px">Resultados sem ação correspondente na lista: '+faltando.join(', ')+'. Vale conferir se falta cadastrar a ação.</div>';
+  }
+  out += '</div>';
+
+  var usadas=vistos;
+
+  // ---- Base Norte: vira resultado da ação correspondente; se não houver ação, entra como card fixo ----
+  if(ex.base_norte && !usadas['base_norte']){
+    var bn=ex.base_norte;
+    out += '<div class="card" style="margin-bottom:.8rem"><div class="ct2">🌎 '+bn.label+' <span style="font-size:10px;color:#888;font-weight:400">('+bn.periodo+')</span></div>';
+    out += '<div style="font-size:11px;color:#636057;margin:6px 0 8px;line-height:1.4">'+bn.desc+'</div>';
+    var thBN=col+';color:#fff;text-align:left;padding:4px 7px;font-size:10px;font-weight:600;border-bottom:none';
+    out += '<div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:4px">📧 E-mail</div>';
+    out += '<div style="overflow-x:auto;margin-bottom:8px"><table><thead><tr><td style="background:'+thBN+'">Campanha</td><td style="background:'+thBN+'">Enviados</td><td style="background:'+thBN+'">Entregues</td><td style="background:'+thBN+'">Abertura</td><td style="background:'+thBN+'">CTOR</td></tr></thead><tbody>';
+    bn.email.forEach(function(e){
+      out += '<tr><td style="font-size:11px">'+e.nome+' ('+e.data+')</td><td>'+fN(e.enviados)+'</td><td>'+fN(e.entregues)+'</td><td style="font-weight:700">'+e.abertura.toFixed(2)+'%</td><td style="font-weight:700">'+e.ctor.toFixed(2)+'%</td></tr>';
+    });
+    out += '</tbody></table></div>';
+    out += '<div style="font-size:11px;font-weight:700;color:#636057;margin-bottom:4px">🔔 Web Push</div>';
+    out += '<div style="overflow-x:auto"><table><thead><tr><td style="background:'+thBN+'">Campanha</td><td style="background:'+thBN+'">Enviados</td><td style="background:'+thBN+'">Entregues</td><td style="background:'+thBN+'">CTR</td></tr></thead><tbody>';
+    bn.wp.forEach(function(w){
+      out += '<tr><td style="font-size:11px">'+w.nome+' ('+w.data+')</td><td>'+fN(w.enviados)+'</td><td>'+fN(w.entregues)+'</td><td style="font-weight:700">'+w.ctr.toFixed(2)+'%</td></tr>';
+    });
+    out += '</tbody></table></div></div>';
+  }
 
   // ── 5. O QUE FUNCIONOU / APRENDIZADOS ────────────────
   out += '<div class="cg" style="margin-bottom:.8rem">';
 
   // O que funcionou
-  out += '<div class="card" style="border-left:3px solid #1D9E75"><div class="ct2" style="color:#1D9E75">✅ O que funcionou</div>';
-  out += '<ul style="margin:6px 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
+  out += '<div class="card" style="border-left:3px solid #1D9E75;padding:0;overflow:hidden">';
+  out += '<div onclick="crmToggle(event)" data-tid="dpfun-'+cap+'" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;user-select:none">'
+    +'<span class="ct2" style="color:#1D9E75;margin:0">✅ O que funcionou</span>'
+    +'<span id="a-dpfun-'+cap+'" style="font-size:12px;color:#1D9E75;transition:transform .2s;display:inline-block">▼</span></div>';
+  out += '<div id="b-dpfun-'+cap+'" style="display:none;padding:0 14px 12px">';
+  out += '<ul style="margin:0 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
 
   if(cap==='mc'){
     out += '<li>E-mails reativação: OR <strong>12,33%</strong> — mais do dobro do benchmark de 7,1%</li>';
@@ -2427,11 +2568,15 @@ function rDiaPais(){
     out += '<li>Jornada compra abandonada: Pop Up on-site com CTR de <strong>26,3%</strong> e 1 conversão</li>';
     out += '<li>Web Push com CTR <strong>0,28%</strong> acima do benchmark histórico de 0,72%</li>';
   }
-  out += '</ul></div>';
+  out += '</ul></div></div>';
 
   // Aprendizados
-  out += '<div class="card" style="border-left:3px solid #EF9F27"><div class="ct2" style="color:#c47a00">💡 Aprendizados</div>';
-  out += '<ul style="margin:6px 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
+  out += '<div class="card" style="border-left:3px solid #EF9F27;padding:0;overflow:hidden">';
+  out += '<div onclick="crmToggle(event)" data-tid="dpapr-'+cap+'" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;user-select:none">'
+    +'<span class="ct2" style="color:#c47a00;margin:0">💡 Aprendizados</span>'
+    +'<span id="a-dpapr-'+cap+'" style="font-size:12px;color:#c47a00;transition:transform .2s;display:inline-block">▼</span></div>';
+  out += '<div id="b-dpapr-'+cap+'" style="display:none;padding:0 14px 12px">';
+  out += '<ul style="margin:0 0 0 16px;font-size:12px;color:#1a1916;line-height:1.9">';
   out += '<li>Meta de faturamento não atingida: <strong>'+atingPct+'%</strong> do objetivo — ROAS <strong>'+d.ga4_roas+'x</strong> vs alvo '+d.meta_roas+'x</li>';
 
   if(cap==='mc'){
@@ -2449,13 +2594,14 @@ function rDiaPais(){
     out += '<li>Pop Up premiação (pág. resultados): <strong>zero conversões</strong> em 812 impressões — revisar CTA ou momento de exibição</li>';
 
   }
-  out += '</ul></div></div>';
+  out += '</ul></div></div></div>';
 
 
   el.innerHTML = out;
   var imgEl=document.getElementById('diapais-imgs');
   if(imgEl && DIAPAIS_IMGS[cap]) imgEl.innerHTML=DIAPAIS_IMGS[cap];
   rDiaPaisCharts();
+  rDiaPaisYoY();
 }
 
 function rIdeias(){
@@ -3667,6 +3813,191 @@ function rHorario(){
   }
   if(elWp) elWp.innerHTML=o;
   if(elEm) elEm.innerHTML=om;
+}
+
+
+// ===== Comparativo ano a ano + edições vizinhas (aba Dia dos Pais) =====
+const DP_YOY = {
+  mc:{ano2025:{per:'03–09/ago/2025',site:{s:944976,t:88013,r:2023630},crm:{s:3148,t:160,r:4140}},
+       ano2026:{per:'02–08/ago/2026',site:{s:608308,t:79974,r:2234645},crm:{s:33834,t:1745,r:50805}},
+       mesmoval:{val:25,eds:[{ed:519,dt:'07/mai',rv:26465,cp:825}]}, acao:{ed:532,rv:50805,cp:1745}},
+  sm:{ano2025:{per:'03–09/ago/2025',site:{s:275878,t:38062,r:845900},crm:{s:267,t:45,r:1080}},
+       ano2026:{per:'02–08/ago/2026',site:{s:175308,t:18783,r:422410},crm:{s:7036,t:682,r:15020}},
+       mesmoval:{val:20,eds:[{ed:431,dt:'01/abr',rv:3320,cp:183},{ed:435,dt:'29/abr',rv:11425,cp:436},{ed:440,dt:'14/jun',rv:15445,cp:699},{ed:444,dt:'12/jul',rv:8320,cp:484}]}, acao:{ed:448,rv:15020,cp:682}},
+  sv:{ano2025:{per:'03–09/ago/2025',site:{s:104405,t:17216,r:384465},crm:{s:72,t:7,r:160}},
+       ano2026:{per:'02–08/ago/2026',site:{s:98659,t:16105,r:358420},crm:{s:4404,t:322,r:7230}},
+       mesmoval:{val:20,eds:[{ed:431,dt:'14/jun',rv:11600,cp:511}]}, acao:{ed:439,rv:7230,cp:320}}
+};
+
+function rDiaPaisYoY(){
+  var el=document.getElementById('diapais-yoy'); if(!el) return;
+  el.innerHTML='';
+  var Y=DP_YOY[cap]; if(!Y) return;
+  var d=DIAPAIS[cap], col=d.col, col2=d.col2||col;
+  var n=function(v){ return (v||0).toLocaleString('pt-BR'); };
+  var rs=function(v){ return 'R$ '+(v||0).toLocaleString('pt-BR'); };
+  var rsK=function(v){ v=v||0; return v>=1000 ? 'R$ '+(v/1000).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' mil' : 'R$ '+n(v); };
+  var pc=function(a,b,dg){ if(!b) return '—'; dg=(dg===undefined?2:dg);
+    return (a/b*100).toLocaleString('pt-BR',{minimumFractionDigits:dg,maximumFractionDigits:dg})+'%'; };
+  var x=function(v){ return v.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'x'; };
+  var vr=function(a,b){ if(!a) return null; return (b/a-1)*100; };
+  var fmtVar=function(v){ if(v===null) return '—';
+    return (v>=0?'+':'')+v.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'; };
+  var a=Y.ano2025, b=Y.ano2026;
+
+  var o='';
+  o+='<div class="card" style="margin:1.1rem 0 .8rem;padding:0;overflow:hidden;border:none;box-shadow:0 4px 20px rgba(0,0,0,.07)">';
+
+  // ---------- faixa de topo ----------
+  o+='<div style="background:linear-gradient(135deg,#0d2b6b 0%,#1a3a80 55%,#2d55a8 100%);padding:16px 20px">';
+  o+='<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px">';
+  o+='<div><div style="color:#fff;font-size:16px;font-weight:800;letter-spacing:-.2px">📆 Dia dos Pais: 2026 contra 2025</div>'
+    +'<div style="color:rgba(255,255,255,.62);font-size:11px;margin-top:3px">Semana da edição · '+b.per+' vs '+a.per+' · GA4, mesma régua nos dois anos</div></div>';
+  var multR=a.crm.r?(b.crm.r/a.crm.r):null;
+  if(multR) o+='<div style="text-align:right"><div style="color:rgba(255,255,255,.55);font-size:10px;text-transform:uppercase;letter-spacing:.08em">Receita de CRM</div>'
+    +'<div style="color:#FDC300;font-size:34px;font-weight:800;line-height:1">'+x(multR)+'</div>'
+    +'<div style="color:rgba(255,255,255,.5);font-size:10px">em um ano</div></div>';
+  o+='</div></div>';
+
+  o+='<div style="padding:16px">';
+
+  // ---------- três big numbers com barras comparativas ----------
+  function barra(rot, v25, v26, fmt){
+    var mx=Math.max(v25,v26)||1;
+    var mult=v25?(v26/v25):null;
+    return '<div style="border:1px solid #e8e6e0;border-radius:10px;padding:12px 14px;background:#fff">'
+      +'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">'
+      +'<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888780">'+rot+'</span>'
+      +(mult?'<span style="font-size:11px;font-weight:800;color:'+col+'">'+x(mult)+'</span>':'')+'</div>'
+      +'<div style="font-size:22px;font-weight:800;color:'+col+';line-height:1.1;margin-bottom:2px">'+fmt(v26)+'</div>'
+      +'<div style="font-size:10px;color:#888780;margin-bottom:8px">em 2026 · era '+fmt(v25)+' em 2025</div>'
+      +'<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">'
+      +'<span style="font-size:9px;color:#a8a59c;min-width:26px">2025</span>'
+      +'<div class="cyb" style="flex:1"><div class="cbf" style="width:'+(v25/mx*100).toFixed(1)+'%;background:#d3d1c7"></div></div></div>'
+      +'<div style="display:flex;align-items:center;gap:6px">'
+      +'<span style="font-size:9px;color:#636057;min-width:26px;font-weight:700">2026</span>'
+      +'<div class="cyb" style="flex:1"><div class="cbf" style="width:'+(v26/mx*100).toFixed(1)+'%;background:'+col+'"></div></div></div>'
+      +'</div>';
+  }
+  o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:14px">';
+  o+=barra('Receita via CRM', a.crm.r, b.crm.r, rsK);
+  o+=barra('Vendas via CRM', a.crm.t, b.crm.t, n);
+  o+=barra('Sessões trazidas', a.crm.s, b.crm.s, n);
+  o+='</div>';
+
+  // ---------- participação no site: duas rosquinhas em texto ----------
+  var sh25=a.crm.r/a.site.r*100, sh26=b.crm.r/b.site.r*100;
+  o+='<div style="border:1.5px solid '+col+';border-radius:10px;padding:14px;background:'+col+'0a;margin-bottom:14px">';
+  o+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:'+col+';margin-bottom:10px">Quanto da receita do site passou pelo CRM</div>';
+  o+='<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">';
+  [['2025',sh25,'#b9b6ac'],['2026',sh26,col]].forEach(function(p){
+    var deg=Math.max(2,Math.min(360,p[1]/Math.max(sh25,sh26)*260));
+    o+='<div style="text-align:center">'
+      +'<div style="width:74px;height:74px;border-radius:50%;background:conic-gradient('+p[2]+' '+deg+'deg,#f0efe9 '+deg+'deg);display:flex;align-items:center;justify-content:center">'
+      +'<div style="width:54px;height:54px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:'+p[2]+'">'
+      +p[1].toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%</div></div>'
+      +'<div style="font-size:10px;color:#636057;margin-top:4px;font-weight:600">'+p[0]+'</div></div>';
+  });
+  o+='<div style="flex:1;min-width:180px;font-size:12px;line-height:1.6;color:#1a1916">'
+    +'O CRM saiu de <b>'+pc(a.crm.r,a.site.r)+'</b> para <b>'+pc(b.crm.r,b.site.r)+'</b> da receita do site — '
+    +'<b style="color:'+col+'">'+x(sh25?sh26/sh25:0)+'</b> de participação.</div>';
+  o+='</div></div>';
+
+  // ---------- a ação contra edições do mesmo valor de título ----------
+  var M=Y.mesmoval;
+  if(M && M.eds && M.eds.length){
+    var medR=M.eds.reduce(function(s2,v){ return s2+v.rv; },0)/M.eds.length;
+    var medC=M.eds.reduce(function(s2,v){ return s2+v.cp; },0)/M.eds.length;
+    var multR2=medR?Y.acao.rv/medR:null, multC=medC?Y.acao.cp/medC:null;
+    var uma=(M.eds.length===1);
+    var acima=(multR2>=1);
+
+    // colunas: comparáveis + ação
+    var cols=M.eds.map(function(v){ return {l:'Ed.'+v.ed, d:v.dt, rv:v.rv, cp:v.cp, on:false}; });
+    cols.push({l:'Ed.'+Y.acao.ed, d:'Dia dos Pais', rv:Y.acao.rv, cp:Y.acao.cp, on:true});
+    var mxCol=Math.max.apply(null, cols.map(function(c){ return c.rv; }));
+    var H=132;
+
+    o+='<div style="border:1px solid #e8e6e0;border-radius:10px;padding:14px;margin-bottom:14px">';
+    o+='<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;flex-wrap:wrap;gap:6px">'
+      +'<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888780">A ação contra as outras edições de R$'+M.val+'</span>'
+      +(multR2?'<span style="font-size:12px;font-weight:800;color:'+(acima?col:'#D85A30')+'">'+x(multR2)+' em receita · '+x(multC)+' em vendas</span>':'')+'</div>';
+    o+='<div style="font-size:10px;color:#a8a59c;margin-bottom:14px">Só edições com o mesmo valor de título, para o preço não distorcer o resultado.</div>';
+
+    // gráfico de colunas
+    o+='<div style="position:relative;padding-top:18px">';
+    // linha da média
+    var topMed=(1-medR/mxCol)*H;
+    o+='<div style="position:absolute;left:0;right:0;top:'+(18+topMed).toFixed(1)+'px;border-top:1.5px dashed #b9b6ac;z-index:1">'
+      +'<span style="position:absolute;right:0;top:-16px;font-size:9px;font-weight:700;color:#8f8c83;background:#fff;padding:0 4px">média '+rs(Math.round(medR))+'</span></div>';
+    o+='<div style="display:flex;align-items:flex-end;gap:6px;height:'+H+'px;position:relative;z-index:2">';
+    cols.forEach(function(c){
+      var alt=Math.max(4,(c.rv/mxCol*H));
+      o+='<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%">'
+        +'<div style="font-size:'+(c.on?'11':'10')+'px;font-weight:'+(c.on?'800':'600')+';color:'+(c.on?col:'#888780')+';margin-bottom:3px;white-space:nowrap">'+rsK(c.rv)+'</div>'
+        +'<div style="width:100%;height:'+alt.toFixed(1)+'px;border-radius:5px 5px 0 0;background:'+(c.on?'linear-gradient(180deg,'+col+' 0%,'+col+'cc 100%)':'#dedcd4')
+        +(c.on?';box-shadow:0 -2px 10px '+col+'44':'')+'"></div></div>';
+    });
+    o+='</div>';
+    // rótulos
+    o+='<div style="display:flex;gap:6px;margin-top:6px">';
+    cols.forEach(function(c){
+      o+='<div style="flex:1;text-align:center">'
+        +'<div style="font-size:10px;font-weight:'+(c.on?'800':'600')+';color:'+(c.on?'#1a1916':'#636057')+'">'+c.l+'</div>'
+        +'<div style="font-size:9px;color:'+(c.on?col:'#a8a59c')+';font-weight:'+(c.on?'700':'400')+'">'+c.d+'</div>'
+        +'<div style="font-size:9px;color:#a8a59c;margin-top:2px">'+n(c.cp)+' vendas</div></div>';
+    });
+    o+='</div></div>';
+
+    o+='<div class="nb'+(acima?'':' warn')+'" style="font-size:10px;margin-top:12px">'
+      +(uma
+        ? 'Só existe <b>uma</b> outra edição de R$'+M.val+' desde mar/2026, então a comparação é contra um único ponto — leia com reserva.'
+        : 'Média das '+M.eds.length+' edições de R$'+M.val+' desde mar/2026: '+rs(Math.round(medR))+' e '+n(Math.round(medC))+' vendas.')
+      +'</div>';
+    o+='</div>';
+  }
+
+  // ---------- contexto do site, discreto e recolhível ----------
+  var tid='dpsite-'+cap;
+  var vS=vr(a.site.s,b.site.s), vT=vr(a.site.t,b.site.t), vR=vr(a.site.r,b.site.r);
+  var cor=function(v){ return v>=0?'#1D9E75':'#D85A30'; };
+  o+='<div style="border:1px solid #e8e6e0;border-radius:10px;overflow:hidden;margin-bottom:12px">';
+  o+='<div onclick="crmToggle(event)" data-tid="'+tid+'" style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;user-select:none;background:#f9f8f5;flex-wrap:wrap">'
+    +'<span style="font-size:11px;font-weight:600;color:#636057">🌐 Contexto: o site inteiro no mesmo período</span>'
+    +'<span style="font-size:11px;color:'+cor(vR)+';font-weight:700">receita '+fmtVar(vR)+' <span id="a-'+tid+'" style="color:#888;display:inline-block;transition:transform .2s">▼</span></span></div>';
+  o+='<div id="b-'+tid+'" style="display:none;padding:12px">';
+  o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px">';
+  [['Sessões',a.site.s,b.site.s,vS,n],['Vendas',a.site.t,b.site.t,vT,n],['Receita',a.site.r,b.site.r,vR,rsK],
+   ['Ticket médio',a.site.r/a.site.t,b.site.r/b.site.t,vr(a.site.r/a.site.t,b.site.r/b.site.t),function(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}]
+  ].forEach(function(r){
+    o+='<div class="mk"><div class="ml">'+r[0]+'</div>'
+      +'<div class="mv" style="font-size:14px">'+r[4](r[2])+'</div>'
+      +'<div class="ms" style="color:'+cor(r[3])+'">'+fmtVar(r[3])+' vs 2025 ('+r[4](r[1])+')</div></div>';
+  });
+  o+='</div>';
+  o+='<div class="nb" style="font-size:10px;margin-top:10px">A variação anual do site depende de mídia, preço do título e distribuição. Não é explicada pelo CRM e está aqui apenas como contexto.</div>';
+  o+='</div></div>';
+
+  // ---------- leituras ----------
+  var ins=[];
+  ins.push({e:'🚀',t:'A receita atribuída ao CRM na semana da ação saiu de <b>'+rs(a.crm.r)+'</b> em 2025 para <b>'+rs(b.crm.r)+'</b> em 2026'+(multR?' — <b>'+x(multR)+'</b>':'')+'.'});
+  ins.push({e:'⚖️',t:'A participação do CRM na receita do site foi de <b>'+pc(a.crm.r,a.site.r)+'</b> para <b>'+pc(b.crm.r,b.site.r)+'</b>.'});
+  var _M=Y.mesmoval;
+  if(_M && _M.eds && _M.eds.length){
+    var _medR=_M.eds.reduce(function(s2,v){ return s2+v.rv; },0)/_M.eds.length;
+    var _medC=_M.eds.reduce(function(s2,v){ return s2+v.cp; },0)/_M.eds.length;
+    var _mr=_medR?Y.acao.rv/_medR:null, _mc=_medC?Y.acao.cp/_medC:null;
+    ins.push({e:(_mr>=1?'📊':'⚠️'),t:'Contra edições do <b>mesmo valor de título</b> (R$'+_M.val+'), a Ed.'+Y.acao.ed+' fez <b>'+x(_mr)+'</b> a receita média e <b>'+x(_mc)+'</b> as vendas. '
+      +(_M.eds.length===1?'Há só uma edição comparável desde mar/2026 ('+_M.eds.map(function(v){return 'Ed.'+v.ed;}).join('')+'), então o número é frágil.':'Entraram na média: '+_M.eds.map(function(v){return 'Ed.'+v.ed;}).join(', ')+'.')});
+  }
+  ins.push({e:'🧩',t:'Em 2025 o CRM da semana somava '+n(a.crm.s)+' sessões, praticamente só de e-mail — o web push tinha volume residual e não havia jornada etiquetada. Em 2026 são '+n(b.crm.s)+' sessões com os três canais rodando juntos.'});
+  o+='<div class="ct2">💡 Leituras</div>'+ins.map(function(y){
+    return '<div class="ir"><div class="ii" style="background:'+col+'1f;font-size:12px;font-weight:700;min-width:22px;text-align:center">'+y.e+'</div><div style="font-size:11px;line-height:1.6">'+y.t+'</div></div>';
+  }).join('');
+
+  o+='<div class="nb" style="font-size:10px;margin:10px 0 4px">CRM = sessões com origem <b>insider/*</b> e <b>CRM/*</b> no GA4. Em 2025 a semana comparada é 03–09/ago (sorteio no domingo 10/08); em 2026, 02–08/ago (sorteio no domingo 09/08).</div>';
+  o+='</div></div>';
+  el.innerHTML=o;
 }
 
 function showT(id,btn){
