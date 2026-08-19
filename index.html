@@ -510,11 +510,24 @@ function enterDash(c, tab) {
 
   applyCapTheme(c);
   rAll();
+  if (typeof urlSync === 'function') urlSync();
 }
 
 function backToCover() {
   document.getElementById('dash-app').style.display = 'none';
   document.getElementById('cover').style.display = 'block';
+  try { history.replaceState(null, '', location.pathname + location.search); } catch(e) {}
+}
+
+// link com #aba/cap entra direto no dashboard, sem passar pela capa
+function urlEntrarPeloLink() {
+  var h = (location.hash || '').replace(/^#/, '');
+  if (!h) return false;
+  var p = h.split('/'), aba = p[0], c = p[1];
+  if (!document.getElementById('t-' + aba)) return false;
+  if (!c || typeof D === 'undefined' || !D[c]) c = 'mc';
+  enterDash(c, aba);
+  return true;
 }
 </script>
 
@@ -4021,20 +4034,32 @@ function urlAplicar(){
   var h=(location.hash||'').replace(/^#/,'');
   if(!h) return false;
   var partes=h.split('/'), aba=partes[0], c=partes[1];
-  if(!(aba && document.getElementById('t-'+aba)) && !(c && D[c])) return false;
-  urlLock=true;   // evita que setC reescreva a URL com a aba antiga
-  if(c && D[c]){
-    cap=c;
-    var btnC=document.querySelector('.ct.a'+c) || Array.prototype.filter.call(document.querySelectorAll('.ct'),function(b){ return (b.getAttribute('onclick')||'').indexOf("'"+c+"'")>=0; })[0];
-    if(btnC) setC(c, btnC); else cap=c;
-  }
-  if(aba && document.getElementById('t-'+aba)){
+  var abaOk = aba && document.getElementById('t-'+aba);
+  var capOk = c && D[c];
+  if(!abaOk && !capOk) return false;
+  urlLock=true;   // enquanto aplica o link, nao reescreve a URL
+
+  // 1) troca a aba primeiro: e so classe, nao pode falhar
+  if(abaOk){
     var btnT=Array.prototype.filter.call(document.querySelectorAll('.tab'),function(b){ return (b.getAttribute('onclick')||'').indexOf("'"+aba+"'")>=0; })[0];
     document.querySelectorAll('.sec').forEach(function(x){ x.classList.remove('on'); });
     document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
     document.getElementById('t-'+aba).classList.add('on');
     if(btnT) btnT.classList.add('on');
   }
+
+  // 2) depois o cap: se o render falhar, a aba ja esta certa
+  if(capOk){
+    cap=c;
+    var btnC=Array.prototype.filter.call(document.querySelectorAll('.ct'),function(b){ return (b.getAttribute('onclick')||'').indexOf("'"+c+"'")>=0; })[0];
+    try{ setC(c, btnC); }
+    catch(e){
+      console.warn('urlAplicar: render do cap falhou, seguindo com a aba', e);
+      document.querySelectorAll('.ct').forEach(function(b){ b.className='ct'; });
+      if(btnC) btnC.className='ct a'+c;
+    }
+  }
+
   urlLock=false;
   urlSync();
   return true;
@@ -4927,9 +4952,14 @@ function gFilterReset(){
 // INIT
 ['camp'].forEach(s=>{pF(s);flt[s]=D[cap].eds;});
 document.getElementById('ed5tab').textContent=`⭐ Ed. R$${D[cap].ed5.price} (Ed.${D[cap].ed5.ed})`;
-urlAplicar();
-setTimeout(()=>{rAll();urlSync();},80);
-window.addEventListener('hashchange',function(){ if(urlAplicar()) rAll(); });
+setTimeout(function(){
+  if(!urlEntrarPeloLink()){ rAll(); }
+},80);
+window.addEventListener('hashchange',function(){
+  var visivel=document.getElementById('dash-app');
+  if(visivel && visivel.style.display!=='none'){ if(urlAplicar()) rAll(); }
+  else { urlEntrarPeloLink(); }
+});
 document.body.style.setProperty('--cap-col','#E30613');
 </script>
 
