@@ -370,6 +370,13 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
           <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:400">Personalizações CRM · 3 caps</div>
         </div>
       </button>
+      <button onclick="showFluxo()" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#0d2b6b,#2d55a8);border:none;border-radius:12px;padding:12px 18px;cursor:pointer;color:#fff;font-size:13px;font-weight:700;font-family:inherit;margin-left:10px">
+        <span style="font-size:16px">🔗</span>
+        <div style="text-align:left">
+          <div>Fluxo de dados</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:400">Da compra ao disparo · 3 caps</div>
+        </div>
+      </button>
     </div>
   </div>
 
@@ -443,6 +450,14 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 
 </div>
 <!-- END COVER -->
+<div id="fluxo-panel" style="display:none;max-width:1180px;margin:0 auto;padding:24px 16px;font-family:inherit">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button onclick="backFromFluxo()" style="background:#f0efe9;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:#636057;font-family:inherit">← Voltar</button>
+    <div style="font-size:11px;color:#888">Dashboard CRM · Arquitetura</div>
+  </div>
+  <div id="fluxo-panel-content"></div>
+</div>
+
 <div id="ideias-panel" style="display:none;max-width:900px;margin:0 auto;padding:24px 16px;font-family:inherit">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
     <button onclick="backFromIdeias()" style="background:#f0efe9;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:#636057;display:flex;align-items:center;gap:6px">
@@ -467,6 +482,17 @@ async function showIdeias(){
 function backFromIdeias(){
   document.getElementById('ideias-panel').style.display='none';
   document.getElementById('cover').style.display='block';
+}
+function showFluxo(){
+  document.getElementById('cover').style.display='none';
+  document.getElementById('fluxo-panel').style.display='block';
+  rFluxo();
+  try{ history.replaceState(null,'','#fluxo'); }catch(e){}
+}
+function backFromFluxo(){
+  document.getElementById('fluxo-panel').style.display='none';
+  document.getElementById('cover').style.display='block';
+  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
 }
 
 var CAP_COL = {
@@ -523,6 +549,7 @@ function backToCover() {
 function urlEntrarPeloLink() {
   var h = (location.hash || '').replace(/^#/, '');
   if (!h) return false;
+  if (h === 'fluxo') { showFluxo(); return true; }
   var p = h.split('/'), aba = p[0], c = p[1];
   if (!document.getElementById('t-' + aba)) return false;
   if (!c || typeof D === 'undefined' || !D[c]) c = 'mc';
@@ -564,7 +591,7 @@ function urlEntrarPeloLink() {
 
 <!-- FECHAMENTO MENSAL -->
 <div id="t-fecho" class="sec on">
-  <div class="src"><span>📅 <strong>Fechamento mensal CRM</strong> — faturamento GA4 por edição e mês</span><span class="upd">✓ Atualizado em 17/08/2026</span></div>
+  <div class="src"><span>📅 <strong>Fechamento mensal CRM</strong> — faturamento GA4 por edição e mês</span><span class="upd">✓ Atualizado em 24/08/2026</span></div>
 
 
 
@@ -604,7 +631,7 @@ function urlEntrarPeloLink() {
 
 <!-- CAMPANHAS -->
 <div id="t-camp" class="sec">
-  <div class="src"><span>📋 <strong>Edições</strong> — desempenho por edição</span><span class="upd">✓ Atualizado em 17/08/2026</span></div>
+  <div class="src"><span>📋 <strong>Edições</strong> — desempenho por edição</span><span class="upd">✓ Atualizado em 24/08/2026</span></div>
   <div class="fb"><label>Edição</label><select id="c-ed" onchange="aF('camp')" style="width:80px"></select><div class="fsep"></div><label>De</label><input type="date" id="c-d1" onchange="aF('camp')"><label>até</label><input type="date" id="c-d2" onchange="aF('camp')"><button onclick="rF('camp')">✕</button></div>
 
   <!-- Funil geral -->
@@ -650,7 +677,7 @@ function urlEntrarPeloLink() {
 
 <!-- RANKINGS -->
 <div id="t-perf" class="sec">
-  <div class="src"><span>📊 <strong>Performance de canais</strong> — Web Push e E-mail</span><span class="upd">✓ Atualizado em 17/08/2026</span></div>
+  <div class="src"><span>📊 <strong>Performance de canais</strong> — Web Push e E-mail</span><span class="upd">✓ Atualizado em 24/08/2026</span></div>
 
   <!-- Benchmark interno (os dois canais) -->
   <div class="card" style="margin-bottom:.8rem">
@@ -771,7 +798,7 @@ function urlEntrarPeloLink() {
 
 
 <div id="t-metas" class="sec">
-  <div class="src"><span>📊 Faturamento e compras via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 17/08/2026</span></div>
+  <div class="src"><span>📊 Faturamento e compras via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 24/08/2026</span></div>
   <div class="nb warn">📐 <strong>Racional da meta:</strong> média histórica do faturamento por valor de título (desde jan/2026) + % de crescimento a confirmar.</div>
   <div class="nb" id="metas-note"></div>
   <div class="mg" id="metas-kpis" style="margin-bottom:.8rem"></div>
@@ -803,7 +830,7 @@ function urlEntrarPeloLink() {
 
 <!-- GA4 vs INSIDER -->
 <div id="t-recon" class="sec">
-  <div class="src"><span>🔍 Comparativo <strong>GA4</strong> vs <strong>Insider</strong> — útil para validar mudanças de critério de atribuição.</span><span class="upd">✓ Atualizado em 16/07/2026</span></div>
+  <div class="src"><span>🔍 Comparativo <strong>GA4</strong> vs <strong>Insider</strong> — útil para validar mudanças de critério de atribuição.</span><span class="upd">✓ Atualizado em 24/08/2026</span></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.8rem">
     <div style="background:#f0efe9;border:1px solid #d3d1c7;border-radius:8px;padding:12px">
       <div style="font-size:11px;font-weight:700;color:#378ADD;text-transform:uppercase;margin-bottom:8px">Insider — Configuração de atribuição</div>
@@ -811,26 +838,30 @@ function urlEntrarPeloLink() {
         <div><strong>Modelo:</strong> Click-through</div>
         <div style="margin-top:6px"><strong>Janelas por canal:</strong></div>
         <div style="padding-left:10px;margin-top:2px">
-          <div>Email: <strong>14 dias</strong></div>
+          <div>Email: <strong>variável</strong> (depende do dia do disparo)</div>
           <div>App Push: <strong>6 horas</strong></div>
           <div>Web Push ter–sex: <strong>6 horas</strong></div>
           <div>Web Push sáb: <strong>variável</strong> (depende do horário do disparo)</div>
           <div>Web Push dom (nova edição): <strong>10 horas</strong></div>
           <div>Web Push seg (ganhadores): <strong>12 horas</strong></div>
         </div>
+        <div style="margin-top:8px;padding:7px 9px;background:#fff;border-radius:6px;font-size:10px;color:#636057;line-height:1.5">Todas as janelas de e-mail <strong>encerram no sábado</strong>, junto com a edição. Quem foi impactado na terça tem quase a semana inteira; quem foi impactado no sábado tem poucas horas.</div>
       </div>
     </div>
     <div style="background:#f0efe9;border:1px solid #d3d1c7;border-radius:8px;padding:12px">
       <div style="font-size:11px;font-weight:700;color:#FF7C07;text-transform:uppercase;margin-bottom:8px">GA4 — Configuração de atribuição</div>
       <div style="font-size:11px;color:#636057;line-height:1.7">
-        <div><strong>Modelo:</strong> <span style="color:#888780">a confirmar</span></div>
-        <div style="margin-top:6px"><strong>Janela:</strong> <span style="color:#888780">a confirmar</span></div>
+        <div><strong>Origem e mídia:</strong> escopo de <strong>sessão</strong> — o GA4 credita o canal da sessão em que a compra aconteceu, não necessariamente o que trouxe a pessoa da primeira vez.</div>
+        <div style="margin-top:6px"><strong>Campanha:</strong> escopo de <strong>atribuição</strong> — só existe para eventos de conversão, então a soma por campanha pode ficar levemente abaixo da soma por canal.</div>
+        <div style="margin-top:6px"><strong>Janela:</strong> <span style="color:#888780">definida no admin do GA4, a confirmar com quem tem acesso</span></div>
+        <div style="margin-top:8px;padding:7px 9px;background:#fff;border-radius:6px;font-size:10px;color:#636057">Verificado na ed.450: por canal, o e-mail deu 99 sessões e 15 vendas; por campanha, as mesmas 99 sessões e 14 vendas. A sessão bate exatamente e uma venda fica sem campanha atribuída.</div>
         <div style="margin-top:8px;font-size:10px;color:#888780;font-style:italic">Fontes GA4 consideradas: insider/web_push, insider/webpush, insider/email.<br>Excluídas: architect_web_push, architect_email, insider/insider.</div>
       </div>
     </div>
   </div>
-  <div class="card"><div class="ct2">Revenue — GA4 vs Insider (WP + Email) por edição</div><div class="cw" style="height:210px"><canvas id="c-recon-rev"></canvas></div></div>
+  <div class="card"><div class="ct2">Receita por edição — mesma base nos dois lados</div><div class="nb" style="font-size:10px;margin-bottom:8px">Só campanhas de web push e e-mail enviadas dentro de cada edição, contadas na janela da própria edição nos dois lados. Disponível a partir da ed.531 (MC), 447 (SM) e 438 (SV), que é até onde dá para reconstruir o GA4 por campanha.</div><div class="cw" style="height:210px"><canvas id="c-recon-rev"></canvas></div></div>
   <div class="card"><div class="ct2">Detalhamento por edição</div><div id="recon-cards"></div></div>
+  <div class="card" id="recon-mesma-base" style="margin-bottom:.8rem"></div>
   <div class="card"><div class="ct2">Insights de divergência</div><div id="recon-insights"></div></div>
 </div>
 
@@ -849,7 +880,7 @@ const FECHO = {
       {mes:'Mai/2026', total:243560, roas:5.0},
       {mes:'Jun/2026', total:131466, roas:2.7},
       {mes:'Jul/2026', total:103835, roas:1.7},
-      {mes:'Ago/2026', total:88410, roas:1.5}
+      {mes:'Ago/2026', total:105930, roas:1.7}
     ],
     meses:[
 
@@ -865,8 +896,8 @@ const FECHO = {
        eds:[{ed:523,val:15,rv:45181,comp:2615},{ed:524,val:20,rv:44055,comp:1978},{ed:525,val:15,rv:22600,comp:1269},{ed:526,val:15,rv:19630,comp:1123}]},
       {mes:'Jul/2026', total:103835, roas:1.7,
        eds:[{ed:527,val:15,rv:23695,comp:1294},{ed:528,val:20,rv:37855,comp:1614},{ed:529,val:15,rv:21540,comp:1177},{ed:530,val:15,rv:20745,comp:1150}]},
-      {mes:'Ago/2026', total:88410, roas:1.5,
-       eds:[{ed:531,val:15,rv:19755,comp:1118},{ed:532,val:25,rv:50805,comp:1745},{ed:533,val:15,rv:17850,comp:973}]}
+      {mes:'Ago/2026', total:105930, roas:1.7,
+       eds:[{ed:531,val:15,rv:19755,comp:1118},{ed:532,val:25,rv:50805,comp:1745},{ed:533,val:15,rv:17850,comp:973},{ed:534,val:15,rv:17520,comp:1001}]}
     ]
   },
   sm:{
@@ -880,7 +911,7 @@ const FECHO = {
       {mes:'Mai/2026', total:52765, roas:3.3},
       {mes:'Jun/2026', total:54655, roas:3.4},
       {mes:'Jul/2026', total:34965, roas:2.0},
-      {mes:'Ago/2026', total:28705, roas:1.6}
+      {mes:'Ago/2026', total:36505, roas:2.1}
     ],
     meses:[
 
@@ -896,8 +927,8 @@ const FECHO = {
        eds:[{ed:439,val:15,rv:13670,comp:819},{ed:440,val:20,rv:17965,comp:805},{ed:441,val:15,rv:12905,comp:740},{ed:442,val:15,rv:10115,comp:591}]},
       {mes:'Jul/2026', total:34965, roas:2.0,
        eds:[{ed:443,val:15,rv:9275,comp:535},{ed:444,val:20,rv:10420,comp:461},{ed:445,val:15,rv:8320,comp:484},{ed:446,val:15,rv:6950,comp:421}]},
-      {mes:'Ago/2026', total:28705, roas:1.6,
-       eds:[{ed:447,val:15,rv:6330,comp:377},{ed:448,val:20,rv:15020,comp:682},{ed:449,val:15,rv:7355,comp:411}]}
+      {mes:'Ago/2026', total:36505, roas:2.1,
+       eds:[{ed:447,val:15,rv:6330,comp:377},{ed:448,val:20,rv:15020,comp:682},{ed:449,val:15,rv:7355,comp:411},{ed:450,val:15,rv:7800,comp:464}]}
     ]
   },
   sv:{
@@ -911,7 +942,7 @@ const FECHO = {
       {mes:'Mai/2026', total:35350, roas:2.5},
       {mes:'Jun/2026', total:31490, roas:3.8},
       {mes:'Jul/2026', total:14530, roas:1.7},
-      {mes:'Ago/2026', total:13435, roas:1.5}
+      {mes:'Ago/2026', total:16660, roas:1.9}
     ],
     meses:[
 
@@ -927,8 +958,8 @@ const FECHO = {
        eds:[{ed:430,val:10,rv:6650,comp:531},{ed:431,val:20,rv:13040,comp:573},{ed:432,val:10,rv:6510,comp:511},{ed:433,val:10,rv:5290,comp:424}]},
       {mes:'Jul/2026', total:14530, roas:1.7,
        eds:[{ed:434,val:10,rv:3860,comp:311},{ed:435,val:15,rv:4215,comp:254},{ed:436,val:10,rv:3320,comp:261},{ed:437,val:10,rv:3135,comp:262}]},
-      {mes:'Ago/2026', total:13435, roas:1.5,
-       eds:[{ed:438,val:10,rv:2955,comp:238},{ed:439,val:20,rv:7230,comp:320},{ed:440,val:10,rv:3250,comp:254}]}
+      {mes:'Ago/2026', total:16660, roas:1.9,
+       eds:[{ed:438,val:10,rv:2955,comp:238},{ed:439,val:20,rv:7230,comp:320},{ed:440,val:10,rv:3250,comp:254},{ed:441,val:10,rv:3225,comp:269}]}
     ],
     metas:{meses:[
       {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6580,er:3.2},{ed:431,val:20,mf:12920,mr:6.2,ef:13040,er:6.3},{ed:432,val:10,mf:5214,mr:2.5,ef:6510,er:3.1},{ed:433,val:10,mf:5214,mr:2.5,ef:5290,er:2.5}],tm:28563,te:31490,tr:3.8}
@@ -971,9 +1002,10 @@ mc:{l:'Minas Cap',s:'Minas Cap · jan–jul 2026',col:'#E30613',
     {ed:528,val:20,dt:'2026-07-12',ws:2003026,wd:733783,wc:0.98,wr:8830,eo:6.77,ec:0.21,er:11870,ao:0,cg:1243,rg:22710,has_crm_ga4:true,insider_crm:13125,ga4_recon:22710,ga4_crm:22710},
     {ed:529,val:15,dt:'2026-07-19',ws:2404937,wd:886000,wc:0.24,wr:5240,eo:6.81,ec:0.14,er:3150,ao:0,cg:1243,rg:22710,has_crm_ga4:true,insider_crm:8390,ga4_recon:22710,ga4_crm:22710},
     {ed:530,val:15,dt:'2026-07-19',ws:2655055,wd:968167,wc:0.25,wr:6570,eo:6.09,ec:0.11,er:2880,ao:0,cg:1150,rg:20745,has_crm_ga4:true,insider_crm:9450,ga4_recon:20745,ga4_crm:20745},
-    {ed:531,val:15,dt:'2026-07-26',ws:2125808,wd:774203,wc:0.27,wr:5355,eo:6.67,ec:0.13,er:3570,ao:0,cg:1118,rg:19755,has_crm_ga4:true,insider_crm:8925,ga4_recon:19755,ga4_crm:19755},
-    {ed:532,val:25,dt:'2026-08-02',ws:2294534,wd:849590,wc:0.26,wr:12905,eo:7.52,ec:0.19,er:10700,ao:0,cg:1745,rg:50805,has_crm_ga4:true,insider_crm:23605,ga4_recon:50805,ga4_crm:50805},
-    {ed:533,val:15,dt:'2026-08-09',ws:1038110,wd:404124,wc:0.96,wr:7150,eo:7.00,ec:0.28,er:4790,ao:0,cg:973,rg:17850,has_crm_ga4:true,insider_crm:11940,ga4_recon:17850,ga4_crm:17850}
+    {ed:531,val:15,dt:'2026-07-26',ws:2125808,wd:774203,wc:0.27,wr:5355,eo:6.67,ec:0.13,er:3570,ao:0,cg:1118,rg:19755,has_crm_ga4:true,insider_crm:8925,ga4_recon:19755,ga4_crm:19755,ga4_mb:6915},
+    {ed:532,val:25,dt:'2026-08-02',ws:2294534,wd:849590,wc:0.26,wr:12905,eo:7.52,ec:0.19,er:10700,ao:0,cg:1745,rg:50805,has_crm_ga4:true,insider_crm:23605,ga4_recon:50805,ga4_crm:50805,ga4_mb:19690},
+    {ed:533,val:15,dt:'2026-08-09',ws:1038110,wd:404124,wc:0.96,wr:7150,eo:7.00,ec:0.28,er:4790,ao:0,cg:973,rg:17850,has_crm_ga4:true,insider_crm:11940,ga4_recon:17850,ga4_crm:17850,ga4_mb:5320},
+    {ed:534,val:15,dt:'2026-08-16',ws:987157,wd:414224,wc:0.80,wr:10100,eo:5.14,ec:0.15,er:6195,ao:0,cg:1001,rg:17520,has_crm_ga4:true,ga4_recon:17520,ga4_crm:17520,insider_crm:10350,ga4_mb:6565}
   ],
   wpb:[{n:'Ed.501 (30/12)',ed:501,dl:363628,ctr:1.48},{n:'Ed.504 (20/01)',ed:504,dl:238448,ctr:1.35},{n:'Ed.502 (07/01)',ed:502,dl:473747,ctr:1.24},{n:'Ed.506 (04/02)',ed:506,dl:437921,ctr:1.12},{n:'Ed.508 (19/02)',ed:508,dl:423033,ctr:1.11}],
   wpw:[{n:'Ed.523 (31/mai–06/jun)',ed:523,dl:792189,ctr:0.70},{n:'Ed.515 (07/04)',ed:515,dl:834595,ctr:0.74},{n:'Ed.514 (31/03)',ed:514,dl:850025,ctr:0.75},{n:'Ed.518 (26/04)',ed:518,dl:864308,ctr:0.75},{n:'Ed.520 (10/05)',ed:520,dl:854128,ctr:0.76}],
@@ -1010,7 +1042,7 @@ mesmo_dia_pct:50.2,ate_7d_pct:60.8,ate_30d_pct:67.5,mais_30d_pct:32.5,recorrente
     {mes:'Mai/2026',eds:[{ed:518,val:15,mf:35880,mr:3.0,ef:36280,er:3.0},{ed:519,val:25,mf:98995,mr:8.2,ef:97955,er:8.1},{ed:520,val:15,mf:35880,mr:3.0,ef:39405,er:3.3},{ed:521,val:15,mf:35880,mr:3.0,ef:34215,er:null},{ed:522,val:15,mf:35880,mr:3.0,ef:35705,er:2.9}],tm:242515,te:243560,tr:5.0},
     {mes:'Jun/2026',eds:[{ed:523,val:15,mf:36227,mr:3.0,ef:45181,er:3.7,insider_crm:10110,ga4_crm:44170},{ed:524,val:20,mf:47864,mr:4.0,ef:44055,er:3.6},{ed:525,val:15,mf:36227,mr:3.0,ef:22600,er:1.9},{ed:526,val:15,mf:36227,mr:3.0,ef:19630,er:1.6}],tm:156546,te:131466,tr:2.7},
       {mes:'Jul/2026',eds:[{ed:527,val:15,mf:33500,mr:2.2,ef:23695,er:1.6},{ed:528,val:20,mf:47047,mr:3.1,ef:37855,er:2.5},{ed:529,val:15,mf:33500,mr:2.2,ef:21540,er:1.4},{ed:530,val:15,mf:33500,mr:2.2,ef:20745,er:1.4}],tm:147547,te:103835,tr:1.7},
-      {mes:'Ago/2026',eds:[{ed:531,val:15,mf:30896,mr:2.0,ef:19755,er:1.3},{ed:532,val:25,mf:97955,mr:6.4,ef:50805,er:3.3},{ed:533,val:15,mf:30896,mr:2.0,ef:17850,er:1.2},{ed:534,val:15,mf:30896,mr:2.0,ef:null,er:null},{ed:535,val:15,mf:30896,mr:2.0,ef:null,er:null}],tm:190644,te:88410,tr:1.5}
+      {mes:'Ago/2026',eds:[{ed:531,val:15,mf:30896,mr:2.0,ef:19755,er:1.3},{ed:532,val:25,mf:97955,mr:6.4,ef:50805,er:3.3},{ed:533,val:15,mf:30896,mr:2.0,ef:17850,er:1.2},{ed:534,val:15,mf:30896,mr:2.0,ef:17520,er:1.2},{ed:535,val:15,mf:30896,mr:2.0,ef:null,er:null}],tm:190644,te:105930,tr:1.7}
   ]}
 },
 sm:{l:'Super Minas',s:'Super Minas · jan–jul 2026',col:'#F9AE00',
@@ -1046,9 +1078,10 @@ sm:{l:'Super Minas',s:'Super Minas · jan–jul 2026',col:'#F9AE00',
     {ed:443,val:15,dt:'2026-07-05',ws:768893,wd:270150,wc:0.98,wr:2310,eo:5.81,ec:0.13,er:1605,ao:0,cg:535,rg:9275,has_crm_ga4:true,insider_crm:3915,ga4_recon:9275,ga4_crm:9275},
     {ed:444,val:20,dt:'2026-07-12',ws:752074,wd:272866,wc:0.85,wr:2610,eo:8.57,ec:0.16,er:1660,ao:0,cg:484,rg:8320,has_crm_ga4:true,insider_crm:2905,ga4_recon:8320,ga4_crm:8320},
     {ed:445,val:15,dt:'2026-07-19',ws:970680,wd:348727,wc:0.22,wr:1875,eo:5.95,ec:0.07,er:1335,ao:0,cg:484,rg:8320,has_crm_ga4:true,insider_crm:3210,ga4_recon:8320,ga4_crm:8320},
-    {ed:447,val:15,dt:'2026-07-26',ws:863452,wd:315531,wc:0.25,wr:1830,eo:5.99,ec:0.08,er:660,ao:0,cg:377,rg:6330,has_crm_ga4:true,insider_crm:2490,ga4_recon:6330,ga4_crm:6330},
-    {ed:448,val:20,dt:'2026-08-02',ws:824196,wd:302061,wc:0.26,wr:3860,eo:7.35,ec:0.14,er:2780,ao:0,cg:682,rg:15020,has_crm_ga4:true,insider_crm:6640,ga4_recon:15020,ga4_crm:15020},
-    {ed:449,val:15,dt:'2026-08-09',ws:490304,wd:183328,wc:1.02,wr:3080,eo:6.17,ec:0.15,er:1020,ao:0,cg:411,rg:7355,has_crm_ga4:true,insider_crm:4100,ga4_recon:7355,ga4_crm:7355},
+    {ed:447,val:15,dt:'2026-07-26',ws:863452,wd:315531,wc:0.25,wr:1830,eo:5.99,ec:0.08,er:660,ao:0,cg:377,rg:6330,has_crm_ga4:true,insider_crm:2490,ga4_recon:6330,ga4_crm:6330,ga4_mb:2400},
+    {ed:448,val:20,dt:'2026-08-02',ws:824196,wd:302061,wc:0.26,wr:3860,eo:7.35,ec:0.14,er:2780,ao:0,cg:682,rg:15020,has_crm_ga4:true,insider_crm:6640,ga4_recon:15020,ga4_crm:15020,ga4_mb:6430},
+    {ed:449,val:15,dt:'2026-08-09',ws:490304,wd:183328,wc:1.02,wr:3080,eo:6.17,ec:0.15,er:1020,ao:0,cg:411,rg:7355,has_crm_ga4:true,insider_crm:4100,ga4_recon:7355,ga4_crm:7355,ga4_mb:2470},
+    {ed:450,val:15,dt:'2026-08-16',ws:322307,wd:138950,wc:0.73,wr:4710,eo:5.30,ec:0.10,er:2670,ao:0,cg:464,rg:7800,has_crm_ga4:true,ga4_recon:7800,ga4_crm:7800,insider_crm:3525,ga4_mb:3215},
     {ed:446,val:15,dt:'2026-07-19',ws:1077918,wd:389593,wc:0.22,wr:2060,eo:5.54,ec:0.10,er:750,ao:0,cg:421,rg:6950,has_crm_ga4:true,insider_crm:2810,ga4_recon:6950,ga4_crm:6950}
   ],
   wpb:[{n:'Ed.423 (04/02)',ed:423,dl:153169,ctr:1.58},{n:'Ed.418 (30/12)',ed:418,dl:209899,ctr:1.45},{n:'Ed.425 (18/02) ⭐R$5',ed:425,dl:169649,ctr:1.26},{n:'Ed.426 (25/02)',ed:426,dl:217721,ctr:1.24},{n:'Ed.419 (08/01)',ed:419,dl:157440,ctr:1.20}],
@@ -1085,7 +1118,7 @@ mesmo_dia_pct:58.9,ate_7d_pct:67.2,ate_30d_pct:72.8,mais_30d_pct:27.2,recorrente
     {mes:'Mai/2026',eds:[{ed:434,val:15,mf:10113,mr:2.5,ef:7930,er:2.0},{ed:435,val:20,mf:10671,mr:2.7,ef:15755,er:4.0},{ed:436,val:15,mf:10113,mr:2.5,ef:7375,er:1.9},{ed:437,val:15,mf:10113,mr:2.5,ef:9955,er:2.5},{ed:438,val:15,mf:10113,mr:2.5,ef:11750,er:3.0}],tm:51123,te:52765,tr:3.3},
     {mes:'Jun/2026',eds:[{ed:439,val:15,mf:9769,mr:2.5,ef:13670,er:3.4,insider_crm:4065,ga4_crm:13430},{ed:440,val:20,mf:18205,mr:4.6,ef:17965,er:4.5},{ed:441,val:15,mf:9769,mr:2.5,ef:12905,er:3.2},{ed:442,val:15,mf:9769,mr:2.5,ef:10115,er:2.5}],tm:47512,te:54655,tr:3.4},
       {mes:'Jul/2026',eds:[{ed:443,val:15,mf:10306,mr:2.4,ef:9275,er:2.1},{ed:444,val:20,mf:17705,mr:4.1,ef:10420,er:2.4},{ed:445,val:15,mf:10306,mr:2.4,ef:8320,er:1.9},{ed:446,val:15,mf:10306,mr:2.4,ef:6950,er:1.6}],tm:48623,te:34965,tr:2.0},
-      {mes:'Ago/2026',eds:[{ed:447,val:15,mf:9908,mr:2.3,ef:6330,er:1.5},{ed:448,val:20,mf:16863,mr:3.9,ef:15020,er:3.5},{ed:449,val:15,mf:9908,mr:2.3,ef:7355,er:1.7},{ed:450,val:15,mf:9908,mr:2.3,ef:null,er:null},{ed:451,val:15,mf:9908,mr:2.3,ef:null,er:null}],tm:46586,te:28705,tr:1.6}
+      {mes:'Ago/2026',eds:[{ed:447,val:15,mf:9908,mr:2.3,ef:6330,er:1.5},{ed:448,val:20,mf:16863,mr:3.9,ef:15020,er:3.5},{ed:449,val:15,mf:9908,mr:2.3,ef:7355,er:1.7},{ed:450,val:15,mf:9908,mr:2.3,ef:7800,er:1.8},{ed:451,val:15,mf:9908,mr:2.3,ef:null,er:null}],tm:46586,te:36505,tr:2.1}
   ]}
 },
 sv:{l:'Super Vale',s:'Super Vale · jan–jul 2026',col:'#FF7C07',
@@ -1103,17 +1136,17 @@ sv:{l:'Super Vale',s:'Super Vale · jan–jul 2026',col:'#FF7C07',
     {ed:415,val:5,dt:'2026-02-18',ws:158200,wd:70615,wc:1.22,wr:3455,eo:5.60,ec:0.13,er:2050,ao:0,cg:665,rg:5635,ed5:true},
     {ed:416,val:10,dt:'2026-02-25',ws:154400,wd:62400,wc:0.91,wr:390,eo:5.30,ec:0.12,er:420,ao:0,cg:57,rg:810},
     {ed:417,val:10,dt:'2026-03-04',ws:248600,wd:98400,wc:1.05,wr:1080,eo:6.40,ec:0.16,er:880,ao:0,cg:140,rg:1960},
-    {ed:418,dt:'2026-03-11',ws:268400,wd:82972,wc:1.24,wr:1060,eo:6.10,ec:0.15,er:800,ao:0,cg:123,rg:1860},
-    {ed:419,dt:'2026-03-18',ws:275800,wd:102400,wc:0.98,wr:900,eo:5.80,ec:0.14,er:730,ao:0,cg:117,rg:1630},
-    {ed:420,dt:'2026-03-25',ws:268200,wd:98600,wc:0.95,wr:790,eo:5.50,ec:0.13,er:660,ao:0,cg:104,rg:1450},
-    {ed:421,dt:'2026-04-01',ws:248600,wd:149450,wc:0.85,wr:1135,eo:5.93,ec:0.07,er:915,ao:0,cg:134,rg:2050},
-    {ed:422,dt:'2026-04-08',ws:254800,wd:136256,wc:0.79,wr:765,eo:5.96,ec:0.07,er:780,ao:0,cg:80,rg:1545},
-    {ed:423,dt:'2026-04-15',ws:248200,wd:116400,wc:0.82,wr:440,eo:5.20,ec:0.11,er:500,ao:44,cg:67,rg:940},
-    {ed:424,dt:'2026-04-22',ws:242600,wd:112800,wc:0.80,wr:400,eo:5.00,ec:0.10,er:460,ao:0,cg:61,rg:860},
-    {ed:425,dt:'2026-04-29',ws:236800,wd:158504,wc:0.84,wr:880,eo:5.88,ec:0.08,er:940,ao:0,cg:132,rg:1820},
-    {ed:426,dt:'2026-05-06',ws:218400,wd:159660,wc:0.82,wr:1900,eo:4.60,ec:0.09,er:350,ao:997,cg:106,rg:2250},
-    {ed:427,dt:'2026-05-14',ws:196200,wd:159112,wc:0.84,wr:1010,eo:5.23,ec:0.07,er:980,ao:436,cg:150,rg:1990},
-    {ed:428,has_crm_ga4:true,insider_crm:2160,ga4_crm:4050,dt:'2026-05-18',ws:524951,wd:186863,wc:0.97,wr:1330,eo:5.5,ec:null,er:670,ao:389,cg:434,rg:5070},
+    {ed:418,val:10,dt:'2026-03-11',ws:268400,wd:82972,wc:1.24,wr:1060,eo:6.10,ec:0.15,er:800,ao:0,cg:123,rg:1860},
+    {ed:419,val:10,dt:'2026-03-18',ws:275800,wd:102400,wc:0.98,wr:900,eo:5.80,ec:0.14,er:730,ao:0,cg:117,rg:1630},
+    {ed:420,val:10,dt:'2026-03-25',ws:268200,wd:98600,wc:0.95,wr:790,eo:5.50,ec:0.13,er:660,ao:0,cg:104,rg:1450},
+    {ed:421,val:10,dt:'2026-04-01',ws:248600,wd:149450,wc:0.85,wr:1135,eo:5.93,ec:0.07,er:915,ao:0,cg:134,rg:2050},
+    {ed:422,val:15,dt:'2026-04-08',ws:254800,wd:136256,wc:0.79,wr:765,eo:5.96,ec:0.07,er:780,ao:0,cg:80,rg:1545},
+    {ed:423,val:10,dt:'2026-04-15',ws:248200,wd:116400,wc:0.82,wr:440,eo:5.20,ec:0.11,er:500,ao:44,cg:67,rg:940},
+    {ed:424,val:10,dt:'2026-04-22',ws:242600,wd:112800,wc:0.80,wr:400,eo:5.00,ec:0.10,er:460,ao:0,cg:61,rg:860},
+    {ed:425,val:10,dt:'2026-04-29',ws:236800,wd:158504,wc:0.84,wr:880,eo:5.88,ec:0.08,er:940,ao:0,cg:132,rg:1820},
+    {ed:426,val:20,dt:'2026-05-06',ws:218400,wd:159660,wc:0.82,wr:1900,eo:4.60,ec:0.09,er:350,ao:997,cg:106,rg:2250},
+    {ed:427,val:10,dt:'2026-05-14',ws:196200,wd:159112,wc:0.84,wr:1010,eo:5.23,ec:0.07,er:980,ao:436,cg:150,rg:1990},
+    {ed:428,val:10,has_crm_ga4:true,insider_crm:2160,ga4_crm:4050,dt:'2026-05-18',ws:524951,wd:186863,wc:0.97,wr:1330,eo:5.5,ec:null,er:670,ao:389,cg:434,rg:5070},
     {ed:429,val:10,insider_crm:1760,ga4_crm:4930,dt:'2026-05-24',ws:498170,wd:175735,wc:0.91,wr:1020,eo:5.22,ec:null,er:450,ao:471,cg:401,rg:5770},
     {ed:430,val:10,has_crm_ga4:true,insider_crm:1610,ga4_recon:5640,ga4_crm:6580,dt:'2026-05-31',ws:419401,wd:150377,wc:0.71,wr:760,eo:5.55,ec:0.14,er:850,ao:319,cg:453,rg:6580},
     {ed:431,val:20,dt:'2026-06-14',ws:503361,wd:174321,wc:0.85,wr:5000,eo:5.53,ec:0.07,er:6600,ao:0,cg:511,rg:11600,has_crm_ga4:true,insider_crm:2690,ga4_recon:11600,ga4_crm:11600},
@@ -1122,9 +1155,10 @@ sv:{l:'Super Vale',s:'Super Vale · jan–jul 2026',col:'#FF7C07',
     {ed:434,val:10,dt:'2026-07-05',ws:391234,wd:137531,wc:1.46,wr:1490,eo:5.76,ec:0.17,er:850,ao:0,cg:311,rg:3860,has_crm_ga4:true,insider_crm:2340,ga4_recon:3860,ga4_crm:3860},
     {ed:435,val:15,dt:'2026-07-12',ws:385222,wd:131981,wc:1.11,wr:1520,eo:5.46,ec:0.12,er:645,ao:0,cg:261,rg:3320,has_crm_ga4:true,insider_crm:2060,ga4_recon:3320,ga4_crm:3320},
     {ed:436,val:10,dt:'2026-07-19',ws:496174,wd:178037,wc:0.25,wr:860,eo:5.73,ec:0.15,er:380,ao:0,cg:261,rg:3320,has_crm_ga4:true,insider_crm:1240,ga4_recon:3320,ga4_crm:3320},
-    {ed:438,val:10,dt:'2026-07-26',ws:445754,wd:159874,wc:0.29,wr:1020,eo:5.73,ec:0.13,er:470,ao:0,cg:238,rg:2955,has_crm_ga4:true,insider_crm:1490,ga4_recon:2955,ga4_crm:2955},
-    {ed:439,val:20,dt:'2026-08-02',ws:456939,wd:164378,wc:0.28,wr:1920,eo:6.36,ec:0.15,er:1720,ao:0,cg:320,rg:7230,has_crm_ga4:true,insider_crm:3640,ga4_recon:7230,ga4_crm:7230},
-    {ed:440,val:10,dt:'2026-08-09',ws:899356,wd:301405,wc:0.82,wr:1180,eo:6.00,ec:0.27,er:750,ao:0,cg:254,rg:3250,has_crm_ga4:true,insider_crm:1930,ga4_recon:3250,ga4_crm:3250},
+    {ed:438,val:10,dt:'2026-07-26',ws:445754,wd:159874,wc:0.29,wr:1020,eo:5.73,ec:0.13,er:470,ao:0,cg:238,rg:2955,has_crm_ga4:true,insider_crm:1490,ga4_recon:2955,ga4_crm:2955,ga4_mb:1080},
+    {ed:439,val:20,dt:'2026-08-02',ws:456939,wd:164378,wc:0.28,wr:1920,eo:6.36,ec:0.15,er:1720,ao:0,cg:320,rg:7230,has_crm_ga4:true,insider_crm:3640,ga4_recon:7230,ga4_crm:7230,ga4_mb:3100},
+    {ed:440,val:10,dt:'2026-08-09',ws:899356,wd:301405,wc:0.82,wr:1180,eo:6.00,ec:0.27,er:750,ao:0,cg:254,rg:3250,has_crm_ga4:true,insider_crm:1930,ga4_recon:3250,ga4_crm:3250,ga4_mb:1390},
+    {ed:441,val:10,dt:'2026-08-16',ws:653521,wd:230591,wc:0.75,wr:2170,eo:4.78,ec:0.15,er:885,ao:0,cg:269,rg:3225,has_crm_ga4:true,ga4_recon:3225,ga4_crm:3225,insider_crm:1740,ga4_mb:1530},
     {ed:437,val:10,dt:'2026-07-19',ws:554532,wd:204124,wc:0.28,wr:1170,eo:5.13,ec:0.14,er:620,ao:0,cg:262,rg:3135,has_crm_ga4:true,insider_crm:1790,ga4_recon:3135,ga4_crm:3135}
   ],
   wpb:[{n:'Ed.408 (30/12)',ed:408,dl:64518,ctr:1.78},{n:'Ed.409 (07/01)',ed:409,dl:77357,ctr:1.25},{n:'Ed.418 (11/03)',ed:418,dl:82972,ctr:1.24},{n:'Ed.413 (04/02)',ed:413,dl:62900,ctr:1.22},{n:'Ed.415 (18/02) ⭐R$5',ed:415,dl:70615,ctr:1.22}],
@@ -1161,8 +1195,7 @@ mesmo_dia_pct:68.0,ate_7d_pct:77.9,ate_30d_pct:84.1,mais_30d_pct:15.9,recorrente
     {mes:'Mai/2026',eds:[{ed:425,val:10,mf:4969,mr:2.4,ef:5730,er:2.8},{ed:426,val:20,mf:13689,mr:6.6,ef:12920,er:6.2},{ed:427,val:10,mf:4969,mr:2.4,ef:5860,er:2.8},{ed:428,val:10,mf:4969,mr:2.4,ef:5070,er:null},{ed:429,val:10,mf:4969,mr:2.4,ef:5770,er:2.8,insider_crm:1760,ga4_crm:4930}],tm:33565,te:35350,tr:4.0},
     {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6650,er:3.2,insider_crm:1610,ga4_crm:6580},{ed:431,val:20,mf:12920,mr:6.2,ef:13040,er:6.3},{ed:432,val:10,mf:5214,mr:2.5,ef:6510,er:3.1},{ed:433,val:10,mf:5214,mr:2.5,ef:5290,er:2.5}],tm:28563,te:31490,tr:3.8},
       {mes:'Jul/2026',eds:[{ed:434,val:10,mf:5258,mr:2.4,ef:3860,er:1.8},{ed:435,val:15,mf:6340,mr:2.9,ef:4215,er:1.9},{ed:436,val:10,mf:5258,mr:2.4,ef:3320,er:1.5},{ed:437,val:10,mf:5258,mr:2.4,ef:3135,er:1.4}],tm:22074,te:14530,tr:1.7},
-      {mes:'Ago/2026',eds:[{ed:438,val:10,mf:5010,mr:2.3,ef:2955,er:1.4},{ed:439,val:20,mf:12920,mr:5.9,ef:7230,er:3.3},{ed:440,val:10,mf:5010,mr:2.3,ef:3250,er:1.5},{ed:441,val:10,mf:5010,mr:2.3,ef:null,er:null},{ed:442,val:10,mf:5010,mr:2.3,ef:null,er:null}],tm:27951,te:13435,tr:1.5}
-  ]}
+      {mes:'Ago/2026',eds:[{ed:438,val:10,mf:5010,mr:2.3,ef:2955,er:1.4},{ed:439,val:20,mf:12920,mr:5.9,ef:7230,er:3.3},{ed:440,val:10,mf:5010,mr:2.3,ef:3250,er:1.5},{ed:441,val:10,mf:5010,mr:2.3,ef:3225,er:1.5},{ed:442,val:10,mf:5010,mr:2.3,ef:null,er:null}],tm:27951,te:16660,tr:1.9}]}
 }};
 
 
@@ -2181,6 +2214,62 @@ const TESTES = [
       {cap:'sv',txt:'Com esse volume a prova social local não apareceu em nenhuma métrica: <b>CTR de 0,63%</b> contra 0,53% da base geral, mas conversão de <b>2,90% das sessões contra 6,30%</b> e apenas 12 vendas com R$ 130 de receita.'},
       {cap:'sv',txt:'<b>Conclusão:</b> desempenho abaixo do disparo comum, com a mesma pessoa recebendo os dois pushes no mesmo dia (Teófilo Otoni levou dois disparos). Não sustenta o trabalho: reservar a ação para quando um dos prêmios principais sair no online.'},
     ]
+  }
+  ,
+  {
+    id:'reativ_canal',
+    titulo:'Reativação: web push agora, e-mail na sequência',
+    periodo:'Ago/2026 — em andamento',
+    descricao:'Na edição 534/450/441 (16–22/ago) rodaram cinco web pushes de reativação por cap, de terça a sábado às 9h, para quem não compra há tempo. Na edição seguinte o canal mudou: o push saiu e a reativação passou a ser feita por e-mail, para testar se o problema era alcance ou motivo. Os números do e-mail entram quando a edição fechar.',
+    caps:['mc','sm','sv'],
+    resultado:'parcial',
+    badge:'Em andamento — falta a rodada de e-mail',
+    badge_cor:'#EF9F27',
+    metricas:[
+      {cap:'mc',label:'Minas Cap',
+       grupos:[
+         {n:'Web push de reativação',camp:5,del:26952,ctr:'0,99%',sess:462,conv:10,rev:150,tx:'2,16%'},
+         {n:'Web push da base geral',camp:22,del:369910,ctr:'0,73%',sess:13423,conv:581,rev:9950,tx:'4,33%'}
+       ],
+       destaques:[
+         {n:'Terça 18/08',sess:185,conv:3,rev:45},
+         {n:'Quarta 19/08',sess:87,conv:2,rev:30},
+         {n:'Quinta 20/08',sess:72,conv:1,rev:15},
+         {n:'Sexta 21/08',sess:61,conv:2,rev:30},
+         {n:'Sábado 22/08',sess:57,conv:2,rev:30}
+       ]},
+      {cap:'sm',label:'Super Minas',
+       grupos:[
+         {n:'Web push de reativação',camp:5,del:7129,ctr:'1,22%',sess:88,conv:3,rev:45,tx:'3,41%'},
+         {n:'Web push da base geral',camp:21,del:125339,ctr:'0,65%',sess:3198,conv:285,rev:4665,tx:'8,91%'}
+       ],
+       destaques:[
+         {n:'Terça 18/08',sess:26,conv:0,rev:0},
+         {n:'Quarta 19/08',sess:15,conv:0,rev:0},
+         {n:'Quinta 20/08',sess:18,conv:0,rev:0},
+         {n:'Sexta 21/08',sess:9,conv:1,rev:15},
+         {n:'Sábado 22/08',sess:20,conv:2,rev:30}
+       ]},
+      {cap:'sv',label:'Super Vale',
+       grupos:[
+         {n:'Web push de reativação',camp:5,del:3761,ctr:'0,53%',sess:20,conv:0,rev:0,tx:'0,00%'},
+         {n:'Web push da base geral',camp:22,del:216661,ctr:'0,71%',sess:3174,conv:184,rev:2170,tx:'5,80%'}
+       ],
+       destaques:[
+         {n:'Terça 18/08',sess:5,conv:0,rev:0},
+         {n:'Quarta 19/08',sess:3,conv:0,rev:0},
+         {n:'Quinta 20/08',sess:9,conv:0,rev:0},
+         {n:'Sexta 21/08',sess:0,conv:0,rev:0},
+         {n:'Sábado 22/08',sess:3,conv:0,rev:0}
+       ]}
+    ],
+    insights:[
+      'A base parada clica mais que a base geral e compra menos da metade: na MC, CTR de 0,99% contra 0,73%, mas conversão de 2,16% contra 4,33%. Na SM o contraste é maior ainda, 1,22% de CTR e 3,41% de conversão contra 8,91% da base.',
+      'O desgaste é rápido. Na MC, a terça sozinha trouxe 185 das 462 sessões da semana; do meio da semana em diante o CTR cai pela metade e não se recupera.',
+      'Na Super Vale o recorte não se sustenta: 3.761 entregas na semana inteira, 20 sessões, nenhuma venda e CTR abaixo da base geral. É a única cap em que o público de reativação responde pior que o público normal.',
+      'Serve de parâmetro para o plano de saldo: reativação sem incentivo nenhum converte 2,16% na MC e 3,41% na SM. Se a rodada com saldo bater perto dos 10% da campanha anterior, a diferença é do incentivo e não do canal.'
+    ],
+    proximo:'Na edição seguinte a reativação saiu do web push e passou para e-mail, que converte mais nas três caps (7,32% MC · 14,63% SM · 11,23% SV contra 4,26% · 8,76% · 5,76% do push). Os números entram aqui quando a edição fechar, para comparar canal com canal na mesma base.'
   }
 ];
 
@@ -3224,6 +3313,43 @@ function rTestes(){
         });
         html+='</tbody></table></div>';
       }
+    } else if(t.id==='reativ_canal'){
+      var mr=metricas[0];
+      if(mr){
+        html+='<div style="overflow-x:auto;margin-bottom:12px"><table style="font-size:11px;table-layout:auto"><thead><tr>'
+          +'<th>Grupo de disparos</th><th style="text-align:right">Disparos</th><th style="text-align:right">Entregues</th>'
+          +'<th style="text-align:right">CTR</th><th style="text-align:right">Sessões</th><th style="text-align:right">Vendas</th>'
+          +'<th style="text-align:right">Receita</th><th style="text-align:right">Conversão</th></tr></thead><tbody>';
+        mr.grupos.forEach(function(g,gi){
+          var hi=(gi===0);
+          html+='<tr'+(hi?' style="background:'+col+'0f"':'')+'><td style="font-weight:'+(hi?'700':'600')+'">'+g.n+'</td>'
+            +'<td style="text-align:right">'+g.camp+'</td>'
+            +'<td style="text-align:right">'+g.del.toLocaleString('pt-BR')+'</td>'
+            +'<td style="text-align:right;font-weight:'+(hi?'700':'400')+'">'+g.ctr+'</td>'
+            +'<td style="text-align:right">'+g.sess.toLocaleString('pt-BR')+'</td>'
+            +'<td style="text-align:right;font-weight:600">'+g.conv+'</td>'
+            +'<td style="text-align:right">R$'+g.rev.toLocaleString('pt-BR')+'</td>'
+            +'<td style="text-align:right;font-weight:700;color:'+(hi?'#D85A30':'#1D9E75')+'">'+g.tx+'</td></tr>';
+        });
+        html+='</tbody></table>'
+          +'<div style="font-size:10px;color:#888780;margin-top:5px">Entregues e CTR: Insider. Sessões, vendas e receita: GA4 por campanha.</div></div>';
+        if(mr.destaques && mr.destaques.length){
+          html+='<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888780;margin-bottom:6px">Dia a dia dos cinco disparos</div>';
+          html+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
+          mr.destaques.forEach(function(x){
+            var zero=(x.conv===0);
+            html+='<div style="background:'+(zero?'#f8f8f6':col+'0f')+';border:1px solid '+(zero?'#e8e6e0':col+'44')+';border-radius:8px;padding:7px 10px">'
+              +'<div style="font-size:11px;font-weight:700">'+x.n+'</div>'
+              +'<div style="font-size:10px;color:#636057">'+x.sess+' sessões · '+x.conv+(x.conv===1?' venda':' vendas')+(x.rev?' · R$'+x.rev:'')+'</div></div>';
+          });
+          html+='</div></div>';
+        }
+        if(t.proximo){
+          html+='<div style="border:1px dashed '+col+'66;background:'+col+'0a;border-radius:10px;padding:11px 13px;margin-bottom:12px">'
+            +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:'+col+';margin-bottom:4px">Próxima rodada</div>'
+            +'<div style="font-size:11px;line-height:1.6;color:#1a1916">'+t.proximo+'</div></div>';
+        }
+      }
     } else if(t.id==='wp_cidade_ganhadores'){
       var mg=metricas[0];
       if(mg){
@@ -3361,7 +3487,10 @@ const SESSCONV = {
      dias:[{d:'02/ago dom',ss:123101,st:4679,sr:123240,cs:4829,ct:90,cr:2700},{d:'03/ago seg',ss:51348,st:2600,sr:75105,cs:3495,ct:69,cr:2035},{d:'04/ago ter',ss:40075,st:2906,sr:82090,cs:3469,ct:119,cr:3600},{d:'05/ago qua',ss:47078,st:4055,sr:116960,cs:3636,ct:146,cr:4405},{d:'06/ago qui',ss:60018,st:6591,sr:188645,cs:4144,ct:188,cr:5445},{d:'07/ago sex',ss:77271,st:11722,sr:331890,cs:5273,ct:292,cr:8930},{d:'08/ago sáb',ss:209417,st:47421,sr:1316715,cs:8988,ct:841,cr:23690}]},
     {ed:533,val:15,per:'09–15/ago',site:{s:526203,t:52506,r:917810},crm:{s:23645,t:973,r:17850},
      ch:[{n:'Web Push',s:15733,t:597,r:10850,best:{n:'Ganhadores 10/08, 11h — não compradores',s:572,t:20,r:430}},{n:'Email',s:5900,t:324,r:6085,best:{n:'Sábado 07h',s:391,t:53,r:915}},{n:'Architect',s:1950,t:49,r:870,best:{n:'Compra Abandonada Dia dos Pais',s:633,t:16,r:275}},{n:'Outros',s:62,t:3,r:45}],
-     dias:[{d:'09/ago dom',ss:157659,st:3388,sr:75335,cs:5511,ct:70,cr:1600},{d:'10/ago seg',ss:59768,st:1907,sr:34145,cs:4183,ct:52,cr:1005},{d:'11/ago ter',ss:35810,st:1775,sr:31520,cs:2193,ct:65,cr:1135},{d:'12/ago qua',ss:36849,st:2250,sr:40070,cs:1862,ct:54,cr:920},{d:'13/ago qui',ss:38573,st:3273,sr:57025,cs:1905,ct:87,cr:1655},{d:'14/ago sex',ss:47075,st:6015,sr:104305,cs:2200,ct:151,cr:2755},{d:'15/ago sáb',ss:150469,st:33898,sr:575410,cs:5791,ct:494,cr:8780}]}
+     dias:[{d:'09/ago dom',ss:157659,st:3388,sr:75335,cs:5511,ct:70,cr:1600},{d:'10/ago seg',ss:59768,st:1907,sr:34145,cs:4183,ct:52,cr:1005},{d:'11/ago ter',ss:35810,st:1775,sr:31520,cs:2193,ct:65,cr:1135},{d:'12/ago qua',ss:36849,st:2250,sr:40070,cs:1862,ct:54,cr:920},{d:'13/ago qui',ss:38573,st:3273,sr:57025,cs:1905,ct:87,cr:1655},{d:'14/ago sex',ss:47075,st:6015,sr:104305,cs:2200,ct:151,cr:2755},{d:'15/ago sáb',ss:150469,st:33898,sr:575410,cs:5791,ct:494,cr:8780}]},
+    {ed:534,val:15,per:'16–22/ago',site:{s:436069,t:42313,r:727342},crm:{s:20433,t:1001,r:17520},
+     ch:[{n:'Web Push',s:13885,t:591,r:10100,best:{n:'Terça — 3º disparo',s:1131,t:18,r:270}},{n:'Email',s:4728,t:346,r:6195,best:{n:'Sábado',s:310,t:45,r:825}},{n:'Architect',s:1809,t:61,r:1180,best:{n:'Carrinho Abandonado (teste gatilho)',s:229,t:12,r:315}},{n:'Outros',s:11,t:3,r:45}],
+     dias:[{d:'16/ago dom',ss:112970,st:3506,sr:62280,cs:3635,ct:62,cr:1180},{d:'17/ago seg',ss:44162,st:1838,sr:31840,cs:2371,ct:49,cr:870},{d:'18/ago ter',ss:30214,st:1962,sr:34390,cs:2630,ct:86,cr:1440},{d:'19/ago qua',ss:34529,st:2333,sr:40175,cs:2018,ct:79,cr:1350},{d:'20/ago qui',ss:34432,st:3434,sr:59103,cs:1954,ct:103,cr:1710},{d:'21/ago sex',ss:44522,st:5854,sr:101424,cs:2266,ct:148,cr:2635},{d:'22/ago sáb',ss:135240,st:23386,sr:398130,cs:5608,ct:471,cr:8290}]}
    ]}
   ]},
   sm:{meses:[
@@ -3374,7 +3503,10 @@ const SESSCONV = {
      dias:[{d:'02/ago dom',ss:41791,st:2253,sr:47550,cs:1249,ct:46,cr:925},{d:'03/ago seg',ss:13889,st:1139,sr:27060,cs:723,ct:32,cr:810},{d:'04/ago ter',ss:10231,st:1230,sr:28775,cs:810,ct:58,cr:1240},{d:'05/ago qua',ss:13043,st:1996,sr:44470,cs:846,ct:63,cr:1350},{d:'06/ago qui',ss:16476,st:3133,sr:71400,cs:735,ct:69,cr:1560},{d:'07/ago sex',ss:21385,st:2564,sr:56830,cs:892,ct:93,cr:2015},{d:'08/ago sáb',ss:58493,st:6468,sr:146325,cs:1781,ct:321,cr:7120}]},
     {ed:449,val:15,per:'09–15/ago',site:{s:156727,t:11627,r:201680},crm:{s:5388,t:411,r:7355},
      ch:[{n:'Web Push',s:4112,t:297,r:5170,best:{n:'Sábado 21h — 4º disparo',s:43,t:10,r:285}},{n:'Email',s:889,t:95,r:1835,best:{n:'Sábado 07h',s:60,t:15,r:360}},{n:'Architect',s:386,t:19,r:350,best:{n:'Compra Abandonada Dia dos Pais',s:216,t:8,r:150}},{n:'Outros',s:1,t:0,r:0}],
-     dias:[{d:'09/ago dom',ss:54432,st:1791,sr:35340,cs:1485,ct:33,cr:670},{d:'10/ago seg',ss:16759,st:743,sr:13230,cs:890,ct:12,cr:245},{d:'11/ago ter',ss:10039,st:711,sr:12190,cs:462,ct:21,cr:325},{d:'12/ago qua',ss:9561,st:911,sr:16045,cs:360,ct:22,cr:420},{d:'13/ago qui',ss:10194,st:1263,sr:21055,cs:618,ct:34,cr:550},{d:'14/ago sex',ss:12497,st:2314,sr:39200,cs:412,ct:49,cr:810},{d:'15/ago sáb',ss:43245,st:3894,sr:64620,cs:1161,ct:240,cr:4335}]}
+     dias:[{d:'09/ago dom',ss:54432,st:1791,sr:35340,cs:1485,ct:33,cr:670},{d:'10/ago seg',ss:16759,st:743,sr:13230,cs:890,ct:12,cr:245},{d:'11/ago ter',ss:10039,st:711,sr:12190,cs:462,ct:21,cr:325},{d:'12/ago qua',ss:9561,st:911,sr:16045,cs:360,ct:22,cr:420},{d:'13/ago qui',ss:10194,st:1263,sr:21055,cs:618,ct:34,cr:550},{d:'14/ago sex',ss:12497,st:2314,sr:39200,cs:412,ct:49,cr:810},{d:'15/ago sáb',ss:43245,st:3894,sr:64620,cs:1161,ct:240,cr:4335}]},
+    {ed:450,val:15,per:'16–22/ago',site:{s:130139,t:11817,r:198855},crm:{s:4707,t:464,r:7800},
+     ch:[{n:'Web Push',s:3286,t:288,r:4710,best:{n:'Sábado — 5º disparo',s:116,t:18,r:270}},{n:'Email',s:1039,t:152,r:2670,best:{n:'Sábado',s:304,t:59,r:1035}},{n:'Architect',s:382,t:24,r:420,best:{n:'Compra Abandonada Dia dos Pais',s:31,t:6,r:135}}],
+     dias:[{d:'16/ago dom',ss:37339,st:1507,sr:25470,cs:1057,ct:38,cr:585},{d:'17/ago seg',ss:12068,st:698,sr:12410,cs:510,ct:18,cr:380},{d:'18/ago ter',ss:7668,st:694,sr:11835,cs:431,ct:26,cr:410},{d:'19/ago qua',ss:8432,st:898,sr:14495,cs:360,ct:23,cr:420},{d:'20/ago qui',ss:10685,st:1496,sr:26340,cs:451,ct:42,cr:810},{d:'21/ago sex',ss:13122,st:2546,sr:42450,cs:433,ct:50,cr:765},{d:'22/ago sáb',ss:40825,st:3978,sr:65855,cs:1471,ct:267,cr:4430}]}
    ]}
   ]},
   sv:{meses:[
@@ -3387,7 +3519,10 @@ const SESSCONV = {
      dias:[{d:'02/ago dom',ss:25010,st:946,sr:18980,cs:786,ct:23,cr:390},{d:'03/ago seg',ss:9389,st:545,sr:13175,cs:566,ct:6,cr:140},{d:'04/ago ter',ss:6036,st:545,sr:12650,cs:495,ct:37,cr:1250},{d:'05/ago qua',ss:7115,st:795,sr:18020,cs:498,ct:28,cr:600},{d:'06/ago qui',ss:8834,st:1237,sr:28045,cs:451,ct:32,cr:740},{d:'07/ago sex',ss:12792,st:2416,sr:55680,cs:569,ct:52,cr:1030},{d:'08/ago sáb',ss:29483,st:9621,sr:211870,cs:1039,ct:144,cr:3080}]},
     {ed:440,val:10,per:'09–15/ago',site:{s:88547,t:13144,r:163650},crm:{s:4733,t:254,r:3250},
      ch:[{n:'Web Push',s:3607,t:157,r:1970,best:{n:'Quarta 15h30 — 2º disparo',s:78,t:6,r:90}},{n:'Email',s:916,t:91,r:1220,best:{n:'Sábado 07h',s:63,t:17,r:280}},{n:'Architect',s:207,t:6,r:60,best:{n:'Compra Abandonada Dia dos Pais',s:82,t:2,r:20}},{n:'Outros',s:3,t:0,r:0}],
-     dias:[{d:'09/ago dom',ss:26194,st:968,sr:15440,cs:888,ct:19,cr:320},{d:'10/ago seg',ss:9372,st:547,sr:7200,cs:722,ct:8,cr:90},{d:'11/ago ter',ss:6132,st:482,sr:6000,cs:497,ct:18,cr:210},{d:'12/ago qua',ss:6789,st:717,sr:8830,cs:425,ct:22,cr:290},{d:'13/ago qui',ss:7048,st:930,sr:11080,cs:569,ct:25,cr:260},{d:'14/ago sex',ss:9066,st:1665,sr:19870,cs:682,ct:43,cr:510},{d:'15/ago sáb',ss:23946,st:7835,sr:95230,cs:950,ct:119,cr:1570}]}
+     dias:[{d:'09/ago dom',ss:26194,st:968,sr:15440,cs:888,ct:19,cr:320},{d:'10/ago seg',ss:9372,st:547,sr:7200,cs:722,ct:8,cr:90},{d:'11/ago ter',ss:6132,st:482,sr:6000,cs:497,ct:18,cr:210},{d:'12/ago qua',ss:6789,st:717,sr:8830,cs:425,ct:22,cr:290},{d:'13/ago qui',ss:7048,st:930,sr:11080,cs:569,ct:25,cr:260},{d:'14/ago sex',ss:9066,st:1665,sr:19870,cs:682,ct:43,cr:510},{d:'15/ago sáb',ss:23946,st:7835,sr:95230,cs:950,ct:119,cr:1570}]},
+    {ed:441,val:10,per:'16–22/ago',site:{s:80391,t:13009,r:158180},crm:{s:4121,t:269,r:3225},
+     ch:[{n:'Web Push',s:3194,t:184,r:2170,best:{n:'Sábado — 3º disparo',s:70,t:10,r:120}},{n:'Email',s:677,t:76,r:885,best:{n:'Terça',s:38,t:10,r:100}},{n:'Architect',s:250,t:9,r:170,best:{n:'Compra Abandonada — Web Push 3',s:23,t:2,r:30}}],
+     dias:[{d:'16/ago dom',ss:23250,st:987,sr:12695,cs:816,ct:14,cr:160},{d:'17/ago seg',ss:8105,st:542,sr:6810,cs:474,ct:8,cr:130},{d:'18/ago ter',ss:5382,st:548,sr:6620,cs:531,ct:27,cr:320},{d:'19/ago qua',ss:6165,st:654,sr:7950,cs:455,ct:22,cr:240},{d:'20/ago qui',ss:6611,st:979,sr:12210,cs:461,ct:28,cr:290},{d:'21/ago sex',ss:8188,st:1631,sr:20525,cs:517,ct:44,cr:495},{d:'22/ago sáb',ss:22690,st:7668,sr:91370,cs:867,ct:126,cr:1590}]}
    ]}
   ]}
 };
@@ -4010,6 +4145,245 @@ function rDiaPaisYoY(){
 
   o+='<div class="nb" style="font-size:10px;margin:10px 0 4px">CRM = sessões com origem <b>insider/*</b> e <b>CRM/*</b> no GA4. Em 2025 a semana comparada é 03–09/ago (sorteio no domingo 10/08); em 2026, 02–08/ago (sorteio no domingo 09/08).</div>';
   o+='</div></div>';
+  el.innerHTML=o;
+}
+
+
+// ===== PAINEL: FLUXO DE DADOS DO CRM =====
+const FLUXO_SVG = `<svg viewBox="0 0 1100 1044" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#5b84d6"/></marker>
+<marker id="arrowD" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#B8801A"/></marker>
+<marker id="arrowV" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#7F77DD"/></marker>
+<marker id="arrowG" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#a29f97"/></marker>
+<marker id="arrowVM" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#C0492A"/></marker>
+<linearGradient id="gerp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d2b6b"/><stop offset="1" stop-color="#2d55a8"/></linearGradient>
+<linearGradient id="gins" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a32a0"/><stop offset="1" stop-color="#7F77DD"/></linearGradient>
+<filter id="sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#14110F" flood-opacity="0.09"/></filter>
+<filter id="shB" x="-20%" y="-40%" width="140%" height="190%"><feDropShadow dx="0" dy="7" stdDeviation="13" flood-color="#0d2b6b" flood-opacity="0.24"/></filter>
+<filter id="shV" x="-20%" y="-40%" width="140%" height="190%"><feDropShadow dx="0" dy="7" stdDeviation="13" flood-color="#4a32a0" flood-opacity="0.24"/></filter>
+</defs>
+<rect width="1100" height="1044" fill="#faf9f6"/>
+<rect x="24" y="44" width="1052" height="152" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<rect x="24" y="244" width="1052" height="232" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<rect x="24" y="506" width="1052" height="124" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<rect x="24" y="666" width="1052" height="116" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<circle cx="57" cy="70" r="11.5" fill="#14110F"/><text x="57" y="74" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">1</text><text x="78" y="74" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">ONDE A COMPRA ACONTECE</text>
+<rect x="200" y="96" width="186" height="74" rx="13" fill="#fff" stroke="#e6e3db" stroke-width="1.2" filter="url(#sh)"/>
+<text x="293" y="127" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="16" fill="#14110F" font-weight="800" text-anchor="middle">POS</text>
+<text x="293" y="148" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">maquininha · PDVs e revendedores</text>
+<rect x="420" y="96" width="186" height="74" rx="13" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.4" filter="url(#sh)"/>
+<text x="513" y="127" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="16" fill="#C0492A" font-weight="800" text-anchor="middle">FÍSICO</text>
+<text x="513" y="148" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">cartela de papel, a dinheiro</text>
+<rect x="640" y="96" width="186" height="74" rx="13" fill="#fff" stroke="#e6e3db" stroke-width="1.2" filter="url(#sh)"/>
+<text x="733" y="127" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="16" fill="#14110F" font-weight="800" text-anchor="middle">LOJA</text>
+<text x="733" y="148" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">o online</text>
+<rect x="858" y="96" width="194" height="74" rx="13" fill="#f6f4fd" stroke="#7F77DD" stroke-width="1.4" filter="url(#sh)"/>
+<text x="955" y="120" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11.5" fill="#4a32a0" font-weight="800" text-anchor="middle" letter-spacing=".04em">O ONLINE TAMBÉM</text>
+<text x="955" y="140" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">manda evento direto para</text>
+<text x="955" y="154" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">a Insider e para o GA4</text>
+<path d="M 826 133 L 852 133" stroke="#7F77DD" stroke-width="2" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 293 176 L 293 296" stroke="#5b84d6" stroke-width="2.2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="251" y="208" width="84" height="26" rx="7" fill="#eef3fd" stroke="#5b84d6" stroke-width="1"/>
+<text x="293" y="225" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#0d2b6b" font-weight="700" text-anchor="middle">imediato</text>
+<path d="M 733 176 L 733 296" stroke="#5b84d6" stroke-width="2.2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="691" y="208" width="84" height="26" rx="7" fill="#eef3fd" stroke="#5b84d6" stroke-width="1"/>
+<text x="733" y="225" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#0d2b6b" font-weight="700" text-anchor="middle">imediato</text>
+<path d="M 513 176 L 513 202" stroke="#C0492A" stroke-width="2" fill="none" marker-end="url(#arrowVM)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<rect x="360" y="202" width="306" height="52" rx="10" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.3" stroke-dasharray="7 5"/>
+<text x="513" y="222" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#C0492A" font-weight="800" text-anchor="middle" letter-spacing=".03em">SÓ NO DOMINGO, APÓS O FECHAMENTO</text>
+<text x="513" y="240" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">e só o total — sem cartela e sem comprador</text>
+<path d="M 513 254 L 513 296" stroke="#C0492A" stroke-width="2" fill="none" marker-end="url(#arrowVM)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<rect x="58" y="300" width="150" height="50" rx="10" fill="#eef7f1" stroke="#1D9E75" stroke-width="1.2"/>
+<text x="133" y="318" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#127a56" font-weight="800" text-anchor="middle" letter-spacing=".05em">POS IDENTIFICA</text>
+<text x="133" y="332" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#6b6862" font-weight="400" text-anchor="middle">o comprador, e o cadastro</text>
+<text x="133" y="344" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#6b6862" font-weight="400" text-anchor="middle">segue para a Insider</text>
+<circle cx="57" cy="270" r="11.5" fill="#14110F"/><text x="57" y="274" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">2</text><text x="78" y="274" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">ONDE O DADO É CONSOLIDADO</text>
+<rect x="230" y="300" width="600" height="88" rx="15" fill="url(#gerp)" filter="url(#shB)"/>
+<text x="530" y="340" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="26" fill="#fff" font-weight="800" text-anchor="middle">ERP</text>
+<text x="530" y="364" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="400" text-anchor="middle" opacity=".72">consolida as compras das três origens · fonte do faturamento</text>
+<rect x="860" y="300" width="170" height="88" rx="13" fill="#eef3fd" stroke="#5b84d6" stroke-width="1.3" filter="url(#sh)"/>
+<text x="945" y="330" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#0d2b6b" font-weight="800" text-anchor="middle" letter-spacing=".04em">ERP PUSH</text>
+<text x="945" y="350" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">disparado pelo próprio</text>
+<text x="945" y="364" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">ERP, fora da Insider</text>
+<path d="M 834 344 L 854 344" stroke="#5b84d6" stroke-width="2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="230" y="408" width="290" height="56" rx="12" fill="#fdf7e9" stroke="#B8801A" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="375" y="430" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11.5" fill="#B8801A" font-weight="800" text-anchor="middle" letter-spacing=".05em">LISTAS MANUAIS</text>
+<text x="375" y="449" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">time de tecnologia extrai recortes e envia</text>
+<path d="M 330 392 L 330 404" stroke="#B8801A" stroke-width="2" fill="none" marker-end="url(#arrowD)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<rect x="560" y="404" width="270" height="64" rx="12" fill="#eef3fd" stroke="#5b84d6" stroke-width="1.3"/>
+<text x="695" y="424" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#0d2b6b" font-weight="800" text-anchor="middle" letter-spacing=".03em">STREAMING · CERCA DE 10 MIN</text>
+<text x="695" y="442" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">chave de identificação: UUID</text>
+<text x="695" y="458" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#B8801A" font-weight="400" text-anchor="middle">pode atrasar quando a fila sobrecarrega</text>
+<rect x="560" y="474" width="270" height="52" rx="10" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.3"/>
+<text x="695" y="492" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#C0492A" font-weight="800" text-anchor="middle" letter-spacing=".04em">O FÍSICO PARA AQUI</text>
+<text x="695" y="507" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">não há dados pessoais de quem compra,</text>
+<text x="695" y="519" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">então não chega na Insider nem no GA4</text>
+<path d="M 540 392 L 540 544" stroke="#5b84d6" stroke-width="2.6" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 375 464 L 375 544" stroke="#B8801A" stroke-width="2" fill="none" marker-end="url(#arrowD)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<path d="M 955 176 L 955 196 Q 955 208 967 208 L 1042 208 Q 1054 208 1054 220 L 1054 500 Q 1054 512 1042 512 L 1000 512 Q 988 512 988 524 L 988 544" stroke="#7F77DD" stroke-width="2" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="57" cy="528" r="11.5" fill="#14110F"/><text x="57" y="532" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">3</text><text x="78" y="532" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">ONDE A COMUNICAÇÃO ACONTECE</text>
+<rect x="230" y="548" width="808" height="72" rx="15" fill="url(#gins)" filter="url(#shV)"/>
+<text x="634" y="581" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="23" fill="#fff" font-weight="800" text-anchor="middle">INSIDER</text>
+<text x="634" y="603" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#fff" font-weight="400" text-anchor="middle" opacity=".72">cadastro e evento de compra viram base de segmentação, jornada e disparo</text>
+<rect x="58" y="560" width="150" height="44" rx="10" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.2"/>
+<text x="133" y="580" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#C0492A" font-weight="800" text-anchor="middle" letter-spacing=".05em">MÃO ÚNICA</text>
+<text x="133" y="595" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">não volta ao ERP</text>
+<circle cx="57" cy="692" r="11.5" fill="#14110F"/><text x="57" y="696" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">4</text><text x="78" y="696" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">O QUE SAI PARA O CLIENTE</text>
+<rect x="230" y="714" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="331" y="746" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">E-mail</text>
+<path d="M 331 620 L 331 710" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="432" y="714" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="533" y="746" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">Web Push</text>
+<path d="M 533 620 L 533 710" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="634" y="714" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="735" y="746" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">App Push</text>
+<path d="M 735 620 L 735 710" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="836" y="714" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="937" y="746" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">Pop Up on-site</text>
+<path d="M 937 620 L 937 710" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 331 766 L 331 786" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 533 766 L 533 786" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 735 766 L 735 786" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 937 766 L 937 786" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 331 786 L 937 786" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 550 786 L 550 796" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<rect x="392" y="800" width="316" height="44" rx="10" fill="#f3f6ee" stroke="#5C8A2E" stroke-width="1.2"/>
+<text x="550" y="819" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#3f6b18" font-weight="800" text-anchor="middle" letter-spacing=".05em">O CLIQUE CARREGA UTM</text>
+<text x="550" y="835" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">é por aí que o GA4 sabe de onde veio a sessão</text>
+<path d="M 550 844 L 550 892" stroke="#5C8A2E" stroke-width="1.6" fill="none" marker-end="url(#arrowG)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<rect x="24" y="846" width="1052" height="158" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<circle cx="57" cy="872" r="11.5" fill="#14110F"/><text x="57" y="876" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">5</text><text x="78" y="876" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">COMO CADA FERRAMENTA MEDE</text>
+<rect x="66" y="896" width="284" height="88" rx="13" fill="#eef3fd" stroke="#0d2b6b" stroke-width="1.3" filter="url(#sh)"/>
+<text x="208" y="924" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" fill="#0d2b6b" font-weight="800" text-anchor="middle" letter-spacing=".03em">ERP</text>
+<text x="208" y="944" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#14110F" font-weight="700" text-anchor="middle">faturamento real</text>
+<text x="208" y="962" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">a venda que de fato aconteceu,</text>
+<text x="208" y="975" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">independente do canal</text>
+<rect x="408" y="896" width="284" height="88" rx="13" fill="#f3f6ee" stroke="#3f6b18" stroke-width="1.3" filter="url(#sh)"/>
+<text x="550" y="924" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" fill="#3f6b18" font-weight="800" text-anchor="middle" letter-spacing=".03em">GA4</text>
+<text x="550" y="944" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#14110F" font-weight="700" text-anchor="middle">o canal da sessão da compra</text>
+<text x="550" y="962" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">escopo de sessão: credita o canal</text>
+<text x="550" y="975" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">da visita em que a compra aconteceu</text>
+<rect x="750" y="896" width="284" height="88" rx="13" fill="#f6f4fd" stroke="#4a32a0" stroke-width="1.3" filter="url(#sh)"/>
+<text x="892" y="924" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" fill="#4a32a0" font-weight="800" text-anchor="middle" letter-spacing=".03em">INSIDER</text>
+<text x="892" y="944" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#14110F" font-weight="700" text-anchor="middle">entrega, clique e conversão</text>
+<text x="892" y="962" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">conta quem recebeu e clicou</text>
+<text x="892" y="975" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">dentro da janela dela</text>
+<text x="550" y="1000" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#a29f97" font-weight="400" text-anchor="middle">as três medem pedaços diferentes do mesmo fluxo — por isso os números nunca batem exatamente</text>
+</svg>`;
+
+
+const FLUXO_DESTRAVA = [
+  {t:'Explica por que os números não batem', d:'ERP, GA4 e Insider medem coisas diferentes. Com o mapa, isso se explica uma vez, e não a cada reunião.'},
+  {t:'Mostra onde o dado morre', d:'Cada seta tracejada é um ponto manual ou não confirmado. É a lista de pedidos para a Ambra, com o dedo apontado.'},
+  {t:'Encurta o onboarding', d:'Quem entra no time entende o caminho da compra até o disparo sem depender de alguém contar.'},
+  {t:'Prioriza integração', d:'Toda seta que hoje é manual vira item de roadmap com dono e prazo.'}
+];
+
+function rFluxo(){
+  var el=document.getElementById('fluxo-panel-content'); if(!el) return;
+  var o='';
+  o+='<div style="margin-bottom:18px">';
+  o+='<div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#a29f97;margin-bottom:4px">Ambra · CRM</div>';
+  o+='<div style="font-size:26px;font-weight:800;color:#14110F;letter-spacing:-.4px;margin-bottom:6px">Fluxo de dados do CRM</div>';
+  o+='<div style="font-size:13px;color:#6b6862;line-height:1.6;max-width:720px">Da compra até o disparo: por onde o dado passa, onde ele é consolidado e onde a comunicação acontece. Vale para as três caps. A venda física entra só como faturamento no ERP, porque não há dados pessoais de quem compra.</div>';
+  o+='</div>';
+
+  o+='<div style="background:#fff;border:1px solid #e6e3db;border-radius:16px;padding:10px;margin-bottom:20px;overflow-x:auto">'+FLUXO_SVG+'</div>';
+
+  // legenda
+  o+='<div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:24px;padding:12px 16px;background:#fff;border:1px solid #e6e3db;border-radius:12px">';
+  [['#5b84d6','linha cheia','integrado e automático'],
+   ['#B8801A','linha tracejada','manual ou a confirmar'],
+   ['#7F77DD','roxo','o que a Insider controla']].forEach(function(l){
+    o+='<div style="display:flex;align-items:center;gap:8px">'
+      +'<span style="width:22px;height:0;border-top:2.5px '+(l[1].indexOf('traceja')>=0?'dashed':'solid')+' '+l[0]+';display:inline-block"></span>'
+      +'<span style="font-size:11px;color:#6b6862"><b style="color:#14110F">'+l[1]+'</b> — '+l[2]+'</span></div>';
+  });
+  o+='</div>';
+
+  // para que serve
+  o+='<div style="font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a29f97;margin-bottom:10px">Para que serve este mapa</div>';
+  o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:24px">';
+  FLUXO_DESTRAVA.forEach(function(x){
+    o+='<div style="background:#fff;border:1px solid #e6e3db;border-radius:10px;padding:12px 14px">'
+      +'<div style="font-size:12.5px;font-weight:700;color:#14110F;margin-bottom:4px">'+x.t+'</div>'
+      +'<div style="font-size:11px;color:#6b6862;line-height:1.55">'+x.d+'</div></div>';
+  });
+  o+='</div>';
+
+  o+='<div style="font-size:10px;color:#a29f97;padding-bottom:20px">Mapa mantido pelo CRM. Atualizar sempre que uma integração mudar ou uma seta tracejada virar automática.</div>';
+  el.innerHTML=o;
+}
+
+
+// ===== Comparação na mesma base: campanhas da edição =====
+const RECON_ED = {
+  mc:{ed:534,per:'16–22/ago',
+    canais:[
+      {n:'Web Push',ic:282,ir:5445,gc:181,gr:3085,tc:591,tr:10100},
+      {n:'E-mail',  ic:256,ir:4905,gc:198,gr:3480,tc:346,tr:6195}
+    ]},
+  sm:{ed:450,per:'16–22/ago',
+    canais:[
+      {n:'Web Push',ic:91,ir:1650,gc:92,gr:1505,tc:288,tr:4710},
+      {n:'E-mail',  ic:101,ir:1875,gc:97,gr:1710,tc:152,tr:2670}
+    ]},
+  sv:{ed:441,per:'16–22/ago',
+    canais:[
+      {n:'Web Push',ic:81,ir:1100,gc:85,gr:1020,tc:184,tr:2170},
+      {n:'E-mail',  ic:58,ir:640,gc:45,gr:510,tc:76,tr:885}
+    ]}
+};
+
+function rReconEd(){
+  var el=document.getElementById('recon-mesma-base'); if(!el) return;
+  var R=RECON_ED[cap]; if(!R){ el.innerHTML=''; return; }
+  var col=D[cap].col;
+  var n=function(v){ return (v||0).toLocaleString('pt-BR'); };
+  var rs=function(v){ return 'R$ '+(v||0).toLocaleString('pt-BR'); };
+  var pc=function(a,b){ if(!b) return '—'; var v=(a-b)/b*100;
+    return (v>=0?'+':'')+v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})+'%'; };
+
+  var o='';
+  o+='<div class="ct2">Exemplo — como a diferença se forma na Ed.'+R.ed+' ('+R.per+')</div>';
+  o+='<div class="nb" style="font-size:10px;margin-bottom:10px">Detalhe de uma edição, aberto por canal, para ver de onde vem a diferença entre as duas ferramentas.</div>';
+  o+='<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th>Canal</th>'
+    +'<th style="text-align:right">Conv. Insider</th><th style="text-align:right">Vendas GA4</th><th style="text-align:right">Diferença</th>'
+    +'<th style="text-align:right">Receita Insider</th><th style="text-align:right">Receita GA4</th></tr></thead><tbody>';
+  var sic=0,sgc=0,sir=0,sgr=0;
+  R.canais.forEach(function(c){
+    sic+=c.ic; sgc+=c.gc; sir+=c.ir; sgr+=c.gr;
+    var d=(c.gc-c.ic)/c.ic*100;
+    var cor=Math.abs(d)<=15?'#1D9E75':(Math.abs(d)<=40?'#EF9F27':'#D85A30');
+    o+='<tr><td style="font-weight:600">'+c.n+'</td>'
+      +'<td style="text-align:right">'+n(c.ic)+'</td>'
+      +'<td style="text-align:right">'+n(c.gc)+'</td>'
+      +'<td style="text-align:right;font-weight:700;color:'+cor+'">'+pc(c.gc,c.ic)+'</td>'
+      +'<td style="text-align:right">'+rs(c.ir)+'</td>'
+      +'<td style="text-align:right">'+rs(c.gr)+'</td></tr>';
+  });
+  var dt=(sgc-sic)/sic*100;
+  o+='<tr class="total-row"><td>Total</td><td style="text-align:right">'+n(sic)+'</td><td style="text-align:right">'+n(sgc)+'</td>'
+    +'<td style="text-align:right;font-weight:700">'+pc(sgc,sic)+'</td>'
+    +'<td style="text-align:right">'+rs(sir)+'</td><td style="text-align:right">'+rs(sgr)+'</td></tr>';
+  o+='</tbody></table></div>';
+
+  // o que infla o número do canal inteiro
+  o+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin:14px 0 8px">O que entra no total do canal, mas não é desta edição</div>';
+  o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px">';
+  R.canais.forEach(function(c){
+    var fora=c.tc-c.gc, pctFora=c.tc?fora/c.tc*100:0;
+    o+='<div style="border:1px solid #e8e6e0;border-radius:10px;padding:11px 13px">'
+      +'<div style="font-size:11px;font-weight:700;margin-bottom:6px">'+c.n+'</div>'
+      +'<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:#888780">Canal inteiro no GA4</span><span style="font-weight:600">'+n(c.tc)+' vendas</span></div>'
+      +'<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:#888780">Campanhas da edição</span><span style="font-weight:600">'+n(c.gc)+'</span></div>'
+      +'<div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:'+col+';font-weight:600">De edições anteriores</span><span style="font-weight:800;color:'+col+'">'+n(fora)+' · '+pctFora.toFixed(0)+'%</span></div>'
+      +'<div class="cyb" style="margin-top:6px"><div class="cbf" style="width:'+pctFora.toFixed(1)+'%;background:'+col+'"></div></div>'
+      +'</div>';
+  });
+  o+='</div>';
+  o+='<div class="nb" style="font-size:10px;margin-top:10px">Vendas que o GA4 credita ao canal porque a sessão veio de um disparo antigo — e-mail da edição passada aberto agora, push de semanas atrás ainda clicado. O export da Insider não cobre essas campanhas, por isso o total dos dois lados nunca fecha.</div>';
   el.innerHTML=o;
 }
 
@@ -4749,7 +5123,7 @@ function rEd5(){
 
 function rMetas(){
   const m=D[cap].metas,col=D[cap].col,lbl=D[cap].l;
-  document.getElementById('metas-note').textContent=`Metas de faturamento CRM e ROAS por edição — ${lbl}. GA4. Atualizado em ${UPD}.`;
+  document.getElementById('metas-note').textContent=`Metas de faturamento CRM e ROAS por edição — ${lbl}. GA4. Atualizado em 24/08/2026.`;
   document.getElementById('meta-ld-e').style.background=col;document.getElementById('meta-ld-r').style.background=col;
   const allEds=[];m.meses.forEach(mes=>mes.eds.forEach(e=>allEds.push({...e,mes:mes.mes})));
   const wB=allEds.filter(e=>e.mf!=null&&e.ef!=null);
@@ -4826,14 +5200,14 @@ function rMetas(){
 
 function rRecon(){
   const d=D[cap],col=d.col;
-  const eds=d.eds.filter(e=>e.insider_crm!=null);
-  const iRev=eds.map(e=>e.insider_crm); // Insider: Email + WP revenue real
-  const gRev=eds.map(e=>e.ga4_recon!=null?e.ga4_recon:e.ga4_crm);       // GA4: insider/web_push + insider/email + CRM/email
+  const eds=d.eds.filter(e=>e.insider_crm!=null&&e.ga4_mb!=null);
+  const iRev=eds.map(e=>e.insider_crm); // Insider: campanhas da edição (WP + Email)
+  const gRev=eds.map(e=>e.ga4_mb);      // GA4: mesmas campanhas, dentro da janela da edição
   const lbs=eds.map(e=>`Ed.${e.ed}`);
   const pctDiff=eds.map((e,i)=>{const ir=iRev[i],gr=gRev[i];return ir>0?Math.round((gr-ir)/ir*100):null;});
 
   dc('c-recon-rev');
-  ch['c-recon-rev']=new Chart(document.getElementById('c-recon-rev'),{type:'bar',data:{labels:lbs,datasets:[{label:'Revenue GA4',data:gRev,backgroundColor:col+'99'},{label:'Revenue Insider (WP+Email)',data:iRev,backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10},boxWidth:10}}},scales:{x:{ticks:{autoSkip:eds.length>12,maxRotation:45,font:{size:10}}},y:{ticks:{callback:v=>'R$'+fmt(v),font:{size:10}}}}}});
+  ch['c-recon-rev']=new Chart(document.getElementById('c-recon-rev'),{type:'bar',data:{labels:lbs,datasets:[{label:'GA4 — campanhas da edição',data:gRev,backgroundColor:col+'99'},{label:'Insider — campanhas da edição',data:iRev,backgroundColor:'#AFA9EC'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10},boxWidth:10}}},scales:{x:{ticks:{autoSkip:eds.length>12,maxRotation:45,font:{size:10}}},y:{ticks:{callback:v=>'R$'+fmt(v),font:{size:10}}}}}});
 
   // Cards por edição
   document.getElementById('recon-cards').innerHTML=`
@@ -4850,17 +5224,18 @@ function rRecon(){
         </div>`;
       }).join('')}
     </div>
-    <div style="font-size:10px;color:#888780;margin-top:8px">% = diferença do GA4 em relação à Insider (WP + Email). Positivo = GA4 registra mais que Insider.</div>`;
+    <div style="font-size:10px;color:#888780;margin-top:8px">% = diferença do GA4 em relação à Insider, nas mesmas campanhas. Negativo = a Insider credita mais que o GA4.</div>`;
 
   const avgDiff=(pctDiff.filter(v=>v!=null).reduce((a,v)=>a+v,0)/Math.max(pctDiff.filter(v=>v!=null).length,1)).toFixed(0);
   const maxDiff=Math.max(...pctDiff.filter(v=>v!=null));
   const maxEd=eds[pctDiff.indexOf(maxDiff)]?.ed;
   document.getElementById('recon-insights').innerHTML=[
-    {e:'📊',t:`<b>Divergência média: +${avgDiff}%</b> — GA4 registra em média ${avgDiff}% a mais que Insider (WP + Email). Diferença esperada pelas distintas janelas e modelos de atribuição de cada plataforma.`},
-    {e:'📈',t:`<b>Maior divergência: Ed.${maxEd||'?'} (+${maxDiff}%).</b> Divergências altas podem indicar compras diretas via app ou browser sem cookie que o GA4 captura mas a Insider não atribui ao CRM.`},
-    {e:'💡',t:`Para validar mudanças de critério de atribuição: se a divergência se mantiver estável (±10pp da média histórica), o critério está consistente. Variações maiores indicam mudança na plataforma ou no comportamento de compra.`},
-    {e:'⚠️',t:`Insider registra revenue de WP e Email separadamente. GA4 considera apenas <b>insider/web_push</b>, <b>insider/email</b> e <b>CRM/email</b>. Origens architect_web_push, architect_email e insider/insider não são contabilizadas. O GA4 consistentemente registra valores maiores que a Insider. A divergência reflete diferenças nas janelas e modelos de atribuição — configurações em validação com o time de dados.`}
+    {e:'🎯',t:`<b>Na mesma base, as duas ferramentas ficam próximas.</b> Comparando só as campanhas de cada edição, a diferença média é de ${avgDiff}% — contra os mais de 100% que apareciam quando o GA4 somava o canal inteiro e a Insider só a semana.`},
+    {e:'🔁',t:`<b>A Insider credita mais que o GA4</b>, não menos. Quem clica no push ou no e-mail e volta depois pelo acesso direto para comprar conta para a Insider, e o GA4 credita a venda ao direto.`},
+    {e:'🕰️',t:`<b>O total do canal no GA4 inclui disparos antigos.</b> Na ed.534, 69% das vendas de web push da MC vieram de campanhas de edições anteriores — e-mail da semana passada aberto agora, push de semanas atrás ainda clicado. Por isso o número do canal é sempre maior que o do quadro acima.`},
+    {e:'📅',t:`<b>Série disponível a partir de ago/2026.</b> Reconstruir edições mais antigas exige puxar o GA4 campanha a campanha em cada semana. Se fizer falta, dá para estender para trás.`}
   ].map(x=>`<div class="ir"><div class="ii" style="background:#eeeee8;font-size:14px">${x.e}</div><div style="font-size:11px;line-height:1.6">${x.t}</div></div>`).join('');
+  rReconEd();
 }
 
 function rCopy(){
@@ -4964,7 +5339,7 @@ document.body.style.setProperty('--cap-col','#E30613');
 </script>
 
 <div id="t-testes" class="sec">
-  <div class="src"><span>🧪 <strong>Testes CRM</strong> — resultados e insights do 1º semestre de 2026</span><span class="upd">✓ Ref. jan–jul/2026</span></div>
+  <div class="src"><span>🧪 <strong>Testes CRM</strong> — resultados e insights do 1º semestre de 2026</span><span class="upd">✓ Ref. jan–ago/2026</span></div>
 
   <!-- Roadmap de testes -->
   <div style="background:linear-gradient(135deg,#1a3a5c 0%,#1e4976 100%);border-radius:12px;padding:24px;margin-bottom:16px;color:#fff">
@@ -5027,7 +5402,7 @@ document.body.style.setProperty('--cap-col','#E30613');
   <div id="testes-content"></div>
 </div>
 <div id="t-diapais" class="sec">
-  <div class="src"><span>👨 <strong>Dia dos Pais 2026</strong> — ed 532 (MC) · 448 (SM) · 439 (SV) · 02–09/ago</span><span class="upd">✓ 17/08/2026</span></div>
+  <div class="src"><span>👨 <strong>Dia dos Pais 2026</strong> — ed 532 (MC) · 448 (SM) · 439 (SV) · 02–09/ago</span><span class="upd">✓ 24/08/2026</span></div>
   <div class="nb" style="font-size:10px;margin-bottom:.8rem">Fonte das vendas: <b>GA4 por campanha</b> em e-mail, web push e disparos avulsos. <b>Insider</b> nos pop ups e nas jornadas, onde o GA4 não separa por canal do fluxo. <b>ERP</b> na Campanha de Saldo, que é medida na base e não em sessão de site.</div>
   <div id="diapais-charts"></div>
   <div id="diapais-content"></div>
