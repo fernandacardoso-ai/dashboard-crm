@@ -591,13 +591,13 @@ function urlEntrarPeloLink() {
 
 <!-- FECHAMENTO MENSAL -->
 <div id="t-fecho" class="sec on">
-  <div class="src"><span>📅 <strong>Fechamento mensal CRM</strong> — faturamento GA4 por edição e mês</span><span class="upd">✓ Atualizado em 31/08/2026</span></div>
+  <div class="src"><span>📅 <strong>Fechamento mensal CRM</strong> — faturamento GA4 por edição e mês</span><span class="upd">✓ Atualizado em 08/09/2026</span></div>
 
 
 
   <!-- Gráfico Fat x Mês com ROAS -->
   <div class="card" style="margin-bottom:.8rem">
-    <div class="ct2">Fat. CRM x Mês — GA4 + ROAS</div>
+    <div class="ct2">Fat. CRM x Mês — GA4 + ROAS</div><div class="nb" style="font-size:10px;margin-bottom:8px">ROAS = receita ÷ (investimento semanal × edições do mês). Vale de julho/2026 em diante, quando o investimento passou para o valor atual. Nos meses anteriores o ROAS ficou como estava, calculado com o investimento vigente na época.</div>
     <div class="nb" style="font-size:10px;margin-bottom:6px">Fonte: GA4. Edição alocada no mês do sorteio. Barras = faturamento (eixo esq.) | Linha laranja = ROAS | Linha tracejada = tendência log.</div>
     <div class="cw" style="height:260px;padding-bottom:18px"><canvas id="c-fecho-mensal"></canvas></div>
   </div>
@@ -631,7 +631,7 @@ function urlEntrarPeloLink() {
 
 <!-- CAMPANHAS -->
 <div id="t-camp" class="sec">
-  <div class="src"><span>📋 <strong>Edições</strong> — série histórica edição por edição</span><span class="upd">✓ Atualizado em 31/08/2026</span></div>
+  <div class="src"><span>📋 <strong>Edições</strong> — série histórica edição por edição</span><span class="upd">✓ Atualizado em 08/09/2026</span></div>
 
     <!-- Detalhamento -->
   <div class="card"><div class="ct2">Detalhamento por edição</div>
@@ -663,7 +663,7 @@ function urlEntrarPeloLink() {
 
 <!-- RANKINGS -->
 <div id="t-perf" class="sec">
-  <div class="src"><span>📊 <strong>Performance de canais</strong> — Web Push, E-mail e Jornadas</span><span class="upd">✓ Atualizado em 31/08/2026</span></div>
+  <div class="src"><span>📊 <strong>Performance de canais</strong> — Web Push, E-mail e Jornadas</span><span class="upd">✓ Atualizado em 08/09/2026</span></div>
 
   <!-- Benchmark interno (os dois canais) -->
   <div class="card" style="margin-bottom:.8rem">
@@ -786,7 +786,7 @@ function urlEntrarPeloLink() {
 
 
 <div id="t-metas" class="sec">
-  <div class="src"><span>📊 Faturamento e compras via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 31/08/2026</span></div>
+  <div class="src"><span>📊 Faturamento e compras via <strong>GA4</strong>.</span><span class="upd">✓ Atualizado em 08/09/2026</span></div>
   <div class="nb warn">📐 <strong>Racional da meta:</strong> média histórica do faturamento por valor de título (desde jan/2026) + % de crescimento a confirmar.</div>
   <div class="nb" id="metas-note"></div>
   <div class="mg" id="metas-kpis" style="margin-bottom:.8rem"></div>
@@ -818,7 +818,7 @@ function urlEntrarPeloLink() {
 
 <!-- GA4 vs INSIDER -->
 <div id="t-recon" class="sec">
-  <div class="src"><span>🔍 Comparativo <strong>GA4</strong> vs <strong>Insider</strong> — útil para validar mudanças de critério de atribuição.</span><span class="upd">✓ Atualizado em 31/08/2026</span></div>
+  <div class="src"><span>🔍 Comparativo <strong>GA4</strong> vs <strong>Insider</strong> — útil para validar mudanças de critério de atribuição.</span><span class="upd">✓ Atualizado em 08/09/2026</span></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.8rem">
     <div style="background:#f0efe9;border:1px solid #d3d1c7;border-radius:8px;padding:12px">
       <div style="font-size:11px;font-weight:700;color:#378ADD;text-transform:uppercase;margin-bottom:8px">Insider — Configuração de atribuição</div>
@@ -868,7 +868,8 @@ const FECHO = {
       {mes:'Mai/2026', total:243560, roas:5.0},
       {mes:'Jun/2026', total:131466, roas:2.7},
       {mes:'Jul/2026', total:103835, roas:1.7},
-      {mes:'Ago/2026', total:119340, roas:2.0}
+      {mes:'Ago/2026', total:119340, roas:1.6},
+      {mes:'Set/2026', total:36990, roas:2.4}
     ],
     meses:[
 
@@ -884,8 +885,10 @@ const FECHO = {
        eds:[{ed:523,val:15,rv:45181,comp:2615},{ed:524,val:20,rv:44055,comp:1978},{ed:525,val:15,rv:22600,comp:1269},{ed:526,val:15,rv:19630,comp:1123}]},
       {mes:'Jul/2026', total:103835, roas:1.7,
        eds:[{ed:527,val:15,rv:23695,comp:1294},{ed:528,val:20,rv:37855,comp:1614},{ed:529,val:15,rv:21540,comp:1177},{ed:530,val:15,rv:20745,comp:1150}]},
-      {mes:'Ago/2026', total:119340, roas:2.0,
-       eds:[{ed:531,val:15,rv:19755,comp:1118},{ed:532,val:25,rv:50805,comp:1745},{ed:533,val:15,rv:17850,comp:973},{ed:534,val:15,rv:17520,comp:1001},{ed:535,val:15,rv:13410,comp:743}]}
+      {mes:'Ago/2026', total:119340, roas:1.6,
+       eds:[{ed:531,val:15,rv:19755,comp:1118},{ed:532,val:25,rv:50805,comp:1745},{ed:533,val:15,rv:17850,comp:973},{ed:534,val:15,rv:17520,comp:1001},{ed:535,val:15,rv:13410,comp:743}]},
+      {mes:'Set/2026', total:36990, roas:2.4,
+       eds:[{ed:536,val:20,rv:36990,comp:1595}]}
     ]
   },
   sm:{
@@ -899,7 +902,8 @@ const FECHO = {
       {mes:'Mai/2026', total:52765, roas:3.3},
       {mes:'Jun/2026', total:54655, roas:3.4},
       {mes:'Jul/2026', total:34965, roas:2.0},
-      {mes:'Ago/2026', total:42765, roas:2.5}
+      {mes:'Ago/2026', total:42765, roas:2.0},
+      {mes:'Set/2026', total:11490, roas:2.6}
     ],
     meses:[
 
@@ -915,8 +919,10 @@ const FECHO = {
        eds:[{ed:439,val:15,rv:13670,comp:819},{ed:440,val:20,rv:17965,comp:805},{ed:441,val:15,rv:12905,comp:740},{ed:442,val:15,rv:10115,comp:591}]},
       {mes:'Jul/2026', total:34965, roas:2.0,
        eds:[{ed:443,val:15,rv:9275,comp:535},{ed:444,val:20,rv:10420,comp:461},{ed:445,val:15,rv:8320,comp:484},{ed:446,val:15,rv:6950,comp:421}]},
-      {mes:'Ago/2026', total:42765, roas:2.5,
-       eds:[{ed:447,val:15,rv:6330,comp:377},{ed:448,val:20,rv:15020,comp:682},{ed:449,val:15,rv:7355,comp:411},{ed:450,val:15,rv:7800,comp:464},{ed:451,val:15,rv:6260,comp:369}]}
+      {mes:'Ago/2026', total:42765, roas:2.0,
+       eds:[{ed:447,val:15,rv:6330,comp:377},{ed:448,val:20,rv:15020,comp:682},{ed:449,val:15,rv:7355,comp:411},{ed:450,val:15,rv:7800,comp:464},{ed:451,val:15,rv:6260,comp:369}]},
+      {mes:'Set/2026', total:11490, roas:2.6,
+       eds:[{ed:452,val:20,rv:11490,comp:525}]}
     ]
   },
   sv:{
@@ -930,7 +936,8 @@ const FECHO = {
       {mes:'Mai/2026', total:35350, roas:2.5},
       {mes:'Jun/2026', total:31490, roas:3.8},
       {mes:'Jul/2026', total:14530, roas:1.7},
-      {mes:'Ago/2026', total:19870, roas:2.3}
+      {mes:'Ago/2026', total:19870, roas:1.8},
+      {mes:'Set/2026', total:5125, roas:2.4}
     ],
     meses:[
 
@@ -946,8 +953,10 @@ const FECHO = {
        eds:[{ed:430,val:10,rv:6650,comp:531},{ed:431,val:20,rv:13040,comp:573},{ed:432,val:10,rv:6510,comp:511},{ed:433,val:10,rv:5290,comp:424}]},
       {mes:'Jul/2026', total:14530, roas:1.7,
        eds:[{ed:434,val:10,rv:3860,comp:311},{ed:435,val:15,rv:4215,comp:254},{ed:436,val:10,rv:3320,comp:261},{ed:437,val:10,rv:3135,comp:262}]},
-      {mes:'Ago/2026', total:19870, roas:2.3,
-       eds:[{ed:438,val:10,rv:2955,comp:238},{ed:439,val:20,rv:7230,comp:320},{ed:440,val:10,rv:3250,comp:254},{ed:441,val:10,rv:3225,comp:269},{ed:442,val:10,rv:3210,comp:248}]}
+      {mes:'Ago/2026', total:19870, roas:1.8,
+       eds:[{ed:438,val:10,rv:2955,comp:238},{ed:439,val:20,rv:7230,comp:320},{ed:440,val:10,rv:3250,comp:254},{ed:441,val:10,rv:3225,comp:269},{ed:442,val:10,rv:3210,comp:248}]},
+      {mes:'Set/2026', total:5125, roas:2.4,
+       eds:[{ed:443,val:15,rv:5125,comp:272}]}
     ],
     metas:{meses:[
       {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6580,er:3.2},{ed:431,val:20,mf:12920,mr:6.2,ef:13040,er:6.3},{ed:432,val:10,mf:5214,mr:2.5,ef:6510,er:3.1},{ed:433,val:10,mf:5214,mr:2.5,ef:5290,er:2.5}],tm:28563,te:31490,tr:3.8}
@@ -994,7 +1003,8 @@ mc:{l:'Minas Cap',s:'Minas Cap · jan–jul 2026',col:'#E30613',
     {ed:532,val:25,dt:'2026-08-02',ws:2294534,wd:849590,wc:0.26,wr:12905,eo:7.52,ec:0.19,er:10700,ao:0,cg:1745,rg:50805,has_crm_ga4:true,insider_crm:23605,ga4_recon:50805,ga4_crm:50805,ga4_mb:19690},
     {ed:533,val:15,dt:'2026-08-09',ws:1038110,wd:404124,wc:0.96,wr:7150,eo:7.00,ec:0.28,er:4790,ao:0,cg:973,rg:17850,has_crm_ga4:true,insider_crm:11940,ga4_recon:17850,ga4_crm:17850,ga4_mb:5320},
     {ed:534,val:15,dt:'2026-08-16',ws:987157,wd:414224,wc:0.80,wr:10100,eo:5.14,ec:0.15,er:6195,ao:0,cg:1001,rg:17520,has_crm_ga4:true,ga4_recon:17520,ga4_crm:17520,insider_crm:10350,ga4_mb:6565},
-    {ed:535,val:15,dt:'2026-08-23',ws:943751,wd:398675,wc:0.75,wr:7545,eo:6.86,ec:0.22,er:5025,ao:0,cg:743,rg:13410,has_crm_ga4:true,ga4_recon:13410,ga4_crm:13410,insider_crm:7500,ga4_mb:4545}
+    {ed:535,val:15,dt:'2026-08-23',ws:943751,wd:398675,wc:0.75,wr:7545,eo:6.86,ec:0.22,er:5025,ao:0,cg:743,rg:13410,has_crm_ga4:true,ga4_recon:13410,ga4_crm:13410,insider_crm:7500,ga4_mb:4545},
+    {ed:536,val:20,dt:'2026-08-30',ws:904278,wd:394914,wc:0.75,wr:19890,eo:8.89,ec:0.22,er:13910,ao:0,cg:1595,rg:36990,has_crm_ga4:true,ga4_recon:36990,ga4_crm:36990,insider_crm:15780,ga4_mb:11855}
   ],
   wpb:[{n:'Ed.501 (30/12)',ed:501,dl:363628,ctr:1.48},{n:'Ed.504 (20/01)',ed:504,dl:238448,ctr:1.35},{n:'Ed.502 (07/01)',ed:502,dl:473747,ctr:1.24},{n:'Ed.506 (04/02)',ed:506,dl:437921,ctr:1.12},{n:'Ed.508 (19/02)',ed:508,dl:423033,ctr:1.11}],
   wpw:[{n:'Ed.523 (31/mai–06/jun)',ed:523,dl:792189,ctr:0.70},{n:'Ed.515 (07/04)',ed:515,dl:834595,ctr:0.74},{n:'Ed.514 (31/03)',ed:514,dl:850025,ctr:0.75},{n:'Ed.518 (26/04)',ed:518,dl:864308,ctr:0.75},{n:'Ed.520 (10/05)',ed:520,dl:854128,ctr:0.76}],
@@ -1031,7 +1041,8 @@ mesmo_dia_pct:50.2,ate_7d_pct:60.8,ate_30d_pct:67.5,mais_30d_pct:32.5,recorrente
     {mes:'Mai/2026',eds:[{ed:518,val:15,mf:35880,mr:3.0,ef:36280,er:3.0},{ed:519,val:25,mf:98995,mr:8.2,ef:97955,er:8.1},{ed:520,val:15,mf:35880,mr:3.0,ef:39405,er:3.3},{ed:521,val:15,mf:35880,mr:3.0,ef:34215,er:null},{ed:522,val:15,mf:35880,mr:3.0,ef:35705,er:2.9}],tm:242515,te:243560,tr:5.0},
     {mes:'Jun/2026',eds:[{ed:523,val:15,mf:36227,mr:3.0,ef:45181,er:3.7,insider_crm:10110,ga4_crm:44170},{ed:524,val:20,mf:47864,mr:4.0,ef:44055,er:3.6},{ed:525,val:15,mf:36227,mr:3.0,ef:22600,er:1.9},{ed:526,val:15,mf:36227,mr:3.0,ef:19630,er:1.6}],tm:156546,te:131466,tr:2.7},
       {mes:'Jul/2026',eds:[{ed:527,val:15,mf:33500,mr:2.2,ef:23695,er:1.6},{ed:528,val:20,mf:47047,mr:3.1,ef:37855,er:2.5},{ed:529,val:15,mf:33500,mr:2.2,ef:21540,er:1.4},{ed:530,val:15,mf:33500,mr:2.2,ef:20745,er:1.4}],tm:147547,te:103835,tr:1.7},
-      {mes:'Ago/2026',eds:[{ed:531,val:15,mf:30896,mr:2.0,ef:19755,er:1.3},{ed:532,val:25,mf:97955,mr:6.4,ef:50805,er:3.3},{ed:533,val:15,mf:30896,mr:2.0,ef:17850,er:1.2},{ed:534,val:15,mf:30896,mr:2.0,ef:17520,er:1.2},{ed:535,val:15,mf:30896,mr:2.0,ef:13410,er:0.9}],tm:190644,te:119340,tr:2.0}
+      {mes:'Ago/2026',eds:[{ed:531,val:15,mf:30896,mr:2.0,ef:19755,er:1.3},{ed:532,val:25,mf:97955,mr:6.4,ef:50805,er:3.3},{ed:533,val:15,mf:30896,mr:2.0,ef:17850,er:1.2},{ed:534,val:15,mf:30896,mr:2.0,ef:17520,er:1.2},{ed:535,val:15,mf:30896,mr:2.0,ef:13410,er:0.9}],tm:190644,te:119340,tr:1.6},
+      {mes:'Set/2026',eds:[{ed:536,val:20,mf:45394,mr:3.0,ef:36990,er:2.4},{ed:537,val:15,mf:27455,mr:1.8,ef:null,er:null},{ed:538,val:15,mf:27455,mr:1.8,ef:null,er:null},{ed:539,val:15,mf:27455,mr:1.8,ef:null,er:null}],tm:127759,te:36990,tr:2.4}
   ]}
 },
 sm:{l:'Super Minas',s:'Super Minas · jan–jul 2026',col:'#F9AE00',
@@ -1072,6 +1083,7 @@ sm:{l:'Super Minas',s:'Super Minas · jan–jul 2026',col:'#F9AE00',
     {ed:449,val:15,dt:'2026-08-09',ws:490304,wd:183328,wc:1.02,wr:3080,eo:6.17,ec:0.15,er:1020,ao:0,cg:411,rg:7355,has_crm_ga4:true,insider_crm:4100,ga4_recon:7355,ga4_crm:7355,ga4_mb:2470},
     {ed:450,val:15,dt:'2026-08-16',ws:322307,wd:138950,wc:0.73,wr:4710,eo:5.30,ec:0.10,er:2670,ao:0,cg:464,rg:7800,has_crm_ga4:true,ga4_recon:7800,ga4_crm:7800,insider_crm:3525,ga4_mb:3215},
     {ed:451,val:15,dt:'2026-08-23',ws:299609,wd:131148,wc:0.67,wr:4130,eo:6.04,ec:0.12,er:1770,ao:0,cg:369,rg:6260,has_crm_ga4:true,ga4_recon:6260,ga4_crm:6260,insider_crm:2400,ga4_mb:1980},
+    {ed:452,val:20,dt:'2026-08-30',ws:312874,wd:134014,wc:0.80,wr:6625,eo:6.28,ec:0.12,er:3470,ao:0,cg:525,rg:11490,has_crm_ga4:true,ga4_recon:11490,ga4_crm:11490,insider_crm:5715,ga4_mb:4070},
     {ed:446,val:15,dt:'2026-07-19',ws:1077918,wd:389593,wc:0.22,wr:2060,eo:5.54,ec:0.10,er:750,ao:0,cg:421,rg:6950,has_crm_ga4:true,insider_crm:2810,ga4_recon:6950,ga4_crm:6950}
   ],
   wpb:[{n:'Ed.423 (04/02)',ed:423,dl:153169,ctr:1.58},{n:'Ed.418 (30/12)',ed:418,dl:209899,ctr:1.45},{n:'Ed.425 (18/02) ⭐R$5',ed:425,dl:169649,ctr:1.26},{n:'Ed.426 (25/02)',ed:426,dl:217721,ctr:1.24},{n:'Ed.419 (08/01)',ed:419,dl:157440,ctr:1.20}],
@@ -1108,7 +1120,8 @@ mesmo_dia_pct:58.9,ate_7d_pct:67.2,ate_30d_pct:72.8,mais_30d_pct:27.2,recorrente
     {mes:'Mai/2026',eds:[{ed:434,val:15,mf:10113,mr:2.5,ef:7930,er:2.0},{ed:435,val:20,mf:10671,mr:2.7,ef:15755,er:4.0},{ed:436,val:15,mf:10113,mr:2.5,ef:7375,er:1.9},{ed:437,val:15,mf:10113,mr:2.5,ef:9955,er:2.5},{ed:438,val:15,mf:10113,mr:2.5,ef:11750,er:3.0}],tm:51123,te:52765,tr:3.3},
     {mes:'Jun/2026',eds:[{ed:439,val:15,mf:9769,mr:2.5,ef:13670,er:3.4,insider_crm:4065,ga4_crm:13430},{ed:440,val:20,mf:18205,mr:4.6,ef:17965,er:4.5},{ed:441,val:15,mf:9769,mr:2.5,ef:12905,er:3.2},{ed:442,val:15,mf:9769,mr:2.5,ef:10115,er:2.5}],tm:47512,te:54655,tr:3.4},
       {mes:'Jul/2026',eds:[{ed:443,val:15,mf:10306,mr:2.4,ef:9275,er:2.1},{ed:444,val:20,mf:17705,mr:4.1,ef:10420,er:2.4},{ed:445,val:15,mf:10306,mr:2.4,ef:8320,er:1.9},{ed:446,val:15,mf:10306,mr:2.4,ef:6950,er:1.6}],tm:48623,te:34965,tr:2.0},
-      {mes:'Ago/2026',eds:[{ed:447,val:15,mf:9908,mr:2.3,ef:6330,er:1.5},{ed:448,val:20,mf:16863,mr:3.9,ef:15020,er:3.5},{ed:449,val:15,mf:9908,mr:2.3,ef:7355,er:1.7},{ed:450,val:15,mf:9908,mr:2.3,ef:7800,er:1.8},{ed:451,val:15,mf:9908,mr:2.3,ef:6260,er:1.4}],tm:46586,te:42765,tr:2.5}
+      {mes:'Ago/2026',eds:[{ed:447,val:15,mf:9908,mr:2.3,ef:6330,er:1.5},{ed:448,val:20,mf:16863,mr:3.9,ef:15020,er:3.5},{ed:449,val:15,mf:9908,mr:2.3,ef:7355,er:1.7},{ed:450,val:15,mf:9908,mr:2.3,ef:7800,er:1.8},{ed:451,val:15,mf:9908,mr:2.3,ef:6260,er:1.4}],tm:46586,te:42765,tr:2.0},
+      {mes:'Set/2026',eds:[{ed:452,val:20,mf:16803,mr:3.9,ef:11490,er:2.6},{ed:453,val:15,mf:9333,mr:2.1,ef:null,er:null},{ed:454,val:15,mf:9333,mr:2.1,ef:null,er:null},{ed:455,val:15,mf:9333,mr:2.1,ef:null,er:null}],tm:44802,te:11490,tr:2.6}
   ]}
 },
 sv:{l:'Super Vale',s:'Super Vale · jan–jul 2026',col:'#FF7C07',
@@ -1150,6 +1163,7 @@ sv:{l:'Super Vale',s:'Super Vale · jan–jul 2026',col:'#FF7C07',
     {ed:440,val:10,dt:'2026-08-09',ws:899356,wd:301405,wc:0.82,wr:1180,eo:6.00,ec:0.27,er:750,ao:0,cg:254,rg:3250,has_crm_ga4:true,insider_crm:1930,ga4_recon:3250,ga4_crm:3250,ga4_mb:1390},
     {ed:441,val:10,dt:'2026-08-16',ws:653521,wd:230591,wc:0.75,wr:2170,eo:4.78,ec:0.15,er:885,ao:0,cg:269,rg:3225,has_crm_ga4:true,ga4_recon:3225,ga4_crm:3225,insider_crm:1740,ga4_mb:1530},
     {ed:442,val:10,dt:'2026-08-23',ws:704068,wd:238957,wc:0.71,wr:1740,eo:6.18,ec:0.22,er:1290,ao:0,cg:248,rg:3210,has_crm_ga4:true,ga4_recon:3210,ga4_crm:3210,insider_crm:2210,ga4_mb:1470},
+    {ed:443,val:15,dt:'2026-08-30',ws:629201,wd:227985,wc:0.69,wr:2880,eo:6.11,ec:0.18,er:1870,ao:0,cg:272,rg:5125,has_crm_ga4:true,ga4_recon:5125,ga4_crm:5125,insider_crm:3225,ga4_mb:1960},
     {ed:437,val:10,dt:'2026-07-19',ws:554532,wd:204124,wc:0.28,wr:1170,eo:5.13,ec:0.14,er:620,ao:0,cg:262,rg:3135,has_crm_ga4:true,insider_crm:1790,ga4_recon:3135,ga4_crm:3135}
   ],
   wpb:[{n:'Ed.408 (30/12)',ed:408,dl:64518,ctr:1.78},{n:'Ed.409 (07/01)',ed:409,dl:77357,ctr:1.25},{n:'Ed.418 (11/03)',ed:418,dl:82972,ctr:1.24},{n:'Ed.413 (04/02)',ed:413,dl:62900,ctr:1.22},{n:'Ed.415 (18/02) ⭐R$5',ed:415,dl:70615,ctr:1.22}],
@@ -1186,7 +1200,8 @@ mesmo_dia_pct:68.0,ate_7d_pct:77.9,ate_30d_pct:84.1,mais_30d_pct:15.9,recorrente
     {mes:'Mai/2026',eds:[{ed:425,val:10,mf:4969,mr:2.4,ef:5730,er:2.8},{ed:426,val:20,mf:13689,mr:6.6,ef:12920,er:6.2},{ed:427,val:10,mf:4969,mr:2.4,ef:5860,er:2.8},{ed:428,val:10,mf:4969,mr:2.4,ef:5070,er:null},{ed:429,val:10,mf:4969,mr:2.4,ef:5770,er:2.8,insider_crm:1760,ga4_crm:4930}],tm:33565,te:35350,tr:4.0},
     {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6650,er:3.2,insider_crm:1610,ga4_crm:6580},{ed:431,val:20,mf:12920,mr:6.2,ef:13040,er:6.3},{ed:432,val:10,mf:5214,mr:2.5,ef:6510,er:3.1},{ed:433,val:10,mf:5214,mr:2.5,ef:5290,er:2.5}],tm:28563,te:31490,tr:3.8},
       {mes:'Jul/2026',eds:[{ed:434,val:10,mf:5258,mr:2.4,ef:3860,er:1.8},{ed:435,val:15,mf:6340,mr:2.9,ef:4215,er:1.9},{ed:436,val:10,mf:5258,mr:2.4,ef:3320,er:1.5},{ed:437,val:10,mf:5258,mr:2.4,ef:3135,er:1.4}],tm:22074,te:14530,tr:1.7},
-      {mes:'Ago/2026',eds:[{ed:438,val:10,mf:5010,mr:2.3,ef:2955,er:1.4},{ed:439,val:20,mf:12920,mr:5.9,ef:7230,er:3.3},{ed:440,val:10,mf:5010,mr:2.3,ef:3250,er:1.5},{ed:441,val:10,mf:5010,mr:2.3,ef:3225,er:1.5},{ed:442,val:10,mf:5010,mr:2.3,ef:3210,er:1.5}],tm:27951,te:19870,tr:2.3}]}
+      {mes:'Ago/2026',eds:[{ed:438,val:10,mf:5010,mr:2.3,ef:2955,er:1.4},{ed:439,val:20,mf:12920,mr:5.9,ef:7230,er:3.3},{ed:440,val:10,mf:5010,mr:2.3,ef:3250,er:1.5},{ed:441,val:10,mf:5010,mr:2.3,ef:3225,er:1.5},{ed:442,val:10,mf:5010,mr:2.3,ef:3210,er:1.5}],tm:27951,te:19870,tr:1.8},
+      {mes:'Set/2026',eds:[{ed:443,val:15,mf:5771,mr:2.7,ef:5125,er:2.4},{ed:444,val:10,mf:4715,mr:2.2,ef:null,er:null},{ed:445,val:10,mf:4715,mr:2.2,ef:null,er:null},{ed:446,val:10,mf:4715,mr:2.2,ef:null,er:null}],tm:19916,te:5125,tr:2.4}]}
 }};
 
 
@@ -2210,7 +2225,7 @@ const TESTES = [
   {
     id:'reativ_canal',
     titulo:'Reativação: web push contra e-mail, na mesma base',
-    periodo:'Ago/2026 — concluído',
+    periodo:'Ago–Set/2026 — concluído',
     descricao:'Na edição 534/450/441 (16–22/ago) rodaram cinco web pushes de reativação por cap, de terça a sábado às 9h, para quem não compra há tempo. Na edição seguinte (535/451/442, 23–29/ago) o canal mudou: o push saiu e a mesma base passou a receber e-mail, nos mesmos cinco dias. O e-mail converteu de 2 a 3 vezes mais nas três caps.',
     caps:['mc','sm','sv'],
     resultado:'positivo',
@@ -2219,7 +2234,8 @@ const TESTES = [
     metricas:[
       {cap:'mc',label:'Minas Cap',
        grupos:[
-         {n:'E-mail de reativação (ed.535)',camp:5,del:1303908,ctr:'0,02%',sess:320,conv:19,rev:360,tx:'5,94%',email:true},
+         {n:'E-mail de reativação nichado (ed.536)',camp:5,del:204173,ctr:'0,35%',sess:1208,conv:93,rev:2300,tx:'7,70%',email:true},
+         {n:'E-mail de reativação em massa (ed.535)',camp:5,del:1303908,ctr:'0,02%',sess:320,conv:19,rev:360,tx:'5,94%',email:true},
          {n:'Web push de reativação',camp:5,del:26952,ctr:'0,99%',sess:462,conv:10,rev:150,tx:'2,16%'},
          {n:'Web push da base geral',camp:22,del:369910,ctr:'0,73%',sess:13423,conv:581,rev:9950,tx:'4,33%'}
        ],
@@ -2232,7 +2248,8 @@ const TESTES = [
        ]},
       {cap:'sm',label:'Super Minas',
        grupos:[
-         {n:'E-mail de reativação (ed.451)',camp:5,del:424404,ctr:'0,02%',sess:72,conv:5,rev:75,tx:'6,94%',email:true},
+         {n:'E-mail de reativação nichado (ed.452)',camp:5,del:74631,ctr:'0,29%',sess:192,conv:27,rev:565,tx:'14,06%',email:true},
+         {n:'E-mail de reativação em massa (ed.451)',camp:5,del:424404,ctr:'0,02%',sess:72,conv:5,rev:75,tx:'6,94%',email:true},
          {n:'Web push de reativação',camp:5,del:7129,ctr:'1,22%',sess:88,conv:3,rev:45,tx:'3,41%'},
          {n:'Web push da base geral',camp:21,del:125339,ctr:'0,65%',sess:3198,conv:285,rev:4665,tx:'8,91%'}
        ],
@@ -2245,7 +2262,8 @@ const TESTES = [
        ]},
       {cap:'sv',label:'Super Vale',
        grupos:[
-         {n:'E-mail de reativação (ed.442)',camp:5,del:225642,ctr:'0,03%',sess:76,conv:11,rev:120,tx:'14,47%',email:true},
+         {n:'E-mail de reativação nichado (ed.443)',camp:5,del:40214,ctr:'0,31%',sess:132,conv:14,rev:255,tx:'10,61%',email:true},
+         {n:'E-mail de reativação em massa (ed.442)',camp:5,del:225642,ctr:'0,03%',sess:76,conv:11,rev:120,tx:'14,47%',email:true},
          {n:'Web push de reativação',camp:5,del:3761,ctr:'0,53%',sess:20,conv:0,rev:0,tx:'0,00%'},
          {n:'Web push da base geral',camp:22,del:216661,ctr:'0,71%',sess:3174,conv:184,rev:2170,tx:'5,80%'}
        ],
@@ -2260,7 +2278,9 @@ const TESTES = [
     insights:[
       'O e-mail ganhou do push na mesma base, nas três caps: 5,94% contra 2,16% na MC, 6,94% contra 3,41% na SM e 14,47% contra zero venda na SV. Na Super Vale o público que não comprou nada por push converteu acima da média do próprio canal de e-mail da cap.',
       'O e-mail de reativação teve abertura de 0,28% na MC, 0,24% na SM e 0,35% na SV, contra cerca de 6% dos e-mails de premiação. Mas o CTOR foi de 2 a 4 vezes maior: 7,46%, 8,60% e 9,51%. Quem abre nessa base é muito qualificado — só que quase ninguém abre.',
-      'O envio foi grande demais: 1,39 milhão de disparos na MC, mais que o dobro de toda a comunicação normal da cap na semana. Com 0,28% de abertura, cerca de 3.650 pessoas abriram. A mesma venda provavelmente sairia de um recorte muito menor.',
+      'O envio foi grande demais na primeira rodada: 1,39 milhão de disparos na MC, mais que o dobro de toda a comunicação normal da cap na semana, com 0,28% de abertura.',
+      'Na terceira rodada a base foi nichada e provou a tese: o envio caiu 85% na MC e 83% na SM, e a abertura saltou de 0,28% para 7,24% e de 0,24% para 6,45%. As conversões triplicaram na MC (18 para 54) e quintuplicaram na SM (5 para 23). Nichar não custou venda, custou envio.',
+      'Na Super Minas a reativação nichada abriu mais que os próprios e-mails de premiação (6,45% contra 6,28%) e teve CTOR 2,4 vezes maior (4,51% contra 1,90%).',
       'O meio da semana converte melhor que as pontas: na MC, quinta 13,8% e sexta 11,9% contra 3,9% na terça e zero no sábado.',
       'A base parada clica mais que a base geral e compra menos da metade: na MC, CTR de 0,99% contra 0,73%, mas conversão de 2,16% contra 4,33%. Na SM o contraste é maior ainda, 1,22% de CTR e 3,41% de conversão contra 8,91% da base.',
       'O desgaste é rápido. Na MC, a terça sozinha trouxe 185 das 462 sessões da semana; do meio da semana em diante o CTR cai pela metade e não se recupera.',
@@ -3533,7 +3553,11 @@ const SESSCONV = {
     {ed:535,val:15,per:'23–29/ago',site:{s:420349,t:42079,r:716655},crm:{s:21264,t:743,r:13410},
      ch:[{n:'Web Push',s:13382,t:421,r:7545,best:{n:'Ganhadores 24/08 — não compradores',s:433,t:16,r:255}},{n:'Email',s:5237,t:271,r:5025,best:{n:'Terça',s:378,t:33,r:690}},{n:'Architect',s:2645,t:51,r:840}],
      dias:[{d:'23/ago dom',ss:110323,st:813,sr:14475,cs:3746,ct:44,cr:780},{d:'24/ago seg',ss:45128,st:1494,sr:24955,cs:3054,ct:56,cr:975},{d:'25/ago ter',ss:28101,st:2089,sr:35817,cs:1967,ct:69,cr:1365},{d:'26/ago qua',ss:28970,st:2183,sr:38067,cs:1678,ct:98,cr:1860},{d:'27/ago qui',ss:34188,st:3068,sr:52886,cs:1745,ct:95,cr:1650},{d:'28/ago sex',ss:41785,st:5518,sr:95990,cs:2199,ct:137,cr:2595},{d:'29/ago sáb',ss:131854,st:26914,sr:454465,cs:6779,ct:244,cr:4185}]}
-   ]}
+   ]},
+   {mes:'Set/2026', inv:15225, invMes:60900,
+    eds:[{ed:536,val:20,per:'30/ago–05/set',site:{s:438954,t:56519,r:1259051},crm:{s:25071,t:1595,r:36990},
+     ch:[{n:'Web Push',s:14509,t:881,r:19890,best:{n:'Domingo — abertura da edição',s:760,t:42,r:855}},{n:'Email',s:6514,t:568,r:13910,best:{n:'Sábado',s:255,t:38,r:1040}},{n:'Architect',s:4048,t:146,r:3190,best:{n:'Compra Abandonada — versão nova',s:1244,t:52,r:1130}}],
+     dias:[{d:'30/ago dom',ss:106074,st:3716,sr:76730,cs:4575,ct:113,cr:2290},{d:'31/ago seg',ss:41668,st:1846,sr:41495,cs:2622,ct:69,cr:1935},{d:'01/set ter',ss:29180,st:2514,sr:57270,cs:2333,ct:108,cr:2600},{d:'02/set qua',ss:31549,st:3138,sr:71654,cs:2126,ct:126,cr:2930},{d:'03/set qui',ss:35101,st:3905,sr:89152,cs:2354,ct:144,cr:3300},{d:'04/set sex',ss:47905,st:7037,sr:160815,cs:3045,ct:241,cr:5655},{d:'05/set sáb',ss:147477,st:34363,sr:761935,cs:7803,ct:794,cr:18280}]}]}
   ]},
   sm:{meses:[
    {mes:'Ago/2026',inv:4350,invMes:17400,eds:[
@@ -3552,7 +3576,11 @@ const SESSCONV = {
     {ed:451,val:15,per:'23–29/ago',site:{s:134091,t:20916,r:348615},crm:{s:4368,t:369,r:6260},
      ch:[{n:'Web Push',s:2911,t:243,r:4130,best:{n:'Sexta — 1º disparo',s:31,t:8,r:120}},{n:'Email',s:923,t:104,r:1770,best:{n:'Sábado',s:47,t:17,r:285}},{n:'Architect',s:534,t:22,r:360}],
      dias:[{d:'23/ago dom',ss:39500,st:774,sr:12685,cs:1186,ct:35,cr:570},{d:'24/ago seg',ss:12043,st:562,sr:9755,cs:622,ct:22,cr:350},{d:'25/ago ter',ss:7765,st:773,sr:13490,cs:367,ct:15,cr:285},{d:'26/ago qua',ss:12676,st:1086,sr:18230,cs:334,ct:21,cr:375},{d:'27/ago qui',ss:10308,st:1481,sr:25220,cs:347,ct:20,cr:330},{d:'28/ago sex',ss:11882,st:2306,sr:38610,cs:383,ct:43,cr:750},{d:'29/ago sáb',ss:39917,st:13934,sr:230625,cs:1126,ct:213,cr:3600}]}
-   ]}
+   ]},
+   {mes:'Set/2026', inv:4350, invMes:17400,
+    eds:[{ed:452,val:20,per:'30/ago–05/set',site:{s:143616,t:26766,r:586235},crm:{s:4901,t:525,r:11490},
+     ch:[{n:'Web Push',s:3113,t:304,r:6625,best:{n:'Domingo — abertura da edição',s:236,t:17,r:350}},{n:'Email',s:1007,t:153,r:3470,best:{n:'Sábado',s:64,t:19,r:500}},{n:'Architect',s:781,t:68,r:1395,best:{n:'Compra Abandonada — versão nova',s:213,t:26,r:545}}],
+     dias:[{d:'30/ago dom',ss:39665,st:1908,sr:39070,cs:1079,ct:25,cr:460},{d:'31/ago seg',ss:12616,st:1086,sr:24685,cs:544,ct:30,cr:640},{d:'01/set ter',ss:8594,st:1130,sr:25295,cs:461,ct:39,cr:890},{d:'02/set qua',ss:9374,st:1233,sr:27455,cs:418,ct:38,cr:895},{d:'03/set qui',ss:9951,st:1467,sr:32310,cs:396,ct:41,cr:875},{d:'04/set sex',ss:14156,st:2948,sr:66665,cs:537,ct:63,cr:1440},{d:'05/set sáb',ss:49260,st:16994,sr:370755,cs:1459,ct:289,cr:6290}]}]}
   ]},
   sv:{meses:[
    {mes:'Ago/2026',inv:2175,invMes:8700,eds:[
@@ -3571,7 +3599,11 @@ const SESSCONV = {
     {ed:442,val:10,per:'23–29/ago',site:{s:80167,t:12633,r:152690},crm:{s:4083,t:248,r:3210},
      ch:[{n:'Web Push',s:3008,t:140,r:1740,best:{n:'Domingo — abertura',s:170,t:6,r:90}},{n:'Email',s:739,t:94,r:1290,best:{n:'Terça',s:70,t:17,r:260}},{n:'Architect',s:336,t:14,r:180}],
      dias:[{d:'23/ago dom',ss:23709,st:995,sr:12340,cs:800,ct:16,cr:190},{d:'24/ago seg',ss:7796,st:476,sr:5800,cs:566,ct:10,cr:130},{d:'25/ago ter',ss:5429,st:535,sr:6420,cs:458,ct:22,cr:330},{d:'26/ago qua',ss:6272,st:728,sr:8810,cs:513,ct:27,cr:330},{d:'27/ago qui',ss:6377,st:897,sr:11440,cs:374,ct:26,cr:300},{d:'28/ago sex',ss:8314,st:1535,sr:18540,cs:487,ct:27,cr:330},{d:'29/ago sáb',ss:22270,st:7467,sr:89340,cs:885,ct:120,cr:1600}]}
-   ]}
+   ]},
+   {mes:'Set/2026', inv:2175, invMes:8700,
+    eds:[{ed:443,val:15,per:'30/ago–05/set',site:{s:79548,t:11907,r:203070},crm:{s:4094,t:272,r:5125},
+     ch:[{n:'Web Push',s:2867,t:156,r:2880,best:{n:'Domingo — abertura da edição',s:315,t:11,r:160}},{n:'Email',s:825,t:101,r:1870,best:{n:'Sábado',s:40,t:13,r:240}},{n:'Architect',s:402,t:15,r:375,best:{n:'Compra Abandonada — versão nova',s:211,t:11,r:315}}],
+     dias:[{d:'30/ago dom',ss:22562,st:892,sr:14945,cs:877,ct:26,cr:570},{d:'31/ago seg',ss:7671,st:428,sr:7275,cs:416,ct:7,cr:105},{d:'01/set ter',ss:5601,st:521,sr:9140,cs:464,ct:17,cr:340},{d:'02/set qua',ss:6197,st:591,sr:9715,cs:450,ct:22,cr:400},{d:'03/set qui',ss:6074,st:741,sr:12705,cs:452,ct:28,cr:445},{d:'04/set sex',ss:8418,st:1532,sr:26540,cs:504,ct:35,cr:690},{d:'05/set sáb',ss:23025,st:7202,sr:122750,cs:930,ct:137,cr:2575}]}]}
   ]}
 };
 
@@ -4468,32 +4500,86 @@ function rReconEd(){
 
 // ===== Jornadas (Architect) na aba Performance =====
 const JORN = {
-  mc:{eds:[{ed:531,per:'26/jul–01/ago',s:824,t:14,r:255},{ed:532,per:'02–08/ago',s:3076,t:74,r:2465},
-           {ed:533,per:'09–15/ago',s:1950,t:49,r:870},{ed:534,per:'16–22/ago',s:1809,t:61,r:1180},
-           {ed:535,per:'23–29/ago',s:2645,t:51,r:840}],
-      det:{ed:535,itens:[
-        {n:'Onboarding',s:17,t:0,r:0,onb:true},
-        {n:'Compra Abandonada (versão nova)',s:1932,t:31,r:525},
-        {n:'Compra Abandonada — Dia dos Pais',s:375,t:11,r:165,resid:true},
-        {n:'Carrinho Abandonado (teste de gatilho)',s:299,t:8,r:135},
-        {n:'Recompra — Dia dos Pais',s:43,t:1,r:15,resid:true}]}},
-  sm:{eds:[{ed:447,per:'26/jul–01/ago',s:206,t:11,r:165},{ed:448,per:'02–08/ago',s:488,t:21,r:450},
-           {ed:449,per:'09–15/ago',s:386,t:19,r:350},{ed:450,per:'16–22/ago',s:382,t:24,r:420},
-           {ed:451,per:'23–29/ago',s:534,t:22,r:360}],
-      det:{ed:451,itens:[
-        {n:'Onboarding',s:16,t:2,r:30,onb:true},
-        {n:'Compra Abandonada (versão nova)',s:463,t:16,r:270},
-        {n:'Compra Abandonada — Dia dos Pais',s:64,t:6,r:90,resid:true},
-        {n:'Campanhas de outra cap etiquetadas aqui',s:7,t:0,r:0,alerta:true}]}},
-  sv:{eds:[{ed:438,per:'26/jul–01/ago',s:69,t:4,r:40},{ed:439,per:'02–08/ago',s:273,t:9,r:200},
-           {ed:440,per:'09–15/ago',s:207,t:6,r:60},{ed:441,per:'16–22/ago',s:250,t:9,r:170},
-           {ed:442,per:'23–29/ago',s:336,t:14,r:180}],
-      det:{ed:442,itens:[
-        {n:'Onboarding',s:16,t:0,r:0,onb:true},
-        {n:'Compra Abandonada (versão nova)',s:309,t:14,r:180},
-        {n:'Compra Abandonada — Dia dos Pais',s:25,t:0,r:0,resid:true},
-        {n:'Carrinho Abandonado Fev/26 (ainda ativa)',s:1,t:0,r:0,alerta:true},
-        {n:'Campanhas de outra cap etiquetadas aqui',s:1,t:0,r:0,alerta:true}]}}
+  mc:{eds:[
+    {ed:531,per:'26/jul–01/ago',s:824,t:14,r:255,det:[
+      {n:'Carrinho Abandonado (teste de gatilho)',s:786,t:12,r:225,canais:'web push'},
+      {n:'Carrinho Abandonado — Dia das Mães',s:40,t:2,r:30,canais:'web push',resid:true}]},
+    {ed:532,per:'02–08/ago',s:3076,t:74,r:2465,det:[
+      {n:'Carrinho Abandonado (teste de gatilho)',s:1296,t:46,r:1665,canais:'web push'},
+      {n:'Compra Abandonada — Dia dos Pais',s:1498,t:22,r:625,canais:'web push',resid:true},
+      {n:'Recompra — Dia dos Pais',s:265,t:6,r:175,canais:'web push',resid:true},
+      {n:'Carrinho Abandonado — Dia das Mães',s:25,t:0,r:0,canais:'web push',resid:true}]},
+    {ed:533,per:'09–15/ago',s:1950,t:49,r:870,det:[
+      {n:'Compra Abandonada — Dia dos Pais',s:1127,t:25,r:420,canais:'web push',resid:true},
+      {n:'Carrinho Abandonado (teste de gatilho)',s:470,t:19,r:375,canais:'web push'},
+      {n:'Compra Abandonada',s:236,t:3,r:45,canais:'web push'},
+      {n:'Recompra — Dia dos Pais',s:116,t:2,r:30,canais:'web push',resid:true}]},
+    {ed:534,per:'16–22/ago',s:1809,t:61,r:1180,det:[
+      {n:'Compra Abandonada — Dia dos Pais',s:457,t:22,r:420,canais:'web push',resid:true},
+      {n:'Compra Abandonada',s:978,t:20,r:325,canais:'web push'},
+      {n:'Carrinho Abandonado (teste de gatilho)',s:334,t:16,r:390,canais:'web push'},
+      {n:'Recompra — Dia dos Pais',s:48,t:3,r:45,canais:'web push',resid:true}]},
+    {ed:535,per:'23–29/ago',s:2645,t:51,r:840,det:[
+      {n:'Compra Abandonada',s:1932,t:31,r:525,canais:'web push'},
+      {n:'Compra Abandonada — Dia dos Pais',s:375,t:11,r:165,resid:true,canais:'web push'},
+      {n:'Carrinho Abandonado (teste de gatilho)',s:299,t:8,r:135,canais:'web push'},
+      {n:'Recompra — Dia dos Pais',s:43,t:1,r:15,resid:true,canais:'web push'}]},
+    {ed:536,per:'30/ago–05/set',s:4037,t:146,r:3190,det:[
+      {n:'Compra Abandonada',s:3401,t:110,r:2380,canais:'web push · e-mail · pop up'},
+      {n:'Carrinho Abandonado (teste de gatilho)',s:268,t:14,r:340,canais:'web push · e-mail'},
+      {n:'Compra Abandonada — Dia dos Pais',s:307,t:14,r:310,resid:true,canais:'web push'},
+      {n:'Recompra — Dia dos Pais',s:52,t:8,r:160,resid:true,canais:'web push'},
+      {n:'Estímulo ao Cadastro',s:9,t:0,r:0,novo:true,canais:'pop up'},
+      {n:'Onboarding',s:0,t:0,r:0,canais:'e-mail · web push'}]}]},
+  sm:{eds:[
+    {ed:447,per:'26/jul–01/ago',s:206,t:11,r:165,det:[
+      {n:'Compra Abandonada',s:202,t:9,r:135,canais:'web push'},
+      {n:'Carrinho Abandonado Fev/26 (ainda ativa)',s:4,t:2,r:30,canais:'web push',alerta:true}]},
+    {ed:448,per:'02–08/ago',s:488,t:21,r:450,det:[
+      {n:'Compra Abandonada',s:108,t:11,r:210,canais:'web push'},
+      {n:'Compra Abandonada — Dia dos Pais',s:375,t:9,r:180,canais:'web push',resid:true},
+      {n:'Carrinho Abandonado — Dia das Mães',s:2,t:1,r:60,canais:'web push',resid:true},
+      {n:'Carrinho Abandonado Fev/26 (ainda ativa)',s:2,t:0,r:0,canais:'web push',alerta:true}]},
+    {ed:449,per:'09–15/ago',s:386,t:19,r:350,det:[
+      {n:'Compra Abandonada — Dia dos Pais',s:285,t:12,r:210,canais:'web push',resid:true},
+      {n:'Compra Abandonada',s:61,t:6,r:95,canais:'web push'},
+      {n:'Campanhas de outra cap etiquetadas aqui',s:40,t:1,r:45,canais:'web push',alerta:true}]},
+    {ed:450,per:'16–22/ago',s:382,t:24,r:420,det:[
+      {n:'Compra Abandonada — Dia dos Pais',s:76,t:12,r:240,canais:'web push',resid:true},
+      {n:'Compra Abandonada',s:269,t:11,r:165,canais:'web push'},
+      {n:'Campanhas de outra cap etiquetadas aqui',s:38,t:1,r:15,canais:'web push',alerta:true}]},
+    {ed:451,per:'23–29/ago',s:534,t:22,r:360,det:[
+      {n:'Compra Abandonada',s:463,t:16,r:270,canais:'web push'},
+      {n:'Compra Abandonada — Dia dos Pais',s:64,t:6,r:90,resid:true,canais:'web push'},
+      {n:'Campanhas de outra cap etiquetadas aqui',s:7,t:0,r:0,alerta:true,canais:'web push'}]},
+    {ed:452,per:'30/ago–05/set',s:777,t:68,r:1395,det:[
+      {n:'Compra Abandonada',s:696,t:57,r:1180,canais:'web push · e-mail · pop up'},
+      {n:'Compra Abandonada — Dia dos Pais',s:72,t:10,r:195,resid:true,canais:'web push'},
+      {n:'Campanhas de outra cap etiquetadas aqui',s:9,t:1,r:20,alerta:true,canais:'web push'},
+      {n:'Onboarding',s:2,t:0,r:0,canais:'web push'}]}]},
+  sv:{eds:[
+    {ed:438,per:'26/jul–01/ago',s:69,t:4,r:40,det:[
+      {n:'Compra Abandonada',s:69,t:4,r:40,canais:'web push'}]},
+    {ed:439,per:'02–08/ago',s:273,t:9,r:200,det:[
+      {n:'Compra Abandonada — Dia dos Pais',s:234,t:7,r:160,canais:'web push',resid:true},
+      {n:'Compra Abandonada',s:38,t:2,r:40,canais:'web push'},
+      {n:'Carrinho Abandonado Fev/26 (ainda ativa)',s:1,t:0,r:0,canais:'web push',alerta:true}]},
+    {ed:440,per:'09–15/ago',s:207,t:6,r:60,det:[
+      {n:'Compra Abandonada — Dia dos Pais',s:134,t:4,r:40,canais:'web push',resid:true},
+      {n:'Campanhas de outra cap etiquetadas aqui',s:32,t:1,r:10,canais:'web push',alerta:true},
+      {n:'Compra Abandonada',s:41,t:1,r:10,canais:'web push'}]},
+    {ed:441,per:'16–22/ago',s:250,t:9,r:170,det:[
+      {n:'Compra Abandonada',s:160,t:5,r:100,canais:'web push'},
+      {n:'Compra Abandonada — Dia dos Pais',s:49,t:3,r:50,canais:'web push',resid:true},
+      {n:'Campanhas de outra cap etiquetadas aqui',s:41,t:1,r:20,canais:'web push',alerta:true}]},
+    {ed:442,per:'23–29/ago',s:336,t:14,r:180,det:[
+      {n:'Compra Abandonada',s:309,t:14,r:180,canais:'web push'},
+      {n:'Compra Abandonada — Dia dos Pais',s:25,t:0,r:0,resid:true,canais:'web push'},
+      {n:'Carrinho Abandonado Fev/26 (ainda ativa)',s:1,t:0,r:0,alerta:true,canais:'web push'}]},
+    {ed:443,per:'30/ago–05/set',s:398,t:15,r:375,det:[
+      {n:'Compra Abandonada',s:377,t:14,r:360,canais:'web push'},
+      {n:'Compra Abandonada — Dia dos Pais',s:21,t:1,r:15,resid:true,canais:'web push'},
+      {n:'Onboarding',s:4,t:0,r:0,canais:'e-mail'}]}]}
 };
 
 function rJornadas(){
@@ -4503,82 +4589,98 @@ function rJornadas(){
   var n=function(v){ return (v||0).toLocaleString('pt-BR'); };
   var rs=function(v){ return 'R$ '+(v||0).toLocaleString('pt-BR'); };
   var pc=function(a,b){ return b?(a/b*100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%':'—'; };
+  var eds=J.eds, ult=eds[eds.length-1], pen=eds[eds.length-2];
 
   var o='';
   o+='<div style="border:1.5px solid '+col+';border-radius:12px;overflow:hidden;margin-bottom:1rem">';
   o+='<div style="background:'+col+';padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">'
     +'<span style="color:#fff;font-size:14px;font-weight:700">🔄 Jornadas</span>'
-    +'<span style="color:rgba(255,255,255,.85);font-size:10px">conversão por edição · detalhe por jornada</span></div>';
+    +'<span style="color:rgba(255,255,255,.85);font-size:10px">visão geral · detalhe por edição</span></div>';
   o+='<div style="padding:14px 16px 4px">';
 
-  // série por edição
-  var mxC=0; J.eds.forEach(function(e){ var c=e.t/e.s*100; if(c>mxC) mxC=c; });
-  o+='<div class="card" style="margin-bottom:.8rem">';
-  o+='<div class="ct2">Conversão por edição</div>';
-  o+='<div class="nb" style="font-size:10px;margin-bottom:8px">Sessões, vendas e receita do GA4 nas campanhas do Architect. Não inclui entradas e saídas da jornada, que só existem no export da Insider.</div>';
-  o+='<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th>Edição</th>'
-    +'<th style="text-align:right">Sessões</th><th style="text-align:right">Vendas</th>'
-    +'<th style="text-align:right">Receita</th><th style="text-align:right">Conversão</th><th style="width:22%"></th></tr></thead><tbody>';
-  J.eds.forEach(function(e,i){
-    var cv=e.t/e.s*100, ult=(i===J.eds.length-1);
-    o+='<tr'+(ult?' style="background:'+col+'0f"':'')+'><td style="font-weight:'+(ult?'700':'600')+'">Ed.'+e.ed
-      +' <span style="color:#a8a59c;font-weight:400">'+e.per+'</span></td>'
-      +'<td style="text-align:right">'+n(e.s)+'</td><td style="text-align:right;font-weight:600">'+n(e.t)+'</td>'
-      +'<td style="text-align:right">'+rs(e.r)+'</td>'
-      +'<td style="text-align:right;font-weight:700;color:'+(ult?col2:'#1a1916')+'">'+pc(e.t,e.s)+'</td>'
-      +'<td><div class="cyb"><div class="cbf" style="width:'+(mxC?cv/mxC*100:0).toFixed(1)+'%;background:'+col+'"></div></div></td></tr>';
+  // ── quadro de visão geral
+  var tot=eds.reduce(function(a,e){ return {s:a.s+e.s,t:a.t+e.t,r:a.r+e.r}; },{s:0,t:0,r:0});
+  var media=tot.t/tot.s*100, cvU=ult.t/ult.s*100, cvP=pen?pen.t/pen.s*100:null;
+  var melhor=eds.slice().sort(function(a,b){ return (b.t/b.s)-(a.t/a.s); })[0];
+  o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px">';
+  [['Última edição','Ed.'+ult.ed,pc(ult.t,ult.s),(cvP!=null?((cvU>=cvP?'▲ ':'▼ ')+Math.abs(cvU-cvP).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' p.p. vs anterior'):''),cvP==null?'#636057':(cvU>=cvP?'#1D9E75':'#D85A30')],
+   ['Média das '+eds.length+' edições','',pc(tot.t,tot.s),n(tot.t)+' vendas · '+rs(tot.r),'#1a1916'],
+   ['Melhor edição','Ed.'+melhor.ed,pc(melhor.t,melhor.s),n(melhor.t)+' vendas',col2],
+   ['Receita na última','',rs(ult.r),n(ult.s)+' sessões',col2]
+  ].forEach(function(k){
+    o+='<div style="border:1px solid #e8e6e0;border-radius:10px;padding:11px 13px;background:#fff">'
+      +'<div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888780">'+k[0]+(k[1]?' · '+k[1]:'')+'</div>'
+      +'<div style="font-size:19px;font-weight:800;color:'+k[4]+';line-height:1.2;margin:3px 0 1px">'+k[2]+'</div>'
+      +'<div style="font-size:10px;color:#888780">'+k[3]+'</div></div>';
   });
-  o+='</tbody></table></div></div>';
-
-  // detalhe da última edição
-  var D2=J.det;
-  o+='<div class="card" style="margin-bottom:.8rem">';
-  o+='<div class="ct2">Por jornada — Ed.'+D2.ed+'</div>';
-  o+='<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th>Jornada</th>'
-    +'<th style="text-align:right">Sessões</th><th style="text-align:right">Vendas</th>'
-    +'<th style="text-align:right">Receita</th><th style="text-align:right">Conversão</th></tr></thead><tbody>';
-  var ts=0,tt=0,tr=0;
-  D2.itens.forEach(function(x){
-    if(!x.onb){ ts+=x.s; tt+=x.t; tr+=x.r; }
-    var cor = x.alerta ? '#D85A30' : (x.resid ? '#888780' : '#1a1916');
-    o+='<tr'+(x.onb?' style="background:#f4f2fb"':'')+'><td style="white-space:normal;line-height:1.4">'+x.n
-      +(x.resid?' <span style="font-size:9px;color:#888780">resíduo de edição anterior</span>':'')
-      +(x.alerta?' <span style="font-size:9px;color:#D85A30;font-weight:700">verificar</span>':'')
-      +(x.onb?' <span style="font-size:9px;color:#5b3fb8;font-weight:700">fora do Architect</span>':'')+'</td>'
-      +'<td style="text-align:right">'+n(x.s)+'</td><td style="text-align:right;font-weight:600">'+n(x.t)+'</td>'
-      +'<td style="text-align:right">'+rs(x.r)+'</td>'
-      +'<td style="text-align:right;font-weight:700;color:'+cor+'">'+pc(x.t,x.s)+'</td></tr>';
-  });
-  o+='<tr class="total-row"><td>Total do Architect</td><td style="text-align:right">'+n(ts)+'</td>'
-    +'<td style="text-align:right">'+n(tt)+'</td><td style="text-align:right">'+rs(tr)+'</td>'
-    +'<td style="text-align:right;font-weight:700">'+pc(tt,ts)+'</td></tr>';
-  o+='</tbody></table></div>';
-  o+='<div style="font-size:10px;color:#888780;margin-top:6px">As linhas de Onboarding usam <b>medium de e-mail e web push</b> no GA4, não architect. Por isso ficam fora do total do Architect e já estão contadas nos blocos de canal acima.</div>';
   o+='</div>';
 
-  // leituras
-  var ult=J.eds[J.eds.length-1], pen=J.eds[J.eds.length-2];
-  var cvU=ult.t/ult.s*100, cvP=pen?pen.t/pen.s*100:null;
-  var melhor=J.eds.slice().sort(function(a,b){ return (b.t/b.s)-(a.t/a.s); })[0];
-  var resid=D2.itens.filter(function(x){ return x.resid; });
-  var rs_=resid.reduce(function(a,x){ return a+x.s; },0), rt=resid.reduce(function(a,x){ return a+x.t; },0);
+  // ── edição por edição, com seta para abrir o detalhe
+  o+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin-bottom:8px">Edição por edição</div>';
+  var mxC=0; eds.forEach(function(e){ var c=e.t/e.s*100; if(c>mxC) mxC=c; });
+  eds.slice().reverse().forEach(function(e,idx){
+    var cv=e.t/e.s*100, ehUlt=(e.ed===ult.ed), tid='jr-'+cap+'-'+e.ed;
+    var temDet=!!(e.det && e.det.length);
+    o+='<div style="border:1px solid '+(ehUlt?col:'#e8e6e0')+';border-radius:10px;margin-bottom:6px;overflow:hidden'+(ehUlt?';box-shadow:0 2px 10px '+col+'22':'')+'">';
+    o+='<div'+(temDet?' onclick="crmToggle(event)" data-tid="'+tid+'" style="cursor:pointer;"':' style=""')
+      +' class="jr-row"><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:'+(ehUlt?col+'0f':'#fff')+'">';
+    o+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:'+(ehUlt?'800':'600')+'">Ed.'+e.ed
+      +' <span style="color:#a8a59c;font-weight:400">'+e.per+'</span>'
+      +(ehUlt?' <span style="font-size:9px;color:'+col2+';font-weight:700">última</span>':'')+'</div>'
+      +'<div class="cyb" style="margin-top:5px"><div class="cbf" style="width:'+(mxC?cv/mxC*100:0).toFixed(1)+'%;background:'+(ehUlt?col:'#c3ddd0')+'"></div></div></div>';
+    o+='<div style="text-align:right;white-space:nowrap"><div style="font-size:13px;font-weight:800;color:'+(ehUlt?col2:'#1a1916')+'">'+pc(e.t,e.s)+'</div>'
+      +'<div style="font-size:10px;color:#888780">'+n(e.s)+' sess · '+n(e.t)+' vd · '+rs(e.r)+'</div></div>';
+    o+= temDet ? '<span id="a-'+tid+'" style="font-size:11px;color:'+col2+';transition:transform .2s;display:inline-block">▼</span>'
+               : '<span style="font-size:9px;color:#c9c6bd;white-space:nowrap">sem detalhe</span>';
+    o+='</div></div>';
+    if(temDet){
+      o+='<div id="b-'+tid+'" style="display:none;padding:0 12px 12px;background:#fff;border-top:1px solid #ece9e2">';
+      o+='<div style="padding-top:10px;font-size:10px;color:#888780;margin-bottom:6px">Cada linha soma todos os canais da mesma jornada.</div>';
+      o+='<div style="overflow-x:auto"><table style="table-layout:auto;font-size:11px"><thead><tr><th>Jornada</th>'
+        +'<th style="text-align:right">Sessões</th><th style="text-align:right">Vendas</th>'
+        +'<th style="text-align:right">Receita</th><th style="text-align:right">Conversão</th></tr></thead><tbody>';
+      var ts=0,tt=0,tr=0;
+      e.det.forEach(function(x){
+        ts+=x.s; tt+=x.t; tr+=x.r;
+        var cor = x.alerta ? '#D85A30' : (x.resid ? '#888780' : '#1a1916');
+        o+='<tr><td style="white-space:normal;line-height:1.35">'+x.n
+          +(x.canais?'<div style="font-size:9px;color:#a8a59c;margin-top:1px">'+x.canais+'</div>':'')
+          +(x.resid?'<div style="font-size:9px;color:#888780">resíduo de edição anterior</div>':'')
+          +(x.alerta?'<div style="font-size:9px;color:#D85A30;font-weight:700">verificar</div>':'')
+          +(x.novo?'<div style="font-size:9px;color:'+col2+';font-weight:700">nova, 1ª medição</div>':'')+'</td>'
+          +'<td style="text-align:right">'+n(x.s)+'</td><td style="text-align:right;font-weight:600">'+n(x.t)+'</td>'
+          +'<td style="text-align:right">'+rs(x.r)+'</td>'
+          +'<td style="text-align:right;font-weight:700;color:'+cor+'">'+pc(x.t,x.s)+'</td></tr>';
+      });
+      o+='<tr class="total-row"><td>Total</td><td style="text-align:right">'+n(ts)+'</td>'
+        +'<td style="text-align:right">'+n(tt)+'</td><td style="text-align:right">'+rs(tr)+'</td>'
+        +'<td style="text-align:right;font-weight:700">'+pc(tt,ts)+'</td></tr>';
+      o+='</tbody></table></div></div>';
+    }
+    o+='</div>';
+  });
+
+  // ── leituras
   var ins=[];
   ins.push({e:(cvP&&cvU>=cvP)?'📈':'📉',t:'A conversão das jornadas foi de <b>'+pc(ult.t,ult.s)+'</b> na Ed.'+ult.ed
-    +(cvP?(', contra '+pc(pen.t,pen.s)+' na anterior.'):'.')+' Melhor marca da série: Ed.'+melhor.ed+' com '+pc(melhor.t,melhor.s)+'.'});
-  if(rs_) ins.push({e:'🕰️',t:'<b>Jornadas de edições passadas continuam ativas</b> e trouxeram '+n(rs_)+' sessões e '+n(rt)+' vendas nesta edição. Vale revisar se devem seguir ligadas ou se disputam a mesma pessoa com a jornada atual.'});
-  var alerta=D2.itens.filter(function(x){ return x.alerta; });
-  if(alerta.length) ins.push({e:'⚠️',t:'<b>Campanhas com etiqueta trocada</b> aparecem no GA4 desta cap: '+alerta.map(function(x){ return x.n; }).join(' · ')+'. Volume pequeno, mas contamina a atribuição por cap.'});
-  var onb=D2.itens.filter(function(x){ return x.onb; });
-  if(onb.length){
-    var os=onb.reduce(function(a,x){ return a+x.s; },0), ot=onb.reduce(function(a,x){ return a+x.t; },0);
-    ins.push({e:'👋',t:'<b>O Onboarding não usa medium de architect</b> no GA4, e sim os de e-mail e web push — por isso o resultado dele sempre esteve dentro dos blocos de canal, nunca aqui. Nesta edição somou '+n(os)+' sessões e '+n(ot)+' vendas. Em agosto inteiro foram 119 sessões na MC, 57 na SM e 61 na SV.'});
+    +(cvP?(', contra '+pc(pen.t,pen.s)+' na anterior.'):'.')+' Melhor da série: Ed.'+melhor.ed+' com '+pc(melhor.t,melhor.s)+'.'});
+  var d=ult.det||[];
+  var resid=d.filter(function(x){ return x.resid; });
+  if(resid.length){
+    var rs_=resid.reduce(function(a,x){ return a+x.s; },0), rt=resid.reduce(function(a,x){ return a+x.t; },0);
+    ins.push({e:'🕰️',t:'<b>Jornadas de edições passadas continuam ativas</b> e trouxeram '+n(rs_)+' sessões e '+n(rt)+' vendas na última edição. Vale revisar se devem seguir ligadas ou se disputam a mesma pessoa com a jornada atual.'});
   }
-  ins.push({e:'❓',t:'<b>A jornada de Estímulo ao Cadastro não aparece no GA4</b> em nenhum medium durante todo o mês de agosto. Ou está pausada, ou os links dela estão sem UTM — nesse caso o resultado cai como acesso direto e fica invisível. Vale conferir no painel.'});
-  ins.push({e:'🔍',t:'Falta o export de Architect da Insider para ver <b>entradas, saídas e conversão por canal dentro da jornada</b>. Com o GA4 só dá para medir o resultado, não onde a jornada vaza.'});
-  o+='<div class="card"><div class="ct2">💡 Leituras — jornadas</div>'+ins.map(function(x){
+  var alerta=d.filter(function(x){ return x.alerta; });
+  if(alerta.length) ins.push({e:'⚠️',t:'<b>Campanhas com etiqueta trocada</b> aparecem no GA4 desta cap: '+alerta.map(function(x){ return x.n; }).join(' · ')+'. Volume pequeno, mas contamina a atribuição por cap.'});
+  var nova=d.filter(function(x){ return x.novo; });
+  if(nova.length) ins.push({e:'✅',t:'<b>A Estímulo ao Cadastro passou a ser medida.</b> Depois da correção de UTM e da troca por uma jornada nova, ela aparece pela primeira vez no GA4: '+nova.map(function(x){ return n(x.s)+' sessões'; }).join(', ')+'. A série dela começa agora.'});
+  var top=d.slice().filter(function(x){ return x.s>=30; }).sort(function(a,b){ return (b.t/b.s)-(a.t/a.s); })[0];
+  if(top) ins.push({e:'🏆',t:'A jornada que mais converte na última edição é <b>'+top.n+'</b>, com '+pc(top.t,top.s)+' em '+n(top.s)+' sessões.'});
+  ins.push({e:'🔍',t:'Falta o export de Architect da Insider para ver <b>entradas, saídas e conversão por canal dentro da jornada</b>. Com o GA4 dá para medir o resultado, não onde a jornada vaza.'});
+  o+='<div class="card" style="margin-top:10px"><div class="ct2">💡 Leituras — jornadas</div>'+ins.map(function(x){
     return '<div class="ir"><div class="ii" style="background:'+col+'1f;font-size:12px;font-weight:700;min-width:22px;text-align:center">'+x.e+'</div><div style="font-size:11px;line-height:1.6">'+x.t+'</div></div>';
   }).join('')+'</div>';
-
+  o+='<div class="nb" style="font-size:10px;margin:10px 0 4px">Sessões, vendas e receita do GA4 nas campanhas de jornada, agrupadas por jornada. Clique numa edição para abrir o detalhe.</div>';
   o+='</div></div>';
   el.innerHTML=o;
 }
@@ -5481,7 +5583,7 @@ document.body.style.setProperty('--cap-col','#E30613');
 </script>
 
 <div id="t-testes" class="sec">
-  <div class="src"><span>🧪 <strong>Testes CRM</strong> — resultados e insights do 1º semestre de 2026</span><span class="upd">✓ Ref. jan–ago/2026</span></div>
+  <div class="src"><span>🧪 <strong>Testes CRM</strong> — resultados e insights do 1º semestre de 2026</span><span class="upd">✓ Ref. jan–set/2026</span></div>
 
   <!-- Roadmap de testes -->
   <div style="background:linear-gradient(135deg,#1a3a5c 0%,#1e4976 100%);border-radius:12px;padding:24px;margin-bottom:16px;color:#fff">
