@@ -734,51 +734,8 @@ function urlEntrarPeloLink() {
 
 <!-- COPY -->
 <div id="t-base" class="sec">
-  <div class="src"><span>📊 Base exportada da <strong>Insider</strong> — 16/07/2026</span><span class="upd">✓ Atualizado em 16/07/2026</span></div>
-  <div class="nb" id="bnote"></div>
-
-  <!-- Painel Insider vs ERP -->
-  <div class="card" style="margin-bottom:.8rem;border:1.5px solid #e8e6e0">
-    <div id="base-erp"></div>
-  </div>
-
-  <div class="card"><div class="ct2" style="font-size:14px">🔽 Funil de base</div><div id="base-funnel"></div></div>
-
-  <!-- Gráfico novos cadastros por mês -->
-  <div class="card" style="margin-bottom:.8rem">
-    <div class="ct2">Novos cadastros por mês — 2026</div>
-    <div class="cw" style="height:180px"><canvas id="c-novos-mes"></canvas></div>
-  </div>
-
-  <!-- Recência -->
-  <div class="card" style="margin-bottom:.8rem">
-    <div class="ct2">Recência — dias desde última compra</div>
-    <div class="cw" style="height:160px"><canvas id="crec"></canvas></div>
-    <div style="font-size:10px;color:#888780;margin-top:5px" id="rec-note"></div>
-  </div>
-
-  <!-- Perfil dos clientes -->
-  <div class="card" style="margin-bottom:.8rem">
-    <div class="ct2" style="margin-bottom:12px">Perfil dos clientes</div>
-    <div id="bprof"></div>
-  </div>
-
-  <!-- Jornada do cliente -->
-  <div class="card"><div class="ct2">Jornada do cliente</div><div id="jornada"></div>
-  <div id="jornada-extra"></div></div>
-
-  <!-- Retenção R$10 → R$15+ -->
-  <div class="card" id="retencao-card">
-    <div class="ct2">🔁 Retenção — compradores R$10 que voltaram nas edições R$15+</div>
-    <div id="retencao-body"></div>
-  </div>
-
-  <!-- Correlações -->
-  <div class="card"><div class="ct2">Correlações</div><div id="correlacoes"></div></div>
-
-  <!-- Oportunidades -->
-  <div class="card"><div class="ct2">Oportunidades e alertas</div><div id="bins"></div></div>
-
+  <div class="src"><span>📊 <strong>Base</strong> — Insider e ERP, corte em 31/08/2026</span><span class="upd">✓ Atualizado em 16/09/2026</span></div>
+  <div id="base-okr"></div>
 </div>
 
 <div id="t-ed5" class="sec">
@@ -4732,13 +4689,23 @@ function rJornadas(){
         +'<div style="font-size:13px;font-weight:800;color:'+col2+'">'+mediaIns.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%</div>'
         +'<div style="font-size:9px;color:#a8a59c">'+n(a.sai)+' de '+n(a.ent)+' · '+(a.nIns>1?('média de '+a.nIns+' edições'):('só a Ed.'+ultDetEd))+'</div></div>';
     }
-    o+='<div style="border:1px solid #e8e6e0;border-top:3px solid '+col+';border-radius:10px;padding:11px 13px;background:#fff">'
-      +'<div style="font-size:10.5px;font-weight:700;color:#1a1916;line-height:1.3;min-height:26px">'+a.nome+'</div>'
+    var OKRJ={'Estímulo ao Cadastro':{sel:'OKR · Ativação',cor:'#1D9E75',meta:'4% → 5% até 31/12',alvo:5},
+              'Onboarding':{sel:'OKR · Ativação',cor:'#1D9E75',meta:'teste de régua com foco em conversão',alvo:null,confirmar:'número da meta a confirmar'}};
+    var ok=OKRJ[a.nome];
+    o+='<div style="border:1px solid #e8e6e0;border-top:3px solid '+(ok?ok.cor:col)+';border-radius:10px;padding:11px 13px;background:#fff">'
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;min-height:26px">'
+      +'<div style="font-size:10.5px;font-weight:700;color:#1a1916;line-height:1.3">'+a.nome+'</div>'
+      +(ok?'<span style="font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 6px;border-radius:99px;background:'+ok.cor+'1a;color:'+ok.cor+';white-space:nowrap">'+ok.sel+'</span>':'')
+      +'</div>'
       +'<div style="font-size:21px;font-weight:800;color:'+col2+';line-height:1.15;margin:3px 0 1px">'
       +(principal!=null?principal.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%':'—')+'</div>'
       +'<div style="font-size:10px;color:#888780">'+detalhe+'</div>'
       +'<div style="font-size:9px;color:#a8a59c;margin-top:2px">'+rotPrinc+' · <b style="color:'+(nEd>1?'#888780':'#C88A1E')+'">'+selo+'</b></div>'
-      +delta+insLinha+'</div>';
+      +delta+insLinha
+      +(ok?('<div style="margin-top:7px;padding-top:6px;border-top:1px dashed #e8e6e0;font-size:10px;font-weight:700;color:#0d2b6b">Meta: '+ok.meta
+            +(ok.alvo&&principal!=null?(' · faltam '+Math.max(0,ok.alvo-principal).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' p.p.'):'')+'</div>'
+            +(ok.confirmar?'<div style="font-size:10px;font-weight:700;color:#D85A30;margin-top:3px">⚠ '+ok.confirmar+'</div>':'')):'')
+      +'</div>';
   });
   o+='</div>';
   o+='<div style="font-size:9.5px;color:#a8a59c;margin:-8px 0 14px">Jornadas ocasionais — sazonais, testes e resíduos de edições passadas — não entram nestes cartões, mas seguem no detalhe de cada edição.</div>';
@@ -5043,6 +5010,90 @@ function rSaldo(){
   el.innerHTML=o;
 }
 
+
+// ===== ABA BASE — bases do OKR (Insider x ERP), corte em 31/08/2026 =====
+const BASE_OKR = {
+  mc:{label:'Minas Cap', ins:{base:1151385, comp:136300}, erp:{base:1135957, comp:326985}, metaPct:10},
+  sm:{label:'Super Minas', ins:{base:352664, comp:56341}, erp:{base:347928, comp:134138}, metaPct:10},
+  sv:{label:'Super Vale', ins:{base:218267, comp:30969}, erp:{base:209667, comp:90701}, metaPct:10}
+};
+
+function rBaseOKR(){
+  var el=document.getElementById('base-okr'); if(!el) return;
+  var B=BASE_OKR[cap]; if(!B){ el.innerHTML=''; return; }
+  var col=D[cap].col;
+  var n=function(v){ return (v||0).toLocaleString('pt-BR'); };
+  var pc=function(a,b){ return b?(a/b*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%':'—'; };
+  var dIns=B.ins.base-B.ins.comp, dErp=B.erp.base-B.erp.comp;
+  var o='';
+
+  o+='<div class="card" style="margin-bottom:.8rem">';
+  o+='<div class="ct2">Bases do OKR — '+B.label+'</div>';
+  o+='<div class="nb" style="font-size:10px;margin-bottom:12px">Compradores e dormentes contam até <b>31/08/2026</b>. Dormente = já comprou alguma vez e não comprou em 2026, ou seja, base com compra menos compradores 2026.</div>';
+
+  o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:14px">';
+  var metaReat=Math.round(dErp*B.metaPct/100);
+  var metaComp=Math.round(B.erp.comp*B.metaPct/100);
+  [['Base com compra',n(B.erp.base),'quem já comprou alguma vez','#1a1916',null,null],
+   ['Compradores 2026',n(B.erp.comp),'compraram até 31/08','#1D9E75','OKR · Retenção','+'+B.metaPct+'% · +'+n(metaComp)+' → chegar a '+n(B.erp.comp+metaComp)],
+   ['Dormentes',n(dErp),'já compraram e não compraram em 2026',col,'OKR · Reativação','−'+B.metaPct+'% · −'+n(metaReat)+' → chegar a '+n(dErp-metaReat)]
+  ].forEach(function(k){
+    o+='<div style="border:1px solid #e8e6e0;border-left:3px solid '+k[3]+';border-radius:10px;padding:12px 14px;background:#fff">'
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">'
+      +'<div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888780">'+k[0]+'</div>'
+      +(k[4]?'<span style="font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 6px;border-radius:99px;background:'+k[3]+'1a;color:'+k[3]+';white-space:nowrap">'+k[4]+'</span>':'')
+      +'</div>'
+      +'<div style="font-size:24px;font-weight:800;color:'+k[3]+';line-height:1.15;margin:3px 0 1px">'+k[1]+'</div>'
+      +'<div style="font-size:10px;color:#888780">'+k[2]+'</div>'
+      +(k[5]?'<div style="margin-top:7px;padding-top:6px;border-top:1px dashed #e8e6e0;font-size:10px;font-weight:700;color:#0d2b6b">Meta até 31/12: '+k[5]+'</div>':'')
+      +'</div>';
+  });
+  o+='</div>';
+  o+='<div style="font-size:10px;color:#888780;margin-bottom:16px">Números do ERP, que é a fonte que enxerga todas as formas de pagamento.</div>';
+
+  // ── funil, uma coluna por fonte
+  o+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin:4px 0 8px">Funil da base</div>';
+  o+='<div class="cg" style="margin-bottom:16px">';
+  [['ERP',B.erp.base,B.erp.comp,dErp,'#0d2b6b'],
+   ['Insider',B.ins.base,B.ins.comp,dIns,'#5b3fb8']
+  ].forEach(function(f){
+    var passos=[['Base com compra',f[1]],['Compradores 2026',f[2]],['Dormentes',f[3]]];
+    o+='<div class="card" style="border-top:3px solid '+f[4]+'">';
+    o+='<div style="font-size:11px;font-weight:800;color:'+f[4]+';margin-bottom:8px">'+f[0]+'</div>';
+    passos.forEach(function(pz,i){
+      var w=Math.max(Math.round(pz[1]/f[1]*100),8);
+      var alpha=Math.max(0.3,1-i*0.25);
+      o+='<div class="vf-step">'
+        +'<div class="vf-lbl">'+pz[0]+'</div>'
+        +'<div class="vf-bar-wrap"><div class="vf-bar-bg"><div class="vf-bar-fill" style="width:'+w+'%;background:'+f[4]+';opacity:'+alpha+'"></div></div></div>'
+        +'<div class="vf-val" style="color:'+f[4]+'">'+n(pz[1])+'</div></div>';
+      if(i===0) o+='<div class="vf-arrow"><span>▼ '+pc(f[2],f[1])+' compraram em 2026</span></div>';
+      if(i===1) o+='<div class="vf-arrow"><span>▼ '+pc(f[3],f[1])+' da base está dormente</span></div>';
+    });
+    o+='</div>';
+  });
+  o+='</div>';
+
+  o+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin-bottom:6px">ERP e Insider lado a lado</div>';
+  o+='<div style="overflow-x:auto"><table style="table-layout:auto"><thead><tr><th></th>'
+    +'<th style="text-align:right">ERP</th><th style="text-align:right">Insider</th>'
+    +'<th style="text-align:right">Diferença</th><th style="text-align:right">Cobertura da Insider</th></tr></thead><tbody>';
+  [['Base com compra',B.erp.base,B.ins.base],
+   ['Compradores 2026',B.erp.comp,B.ins.comp],
+   ['Dormentes',dErp,dIns]
+  ].forEach(function(r){
+    var dif=r[2]-r[1], cob=r[1]?r[2]/r[1]*100:0;
+    var cor = cob<60 ? '#D85A30' : (cob>=95 && cob<=105 ? '#1D9E75' : '#1a1916');
+    o+='<tr><td style="font-weight:600">'+r[0]+'</td>'
+      +'<td style="text-align:right">'+n(r[1])+'</td><td style="text-align:right">'+n(r[2])+'</td>'
+      +'<td style="text-align:right;color:#888780">'+(dif>=0?'+':'')+n(dif)+'</td>'
+      +'<td style="text-align:right;font-weight:800;color:'+cor+'">'+pc(r[2],r[1])+'</td></tr>';
+  });
+  o+='</tbody></table></div>';
+  o+='</div>';
+  el.innerHTML=o;
+}
+
 function showT(id,btn){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
@@ -5094,7 +5145,7 @@ function urlAplicar(){
   urlSync();
   return true;
 }
-function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='fecho')rFecho();else if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base'){rBase();rRetencao();}else if(id==='metas')rMetas();else if(id==='recon')rRecon();else if(id==='testes')rTestes();else if(id==='diapais')rDiaPais();else if(id==='saldo')rSaldo();else if(id==='perf')rRank();else rS(id);}
+function rAll(){const sec=document.querySelector('.sec.on');if(!sec)return;const id=sec.id.replace('t-','');if(id==='fecho')rFecho();else if(id==='copy')rCopy();else if(id==='ed5')rEd5();else if(id==='base')rBaseOKR();else if(id==='metas')rMetas();else if(id==='recon')rRecon();else if(id==='testes')rTestes();else if(id==='diapais')rDiaPais();else if(id==='saldo')rSaldo();else if(id==='perf')rRank();else rS(id);}
 function rS(s){if(s==='camp')rCamp();}
 
 function rCamp(){
